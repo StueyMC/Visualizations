@@ -542,6 +542,18 @@ export class Graph {
           jointElement = Shapes.createOther(id)
           type = elementTypeIO
           break
+        case Types.BPMNStartEvent:
+          jointElement = Shapes.createBPMNStartEventShape(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNStartEventMessage:
+          jointElement = Shapes.createBPMNStartEventMessageShape(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNIntermediateEvent:
+          jointElement = Shapes.createBPMNIntermediateEventShape(id)
+          type = elementTypeStep
+          break
         default:
           jointElement = Shapes.createProcessStep(id)
           type = elementTypeIO

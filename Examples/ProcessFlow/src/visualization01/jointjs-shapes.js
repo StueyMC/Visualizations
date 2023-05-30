@@ -20,6 +20,13 @@ let OtherShape
 let OffPageOutputShape
 let OffPageInputShape
 let StepGroupShape
+//
+// BPMN Shapes
+//
+let BPMNStartEventShape
+let BPMNStartEventMessageShape
+let BPMNIntermediateEventShape
+
 
 export function defineShapes (gridSize, elementSizes, renderSwimlaneWatermarks, verticalSwimlanes) {
   ActorShape = defineActor(renderSwimlaneWatermarks, verticalSwimlanes)
@@ -39,6 +46,12 @@ export function defineShapes (gridSize, elementSizes, renderSwimlaneWatermarks, 
   OffPageOutputShape = defineOffPageOutput()
   OffPageInputShape = defineOffPageInput()
   StepGroupShape = defineStepGroup()
+  //
+  // BPMN Shapes
+  //
+  BPMNStartEventShape = defineBPMNStartEventShape(verticalSwimlanes)
+  BPMNStartEventMessageShape = defineBPMNStartEventMessageShape(verticalSwimlanes)
+  BPMNIntermediateEventShape = defineBPMNIntermediateEventShape(verticalSwimlanes)
 }
 
 export function createActor (id) {
@@ -107,6 +120,20 @@ export function createOffPageInput (id) {
 
 export function createStepGroup (id) {
   return new StepGroupShape(id)
+}
+//
+// BPMN Shapes
+//
+export function createBPMNStartEventShape (id) {
+  return new BPMNStartEventShape(id)
+}
+
+export function createBPMNStartEventMessageShape (id) {
+  return new BPMNStartEventMessageShape(id)
+}
+
+export function createBPMNIntermediateEventShape (id) {
+  return new BPMNIntermediateEventShape(id)
 }
 
 function defineActor (renderSwimlaneWatermarks, verticalSwimlanes) {
@@ -195,7 +222,6 @@ function defineSwimlane () {
     }]
   })
 }
-
 //
 // I/O Ports
 //
@@ -1052,3 +1078,206 @@ export function defineStepGroup () {
     }]
   })
 }
+//
+// BPMN Shapes
+//
+function defineBPMNStartEventShape (verticalSwimlanes) {
+  const position = new OrientedCoords(verticalSwimlanes)
+  return joint.dia.Element.define('MooD.BPMNStartEvent', {
+    ports: {
+      groups: {
+        flowInTop: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: 0 })
+          }
+        },
+        flowOutBottom: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: '100%' })
+          }
+        }
+      },
+      items: [
+        portFlowInTop,
+        portFlowOutBottom
+      ]
+    },
+    attrs: {
+      path: {
+        refDResetOffset:
+        'M 50 100 ' + // Draw a circle
+        'a 50 50 0 1 0 100 0 ' +
+        'a 50 50 0 1 0 -100 0'
+      },
+      label: {
+        textVerticalAnchor: 'top',
+        textAnchor: 'middle',
+        refX: 0.5,
+        refY: 0.99,
+        refWidth: 2.0,
+        refHeight: 2.0
+      },
+      title: {
+      }
+    }
+  }, {
+    markup: [{
+      tagName: 'path',
+      selector: 'body',
+      groupSelector: 'bodyGroup',
+      className: 'mood-graph-step'
+    }, {
+      tagName: 'text',
+      selector: 'label',
+      className: 'mood-graph-step-label'
+    }, {
+      tagName: 'title',
+      selector: 'title'
+    }]
+  })
+}
+
+//
+// Getting a shape inside the circle is proving harder than expected
+// May have to fall back to simple event shapes
+//
+function defineBPMNStartEventMessageShape (verticalSwimlanes) {
+  const position = new OrientedCoords(verticalSwimlanes)
+  return joint.dia.Element.define('MooD.BPMNStartEventMessage', {
+    ports: {
+      groups: {
+        flowInTop: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: 0 })
+          }
+        },
+        flowOutBottom: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: '100%' })
+          }
+        }
+      },
+      items: [
+        portFlowInTop,
+        portFlowOutBottom
+      ]
+    },
+    attrs: {
+      path: {
+        refDResetOffset:
+        'M 50 100 ' +
+        'a 50 50 0 1 0 100 0 ' +
+        'a 50 50 0 1 0 -100 0'
+      },
+      inner: {
+        refWidth: 0.5,  // This doesn't work with paths
+        refHeight: 0.5, // need to find a way to scale the inner shape so fits inside the circle 
+        refDKeepOffset:
+          'M 20 20 ' +
+          'L 80 20' +
+          'L 80 80' +
+          'L 20 80' +
+          'L 20 20' +
+          'L 50 40' +
+          'L 80 20'
+        },
+      label: {
+        textVerticalAnchor: 'top',
+        textAnchor: 'middle',
+        refX: 0.5,
+        refY: 0.99,
+        refWidth: 2.0,
+        refHeight: 2.0
+      },
+      title: {
+      }
+    }
+  }, {
+    markup: [{
+      tagName: 'path',
+      selector: 'body',
+      groupSelector: 'bodyGroup',
+      className: 'mood-graph-step'
+    }, {
+      tagName: 'path',
+      selector: 'inner',
+      groupSelector: 'bodyGroup',
+      className: 'mood-graph-step'
+    }, {
+      tagName: 'text',
+      selector: 'label',
+      className: 'mood-graph-step-label'
+    }, {
+      tagName: 'title',
+      selector: 'title'
+    }]
+  })
+}
+
+
+function defineBPMNIntermediateEventShape (verticalSwimlanes) {
+  const position = new OrientedCoords(verticalSwimlanes)
+  return joint.dia.Element.define('MooD.BPMNIntermediateEvent', {
+    ports: {
+      groups: {
+        flowInTop: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: 0 })
+          }
+        },
+        flowOutBottom: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: '100%' })
+          }
+        }
+      },
+      items: [
+        portFlowInTop,
+        portFlowOutBottom
+      ]
+    },
+    attrs: {
+      path: {
+        refDResetOffset:
+        'M 50 100 ' +
+        'a 50 50 0 1 0 100 0 ' +
+        'a 50 50 0 1 0 -100 0' +
+        'M 55 100 ' +
+        'a 45 45 0 1 0 90 0 ' +
+        'a 45 45 0 1 0 -90 0' 
+      },
+      label: {
+        textVerticalAnchor: 'top',
+        textAnchor: 'middle',
+        refX: 0.5,
+        refY: 0.99,
+        refWidth: 2.0,
+        refHeight: 2.0
+      },
+      title: {
+      }
+    }
+  }, {
+    markup: [{
+      tagName: 'path',
+      selector: 'body',
+      groupSelector: 'bodyGroup',
+      className: 'mood-graph-step'
+    }, {
+      tagName: 'text',
+      selector: 'label',
+      className: 'mood-graph-step-label'
+    }, {
+      tagName: 'title',
+      selector: 'title'
+    }]
+  })
+}
+
+

@@ -13,3 +13,10 @@ export const externalData = 'External Data'
 export const database = 'Database / Application'
 export const data = 'Data'
 export const other = 'Other'
+//
+// BPMN Shapes
+//
+export const BPMNStartEvent = 'BPMN Start Event'
+export const BPMNStartEventMessage = 'BPMN Start Event Message'
+export const BPMNIntermediateEvent = 'BPMN Intermediate Event'
+

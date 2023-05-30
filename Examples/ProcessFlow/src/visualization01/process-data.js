@@ -12,7 +12,10 @@ const validStepTypes = [
   Types.decision,
   Types.decisionLarge,
   Types.subProcess,
-  Types.end
+  Types.end,
+  Types.BPMNStartEvent,
+  Types.BPMNStartEventMessage,
+  Types.BPMNIntermediateEvent
 ]
 
 const validInfoTypes = [

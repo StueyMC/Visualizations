@@ -151,7 +151,7 @@
 }
 
 /* Sub Process step shape inner part */
-.process-flow .joint-element.joint-type-mood.joint-type-mood-subprocess .mood-graph-step[joint-selector="inner"] {
+.process-flow .joint-element.joint-type-mood .mood-graph-step[joint-selector="inner"] {
    fill: white;
    stroke: black;
    stroke-width: 1;
