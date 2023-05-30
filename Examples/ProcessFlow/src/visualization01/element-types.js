@@ -19,4 +19,3 @@ export const other = 'Other'
 export const BPMNStartEvent = 'BPMN Start Event'
 export const BPMNStartEventMessage = 'BPMN Start Event Message'
 export const BPMNIntermediateEvent = 'BPMN Intermediate Event'
-

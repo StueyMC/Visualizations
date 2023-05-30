@@ -27,7 +27,6 @@ let BPMNStartEventShape
 let BPMNStartEventMessageShape
 let BPMNIntermediateEventShape
 
-
 export function defineShapes (gridSize, elementSizes, renderSwimlaneWatermarks, verticalSwimlanes) {
   ActorShape = defineActor(renderSwimlaneWatermarks, verticalSwimlanes)
   SwimlaneShape = defineSwimlane()
@@ -1173,9 +1172,13 @@ function defineBPMNStartEventMessageShape (verticalSwimlanes) {
         'a 50 50 0 1 0 100 0 ' +
         'a 50 50 0 1 0 -100 0'
       },
-      inner: {
-        refWidth: 0.5,  // This doesn't work with paths
-        refHeight: 0.5, // need to find a way to scale the inner shape so fits inside the circle 
+      innerRect: {
+        refX: 0.25,
+        refY: 0.2,
+        refWidth: 0.5,
+        refHeight: 0.3
+      },
+      innerShape: {
         refDKeepOffset:
           'M 20 20 ' +
           'L 80 20' +
@@ -1184,7 +1187,7 @@ function defineBPMNStartEventMessageShape (verticalSwimlanes) {
           'L 20 20' +
           'L 50 40' +
           'L 80 20'
-        },
+      },
       label: {
         textVerticalAnchor: 'top',
         textAnchor: 'middle',
@@ -1203,8 +1206,12 @@ function defineBPMNStartEventMessageShape (verticalSwimlanes) {
       groupSelector: 'bodyGroup',
       className: 'mood-graph-step'
     }, {
-      tagName: 'path',
-      selector: 'inner',
+      tagName: 'rect',
+      selector: 'innerRect',
+      children: [{
+        tagName: 'path',
+        selector: 'innerShape'
+      }],
       groupSelector: 'bodyGroup',
       className: 'mood-graph-step'
     }, {
@@ -1217,7 +1224,6 @@ function defineBPMNStartEventMessageShape (verticalSwimlanes) {
     }]
   })
 }
-
 
 function defineBPMNIntermediateEventShape (verticalSwimlanes) {
   const position = new OrientedCoords(verticalSwimlanes)
@@ -1250,7 +1256,7 @@ function defineBPMNIntermediateEventShape (verticalSwimlanes) {
         'a 50 50 0 1 0 -100 0' +
         'M 55 100 ' +
         'a 45 45 0 1 0 90 0 ' +
-        'a 45 45 0 1 0 -90 0' 
+        'a 45 45 0 1 0 -90 0'
       },
       label: {
         textVerticalAnchor: 'top',
@@ -1279,5 +1285,3 @@ function defineBPMNIntermediateEventShape (verticalSwimlanes) {
     }]
   })
 }
-
-
