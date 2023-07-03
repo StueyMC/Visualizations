@@ -99,7 +99,7 @@
             {
                 "id": "55-6782555327DB433EB7E9C09BF0ECCAB8", 
                 "name": "Start", 
-                "type": "BPMN Start Event Message", 
+                "type": "Start", 
                 "navigable": true, 
                 "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Initiator Role"}}], 
                 "phase": null

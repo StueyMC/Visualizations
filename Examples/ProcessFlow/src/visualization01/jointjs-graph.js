@@ -543,15 +543,31 @@ export class Graph {
           type = elementTypeIO
           break
         case Types.BPMNStartEvent:
-          jointElement = Shapes.createBPMNStartEventShape(id)
+          jointElement = Shapes.createBPMNStartEvent(id)
           type = elementTypeStep
           break
         case Types.BPMNStartEventMessage:
-          jointElement = Shapes.createBPMNStartEventMessageShape(id)
+          jointElement = Shapes.createBPMNStartEventMessage(id)
           type = elementTypeStep
           break
         case Types.BPMNIntermediateEvent:
-          jointElement = Shapes.createBPMNIntermediateEventShape(id)
+          jointElement = Shapes.createBPMNIntermediateEvent(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNEndEvent:
+          jointElement = Shapes.createBPMNEndEvent(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNExclusiveGateway:
+          jointElement = Shapes.createBPMNExclusiveGateway(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNParallelGateway:
+          jointElement = Shapes.createBPMNParallelGateway(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNInclusiveGateway:
+          jointElement = Shapes.createBPMNInclusiveGateway(id)
           type = elementTypeStep
           break
         default:

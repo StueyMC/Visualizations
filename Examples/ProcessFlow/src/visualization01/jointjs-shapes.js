@@ -26,6 +26,10 @@ let StepGroupShape
 let BPMNStartEventShape
 let BPMNStartEventMessageShape
 let BPMNIntermediateEventShape
+let BPMNEndEventShape
+let BPMNExclusiveGatewayShape
+let BPMNParallelGatewayShape
+let BPMNInclusiveGatewayShape
 
 export function defineShapes (gridSize, elementSizes, renderSwimlaneWatermarks, verticalSwimlanes) {
   ActorShape = defineActor(renderSwimlaneWatermarks, verticalSwimlanes)
@@ -48,9 +52,13 @@ export function defineShapes (gridSize, elementSizes, renderSwimlaneWatermarks, 
   //
   // BPMN Shapes
   //
-  BPMNStartEventShape = defineBPMNStartEventShape(verticalSwimlanes)
-  BPMNStartEventMessageShape = defineBPMNStartEventMessageShape(verticalSwimlanes)
-  BPMNIntermediateEventShape = defineBPMNIntermediateEventShape(verticalSwimlanes)
+  BPMNStartEventShape = defineBPMNStartEvent(gridSize, elementSizes, verticalSwimlanes)
+  BPMNStartEventMessageShape = defineBPMNStartEventMessage(gridSize, elementSizes, verticalSwimlanes)
+  BPMNIntermediateEventShape = defineBPMNIntermediateEvent(gridSize, elementSizes, verticalSwimlanes)
+  BPMNEndEventShape = defineBPMNEndEvent(gridSize, elementSizes, verticalSwimlanes)
+  BPMNExclusiveGatewayShape = defineBPMNExclusiveGateway(verticalSwimlanes)
+  BPMNParallelGatewayShape = defineBPMNParallelGateway(verticalSwimlanes)
+  BPMNInclusiveGatewayShape = defineBPMNInclusiveGateway(verticalSwimlanes)
 }
 
 export function createActor (id) {
@@ -123,16 +131,32 @@ export function createStepGroup (id) {
 //
 // BPMN Shapes
 //
-export function createBPMNStartEventShape (id) {
+export function createBPMNStartEvent (id) {
   return new BPMNStartEventShape(id)
 }
 
-export function createBPMNStartEventMessageShape (id) {
+export function createBPMNStartEventMessage (id) {
   return new BPMNStartEventMessageShape(id)
 }
 
-export function createBPMNIntermediateEventShape (id) {
+export function createBPMNIntermediateEvent (id) {
   return new BPMNIntermediateEventShape(id)
+}
+
+export function createBPMNEndEvent (id) {
+  return new BPMNEndEventShape(id)
+}
+
+export function createBPMNExclusiveGateway (id) {
+  return new BPMNExclusiveGatewayShape(id)
+}
+
+export function createBPMNParallelGateway (id) {
+  return new BPMNParallelGatewayShape(id)
+}
+
+export function createBPMNInclusiveGateway (id) {
+  return new BPMNInclusiveGatewayShape(id)
 }
 
 function defineActor (renderSwimlaneWatermarks, verticalSwimlanes) {
@@ -495,7 +519,7 @@ function processPortItems () {
   return items
 }
 
-export function defineSubProcess (gridSize, elementSize, verticalSwimlanes) {
+function defineSubProcess (gridSize, elementSize, verticalSwimlanes) {
   const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
   const portItems = processPortItems()
   // Add groups for side flow ports
@@ -549,7 +573,7 @@ export function defineSubProcess (gridSize, elementSize, verticalSwimlanes) {
   })
 }
 
-export function defineProcess () {
+function defineProcess () {
   // Add groups for side flow ports
 
   return joint.dia.Element.define('MooD.Process', {
@@ -597,7 +621,7 @@ export function defineProcess () {
   })
 }
 
-export function defineProcessStep (gridSize, elementSize, verticalSwimlanes) {
+function defineProcessStep (gridSize, elementSize, verticalSwimlanes) {
   const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
   const portItems = processPortItems()
   // Add groups for side flow ports
@@ -639,7 +663,7 @@ export function defineProcessStep (gridSize, elementSize, verticalSwimlanes) {
   })
 }
 
-export function defineDecision (verticalSwimlanes) {
+function defineDecision (verticalSwimlanes) {
   const position = new OrientedCoords(verticalSwimlanes)
   return joint.dia.Element.define('MooD.Decision', {
     ports: {
@@ -725,7 +749,7 @@ export function defineDecision (verticalSwimlanes) {
   })
 }
 
-export function defineVerticalLabel (verticalSwimlanes) {
+function defineVerticalLabel (verticalSwimlanes) {
   const labelDefaults = {
     attrs: {
       body: {
@@ -761,7 +785,7 @@ export function defineVerticalLabel (verticalSwimlanes) {
   return joint.dia.Element.define('MooD.VLabel', labelDefaults, labelProtoProps)
 }
 
-export function definePhaseExtent (verticalSwimlanes) {
+function definePhaseExtent (verticalSwimlanes) {
   let path
   if (verticalSwimlanes) {
     path = 'L 100 0'
@@ -784,7 +808,7 @@ export function definePhaseExtent (verticalSwimlanes) {
   })
 }
 
-export function defineExternalData () {
+function defineExternalData () {
   return joint.dia.Element.define('MooD.ExternalData', {
     attrs: {
       path: {
@@ -821,7 +845,7 @@ export function defineExternalData () {
   })
 }
 
-export function defineDatabase () {
+function defineDatabase () {
   return joint.dia.Element.define('MooD.Database', {
     attrs: {
       path: {
@@ -860,7 +884,7 @@ export function defineDatabase () {
   })
 }
 
-export function defineDocument () {
+function defineDocument () {
   return joint.dia.Element.define('MooD.Document', {
     attrs: {
       path: {
@@ -898,7 +922,7 @@ export function defineDocument () {
   })
 }
 
-export function defineData () {
+function defineData () {
   return joint.dia.Element.define('MooD.Data', {
     attrs: {
       path: {
@@ -935,7 +959,7 @@ export function defineData () {
   })
 }
 
-export function defineOther () {
+function defineOther () {
   return joint.dia.Element.define('MooD.Other', {
     attrs: {
       path: {
@@ -972,7 +996,7 @@ export function defineOther () {
   })
 }
 
-export function defineOffPageOutput () {
+function defineOffPageOutput () {
   return joint.dia.Element.define('MooD.OffPageOutput', {
     attrs: {
       path: {
@@ -1011,7 +1035,7 @@ export function defineOffPageOutput () {
   })
 }
 
-export function defineOffPageInput () {
+function defineOffPageInput () {
   return joint.dia.Element.define('MooD.OffPageInput', {
     attrs: {
       path: {
@@ -1050,7 +1074,7 @@ export function defineOffPageInput () {
   })
 }
 
-export function defineStepGroup () {
+function defineStepGroup () {
   return joint.dia.Element.define('MooD.StepGroup', {
     attrs: {
       body: {
@@ -1080,28 +1104,14 @@ export function defineStepGroup () {
 //
 // BPMN Shapes
 //
-function defineBPMNStartEventShape (verticalSwimlanes) {
-  const position = new OrientedCoords(verticalSwimlanes)
+function defineBPMNStartEvent (gridSize, elementSize, verticalSwimlanes) {
+  const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
+  const portItems = processPortItems()
+
   return joint.dia.Element.define('MooD.BPMNStartEvent', {
     ports: {
-      groups: {
-        flowInTop: {
-          position: {
-            name: 'absolute',
-            args: position.orientedCoords({ x: '50%', y: 0 })
-          }
-        },
-        flowOutBottom: {
-          position: {
-            name: 'absolute',
-            args: position.orientedCoords({ x: '50%', y: '100%' })
-          }
-        }
-      },
-      items: [
-        portFlowInTop,
-        portFlowOutBottom
-      ]
+      groups: portGroups,
+      items: portItems
     },
     attrs: {
       path: {
@@ -1142,28 +1152,14 @@ function defineBPMNStartEventShape (verticalSwimlanes) {
 // Getting a shape inside the circle is proving harder than expected
 // May have to fall back to simple event shapes
 //
-function defineBPMNStartEventMessageShape (verticalSwimlanes) {
-  const position = new OrientedCoords(verticalSwimlanes)
+function defineBPMNStartEventMessage (gridSize, elementSize, verticalSwimlanes) {
+  const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
+  const portItems = processPortItems()
+
   return joint.dia.Element.define('MooD.BPMNStartEventMessage', {
     ports: {
-      groups: {
-        flowInTop: {
-          position: {
-            name: 'absolute',
-            args: position.orientedCoords({ x: '50%', y: 0 })
-          }
-        },
-        flowOutBottom: {
-          position: {
-            name: 'absolute',
-            args: position.orientedCoords({ x: '50%', y: '100%' })
-          }
-        }
-      },
-      items: [
-        portFlowInTop,
-        portFlowOutBottom
-      ]
+      groups: portGroups,
+      items: portItems
     },
     attrs: {
       path: {
@@ -1225,28 +1221,14 @@ function defineBPMNStartEventMessageShape (verticalSwimlanes) {
   })
 }
 
-function defineBPMNIntermediateEventShape (verticalSwimlanes) {
-  const position = new OrientedCoords(verticalSwimlanes)
+function defineBPMNIntermediateEvent (gridSize, elementSize, verticalSwimlanes) {
+  const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
+  const portItems = processPortItems()
+
   return joint.dia.Element.define('MooD.BPMNIntermediateEvent', {
     ports: {
-      groups: {
-        flowInTop: {
-          position: {
-            name: 'absolute',
-            args: position.orientedCoords({ x: '50%', y: 0 })
-          }
-        },
-        flowOutBottom: {
-          position: {
-            name: 'absolute',
-            args: position.orientedCoords({ x: '50%', y: '100%' })
-          }
-        }
-      },
-      items: [
-        portFlowInTop,
-        portFlowOutBottom
-      ]
+      groups: portGroups,
+      items: portItems
     },
     attrs: {
       path: {
@@ -1257,6 +1239,308 @@ function defineBPMNIntermediateEventShape (verticalSwimlanes) {
         'M 55 100 ' +
         'a 45 45 0 1 0 90 0 ' +
         'a 45 45 0 1 0 -90 0'
+      },
+      label: {
+        textVerticalAnchor: 'top',
+        textAnchor: 'middle',
+        refX: 0.5,
+        refY: 0.99,
+        refWidth: 2.0,
+        refHeight: 2.0
+      },
+      title: {
+      }
+    }
+  }, {
+    markup: [{
+      tagName: 'path',
+      selector: 'body',
+      groupSelector: 'bodyGroup',
+      className: 'mood-graph-step'
+    }, {
+      tagName: 'text',
+      selector: 'label',
+      className: 'mood-graph-step-label'
+    }, {
+      tagName: 'title',
+      selector: 'title'
+    }]
+  })
+}
+
+function defineBPMNEndEvent (gridSize, elementSize, verticalSwimlanes) {
+  const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
+  const portItems = processPortItems()
+
+  return joint.dia.Element.define('MooD.BPMNEndEvent', {
+    ports: {
+      groups: portGroups,
+      items: portItems
+    },
+    attrs: {
+      path: {
+        refDResetOffset:
+        'M 52 100 ' +
+        'a 48 48 0 1 0 96 0 ' +
+        'a 48 48 0 1 0 -96 0'
+      },
+      label: {
+        textVerticalAnchor: 'top',
+        textAnchor: 'middle',
+        refX: 0.5,
+        refY: 0.99,
+        refWidth: 2.0,
+        refHeight: 2.0
+      },
+      title: {
+      }
+    }
+  }, {
+    markup: [{
+      tagName: 'path',
+      selector: 'body',
+      groupSelector: 'bodyGroup',
+      className: 'mood-graph-step'
+    }, {
+      tagName: 'text',
+      selector: 'label',
+      className: 'mood-graph-step-label'
+    }, {
+      tagName: 'title',
+      selector: 'title'
+    }]
+  })
+}
+
+function defineBPMNExclusiveGateway (verticalSwimlanes) {
+  const position = new OrientedCoords(verticalSwimlanes)
+  return joint.dia.Element.define('MooD.BPMNExcGateway', {
+    ports: {
+      groups: {
+        inLeft: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '10%', y: '40%' })
+          }
+        },
+        flowLeft: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: 0, y: '50%' })
+          }
+        },
+        flowInTop: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: 0 })
+          }
+        },
+        flowRight: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '100%', y: '50%' })
+          }
+        },
+        outRight: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '90%', y: '40%' })
+          }
+        },
+        flowOutBottom: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: '100%' })
+          }
+        }
+      },
+      items: [
+        portInLeft,
+        portFlowCentreLeft,
+        portFlowInTop,
+        portFlowCentreRight,
+        portOutRight,
+        portFlowOutBottom
+      ]
+    },
+    attrs: {
+      path: {
+        refDResetOffset:
+                  'M 50 0 L 100 50 ' +
+                  'L 50 100 ' +
+                  'L 0 50 z'
+      },
+      label: {
+        textVerticalAnchor: 'top',
+        textAnchor: 'middle',
+        refX: 0.5,
+        refY: 0.99,
+        refWidth: 2.0,
+        refHeight: 2.0
+      },
+      title: {
+      }
+    }
+  }, {
+    markup: [{
+      tagName: 'path',
+      selector: 'body',
+      groupSelector: 'bodyGroup',
+      className: 'mood-graph-step'
+    }, {
+      tagName: 'text',
+      selector: 'label',
+      className: 'mood-graph-step-label'
+    }, {
+      tagName: 'title',
+      selector: 'title'
+    }]
+  })
+}
+
+function defineBPMNParallelGateway (verticalSwimlanes) {
+  const position = new OrientedCoords(verticalSwimlanes)
+  return joint.dia.Element.define('MooD.BPMNParGateway', {
+    ports: {
+      groups: {
+        inLeft: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '10%', y: '40%' })
+          }
+        },
+        flowLeft: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: 0, y: '50%' })
+          }
+        },
+        flowInTop: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: 0 })
+          }
+        },
+        flowRight: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '100%', y: '50%' })
+          }
+        },
+        outRight: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '90%', y: '40%' })
+          }
+        },
+        flowOutBottom: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: '100%' })
+          }
+        }
+      },
+      items: [
+        portInLeft,
+        portFlowCentreLeft,
+        portFlowInTop,
+        portFlowCentreRight,
+        portOutRight,
+        portFlowOutBottom
+      ]
+    },
+    attrs: {
+      path: {
+        refDResetOffset:
+                  'M 50 0 L 100 50 ' +
+                  'L 50 100 ' +
+                  'L 0 50 z'
+      },
+      label: {
+        textVerticalAnchor: 'top',
+        textAnchor: 'middle',
+        refX: 0.5,
+        refY: 0.99,
+        refWidth: 2.0,
+        refHeight: 2.0
+      },
+      title: {
+      }
+    }
+  }, {
+    markup: [{
+      tagName: 'path',
+      selector: 'body',
+      groupSelector: 'bodyGroup',
+      className: 'mood-graph-step'
+    }, {
+      tagName: 'text',
+      selector: 'label',
+      className: 'mood-graph-step-label'
+    }, {
+      tagName: 'title',
+      selector: 'title'
+    }]
+  })
+}
+
+function defineBPMNInclusiveGateway (verticalSwimlanes) {
+  const position = new OrientedCoords(verticalSwimlanes)
+  return joint.dia.Element.define('MooD.BPMNIncGateway', {
+    ports: {
+      groups: {
+        inLeft: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '10%', y: '40%' })
+          }
+        },
+        flowLeft: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: 0, y: '50%' })
+          }
+        },
+        flowInTop: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: 0 })
+          }
+        },
+        flowRight: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '100%', y: '50%' })
+          }
+        },
+        outRight: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '90%', y: '40%' })
+          }
+        },
+        flowOutBottom: {
+          position: {
+            name: 'absolute',
+            args: position.orientedCoords({ x: '50%', y: '100%' })
+          }
+        }
+      },
+      items: [
+        portInLeft,
+        portFlowCentreLeft,
+        portFlowInTop,
+        portFlowCentreRight,
+        portOutRight,
+        portFlowOutBottom
+      ]
+    },
+    attrs: {
+      path: {
+        refDResetOffset:
+                  'M 50 0 L 100 50 ' +
+                  'L 50 100 ' +
+                  'L 0 50 z'
       },
       label: {
         textVerticalAnchor: 'top',

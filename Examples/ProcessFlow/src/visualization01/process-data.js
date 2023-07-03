@@ -15,7 +15,11 @@ const validStepTypes = [
   Types.end,
   Types.BPMNStartEvent,
   Types.BPMNStartEventMessage,
-  Types.BPMNIntermediateEvent
+  Types.BPMNIntermediateEvent,
+  Types.BPMNEndEvent,
+  Types.BPMNExclusiveGateway,
+  Types.BPMNParallelGateway,
+  Types.BPMNInclusiveGateway
 ]
 
 const validInfoTypes = [
@@ -29,7 +33,10 @@ const validInfoTypes = [
 
 const decisionStepTypes = [
   Types.decision,
-  Types.decisionLarge
+  Types.decisionLarge,
+  Types.BPMNExclusiveGateway,
+  Types.BPMNParallelGateway,
+  Types.BPMNInclusiveGateway
 ]
 
 export class Process {
