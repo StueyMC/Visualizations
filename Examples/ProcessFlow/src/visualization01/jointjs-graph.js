@@ -554,8 +554,16 @@ export class Graph {
           jointElement = Shapes.createBPMNIntermediateEvent(id)
           type = elementTypeStep
           break
+        case Types.BPMNIntermediateEventMessage:
+          jointElement = Shapes.createBPMNIntermediateEventMessage(id)
+          type = elementTypeStep
+          break
         case Types.BPMNEndEvent:
           jointElement = Shapes.createBPMNEndEvent(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNEndEventMessage:
+          jointElement = Shapes.createBPMNEndEventMessage(id)
           type = elementTypeStep
           break
         case Types.BPMNExclusiveGateway:

@@ -151,8 +151,8 @@
 }
 
 /* BPMN End Event Shape */
-.process-flow .joint-element.joint-type-mood.joint-type-mood-bpmnendevent .mood-graph-step[joint-selector="body"] {
-   stroke-width: 4;
+.process-flow .joint-element.joint-type-mood .bpmn-end-event {
+   stroke-width: 1;
 }
 
 /* Sub Process step shape inner part */

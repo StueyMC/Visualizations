@@ -111,7 +111,7 @@
             {
                 "id": "55-Step006", 
                 "name": "Receives the Order", 
-                "type": "BPMN Intermediate Event", 
+                "type": "BPMN Intermediate Event Message", 
                 "navigable": true, 
                 "swimlanes": [{"id": "x", "actor": {"id": "55-263A0114FA2743FF99955B0FB701A78A", "name": "Store"}, "minIndex": 1}], 
                 "phase": null
@@ -119,7 +119,7 @@
             {
                 "id": "55-Step007", 
                 "name": "Processes the Order", 
-                "type": "BPMN Intermediate Event", 
+                "type": "BPMN Intermediate Event Message", 
                 "navigable": true, 
                 "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
                 "phase": null
@@ -159,7 +159,7 @@
             {
                 "id": "55-Step012", 
                 "name": "Receives Order", 
-                "type": "BPMN Intermediate Event", 
+                "type": "BPMN Intermediate Event Message", 
                 "navigable": true, 
                 "swimlanes": [{"id": "x", "actor": {"id": "55-A7CAB94BD124411C99C33B589F18C29C", "name": "Ingredient Warehouse"}, "minIndex": 1}], 
                 "phase": null
@@ -256,6 +256,30 @@
                 "id": "55-Step024", 
                 "name": "Leaves the Store", 
                 "type": "BPMN End Event", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step051", 
+                "name": "Message Start Event", 
+                "type": "BPMN Start Event Message", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step052", 
+                "name": "", 
+                "type": "BPMN Inclusive Gateway", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 3}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step053", 
+                "name": "Message End Event", 
+                "type": "BPMN End Event Message", 
                 "navigable": true, 
                 "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
                 "phase": null

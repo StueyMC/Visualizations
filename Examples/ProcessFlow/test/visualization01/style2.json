@@ -30,7 +30,9 @@
            "BPMN Start Event" : {"width": 40, "height": 40},
            "BPMN Start Event Message" : {"width": 40, "height": 40},
            "BPMN Intermediate Event" : {"width": 40, "height": 40},
+           "BPMN Intermediate Event Message" : {"width": 40, "height": 40},
            "BPMN End Event" : {"width": 40, "height": 40},
+           "BPMN End Event Message" : {"width": 40, "height": 40},
            "BPMN Exclusive Gateway" : {"width": 40, "height": 40},
            "BPMN Parallel Gateway" : {"width": 40, "height": 40},
            "BPMN Inclusive Gateway" : {"width": 40, "height": 40}

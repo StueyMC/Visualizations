@@ -26,7 +26,9 @@ let StepGroupShape
 let BPMNStartEventShape
 let BPMNStartEventMessageShape
 let BPMNIntermediateEventShape
+let BPMNIntermediateEventMessageShape
 let BPMNEndEventShape
+let BPMNEndEventMessageShape
 let BPMNExclusiveGatewayShape
 let BPMNParallelGatewayShape
 let BPMNInclusiveGatewayShape
@@ -55,7 +57,9 @@ export function defineShapes (gridSize, elementSizes, renderSwimlaneWatermarks, 
   BPMNStartEventShape = defineBPMNStartEvent(gridSize, elementSizes, verticalSwimlanes)
   BPMNStartEventMessageShape = defineBPMNStartEventMessage(gridSize, elementSizes, verticalSwimlanes)
   BPMNIntermediateEventShape = defineBPMNIntermediateEvent(gridSize, elementSizes, verticalSwimlanes)
+  BPMNIntermediateEventMessageShape = defineBPMNIntermediateEventMessage(gridSize, elementSizes, verticalSwimlanes)
   BPMNEndEventShape = defineBPMNEndEvent(gridSize, elementSizes, verticalSwimlanes)
+  BPMNEndEventMessageShape = defineBPMNEndEventMessage(gridSize, elementSizes, verticalSwimlanes)
   BPMNExclusiveGatewayShape = defineBPMNExclusiveGateway(verticalSwimlanes)
   BPMNParallelGatewayShape = defineBPMNParallelGateway(verticalSwimlanes)
   BPMNInclusiveGatewayShape = defineBPMNInclusiveGateway(verticalSwimlanes)
@@ -143,8 +147,16 @@ export function createBPMNIntermediateEvent (id) {
   return new BPMNIntermediateEventShape(id)
 }
 
+export function createBPMNIntermediateEventMessage (id) {
+  return new BPMNIntermediateEventMessageShape(id)
+}
+
 export function createBPMNEndEvent (id) {
   return new BPMNEndEventShape(id)
+}
+
+export function createBPMNEndEventMessage (id) {
+  return new BPMNEndEventMessageShape(id)
 }
 
 export function createBPMNExclusiveGateway (id) {
@@ -1104,21 +1116,39 @@ function defineStepGroup () {
 //
 // BPMN Shapes
 //
-function defineBPMNStartEvent (gridSize, elementSize, verticalSwimlanes) {
+//
+// BPMN event style information
+//
+const messageName = 'Message'
+const messagePath =
+  'm 20 -20 v 40 ' + // Draw inner rectangle (envelope) (anti-clockwise)
+  'h 60 ' +
+  'v -40 z ' +
+  'm 60 0 l -30 20 ' + // Draw triangle (envelope flap) (clockwise)
+  'l -30 -20'
+
+/**
+ * Build a shape for an Event symbol
+ * @param {int} gridSize  Size of grid in pixels
+ * @param {*} elementSize Size of shape (width, height)
+ * @param {boolean} verticalSwimlanes Vertical (true) or Horizontal (false) swimlanes
+ * @param {string} eventClass Event class: start, intermediate or end
+ * @param {string} eventType Event symbol type name
+ * @param {string} symbolPath SVG path for the symbol
+ */
+function buildBPMNEvent (gridSize, elementSize, verticalSwimlanes, eventClass, eventType, symbolPath) {
   const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
   const portItems = processPortItems()
+  const bodyClass = 'bpmn-' + eventClass + '-event'
 
-  return joint.dia.Element.define('MooD.BPMNStartEvent', {
+  return joint.dia.Element.define('MooD.' + eventType, {
     ports: {
       groups: portGroups,
       items: portItems
     },
     attrs: {
       path: {
-        refDResetOffset:
-        'M 50 100 ' + // Draw a circle
-        'a 50 50 0 1 0 100 0 ' +
-        'a 50 50 0 1 0 -100 0'
+        refDResetOffset: symbolPath
       },
       label: {
         textVerticalAnchor: 'top',
@@ -1136,7 +1166,7 @@ function defineBPMNStartEvent (gridSize, elementSize, verticalSwimlanes) {
       tagName: 'path',
       selector: 'body',
       groupSelector: 'bodyGroup',
-      className: 'mood-graph-step'
+      className: 'mood-graph-step ' + bodyClass
     }, {
       tagName: 'text',
       selector: 'label',
@@ -1147,169 +1177,117 @@ function defineBPMNStartEvent (gridSize, elementSize, verticalSwimlanes) {
     }]
   })
 }
+/**
+ * Build a shape for a Start Event symbol
+ * @param {int} gridSize  Size of grid in pixels
+ * @param {*} elementSize Size of shape (width, height)
+ * @param {boolean} verticalSwimlanes Vertical (true) or Horizontal (false) swimlanes
+ * @param {string} styleName Name of style for Start Event, e.g. Message or blank
+ * @param {string} stylePath SVG path for the style symbol or blank if N/A
+ */
+function buildBPMNStartEvent (gridSize, elementSize, verticalSwimlanes, styleName, stylePath) {
+  const startEventPath =
+      'M 50 100 ' + // Draw circle (clockwise)
+      'a 50 50 0 1 0 100 0 ' +
+      'a 50 50 0 1 0 -100 0'
+  const eventType = 'BPMNStartEvent' + (styleName || '')
+  const symbolPath = startEventPath + (stylePath || '')
+  return buildBPMNEvent(
+    gridSize,
+    elementSize,
+    verticalSwimlanes,
+    'start',
+    eventType,
+    symbolPath)
+}
 
-//
-// Getting a shape inside the circle is proving harder than expected
-// May have to fall back to simple event shapes
-//
+function defineBPMNStartEvent (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNStartEvent(gridSize, elementSize, verticalSwimlanes, '', '')
+}
+
 function defineBPMNStartEventMessage (gridSize, elementSize, verticalSwimlanes) {
-  const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
-  const portItems = processPortItems()
+  return buildBPMNStartEvent(gridSize, elementSize, verticalSwimlanes, messageName, messagePath)
+}
 
-  return joint.dia.Element.define('MooD.BPMNStartEventMessage', {
-    ports: {
-      groups: portGroups,
-      items: portItems
-    },
-    attrs: {
-      path: {
-        refDResetOffset:
-        'M 50 100 ' +
-        'a 50 50 0 1 0 100 0 ' +
-        'a 50 50 0 1 0 -100 0'
-      },
-      innerRect: {
-        refX: 0.25,
-        refY: 0.2,
-        refWidth: 0.5,
-        refHeight: 0.3
-      },
-      innerShape: {
-        refDKeepOffset:
-          'M 20 20 ' +
-          'L 80 20' +
-          'L 80 80' +
-          'L 20 80' +
-          'L 20 20' +
-          'L 50 40' +
-          'L 80 20'
-      },
-      label: {
-        textVerticalAnchor: 'top',
-        textAnchor: 'middle',
-        refX: 0.5,
-        refY: 0.99,
-        refWidth: 2.0,
-        refHeight: 2.0
-      },
-      title: {
-      }
-    }
-  }, {
-    markup: [{
-      tagName: 'path',
-      selector: 'body',
-      groupSelector: 'bodyGroup',
-      className: 'mood-graph-step'
-    }, {
-      tagName: 'rect',
-      selector: 'innerRect',
-      children: [{
-        tagName: 'path',
-        selector: 'innerShape'
-      }],
-      groupSelector: 'bodyGroup',
-      className: 'mood-graph-step'
-    }, {
-      tagName: 'text',
-      selector: 'label',
-      className: 'mood-graph-step-label'
-    }, {
-      tagName: 'title',
-      selector: 'title'
-    }]
-  })
+/**
+ * Build a shape for an Intermediate Event symbol
+ * @param {int} gridSize  Size of grid in pixels
+ * @param {*} elementSize Size of shape (width, height)
+ * @param {boolean} verticalSwimlanes Vertical (true) or Horizontal (false) swimlanes
+ * @param {string} styleName Name of style for Intermediate Event, e.g. Message or blank
+ * @param {string} stylePath SVG path for the style symbol or blank if N/A
+ */
+function buildBPMNIntermediateEvent (gridSize, elementSize, verticalSwimlanes, styleName, stylePath) {
+  const eventPath =
+      'M 50 100 ' + // Draw outer circle (clockwise)
+      'a 50 50 0 1 0 100 0 ' +
+      'a 50 50 0 1 0 -100 0' +
+      'M 55 100 ' + // Draw inner circle (clockwise)
+      'a 45 45 0 1 0 90 0 ' +
+      'a 45 45 0 1 0 -90 0 ' +
+      'm -5 0'
+  const eventType = 'BPMNIntermediateEvent' + (styleName || '')
+  const symbolPath = eventPath + (stylePath || '')
+  return buildBPMNEvent(
+    gridSize,
+    elementSize,
+    verticalSwimlanes,
+    'intermediate',
+    eventType,
+    symbolPath)
 }
 
 function defineBPMNIntermediateEvent (gridSize, elementSize, verticalSwimlanes) {
-  const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
-  const portItems = processPortItems()
+  return buildBPMNIntermediateEvent(gridSize, elementSize, verticalSwimlanes, '', '')
+}
 
-  return joint.dia.Element.define('MooD.BPMNIntermediateEvent', {
-    ports: {
-      groups: portGroups,
-      items: portItems
-    },
-    attrs: {
-      path: {
-        refDResetOffset:
-        'M 50 100 ' +
-        'a 50 50 0 1 0 100 0 ' +
-        'a 50 50 0 1 0 -100 0' +
-        'M 55 100 ' +
-        'a 45 45 0 1 0 90 0 ' +
-        'a 45 45 0 1 0 -90 0'
-      },
-      label: {
-        textVerticalAnchor: 'top',
-        textAnchor: 'middle',
-        refX: 0.5,
-        refY: 0.99,
-        refWidth: 2.0,
-        refHeight: 2.0
-      },
-      title: {
-      }
-    }
-  }, {
-    markup: [{
-      tagName: 'path',
-      selector: 'body',
-      groupSelector: 'bodyGroup',
-      className: 'mood-graph-step'
-    }, {
-      tagName: 'text',
-      selector: 'label',
-      className: 'mood-graph-step-label'
-    }, {
-      tagName: 'title',
-      selector: 'title'
-    }]
-  })
+function defineBPMNIntermediateEventMessage (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNIntermediateEvent(gridSize, elementSize, verticalSwimlanes, messageName, messagePath)
+}
+
+/**
+ * Build a shape for an End Event symbol
+ * @param {int} gridSize  Size of grid in pixels
+ * @param {*} elementSize Size of shape (width, height)
+ * @param {boolean} verticalSwimlanes Vertical (true) or Horizontal (false) swimlanes
+ * @param {string} styleName Name of style for Intermediate Event, e.g. Message or blank
+ * @param {string} stylePath SVG path for the style symbol or blank if N/A
+ */
+function buildBPMNEndEvent (gridSize, elementSize, verticalSwimlanes, styleName, stylePath) {
+  const eventPath =
+  'M 50 100 ' + // Draw outer circle (clockwise)
+  'a 50 50 0 1 0 100 0 ' +
+  'a 50 50 0 1 0 -100 0' +
+  'M 51 100 ' + // Draw inner circle (clockwise)
+  'a 49 49 0 1 0 98 0 ' +
+  'a 49 49 0 1 0 -98 0 ' +
+  'M 52 100 ' + // Draw inner circle (clockwise)
+  'a 48 48 0 1 0 96 0 ' +
+  'a 48 48 0 1 0 -96 0 ' +
+  'M 53 100 ' + // Draw inner circle (clockwise)
+  'a 47 47 0 1 0 94 0 ' +
+  'a 47 47 0 1 0 -94 0 ' +
+  'M 54 100 ' + // Draw inner circle (clockwise)
+  'a 46 46 0 1 0 92 0 ' +
+  'a 46 46 0 1 0 -92 0 ' +
+  'm -4 0'
+  const eventType = 'BPMNEndEvent' + (styleName || '')
+  const symbolPath = eventPath + (stylePath || '')
+  return buildBPMNEvent(
+    gridSize,
+    elementSize,
+    verticalSwimlanes,
+    'end',
+    eventType,
+    symbolPath)
 }
 
 function defineBPMNEndEvent (gridSize, elementSize, verticalSwimlanes) {
-  const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
-  const portItems = processPortItems()
+  return buildBPMNEndEvent(gridSize, elementSize, verticalSwimlanes, '', '')
+}
 
-  return joint.dia.Element.define('MooD.BPMNEndEvent', {
-    ports: {
-      groups: portGroups,
-      items: portItems
-    },
-    attrs: {
-      path: {
-        refDResetOffset:
-        'M 52 100 ' +
-        'a 48 48 0 1 0 96 0 ' +
-        'a 48 48 0 1 0 -96 0'
-      },
-      label: {
-        textVerticalAnchor: 'top',
-        textAnchor: 'middle',
-        refX: 0.5,
-        refY: 0.99,
-        refWidth: 2.0,
-        refHeight: 2.0
-      },
-      title: {
-      }
-    }
-  }, {
-    markup: [{
-      tagName: 'path',
-      selector: 'body',
-      groupSelector: 'bodyGroup',
-      className: 'mood-graph-step'
-    }, {
-      tagName: 'text',
-      selector: 'label',
-      className: 'mood-graph-step-label'
-    }, {
-      tagName: 'title',
-      selector: 'title'
-    }]
-  })
+function defineBPMNEndEventMessage (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNEndEvent(gridSize, elementSize, verticalSwimlanes, messageName, messagePath)
 }
 
 function defineBPMNExclusiveGateway (verticalSwimlanes) {
@@ -1368,7 +1346,9 @@ function defineBPMNExclusiveGateway (verticalSwimlanes) {
         refDResetOffset:
                   'M 50 0 L 100 50 ' +
                   'L 50 100 ' +
-                  'L 0 50 z'
+                  'L 0 50 z' +
+                  'M 30 30 L 70 70' +
+                  'M 70 30 L 30 70'
       },
       label: {
         textVerticalAnchor: 'top',
@@ -1454,7 +1434,9 @@ function defineBPMNParallelGateway (verticalSwimlanes) {
         refDResetOffset:
                   'M 50 0 L 100 50 ' +
                   'L 50 100 ' +
-                  'L 0 50 z'
+                  'L 0 50 z' +
+                  'M 50 20 L 50 80' +
+                  'M 20 50 L 80 50'
       },
       label: {
         textVerticalAnchor: 'top',
@@ -1538,9 +1520,12 @@ function defineBPMNInclusiveGateway (verticalSwimlanes) {
     attrs: {
       path: {
         refDResetOffset:
-                  'M 50 0 L 100 50 ' +
-                  'L 50 100 ' +
-                  'L 0 50 z'
+            'M 50 0 l -50 50' + // Draw diamond (anti-clockwise)
+            'l 50 50 ' +
+            'l 50 -50 z' +
+            'M 25 50 ' + // Draw circle (clockwise)
+            'a 25 25 0 1 0 50 0 ' +
+            'a 25 25 0 1 0 -50 0'
       },
       label: {
         textVerticalAnchor: 'top',

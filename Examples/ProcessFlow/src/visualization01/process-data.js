@@ -16,7 +16,9 @@ const validStepTypes = [
   Types.BPMNStartEvent,
   Types.BPMNStartEventMessage,
   Types.BPMNIntermediateEvent,
+  Types.BPMNIntermediateEventMessage,
   Types.BPMNEndEvent,
+  Types.BPMNEndEventMessage,
   Types.BPMNExclusiveGateway,
   Types.BPMNParallelGateway,
   Types.BPMNInclusiveGateway
