@@ -550,6 +550,14 @@ export class Graph {
           jointElement = Shapes.createBPMNStartEventMessage(id)
           type = elementTypeStep
           break
+        case Types.BPMNStartEventTimer:
+          jointElement = Shapes.createBPMNStartEventTimer(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNStartEventError:
+          jointElement = Shapes.createBPMNStartEventError(id)
+          type = elementTypeStep
+          break
         case Types.BPMNIntermediateEvent:
           jointElement = Shapes.createBPMNIntermediateEvent(id)
           type = elementTypeStep
@@ -558,12 +566,28 @@ export class Graph {
           jointElement = Shapes.createBPMNIntermediateEventMessage(id)
           type = elementTypeStep
           break
+        case Types.BPMNIntermediateEventTimer:
+          jointElement = Shapes.createBPMNIntermediateEventTimer(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNIntermediateEventError:
+          jointElement = Shapes.createBPMNIntermediateEventError(id)
+          type = elementTypeStep
+          break
         case Types.BPMNEndEvent:
           jointElement = Shapes.createBPMNEndEvent(id)
           type = elementTypeStep
           break
         case Types.BPMNEndEventMessage:
           jointElement = Shapes.createBPMNEndEventMessage(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNEndEventTimer:
+          jointElement = Shapes.createBPMNEndEventTimer(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNEndEventError:
+          jointElement = Shapes.createBPMNEndEventError(id)
           type = elementTypeStep
           break
         case Types.BPMNExclusiveGateway:

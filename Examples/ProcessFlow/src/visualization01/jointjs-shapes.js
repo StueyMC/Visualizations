@@ -25,10 +25,16 @@ let StepGroupShape
 //
 let BPMNStartEventShape
 let BPMNStartEventMessageShape
+let BPMNStartEventTimerShape
+let BPMNStartEventErrorShape
 let BPMNIntermediateEventShape
 let BPMNIntermediateEventMessageShape
+let BPMNIntermediateEventTimerShape
+let BPMNIntermediateEventErrorShape
 let BPMNEndEventShape
 let BPMNEndEventMessageShape
+let BPMNEndEventTimerShape
+let BPMNEndEventErrorShape
 let BPMNExclusiveGatewayShape
 let BPMNParallelGatewayShape
 let BPMNInclusiveGatewayShape
@@ -56,10 +62,16 @@ export function defineShapes (gridSize, elementSizes, renderSwimlaneWatermarks, 
   //
   BPMNStartEventShape = defineBPMNStartEvent(gridSize, elementSizes, verticalSwimlanes)
   BPMNStartEventMessageShape = defineBPMNStartEventMessage(gridSize, elementSizes, verticalSwimlanes)
+  BPMNStartEventTimerShape = defineBPMNStartEventTimer(gridSize, elementSizes, verticalSwimlanes)
+  BPMNStartEventErrorShape = defineBPMNStartEventError(gridSize, elementSizes, verticalSwimlanes)
   BPMNIntermediateEventShape = defineBPMNIntermediateEvent(gridSize, elementSizes, verticalSwimlanes)
   BPMNIntermediateEventMessageShape = defineBPMNIntermediateEventMessage(gridSize, elementSizes, verticalSwimlanes)
+  BPMNIntermediateEventTimerShape = defineBPMNIntermediateEventTimer(gridSize, elementSizes, verticalSwimlanes)
+  BPMNIntermediateEventErrorShape = defineBPMNIntermediateEventError(gridSize, elementSizes, verticalSwimlanes)
   BPMNEndEventShape = defineBPMNEndEvent(gridSize, elementSizes, verticalSwimlanes)
   BPMNEndEventMessageShape = defineBPMNEndEventMessage(gridSize, elementSizes, verticalSwimlanes)
+  BPMNEndEventTimerShape = defineBPMNEndEventTimer(gridSize, elementSizes, verticalSwimlanes)
+  BPMNEndEventErrorShape = defineBPMNEndEventError(gridSize, elementSizes, verticalSwimlanes)
   BPMNExclusiveGatewayShape = defineBPMNExclusiveGateway(verticalSwimlanes)
   BPMNParallelGatewayShape = defineBPMNParallelGateway(verticalSwimlanes)
   BPMNInclusiveGatewayShape = defineBPMNInclusiveGateway(verticalSwimlanes)
@@ -143,6 +155,14 @@ export function createBPMNStartEventMessage (id) {
   return new BPMNStartEventMessageShape(id)
 }
 
+export function createBPMNStartEventTimer (id) {
+  return new BPMNStartEventTimerShape(id)
+}
+
+export function createBPMNStartEventError (id) {
+  return new BPMNStartEventErrorShape(id)
+}
+
 export function createBPMNIntermediateEvent (id) {
   return new BPMNIntermediateEventShape(id)
 }
@@ -151,12 +171,28 @@ export function createBPMNIntermediateEventMessage (id) {
   return new BPMNIntermediateEventMessageShape(id)
 }
 
+export function createBPMNIntermediateEventTimer (id) {
+  return new BPMNIntermediateEventTimerShape(id)
+}
+
+export function createBPMNIntermediateEventError (id) {
+  return new BPMNIntermediateEventErrorShape(id)
+}
+
 export function createBPMNEndEvent (id) {
   return new BPMNEndEventShape(id)
 }
 
 export function createBPMNEndEventMessage (id) {
   return new BPMNEndEventMessageShape(id)
+}
+
+export function createBPMNEndEventTimer (id) {
+  return new BPMNEndEventTimerShape(id)
+}
+
+export function createBPMNEndEventError (id) {
+  return new BPMNEndEventErrorShape(id)
 }
 
 export function createBPMNExclusiveGateway (id) {
@@ -1119,13 +1155,29 @@ function defineStepGroup () {
 //
 // BPMN event style information
 //
-const messageName = 'Message'
-const messagePath =
+// Note: Unstyled Events (Start, Intermediate and End) are drawn leaving the pen position at (0,50)
+//
+const eventNameMessage = 'Message'
+const eventPathMessage =
   'm 20 -20 v 40 ' + // Draw inner rectangle (envelope) (anti-clockwise)
   'h 60 ' +
   'v -40 z ' +
   'm 60 0 l -30 20 ' + // Draw triangle (envelope flap) (clockwise)
   'l -30 -20'
+const eventNameTimer = 'Timer'
+const eventPathTimer =
+    'm 25 0 ' + // Draw circle (anti-clockwise)
+    'a 25 25 0 1 0 50 1 ' +
+    'a 25 25 0 1 0 -50 1' +
+    'm 25 0 l 10 -15 ' + // Draw minute hand
+    'm -10 15 l 12 0 '
+const eventNameError = 'Error'
+const eventPathError =
+    'm 40 -20 l -15 45 ' + // Start at top left and draw error shape (anti-clockwise) (40,30) - (25,75)
+    'l 15 -30 ' + // - (40,45)
+    'l 20 25 ' + // - (60,70)
+    'l 15 -45 ' + // - (75,25)
+    'l -15 30 z' // - (60,55) - (40,30)
 
 /**
  * Build a shape for an Event symbol
@@ -1206,7 +1258,15 @@ function defineBPMNStartEvent (gridSize, elementSize, verticalSwimlanes) {
 }
 
 function defineBPMNStartEventMessage (gridSize, elementSize, verticalSwimlanes) {
-  return buildBPMNStartEvent(gridSize, elementSize, verticalSwimlanes, messageName, messagePath)
+  return buildBPMNStartEvent(gridSize, elementSize, verticalSwimlanes, eventNameMessage, eventPathMessage)
+}
+
+function defineBPMNStartEventTimer (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNStartEvent(gridSize, elementSize, verticalSwimlanes, eventNameTimer, eventPathTimer)
+}
+
+function defineBPMNStartEventError (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNStartEvent(gridSize, elementSize, verticalSwimlanes, eventNameError, eventPathError)
 }
 
 /**
@@ -1242,7 +1302,15 @@ function defineBPMNIntermediateEvent (gridSize, elementSize, verticalSwimlanes) 
 }
 
 function defineBPMNIntermediateEventMessage (gridSize, elementSize, verticalSwimlanes) {
-  return buildBPMNIntermediateEvent(gridSize, elementSize, verticalSwimlanes, messageName, messagePath)
+  return buildBPMNIntermediateEvent(gridSize, elementSize, verticalSwimlanes, eventNameMessage, eventPathMessage)
+}
+
+function defineBPMNIntermediateEventTimer (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNIntermediateEvent(gridSize, elementSize, verticalSwimlanes, eventNameTimer, eventPathTimer)
+}
+
+function defineBPMNIntermediateEventError (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNIntermediateEvent(gridSize, elementSize, verticalSwimlanes, eventNameError, eventPathError)
 }
 
 /**
@@ -1287,7 +1355,15 @@ function defineBPMNEndEvent (gridSize, elementSize, verticalSwimlanes) {
 }
 
 function defineBPMNEndEventMessage (gridSize, elementSize, verticalSwimlanes) {
-  return buildBPMNEndEvent(gridSize, elementSize, verticalSwimlanes, messageName, messagePath)
+  return buildBPMNEndEvent(gridSize, elementSize, verticalSwimlanes, eventNameMessage, eventPathMessage)
+}
+
+function defineBPMNEndEventTimer (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNEndEvent(gridSize, elementSize, verticalSwimlanes, eventNameTimer, eventPathTimer)
+}
+
+function defineBPMNEndEventError (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNEndEvent(gridSize, elementSize, verticalSwimlanes, eventNameError, eventPathError)
 }
 
 function defineBPMNExclusiveGateway (verticalSwimlanes) {

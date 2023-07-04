@@ -16,7 +16,7 @@
                 , 
                 "backgroundColour": null, 
                 "textColour": null,
-                "swimlanes": 3
+                "swimlanes": 2
             },
             {
                 "id": "41-7270B76E96D942EBA4E9065C7A9C0390", 
@@ -72,7 +72,7 @@
                 "name": "Enters Store", 
                 "type": "BPMN Start Event", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
                 "phase": null
             },
             {
@@ -80,7 +80,7 @@
                 "name": "Views the Product List", 
                 "type": "Process Step", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
                 "phase": null
             },
             {
@@ -88,7 +88,7 @@
                 "name": "", 
                 "type": "BPMN Exclusive Gateway", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
                 "phase": null
             },
             {
@@ -96,7 +96,7 @@
                 "name": "Leaves the Store", 
                 "type": "BPMN End Event", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 3}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
                 "phase": null,
                 "preventSharingRow": true
             },
@@ -105,7 +105,7 @@
                 "name": "Places an order", 
                 "type": "Process Step", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
                 "phase": null
             },
             {
@@ -167,9 +167,9 @@
             {
                 "id": "55-Step013", 
                 "name": "Waits for the Product", 
-                "type": "BPMN Intermediate Event", 
+                "type": "BPMN Intermediate Event Timer", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
                 "phase": null
             },
             {
@@ -225,7 +225,7 @@
                 "name": "Receives the Product and invoice", 
                 "type": "Process Step", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
                 "phase": null
             },
             {
@@ -233,7 +233,7 @@
                 "name": "Initiates Payment", 
                 "type": "Process Step", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
                 "phase": null
             },
             {
@@ -249,7 +249,7 @@
                 "name": "Transaction Acknowledged", 
                 "type": "BPMN Intermediate Event", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
                 "phase": null
             },
             {
@@ -257,7 +257,7 @@
                 "name": "Leaves the Store", 
                 "type": "BPMN End Event", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
                 "phase": null
             },
             {
@@ -269,11 +269,43 @@
                 "phase": null
             },
             {
-                "id": "55-Step052", 
-                "name": "", 
-                "type": "BPMN Inclusive Gateway", 
+                "id": "55-Step054", 
+                "name": "Timer Start Event", 
+                "type": "BPMN Start Event Timer", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 3}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-263A0114FA2743FF99955B0FB701A78A", "name": "Store"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step055", 
+                "name": "Timer End Event", 
+                "type": "BPMN End Event Timer", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step056", 
+                "name": "Error Start Event", 
+                "type": "BPMN Start Event Error", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step057", 
+                "name": "Error Intermediate Event", 
+                "type": "BPMN Intermediate Event Error", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-A7CAB94BD124411C99C33B589F18C29C", "name": "Ingredient Warehouse"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step058", 
+                "name": "Error End Event", 
+                "type": "BPMN End Event Error", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
                 "phase": null
             },
             {
@@ -281,7 +313,15 @@
                 "name": "Message End Event", 
                 "type": "BPMN End Event Message", 
                 "navigable": true, 
-                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step052", 
+                "name": "", 
+                "type": "BPMN Inclusive Gateway", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-263A0114FA2743FF99955B0FB701A78A", "name": "Store"}, "minIndex": 1}], 
                 "phase": null
             }
         ], 
@@ -320,7 +360,9 @@
                 "label": "Wants to order", 
                 "offPageConnection": false, 
                 "offPageOutputLabel": null, 
-                "offPageInputLabel": null
+                "offPageInputLabel": null,
+                "sourcePort": "bottom",
+                "targetPort": "left"
             },
             {
                 "id": "41-Flow005", 
