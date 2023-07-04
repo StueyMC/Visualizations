@@ -150,8 +150,24 @@
    stroke-width: 1;
 }
 
+/* BPMN Start Event Shape */
+.process-flow .joint-element.joint-type-mood .bpmn-start-event {
+   fill: lightblue;
+   stroke: black;
+   stroke-width: 1;
+}
+
+/* BPMN Intermediate Event Shape */
+.process-flow .joint-element.joint-type-mood .bpmn-intermediate-event {
+   fill: lightblue;
+   stroke: black;
+   stroke-width: 1;
+}
+
 /* BPMN End Event Shape */
 .process-flow .joint-element.joint-type-mood .bpmn-end-event {
+   fill: lightblue;
+   stroke: black;
    stroke-width: 1;
 }
 
