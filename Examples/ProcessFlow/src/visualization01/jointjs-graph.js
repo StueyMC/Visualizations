@@ -602,6 +602,10 @@ export class Graph {
           jointElement = Shapes.createBPMNInclusiveGateway(id)
           type = elementTypeStep
           break
+        case Types.BPMNDataObject:
+          jointElement = Shapes.createBPMNDataObject(id)
+          type = elementTypeStep
+          break
         default:
           jointElement = Shapes.createProcessStep(id)
           type = elementTypeIO

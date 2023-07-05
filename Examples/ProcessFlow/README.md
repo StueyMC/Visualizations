@@ -345,6 +345,7 @@ The visualisation has no actions.
 | Exclusive Gateway | BPMN Exclusive Gateway |
 | Parallel Gateway | BPMN Parallel Gateway |
 | Inclusive Gateway | BPMN Inclusive Gateway |
+| Data Object |BPMN Data Object |
 
 ## Input / Output symbols
 

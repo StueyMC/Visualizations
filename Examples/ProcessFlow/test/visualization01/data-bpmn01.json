@@ -133,11 +133,27 @@
                 "phase": null
             },
             {
+                "id": "55-Step008a", 
+                "name": "Formula Document", 
+                "type": "BPMN Data Object", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
                 "id": "55-Step009", 
                 "name": "Checks ingredients in the formula", 
                 "type": "Process Step", 
                 "navigable": true, 
                 "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step009a", 
+                "name": "Ingredients Document", 
+                "type": "BPMN Data Object", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 2}], 
                 "phase": null
             },
             {
@@ -394,9 +410,27 @@
                 "offPageInputLabel": null
             },
             {
+                "id": "41-Flow008a", 
+                "source": {"id": "55-Step008", "name": "Checks formula for the Compound"}, 
+                "target": {"id": "55-Step008a", "name": "Formula Document"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
                 "id": "41-Flow008", 
                 "source": {"id": "55-Step008", "name": "Checks formula for the Compound"}, 
                 "target": {"id": "55-Step009", "name": "Checks ingredients in the formula"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow009a", 
+                "source": {"id": "55-Step009", "name": "Checks ingredients in the formula"}, 
+                "target": {"id": "55-Step009a", "name": "Ingredients Document"}, 
                 "label": "", 
                 "offPageConnection": false, 
                 "offPageOutputLabel": null, 

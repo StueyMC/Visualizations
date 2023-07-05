@@ -23,7 +23,7 @@ export const commonConfig = {
     phaseLabelWidth: 60,
     inputSwimlaneLabel: "Inputs",
     outputSwimlaneLabel: "Outputs",
-    disableIOSwimlanes: false
+    disableIOSwimlanes: true
   }
 }
 

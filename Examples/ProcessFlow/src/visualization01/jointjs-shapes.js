@@ -38,6 +38,7 @@ let BPMNEndEventErrorShape
 let BPMNExclusiveGatewayShape
 let BPMNParallelGatewayShape
 let BPMNInclusiveGatewayShape
+let BPMNDataObjectShape
 //
 // Link Shapes
 //
@@ -82,6 +83,7 @@ export function defineShapes (gridSize, elementSizes, renderSwimlaneWatermarks, 
   BPMNExclusiveGatewayShape = defineBPMNExclusiveGateway(verticalSwimlanes)
   BPMNParallelGatewayShape = defineBPMNParallelGateway(verticalSwimlanes)
   BPMNInclusiveGatewayShape = defineBPMNInclusiveGateway(verticalSwimlanes)
+  BPMNDataObjectShape = defineBPMNDataObject(gridSize, elementSizes, verticalSwimlanes)
   //
   // Link Shapes
   //
@@ -219,6 +221,10 @@ export function createBPMNParallelGateway (id) {
 
 export function createBPMNInclusiveGateway (id) {
   return new BPMNInclusiveGatewayShape(id)
+}
+
+export function createBPMNDataObject (id) {
+  return new BPMNDataObjectShape(id)
 }
 //
 // Link Shapes
@@ -1661,6 +1667,66 @@ function defineBPMNInclusiveGateway (verticalSwimlanes) {
       selector: 'title'
     }]
   })
+}
+
+/**
+ * Build a shape for a data object artefact symbol
+ * @param {int} gridSize  Size of grid in pixels
+ * @param {*} elementSize Size of shape (width, height)
+ * @param {boolean} verticalSwimlanes Vertical (true) or Horizontal (false) swimlanes
+ * @param {string} styleName Name of style for data object, e.g. Input or blank
+ * @param {string} stylePath SVG path for the style symbol or blank if N/A
+ */
+function buildBPMNDataObject (gridSize, elementSize, verticalSwimlanes, styleName, stylePath) {
+  const eventPath =
+  'M 0 0 ' + // Draw cut off rectangle (clockwise)
+  'h 25 l 15 15 v 45 h -40 z' +
+  'm 40 15 h -15 v -15' // Draw folded down corner (clockwise)
+  const objectType = 'BPMNDataObject' + (styleName || '')
+  const symbolPath = eventPath + (stylePath || '')
+  const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
+  const portItems = processPortItems()
+  const bodyClass = 'bpmn-data-object'
+
+  return joint.dia.Element.define('MooD.' + objectType, {
+    ports: {
+      groups: portGroups,
+      items: portItems
+    },
+    attrs: {
+      path: {
+        refDResetOffset: symbolPath
+      },
+      label: {
+        textVerticalAnchor: 'top',
+        textAnchor: 'middle',
+        refX: 0.5,
+        refY: 0.99,
+        refWidth: 2.0,
+        refHeight: 2.0
+      },
+      title: {
+      }
+    }
+  }, {
+    markup: [{
+      tagName: 'path',
+      selector: 'body',
+      groupSelector: 'bodyGroup',
+      className: 'mood-graph-step ' + bodyClass
+    }, {
+      tagName: 'text',
+      selector: 'label',
+      className: 'mood-graph-step-label'
+    }, {
+      tagName: 'title',
+      selector: 'title'
+    }]
+  })
+}
+
+function defineBPMNDataObject (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNDataObject(gridSize, elementSize, verticalSwimlanes, '', '')
 }
 //
 // Define link shapes
