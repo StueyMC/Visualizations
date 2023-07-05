@@ -862,17 +862,33 @@ export class Graph {
 
     /**
      * return the end (source or target) object for a link
-     * Where the end has a port specified, the object is the postion of the port
+     * Where the end has a port specified, the object is the position of the port
      * otherwise the object is the JointJS graph element (model)
      * @param {Data.Element} element
      * @param {String} portId
+     * @param {int} offset offset from start / end point for link line to start or end
      */
-    function linkEnd (element, portId) {
+    function linkEnd (element, portId, offset) {
       let end
       if (portId) {
-        // const portPos = element.graphElement().getPortPosition(portId)
+        const portPos = element.graphElement().getPortPosition(portId)
         end = { id: element.id(), port: portId }
-        // }
+        if (portPos && offset !== 0) {
+          //
+          // Add offset if port exists on element
+          // If the port doesn't exist then the anchor will be the centre
+          // of the element and adding an offset would force the line to
+          // start within the element rather than on the edge
+          //
+          end.connectionPoint = {
+            name: 'anchor',
+            args: {
+                offset: offset
+            }
+          }
+        }
+
+          // }
 
         // const elementPos = element.position()
         // if (portPos) {
@@ -880,6 +896,7 @@ export class Graph {
         //         x: elementPos.x + portPos.x,
         //         y: elementPos.y + portPos.y
         //     }
+        //   }
       } else {
         end = element.graphElement().element()
       }
@@ -887,18 +904,31 @@ export class Graph {
       return end
     }
 
-    function createLink (link, routerOptions, labelOptions, lineOptions) {
+    function createLink (link, routerOptions, labelOptions) {
       const connectorName = routerOptions.connectorName === undefined ? 'jumpover' : routerOptions.connectorName
       const jumpOverOnHorizontalLines = routerOptions.jumpOverOnHorizontalLines !== undefined ? routerOptions.jumpOverOnHorizontalLines : true
       const connectorOptions = { size: 5, jump: 'arc', radius: 0, jumpOverOnHorizontalLines }
       const routerName = routerOptions.routerName
       const vertices = routerOptions.vertices === undefined ? [] : routerOptions.vertices
       const id = { id: link.id() }
-      const jointLink = new joint.shapes.standard.Link(id)
+      let jointLink
+      switch (link.type()) {
+        case Types.sequenceFlow:
+          jointLink = Shapes.createSequenceFlow(id)
+          break
+        case Types.ioFlow:
+          jointLink = Shapes.createIOFlow(id)
+          break
+        case Types.messageFlow:
+          jointLink = Shapes.createMessageFlow(id)
+          break
+        case Types.association:
+          jointLink = Shapes.createAssociation(id)
+          break
+      }
       const sides = new OrientedSides(verticalSwimlanes)
-      jointLink.attr('wrapper/cursor', 'pointer')
-      jointLink.source(linkEnd(link.source(), routerOptions.sourcePortId))
-      jointLink.target(linkEnd(link.target(), routerOptions.targetPortId))
+      jointLink.source(linkEnd(link.source(), routerOptions.sourcePortId, jointLink.sourceOffset))
+      jointLink.target(linkEnd(link.target(), routerOptions.targetPortId, jointLink.targetOffset))
       if (routerName !== undefined) {
         const options = {
           step: gridSize,
@@ -918,9 +948,6 @@ export class Graph {
         jointLink.router(routerName, options)
       }
       jointLink.connector(connectorName, connectorOptions)
-      if (lineOptions !== undefined && lineOptions.strokeDasharray !== undefined) {
-        jointLink.attr('line/strokeDasharray', lineOptions.strokeDasharray)
-      }
       if (labelOptions.text !== null) {
         const labelText = elementLabel(
           jointLink,
@@ -990,8 +1017,6 @@ export class Graph {
      * @param {*} options
      */
     this.createIOLink = function (ioLink, options) {
-      // Set line styling for flow or input / output
-      const lineOptions = ioLink.isFlow() === true ? {} : { strokeDasharray: '5 5' }
       return createLink(
         ioLink,
         {
@@ -1009,8 +1034,7 @@ export class Graph {
           text: ioLink.name(),
           labelStandoff: 0.3,
           labelMaxSize: options.labelMaxSize
-        },
-        lineOptions)
+        })
     }
   }
 }

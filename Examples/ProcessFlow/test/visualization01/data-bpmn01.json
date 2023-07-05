@@ -142,7 +142,7 @@
             },
             {
                 "id": "55-Step010", 
-                "name": "", 
+                "name": "In Stock?", 
                 "type": "BPMN Exclusive Gateway", 
                 "navigable": true, 
                 "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
@@ -371,7 +371,8 @@
                 "label": "", 
                 "offPageConnection": false, 
                 "offPageOutputLabel": null, 
-                "offPageInputLabel": null
+                "offPageInputLabel": null,
+                "type": "Message Flow"
             },
             {
                 "id": "41-Flow006", 
@@ -380,7 +381,8 @@
                 "label": "", 
                 "offPageConnection": false, 
                 "offPageOutputLabel": null, 
-                "offPageInputLabel": null
+                "offPageInputLabel": null,
+                "type": "Message Flow"
             },
             {
                 "id": "41-Flow007", 

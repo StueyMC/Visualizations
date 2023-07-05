@@ -1158,6 +1158,9 @@ function router (vertices, opt, linkView) {
 }
 
 // public function
+// *** Start of changes from original manhattan router code (JointJS version 3.4.1) ***
 export const manhattanPlus = function (vertices, opt, linkView) {
-  return router(vertices, joint.util.assign({}, config, opt), linkView)
+  const routePoints = router(vertices, joint.util.assign({}, config, opt), linkView)
+  return routePoints
 }
+// *** End of changes from original manhattan router code (JointJS version 3.4.1) ***

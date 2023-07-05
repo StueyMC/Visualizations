@@ -387,12 +387,14 @@ export class Link extends BasicElement {
     super(linkData)
     const link = {
       source,
-      target
+      target,
+      type: linkData.type
     }
 
     this.source = () => link.source
     this.target = () => link.target
     this.otherEnd = (end) => link.source === end ? link.target : (link.target === end ? link.source : undefined)
+    this.type = () => link.type
   }
 }
 
@@ -445,6 +447,7 @@ export class OffPageFlow extends Flow {
 
 export class IOLink extends Link {
   constructor (ioLinkData, info, step) {
+    ioLinkData.type = ioLinkData.isFlow ? Types.sequenceFlow : Types.ioFlow
     if (info.isInput()) {
       super(ioLinkData, info, step)
     } else {
@@ -487,6 +490,7 @@ export class LinkSet {
         throw new Error('Step Flow data is not an array')
       }
       flows.forEach((flow) => {
+        const flowType = flow.type !== undefined ? flow.type : Types.sequenceFlow
         const flowData = {
           id: flow.id,
           name: flow.label,
@@ -497,7 +501,8 @@ export class LinkSet {
           offPageInputLabel: flow.offPageInputLabel,
           sequence: flow.sequence,
           sourcePort: flow.sourcePort,
-          targetPort: flow.targetPort
+          targetPort: flow.targetPort,
+          type: flowType
         }
         const sourceStep = stepSet.getStep(flow.source.id)
         const targetStep = stepSet.getStep(flow.target.id)
@@ -575,7 +580,8 @@ export class LinkSet {
             offPageConnection: false,
             offPageOutputLabel: null,
             offPageInputLabel: null,
-            sourcePort: flowObject.sourcePort()
+            sourcePort: flowObject.sourcePort(),
+            type: flowObject.type()
           }
           const outFlowObject = new OffPageFlow(outFlowData, sourceStep, outputStep, flowObject.id())
           outputStep.addFlow(outFlowObject)
@@ -608,7 +614,8 @@ export class LinkSet {
               offPageConnection: false,
               offPageOutputLabel: null,
               offPageInputLabel: null,
-              targetPort: flowObject.targetPort()
+              targetPort: flowObject.targetPort(),
+              type: flowObject.type()
             }
             const inFlowObject = new OffPageFlow(inFlowData, inputStep, targetStep, flowObject.id())
             inputStep.addFlow(inFlowObject)

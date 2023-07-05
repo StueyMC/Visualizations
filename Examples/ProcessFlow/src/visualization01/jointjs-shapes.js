@@ -38,6 +38,13 @@ let BPMNEndEventErrorShape
 let BPMNExclusiveGatewayShape
 let BPMNParallelGatewayShape
 let BPMNInclusiveGatewayShape
+//
+// Link Shapes
+//
+let SequenceFlow
+let IOFlow
+let MessageFlow
+let Association
 
 export function defineShapes (gridSize, elementSizes, renderSwimlaneWatermarks, verticalSwimlanes) {
   ActorShape = defineActor(renderSwimlaneWatermarks, verticalSwimlanes)
@@ -75,6 +82,13 @@ export function defineShapes (gridSize, elementSizes, renderSwimlaneWatermarks, 
   BPMNExclusiveGatewayShape = defineBPMNExclusiveGateway(verticalSwimlanes)
   BPMNParallelGatewayShape = defineBPMNParallelGateway(verticalSwimlanes)
   BPMNInclusiveGatewayShape = defineBPMNInclusiveGateway(verticalSwimlanes)
+  //
+  // Link Shapes
+  //
+  SequenceFlow = defineSequenceFlow()
+  IOFlow = defineIOFlow()
+  MessageFlow = defineMessageFlow()
+  Association = defineAssociation()
 }
 
 export function createActor (id) {
@@ -205,6 +219,24 @@ export function createBPMNParallelGateway (id) {
 
 export function createBPMNInclusiveGateway (id) {
   return new BPMNInclusiveGatewayShape(id)
+}
+//
+// Link Shapes
+//
+export function createSequenceFlow (id) {
+  return new SequenceFlow(id)
+}
+
+export function createIOFlow (id) {
+  return new IOFlow(id)
+}
+
+export function createMessageFlow (id) {
+  return new MessageFlow(id)
+}
+
+export function createAssociation (id) {
+  return new Association(id)
 }
 
 function defineActor (renderSwimlaneWatermarks, verticalSwimlanes) {
@@ -1630,3 +1662,135 @@ function defineBPMNInclusiveGateway (verticalSwimlanes) {
     }]
   })
 }
+//
+// Define link shapes
+//
+function defineSequenceFlow () {
+  return joint.shapes.standard.Link.define('MooD.SequenceFlow', {
+    attrs: {
+      line: {
+          connection: true,
+          stroke: '#333333',
+          strokeWidth: 2,
+          strokeLinejoin: 'round',
+          targetMarker: {
+              'type': 'path',
+              'd': 'M 10 -5 0 0 10 5 z'
+          }
+      },
+      wrapper: {
+          connection: true,
+          strokeWidth: 10,
+          strokeLinejoin: 'round'
+      }
+  }
+  }, {
+    // Prototype properties
+    // offsets from source and target to start and end the line
+    // in order to avoid interfering with source and target markers
+    sourceOffset: 0,
+    targetOffset: 0
+  })
+}
+
+function defineIOFlow () {
+  return joint.shapes.standard.Link.define('MooD.IOFlow', {
+    attrs: {
+      line: {
+          connection: true,
+          stroke: '#333333',
+          strokeWidth: 2,
+          strokeLinejoin: 'round',
+          strokeDasharray: '5 5',
+          targetMarker: {
+              'type': 'path',
+              'd': 'M 10 -5 0 0 10 5 z'
+          }
+      },
+      wrapper: {
+          connection: true,
+          strokeWidth: 10,
+          strokeLinejoin: 'round',
+          cursor: 'pointer'
+      }
+  }
+  }, {
+    // Prototype properties
+    // offsets from source and target to start and end the line
+    // in order to avoid interfering with source and target markers
+    sourceOffset: 0,
+    targetOffset: 0
+  })
+}
+
+function defineMessageFlow () {
+  return joint.shapes.standard.Link.define('MooD.MessageFlow', {
+    // Default properties
+    attrs: {
+      line: {
+          connection: true,
+          stroke: '#333333',
+          strokeWidth: 2,
+          strokeLinejoin: 'round',
+          strokeDasharray: '10 10',
+          targetMarker: {
+              'type': 'path',
+              'd': 'M 0 -5 l -10 5 l 10 5 z',
+              'stroke-width': '2',
+              'fill': 'none'
+          },
+          sourceMarker: {
+            'type': 'circle',
+            'cx': '-5',
+            'cy': '0',
+            'r': '5',
+            'stroke-width': '2',
+            'fill': 'none'
+          }
+      },
+      wrapper: {
+          connection: true,
+          strokeWidth: 10,
+          strokeLinejoin: 'round',
+          cursor: 'pointer'
+      }
+  }
+  }, {
+    // Prototype properties
+    // offsets from source and target to start and end the line
+    // in order to avoid interfering with source and target markers
+    sourceOffset: 10,
+    targetOffset: 10
+  })
+}
+
+function defineAssociation () {
+  return joint.shapes.standard.Link.define('MooD.IOFlow', {
+    attrs: {
+      line: {
+          connection: true,
+          stroke: '#333333',
+          strokeWidth: 2,
+          strokeLinejoin: 'round',
+          strokeDasharray: '2 2',
+          targetMarker: {
+            'stroke': 'none',
+            'fill': 'none'
+          }
+          },
+      wrapper: {
+          connection: true,
+          strokeWidth: 10,
+          strokeLinejoin: 'round',
+          cursor: 'pointer'
+      }
+  }
+  }, {
+    // Prototype properties
+    // offsets from source and target to start and end the line
+    // in order to avoid interfering with source and target markers
+    sourceOffset: 0,
+    targetOffset: 0
+  })
+}
+

@@ -286,6 +286,7 @@ The visualisation has no actions.
             *	__Label__: text to use as label for the link between information and step
     *   __Side of step to flow out of__: The side of the source process step that the flow should connect to. This is optional and if unspecified the side will be selected automatically. Values are "left", "right", "top" and "bottom"
     *   __Side of step to flow into__: The side of the target process step that the flow should connect to. This is optional and if unspecified the side will be selected automatically. Values are "left", "right", "top" and "bottom"
+    *   __Type of Flow__: The type of the flow, e.g. Sequence Flow, IO Flow. See [Link Types](#link-types). __Defaults__ to "Sequence Flow" if not specified.
 1.	__StepInputs__ – zero or more relationships
     *	__Step__: one element
         *	__Name__: name of step
@@ -355,6 +356,15 @@ The visualisation has no actions.
 | Database or Application | Database / Application |
 | Data | Data |
 | Other | Other |
+
+## Link Types
+
+| Name      | Code |
+| :----------- | :----------- |
+| Sequence Flow | Sequence Flow |
+| IO Flow | IO Flow |
+| Message Flow | Message Flow |
+| Association | Association |
 
 [Table of Contents](#table-of-contents)
 

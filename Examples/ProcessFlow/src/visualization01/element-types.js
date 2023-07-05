@@ -31,3 +31,10 @@ export const BPMNEndEventError = 'BPMN End Event Error'
 export const BPMNExclusiveGateway = 'BPMN Exclusive Gateway'
 export const BPMNParallelGateway = 'BPMN Parallel Gateway'
 export const BPMNInclusiveGateway = 'BPMN Inclusive Gateway'
+//
+// Link Shapes
+//
+export const sequenceFlow = 'Sequence Flow'
+export const ioFlow = 'IO Flow'
+export const messageFlow = 'Message Flow'
+export const association = 'Association'
