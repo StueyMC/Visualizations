@@ -1669,21 +1669,21 @@ function defineSequenceFlow () {
   return joint.shapes.standard.Link.define('MooD.SequenceFlow', {
     attrs: {
       line: {
-          connection: true,
-          stroke: '#333333',
-          strokeWidth: 2,
-          strokeLinejoin: 'round',
-          targetMarker: {
-              'type': 'path',
-              'd': 'M 10 -5 0 0 10 5 z'
-          }
+        connection: true,
+        stroke: '#333333',
+        strokeWidth: 2,
+        strokeLinejoin: 'round',
+        targetMarker: {
+          type: 'path',
+          d: 'M 10 -5 0 0 10 5 z'
+        }
       },
       wrapper: {
-          connection: true,
-          strokeWidth: 10,
-          strokeLinejoin: 'round'
+        connection: true,
+        strokeWidth: 10,
+        strokeLinejoin: 'round'
       }
-  }
+    }
   }, {
     // Prototype properties
     // offsets from source and target to start and end the line
@@ -1697,23 +1697,23 @@ function defineIOFlow () {
   return joint.shapes.standard.Link.define('MooD.IOFlow', {
     attrs: {
       line: {
-          connection: true,
-          stroke: '#333333',
-          strokeWidth: 2,
-          strokeLinejoin: 'round',
-          strokeDasharray: '5 5',
-          targetMarker: {
-              'type': 'path',
-              'd': 'M 10 -5 0 0 10 5 z'
-          }
+        connection: true,
+        stroke: '#333333',
+        strokeWidth: 2,
+        strokeLinejoin: 'round',
+        strokeDasharray: '5 5',
+        targetMarker: {
+          type: 'path',
+          d: 'M 10 -5 0 0 10 5 z'
+        }
       },
       wrapper: {
-          connection: true,
-          strokeWidth: 10,
-          strokeLinejoin: 'round',
-          cursor: 'pointer'
+        connection: true,
+        strokeWidth: 10,
+        strokeLinejoin: 'round',
+        cursor: 'pointer'
       }
-  }
+    }
   }, {
     // Prototype properties
     // offsets from source and target to start and end the line
@@ -1728,33 +1728,33 @@ function defineMessageFlow () {
     // Default properties
     attrs: {
       line: {
-          connection: true,
-          stroke: '#333333',
-          strokeWidth: 2,
-          strokeLinejoin: 'round',
-          strokeDasharray: '10 10',
-          targetMarker: {
-              'type': 'path',
-              'd': 'M 0 -5 l -10 5 l 10 5 z',
-              'stroke-width': '2',
-              'fill': 'none'
-          },
-          sourceMarker: {
-            'type': 'circle',
-            'cx': '-5',
-            'cy': '0',
-            'r': '5',
-            'stroke-width': '2',
-            'fill': 'none'
-          }
+        connection: true,
+        stroke: '#333333',
+        strokeWidth: 2,
+        strokeLinejoin: 'round',
+        strokeDasharray: '10 5',
+        targetMarker: {
+          type: 'path',
+          d: 'M 0 -5 l -10 5 l 10 5 z',
+          'stroke-width': '2',
+          fill: 'none'
+        },
+        sourceMarker: {
+          type: 'circle',
+          cx: '-5',
+          cy: '0',
+          r: '5',
+          'stroke-width': '2',
+          fill: 'none'
+        }
       },
       wrapper: {
-          connection: true,
-          strokeWidth: 10,
-          strokeLinejoin: 'round',
-          cursor: 'pointer'
+        connection: true,
+        strokeWidth: 10,
+        strokeLinejoin: 'round',
+        cursor: 'pointer'
       }
-  }
+    }
   }, {
     // Prototype properties
     // offsets from source and target to start and end the line
@@ -1768,23 +1768,23 @@ function defineAssociation () {
   return joint.shapes.standard.Link.define('MooD.IOFlow', {
     attrs: {
       line: {
-          connection: true,
-          stroke: '#333333',
-          strokeWidth: 2,
-          strokeLinejoin: 'round',
-          strokeDasharray: '2 2',
-          targetMarker: {
-            'stroke': 'none',
-            'fill': 'none'
-          }
-          },
+        connection: true,
+        stroke: '#333333',
+        strokeWidth: 2,
+        strokeLinejoin: 'round',
+        strokeDasharray: '2 2',
+        targetMarker: {
+          stroke: 'none',
+          fill: 'none'
+        }
+      },
       wrapper: {
-          connection: true,
-          strokeWidth: 10,
-          strokeLinejoin: 'round',
-          cursor: 'pointer'
+        connection: true,
+        strokeWidth: 10,
+        strokeLinejoin: 'round',
+        cursor: 'pointer'
       }
-  }
+    }
   }, {
     // Prototype properties
     // offsets from source and target to start and end the line
@@ -1793,4 +1793,3 @@ function defineAssociation () {
     targetOffset: 0
   })
 }
-

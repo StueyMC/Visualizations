@@ -883,12 +883,12 @@ export class Graph {
           end.connectionPoint = {
             name: 'anchor',
             args: {
-                offset: offset
+              offset
             }
           }
         }
 
-          // }
+        // }
 
         // const elementPos = element.position()
         // if (portPos) {
