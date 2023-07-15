@@ -2,7 +2,7 @@
   "id": "1b870192-8f15-4255-963a-d992b961d6e7",
   "name": "Recharts Line Chart",
   "description": "Example of a line chart using Recharts framework",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "supportedVersions": "0",
   "moodVersion": "16.0.076",
   "entry": {

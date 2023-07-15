@@ -2,7 +2,7 @@
   "id": "f3aa5b37-1a45-4fde-b742-072967cd6f8e",
   "name": "Line Chart",
   "description": "Example line chart",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "dependencies": {
     "recharts": "./recharts/visualization.js",
     "react": "./react/visualization.js",

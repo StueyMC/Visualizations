@@ -2,7 +2,7 @@
   "id": "1a4c06c4-b019-40dc-b248-7fa386a1553a",
   "name": "ECharts Radial Tree",
   "description": "ECharts Custom Radial Tree Chart Visualization",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "supportedVersions": "1.0",
   "moodVersion": "16.0.82",
   "entry": {
