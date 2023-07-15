@@ -2,7 +2,7 @@
   "id": "cde47a52-f181-4a52-aa11-2416182dae3a",
   "name": "Lollipop chart",
   "description": "Lollipop chart using D3",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "supportedVersions": "0",
   "moodVersion": "16.0.76",
   "entry": {

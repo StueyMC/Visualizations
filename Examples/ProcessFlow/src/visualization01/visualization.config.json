@@ -2,7 +2,7 @@
   "id": "f1ff54e2-125d-4c3f-a4af-ff672bf40939",
   "name": "Process Flow Visualisation",
   "description": "Visualisation of a Process Flow in swimlanes",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "supportedVersions": "2.5",
   "moodVersion": "16.0.082",
   "dynamicData": false,

@@ -2,7 +2,7 @@
   "id": "d7f0cddc-1d71-4d5d-8727-534bba63c387",
   "name": "Word Cloud",
   "description": "Word Cloud using D3",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "supportedVersions": "0.2",
   "moodVersion": "16.0.76",
   "entry": {
