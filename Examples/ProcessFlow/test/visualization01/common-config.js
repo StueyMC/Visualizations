@@ -17,20 +17,30 @@ import dataConfig from './data-bpmn01.json';
 
 export const commonConfig = {
   style: {
-    verticalSwimlanes: false,
+    verticalSwimlanes: true,
     minimumSwimlaneHeight: 170,
     gridSize: 10,
     phaseLabelWidth: 60,
     inputSwimlaneLabel: "Inputs",
     outputSwimlaneLabel: "Outputs",
-    disableIOSwimlanes: true
+    disableIOSwimlanes: false
   }
 }
 
 let key
+let innerKey
 
 for (key in dataConfig) {
-    if(dataConfig.hasOwnProperty(key)) {
-      commonConfig[key] = dataConfig[key]
+    if (dataConfig.hasOwnProperty(key)) {
+      // Allow specific data sets to override common style
+      if (key === 'styleOverride') {
+        for (innerKey in dataConfig[key]) {
+          if (dataConfig[key].hasOwnProperty(innerKey)) {
+            commonConfig.style[innerKey] = dataConfig[key][innerKey]
+          }
+        }
+      } else {
+        commonConfig[key] = dataConfig[key]
+      }
     }
 }

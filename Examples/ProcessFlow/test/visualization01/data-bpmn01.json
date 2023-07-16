@@ -1,4 +1,9 @@
-{"data" :
+{
+  "styleOverride": {
+    "disableIOSwimlanes": true,
+    "verticalSwimlanes": false
+  },
+  "data" :
     {
         "process": {"id": "55-41DE0DB9134E4320A67BCCE7BB8D7CF2", "name": "Customer Buys Product", "version": "2.0", "testNavigation": true}, 
         "actors": [ 
