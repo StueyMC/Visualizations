@@ -39,6 +39,9 @@ let BPMNExclusiveGatewayShape
 let BPMNParallelGatewayShape
 let BPMNInclusiveGatewayShape
 let BPMNDataObjectShape
+let BPMNDataObjectInputShape
+let BPMNDataObjectOutputShape
+let BPMNDataStorageShape
 //
 // Link Shapes
 //
@@ -84,6 +87,9 @@ export function defineShapes (gridSize, elementSizes, renderSwimlaneWatermarks, 
   BPMNParallelGatewayShape = defineBPMNParallelGateway(verticalSwimlanes)
   BPMNInclusiveGatewayShape = defineBPMNInclusiveGateway(verticalSwimlanes)
   BPMNDataObjectShape = defineBPMNDataObject(gridSize, elementSizes, verticalSwimlanes)
+  BPMNDataObjectInputShape = defineBPMNDataObjectInput(gridSize, elementSizes, verticalSwimlanes)
+  BPMNDataObjectOutputShape = defineBPMNDataObjectOutput(gridSize, elementSizes, verticalSwimlanes)
+  BPMNDataStorageShape = defineBPMNDataStorage(gridSize, elementSizes, verticalSwimlanes)
   //
   // Link Shapes
   //
@@ -225,6 +231,18 @@ export function createBPMNInclusiveGateway (id) {
 
 export function createBPMNDataObject (id) {
   return new BPMNDataObjectShape(id)
+}
+
+export function createBPMNDataObjectInput (id) {
+  return new BPMNDataObjectInputShape(id)
+}
+
+export function createBPMNDataObjectOutput (id) {
+  return new BPMNDataObjectOutputShape(id)
+}
+
+export function createBPMNDataStorage (id) {
+  return new BPMNDataStorageShape(id)
 }
 //
 // Link Shapes
@@ -1669,6 +1687,16 @@ function defineBPMNInclusiveGateway (verticalSwimlanes) {
   })
 }
 
+const artefactNameInput = 'Input'
+const artefactPathInput =
+  'm 5 10 h 8 ' + // Draw arrow (clockwise)
+  'v -6 l 8 9 ' +
+  'l -8 9 v -6 h -8 z'
+const artefactNameOutput = 'Output'
+const artefactPathOutput =
+  'm 5 10 h 8 ' + // Draw arrow (clockwise)
+  'v -6 l 8 9 ' +
+  'l -8 9 v -6 h -8 z'
 /**
  * Build a shape for a data object artefact symbol
  * @param {int} gridSize  Size of grid in pixels
@@ -1678,15 +1706,116 @@ function defineBPMNInclusiveGateway (verticalSwimlanes) {
  * @param {string} stylePath SVG path for the style symbol or blank if N/A
  */
 function buildBPMNDataObject (gridSize, elementSize, verticalSwimlanes, styleName, stylePath) {
-  const eventPath =
+  const artefactPath =
   'M 0 0 ' + // Draw cut off rectangle (clockwise)
-  'h 25 l 15 15 v 45 h -40 z' +
-  'm 40 15 h -15 v -15' // Draw folded down corner (clockwise)
+  'h 25 l 15 15 v 45 h -40 z ' +
+  'm 40 15 h -15 v -15 ' + // Draw folded down corner (clockwise)
+  'm -25 0' // Move to (0, 0)
   const objectType = 'BPMNDataObject' + (styleName || '')
-  const symbolPath = eventPath + (stylePath || '')
   const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
   const portItems = processPortItems()
   const bodyClass = 'bpmn-data-object'
+  const attrs = {
+    path: {
+      refDResetOffset: artefactPath
+    },
+    label: {
+      textVerticalAnchor: 'top',
+      textAnchor: 'middle',
+      refX: 0.5,
+      refY: 0.99,
+      refWidth: 2.0,
+      refHeight: 2.0
+    },
+    title: {
+    }
+  }
+  const markup = [{
+    tagName: 'path',
+    selector: 'body',
+    groupSelector: 'bodyGroup',
+    className: 'mood-graph-step ' + bodyClass
+  }, {
+    tagName: 'text',
+    selector: 'label',
+    className: 'mood-graph-step-label'
+  }, {
+    tagName: 'title',
+    selector: 'title'
+  }]
+
+  if (styleName) {
+    //
+    // Apply style as an inner shape
+    //
+    attrs.styleBox = {
+      fill: 'none',
+      stroke: 'none',
+      ref: 'body',
+      refWidth: 0.45,
+      refHeight: 0.25,
+      refX: 0.1,
+      refY: 0.1
+    }
+    attrs.inner = {
+      ref: 'styleBox',
+      refDResetOffset: stylePath,
+      refX: 0.0,
+      refY: 0.1
+    }
+    markup.push({
+      tagName: 'rect',
+      selector: 'styleBox',
+      groupSelector: 'bodyGroup'
+    })
+    markup.push({
+      tagName: 'path',
+      selector: 'inner',
+      groupSelector: 'bodyGroup',
+      className: 'mood-graph-step ' + bodyClass
+    })
+  }
+
+  return joint.dia.Element.define('MooD.' + objectType, {
+    ports: {
+      groups: portGroups,
+      items: portItems
+    },
+    attrs
+  }, {
+    markup
+  })
+}
+
+function defineBPMNDataObject (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNDataObject(gridSize, elementSize, verticalSwimlanes, '', '')
+}
+
+function defineBPMNDataObjectInput (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNDataObject(gridSize, elementSize, verticalSwimlanes, artefactNameInput, artefactPathInput)
+}
+
+function defineBPMNDataObjectOutput (gridSize, elementSize, verticalSwimlanes) {
+  return buildBPMNDataObject(gridSize, elementSize, verticalSwimlanes, artefactNameOutput, artefactPathOutput)
+}
+
+function defineBPMNDataStorage (gridSize, elementSize, verticalSwimlanes) {
+  const symbolPath =
+  'M 50 20 ' + // Draw top ellipse (clockwise)
+  'a 10 10 0 1 0 20 0 ' +
+  'a 10 10 0 1 0 -20 0 ' +
+  'v 80 ' +
+  'a 10 10 0 1 0 20 0 ' +
+  'v -80 ' +
+  'm -20 10 ' +
+  'a 10 10 0 1 0 20 0 ' +
+  'm -20 10 ' +
+  'a 10 10 0 1 0 20 0 '
+
+  const objectType = 'BPMNDataStorage'
+  const portGroups = processPortGroups(gridSize, elementSize, verticalSwimlanes)
+  const portItems = processPortItems()
+  const bodyClass = 'bpmn-data-storage'
 
   return joint.dia.Element.define('MooD.' + objectType, {
     ports: {
@@ -1723,10 +1852,6 @@ function buildBPMNDataObject (gridSize, elementSize, verticalSwimlanes, styleNam
       selector: 'title'
     }]
   })
-}
-
-function defineBPMNDataObject (gridSize, elementSize, verticalSwimlanes) {
-  return buildBPMNDataObject(gridSize, elementSize, verticalSwimlanes, '', '')
 }
 //
 // Define link shapes

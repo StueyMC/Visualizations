@@ -184,6 +184,20 @@
     font-family: sans-serif;
     fill: black;
 }
+
+/* BPMN Data Input shape inner part (arrow) */
+.process-flow .joint-element.joint-type-mood-bpmndataobjectinput .mood-graph-step[joint-selector="inner"] {
+   fill: none;
+   stroke: black;
+   stroke-width: 1;
+}
+
+/* BPMN Data Output shape inner part (arrow) */
+.process-flow .joint-element.joint-type-mood-bpmndataobjectoutput .mood-graph-step[joint-selector="inner"] {
+   fill: black;
+   stroke: black;
+   stroke-width: 1;
+}
 /*
  * Process Flow
  */

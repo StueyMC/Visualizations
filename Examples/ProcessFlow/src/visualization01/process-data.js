@@ -28,7 +28,10 @@ const validStepTypes = [
   Types.BPMNExclusiveGateway,
   Types.BPMNParallelGateway,
   Types.BPMNInclusiveGateway,
-  Types.BPMNDataObject
+  Types.BPMNDataObject,
+  Types.BPMNDataObjectInput,
+  Types.BPMNDataObjectOutput,
+  Types.BPMNDataStorage
 ]
 
 const validInfoTypes = [

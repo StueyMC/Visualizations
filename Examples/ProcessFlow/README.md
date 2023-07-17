@@ -346,6 +346,10 @@ The visualisation has no actions.
 | Parallel Gateway | BPMN Parallel Gateway |
 | Inclusive Gateway | BPMN Inclusive Gateway |
 | Data Object |BPMN Data Object |
+| Data Input | BPMN Data Object Input |
+| Data Output | BPMN Data Object Output |
+| Data Storage | BPMN Data Storage |
+
 
 ## Input / Output symbols
 

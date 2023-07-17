@@ -32,6 +32,9 @@ export const BPMNExclusiveGateway = 'BPMN Exclusive Gateway'
 export const BPMNParallelGateway = 'BPMN Parallel Gateway'
 export const BPMNInclusiveGateway = 'BPMN Inclusive Gateway'
 export const BPMNDataObject = 'BPMN Data Object'
+export const BPMNDataObjectInput = 'BPMN Data Object Input'
+export const BPMNDataObjectOutput = 'BPMN Data Object Output'
+export const BPMNDataStorage = 'BPMN Data Storage'
 //
 // Link Shapes
 //

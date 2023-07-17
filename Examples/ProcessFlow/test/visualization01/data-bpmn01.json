@@ -140,7 +140,7 @@
             {
                 "id": "55-Step008a", 
                 "name": "Formula Document", 
-                "type": "BPMN Data Object", 
+                "type": "BPMN Data Object Input", 
                 "navigable": true, 
                 "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 2}], 
                 "phase": null
@@ -343,6 +343,30 @@
                 "type": "BPMN Inclusive Gateway", 
                 "navigable": true, 
                 "swimlanes": [{"id": "x", "actor": {"id": "55-263A0114FA2743FF99955B0FB701A78A", "name": "Store"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step059", 
+                "name": "Data Input", 
+                "type": "BPMN Data Object Input", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step060", 
+                "name": "Data Output", 
+                "type": "BPMN Data Object Output", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step061", 
+                "name": "Data Storage", 
+                "type": "BPMN Data Storage", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-A7CAB94BD124411C99C33B589F18C29C", "name": "Ingredient Warehouse"}, "minIndex": 1}], 
                 "phase": null
             }
         ], 

@@ -68,7 +68,10 @@
         "BPMN Exclusive Gateway" : {"width": 40, "height": 40},
         "BPMN Parallel Gateway" : {"width": 40, "height": 40},
         "BPMN Inclusive Gateway" : {"width": 40, "height": 40},
-        "BPMN Data Object" : {"width": 40, "height": 60}
+        "BPMN Data Object" : {"width": 40, "height": 60},
+        "BPMN Data Object Input" : {"width": 40, "height": 60},
+        "BPMN Data Object Output" : {"width": 40, "height": 60},
+        "BPMN Data Storage" : {"width": 40, "height": 40}
       },
       "inputSwimlaneLabel": "Inputs",
       "outputSwimlaneLabel": "Outputs",
