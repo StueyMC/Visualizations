@@ -55,6 +55,13 @@ jobs:
           working-directory: './Examples/StretchedChord'
           asset-directory: ${{ env.asset-folder }}
 
+      - name: Build WebpackD3MetaModel
+        id: build-WebpackD3MetaModel
+        uses: ./.github/workflows/actions/build-asset
+        with:
+          working-directory: './Examples/WebpackD3MetaModel'
+          asset-directory: ${{ env.asset-folder }}
+
       - name: Build WebpackD3Visualization
         id: build-WebpackD3Visualization
         uses: ./.github/workflows/actions/build-asset
@@ -92,7 +99,7 @@ jobs:
 
       - name: Create asset container
         shell: bash
-        run: zip -r --junk-paths ${{ env.asset-name }} ${{ env.asset-folder }} 
+        run: zip -r --junk-paths ${{ env.asset-name }}.zip ${{ env.asset-folder }} 
 
       - name: Upload Release Asset
         id: upload-release-asset 

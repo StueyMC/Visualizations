@@ -1,5 +1,4 @@
 import * as d3 from 'd3'
-import 'd3-interpolate'
 
 const normalLinkOpacity = 0.8
 const highlightLinkOpacity = 1.0
@@ -208,7 +207,7 @@ function getLabelFormatted (label, lineLength, labelFontFamily, labelFontSize) {
 }
 
 function linkMouseover (stretchedChord, updateOutput) {
-  return function (d) {
+  return function (event, d) {
     // calculate centre y coordinate of the 2 quadratic bezier curves for the link at horizontal mid-point
     function yCentre (start, control, end) {
       // Calculate Bezier curve parameter t for horizontal mid-point in window
@@ -270,13 +269,13 @@ function linkMouseleave () {
 }
 
 function linkClick (performAction) {
-  return function (d) {
-    performAction('Chord Click', d.id, d3.event)
+  return function (event, d) {
+    performAction('Chord Click', d.id, event)
   }
 }
 
 function nodeMouseover (updateOutput) {
-  return function (d) {
+  return function (event, d) {
     d3.select('#links').selectAll('path').style('opacity', l => (l.source.id === d.id) || (l.target.id === d.id) ? highlightLinkOpacity : lowlightLinkOpacity)
     updateOutput('hoverNode', d.id)
   }
@@ -287,7 +286,7 @@ function nodeMouseleave () {
 }
 
 function nodeClick (performAction, from) {
-  return function (d) {
-    performAction(from + ' Click', d.id, d3.event)
+  return function (event, d) {
+    performAction(from + ' Click', d.id, event)
   }
 }

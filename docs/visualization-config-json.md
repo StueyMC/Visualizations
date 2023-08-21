@@ -16,12 +16,13 @@ The configuration of a visualization.
 * __Property__: version 
     * The version of this specific visualization, if not specified, the package.json version should be used
 * __Property__: dependencies 
-    * These are a list of dependencies that this visualization requires or contains, and is added to the list from the package
+    * A list of dependencies that this visualization requires or contains. Dependencies listed in the package json file are automatically added to this list. 
+    * It is possible to include dependencies that are shipped with MooD. Dependencies listed by version will be checked against MooD dependencies and included if available. Available dependencies include Apache ECharts, jQuery and jQueryUI.
+    * __Note__ - built in MooD dependencies are subject to change in future versions of MooD
     
     ```JavaScript
     dependencies: { 
-        jQuery: "2.2.3", 
-        YUI: ["2.8", "2.9"], 
+        jQuery: "2.2.3",
         common: "../common.js" 
     }
     ```
@@ -107,16 +108,16 @@ The configuration of a visualization.
         rowsPerPage: <number> 
         } 
     ```  
-    * It is important that the property names are descriptive as comments are not allowed in valid JSON files
+    * It is important that the property names are descriptive as comments are not allowed in valid JSON files.
 -->
 
 * __Property__: supportedBrowsers 
-    * This is an optional property that would specify the browsers that this visualization supports and is displayed to the user when they select this visualization in Business Architect so that they are aware what browsers this visualization will work in
+    * This is an optional property that would specify the browsers that this visualization supports and is displayed to the user when they select this visualization in Business Architect so that they are aware what browsers this visualization will work in.
 * __Property__: inputs
-    * This is the name for the fields that can be provided in the configuration as additional input fields that can be populated by other components, that is panels like Text Editors, or visualizations like a Network Graph on a MooD Model
+    * This is the name for the fields that can be provided in the configuration as additional input fields that can be populated by other components, that is panels like Text Editors, or visualizations like a Network Graph on a MooD Model.
 * __Property__: outputs 
-    * This is the name for the fields that can be used when connecting to other components and can be set within the visualization code itself when the user clicks on an area of the visualization for example. Defined in the same way as the inputs
-    * Inputs and Outputs Structure 
+    * This is the name for the fields that can be used when connecting to other components and can be set within the visualization code itself when the user clicks on an area of the visualization for example. This is defined in the same way as the inputs property.
+* __Inputs and Outputs Structure__
     * The inputs and outputs are arrays of objects where each object defines an input or output, the object definition is:
 
     ```JSON
@@ -133,7 +134,7 @@ The configuration of a visualization.
         * ["11-786A4991EA7B11D1B4840020AFC894E9", "11-61584573965A40098FB32458E02736DF"]
     * For colour and shape types the value is determined using a pick selected by the user when configuring the visualization, that is if the visualization outputs a colour it will be mapped to a pick item from the pick type with that colour and the pick item will be used as the output in MooD, and vice versa a pick input variable will be given for any colour or shape defined input
     * For image types an input to the visualization of this type will be given a URL to the image, and vice versa for an image output MooD expects the URL as the value
-    * Example:
+    * Example - replace `"inputs"` with `"outputs"` if required as they share the same structure:
 
     ```JSON
     {

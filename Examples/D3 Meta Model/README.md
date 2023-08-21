@@ -19,6 +19,8 @@ MooD Meta Model chart using D3 framework
 # Purpose
 The chart renders a MooD Meta Model using D3's force-directed layout which uses a physics based simulator for positioning visual elements.
 
+The version of D3 used for this chart is v3.
+
 [![D3 Meta Model](images/d3-meta-model.png "D3 Meta Model")](http://www.d3noob.org/2013/03/d3js-force-directed-graph-example-basic.html)
 
 [Table of Contents](#table-of-contents)

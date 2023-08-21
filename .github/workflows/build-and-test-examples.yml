@@ -7,6 +7,7 @@ on:
       - 'Examples/Lollipop/**'
       - 'Examples/ProcessFlow/**'
       - 'Examples/StretchedChord/**'
+      - 'Examples/WebpackD3MetaModel/**'
       - 'Examples/WebpackD3Visualization/**'
       - 'Examples/WebpackReactVisualization/**'
       - 'Examples/WordCloud/**'
@@ -46,6 +47,11 @@ jobs:
         uses: ./.github/workflows/actions/build-and-test-package
         with:
           working-directory: './Examples/StretchedChord'
+
+      - name: Build WebpackD3MetaModel
+        uses: ./.github/workflows/actions/build-and-test-package
+        with:
+          working-directory: './Examples/WebpackD3MetaModel'
 
       - name: Build WebpackD3Visualization
         uses: ./.github/workflows/actions/build-and-test-package

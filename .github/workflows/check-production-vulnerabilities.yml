@@ -45,6 +45,12 @@ jobs:
           working-directory: './Examples/StretchedChord'
           options: '--omit=dev'
 
+      - name: Check WebpackD3MetaModel (production)
+        uses: ./.github/workflows/actions/check-package
+        with:
+          working-directory: './Examples/WebpackD3MetaModel'
+          options: '--omit=dev'
+
       - name: Check WebpackD3Visualization (production)
         uses: ./.github/workflows/actions/check-package
         with:

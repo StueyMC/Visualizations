@@ -1,3 +1,9 @@
+# 2.6.0 (17/07/2023)
+  * Added BPMN shapes and flows
+
+# 2.5.1 (15/07/2023)
+  * Remove vulnerabilities in development environment dependencies (semver)
+
 # 2.5.0 (25/08/2022)
   * Add support for horizontal swim-lanes
 

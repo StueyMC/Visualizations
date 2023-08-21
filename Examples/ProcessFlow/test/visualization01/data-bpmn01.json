@@ -1,0 +1,651 @@
+{
+  "styleOverride": {
+    "disableIOSwimlanes": true,
+    "verticalSwimlanes": false
+  },
+  "data" :
+    {
+        "process": {"id": "55-41DE0DB9134E4320A67BCCE7BB8D7CF2", "name": "Customer Buys Product", "version": "2.0", "testNavigation": true}, 
+        "actors": [ 
+            {
+                "id": "41-679F66B104F1452AB61DD1829EB305ED", 
+                "target": 
+                    {
+                        "id": "55-2C62ABF852034102A947858BAD88D4AB", 
+                        "name": "Customer", 
+                        "navigable": true, 
+                        "backgroundColour": null, 
+                        "textColour": null, 
+                        "relatedColourDefinition": {"id": "55-FF41E429C44D4A4E98A16AC3FF58DF66", "backgroundColour": "#60D060", "textColour": "#FFFFFF"}
+                    }
+                , 
+                "backgroundColour": null, 
+                "textColour": null,
+                "swimlanes": 2
+            },
+            {
+                "id": "41-7270B76E96D942EBA4E9065C7A9C0390", 
+                "target": 
+                    {
+                        "id": "55-263A0114FA2743FF99955B0FB701A78A", 
+                        "name": "Store", 
+                        "navigable": true, 
+                        "backgroundColour": null, 
+                        "textColour": null, 
+                        "relatedColourDefinition": null
+                    }
+                , 
+                "backgroundColour": null, 
+                "textColour": null
+            },
+            {
+                "id": "41-356C8114736C42F5999B72BFD98E30A6", 
+                "target": 
+                    {
+                        "id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", 
+                        "name": "Scent Making Lab", 
+                        "navigable": true, 
+                        "backgroundColour": "#FF8080", 
+                        "textColour": "#FFFFFF", 
+                        "relatedColourDefinition": null
+                    }
+                , 
+                "backgroundColour": null, 
+                "textColour": null,
+                "swimlanes": 2
+            },
+            {
+                "id": "41-E18F71D9362A4CD8ADD931AB0D086DCF", 
+                "target": 
+                    {
+                        "id": "55-A7CAB94BD124411C99C33B589F18C29C", 
+                        "name": "Ingredient Warehouse", 
+                        "navigable": true, 
+                        "backgroundColour": "#8080FF", 
+                        "textColour": null, 
+                        "relatedColourDefinition": null
+                    }
+                , 
+                "backgroundColour": null, 
+                "textColour": null
+            }
+        ], 
+        "phases": [], 
+        "steps": [
+            {
+                "id": "55-Step001", 
+                "name": "Enters Store", 
+                "type": "BPMN Start Event", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step002", 
+                "name": "Views the Product List", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step003", 
+                "name": "", 
+                "type": "BPMN Exclusive Gateway", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step004", 
+                "name": "Leaves the Store", 
+                "type": "BPMN End Event", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "phase": null,
+                "preventSharingRow": true
+            },
+            {
+                "id": "55-Step005", 
+                "name": "Places an order", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step006", 
+                "name": "Receives the Order", 
+                "type": "BPMN Intermediate Event Message", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-263A0114FA2743FF99955B0FB701A78A", "name": "Store"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step007", 
+                "name": "Processes the Order", 
+                "type": "BPMN Intermediate Event Message", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step008", 
+                "name": "Checks formula for the Compound", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step008a", 
+                "name": "Formula Document", 
+                "type": "BPMN Data Object Input", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step009", 
+                "name": "Checks ingredients in the formula", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step009a", 
+                "name": "Ingredients Document", 
+                "type": "BPMN Data Object", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step010", 
+                "name": "In Stock?", 
+                "type": "BPMN Exclusive Gateway", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step011", 
+                "name": "Place Order from Warehouse", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step012", 
+                "name": "Receives Order", 
+                "type": "BPMN Intermediate Event Message", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-A7CAB94BD124411C99C33B589F18C29C", "name": "Ingredient Warehouse"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step013", 
+                "name": "Waits for the Product", 
+                "type": "BPMN Intermediate Event Timer", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step014", 
+                "name": "Packs the ingredients", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-A7CAB94BD124411C99C33B589F18C29C", "name": "Ingredient Warehouse"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step015", 
+                "name": "Arranges the ingredients", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step016", 
+                "name": "Starts Blending", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step017", 
+                "name": "", 
+                "type": "BPMN Parallel Gateway", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step018", 
+                "name": "Packs the Compound", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step019", 
+                "name": "Product Ready for Customer", 
+                "type": "BPMN Intermediate Event", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-263A0114FA2743FF99955B0FB701A78A", "name": "Store"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step020", 
+                "name": "Receives the Product and invoice", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step021", 
+                "name": "Initiates Payment", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step022", 
+                "name": "Payment Received", 
+                "type": "Process Step", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-263A0114FA2743FF99955B0FB701A78A", "name": "Store"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step023", 
+                "name": "Transaction Acknowledged", 
+                "type": "BPMN Intermediate Event", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step024", 
+                "name": "Leaves the Store", 
+                "type": "BPMN End Event", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step051", 
+                "name": "Message Start Event", 
+                "type": "BPMN Start Event Message", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step054", 
+                "name": "Timer Start Event", 
+                "type": "BPMN Start Event Timer", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-263A0114FA2743FF99955B0FB701A78A", "name": "Store"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step055", 
+                "name": "Timer End Event", 
+                "type": "BPMN End Event Timer", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step056", 
+                "name": "Error Start Event", 
+                "type": "BPMN Start Event Error", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step057", 
+                "name": "Error Intermediate Event", 
+                "type": "BPMN Intermediate Event Error", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-A7CAB94BD124411C99C33B589F18C29C", "name": "Ingredient Warehouse"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step058", 
+                "name": "Error End Event", 
+                "type": "BPMN End Event Error", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step053", 
+                "name": "Message End Event", 
+                "type": "BPMN End Event Message", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-2C62ABF852034102A947858BAD88D4AB", "name": "Customer"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step052", 
+                "name": "", 
+                "type": "BPMN Inclusive Gateway", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-263A0114FA2743FF99955B0FB701A78A", "name": "Store"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step059", 
+                "name": "Data Input", 
+                "type": "BPMN Data Object Input", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 1}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step060", 
+                "name": "Data Output", 
+                "type": "BPMN Data Object Output", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-F11CFCD2A19B4BBEB75A55BCA6C2698A", "name": "Scent Making Lab"}, "minIndex": 2}], 
+                "phase": null
+            },
+            {
+                "id": "55-Step061", 
+                "name": "Data Storage", 
+                "type": "BPMN Data Storage", 
+                "navigable": true, 
+                "swimlanes": [{"id": "x", "actor": {"id": "55-A7CAB94BD124411C99C33B589F18C29C", "name": "Ingredient Warehouse"}, "minIndex": 1}], 
+                "phase": null
+            }
+        ], 
+        "stepFlows": [
+            {
+                "id": "41-Flow001", 
+                "source": {"id": "55-Step001", "name": "Enters Store"}, 
+                "target": {"id": "55-Step002", "name": "Views the Product List"}, 
+                "label": null, 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow002", 
+                "source": {"id": "55-Step002", "name": "Views the Product List"}, 
+                "target": {"id": "55-Step003", "name": ""}, 
+                "label": null, 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow003", 
+                "source": {"id": "55-Step003", "name": ""}, 
+                "target": {"id": "55-Step004", "name": "Leaves the Store"}, 
+                "label": "Doesn't want to order", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow004", 
+                "source": {"id": "55-Step003", "name": ""}, 
+                "target": {"id": "55-Step005", "name": "Places an order"}, 
+                "label": "Wants to order", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null,
+                "sourcePort": "bottom",
+                "targetPort": "left"
+            },
+            {
+                "id": "41-Flow005", 
+                "source": {"id": "55-Step005", "name": "Places an order"}, 
+                "target": {"id": "55-Step006", "name": "Receives the Order"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null,
+                "type": "Message Flow"
+            },
+            {
+                "id": "41-Flow006", 
+                "source": {"id": "55-Step006", "name": "Receives the Order"}, 
+                "target": {"id": "55-Step007", "name": "Processes the Order"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null,
+                "type": "Message Flow"
+            },
+            {
+                "id": "41-Flow007", 
+                "source": {"id": "55-Step007", "name": "Processes the Order"}, 
+                "target": {"id": "55-Step008", "name": "Checks formula for the Compound"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow008a", 
+                "source": {"id": "55-Step008", "name": "Checks formula for the Compound"}, 
+                "target": {"id": "55-Step008a", "name": "Formula Document"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow008", 
+                "source": {"id": "55-Step008", "name": "Checks formula for the Compound"}, 
+                "target": {"id": "55-Step009", "name": "Checks ingredients in the formula"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow009a", 
+                "source": {"id": "55-Step009", "name": "Checks ingredients in the formula"}, 
+                "target": {"id": "55-Step009a", "name": "Ingredients Document"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow009", 
+                "source": {"id": "55-Step009", "name": "Checks ingredients in the formula"}, 
+                "target": {"id": "55-Step010", "name": ""}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow010", 
+                "source": {"id": "55-Step010", "name": ""}, 
+                "target": {"id": "55-Step011", "name": "Place Order from Warehouse"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow011", 
+                "source": {"id": "55-Step011", "name": "Place Order from Warehouse"}, 
+                "target": {"id": "55-Step012", "name": "Receives Order"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow012", 
+                "source": {"id": "55-Step005", "name": "Places an order"}, 
+                "target": {"id": "55-Step013", "name": "Waits for the Product"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow013", 
+                "source": {"id": "55-Step012", "name": "Receives Order"}, 
+                "target": {"id": "55-Step014", "name": "Packs the ingredients"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow014", 
+                "source": {"id": "55-Step014", "name": "Packs the ingredients"}, 
+                "target": {"id": "55-Step015", "name": "Arranges the ingredients"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow015", 
+                "source": {"id": "55-Step010", "name": ""}, 
+                "target": {"id": "55-Step015", "name": "Arranges the ingredients"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow016", 
+                "source": {"id": "55-Step015", "name": "Arranges the ingredients"}, 
+                "target": {"id": "55-Step016", "name": "Starts Blending"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow017", 
+                "source": {"id": "55-Step016", "name": "Starts Blending"}, 
+                "target": {"id": "55-Step017", "name": ""}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow018", 
+                "source": {"id": "55-Step017", "name": ""}, 
+                "target": {"id": "55-Step008", "name": "Checks formula for the Compound"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow019", 
+                "source": {"id": "55-Step017", "name": ""}, 
+                "target": {"id": "55-Step018", "name": "Packs the Compound"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow020", 
+                "source": {"id": "55-Step018", "name": "Packs the Compound"}, 
+                "target": {"id": "55-Step019", "name": "Product Ready for Customer"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow021", 
+                "source": {"id": "55-Step013", "name": "Waits for the Product"}, 
+                "target": {"id": "55-Step020", "name": "Receives the Product and invoice"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow022", 
+                "source": {"id": "55-Step019", "name": "Product Ready for Customer"}, 
+                "target": {"id": "55-Step020", "name": "Receives the Product and invoice"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow023", 
+                "source": {"id": "55-Step020", "name": "Receives the Product and invoice"}, 
+                "target": {"id": "55-Step021", "name": "Initiates Payment"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow024", 
+                "source": {"id": "55-Step021", "name": "Initiates Payment"}, 
+                "target": {"id": "55-Step022", "name": "Payment Received"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow025", 
+                "source": {"id": "55-Step022", "name": "Payment Received"}, 
+                "target": {"id": "55-Step023", "name": "Transaction Acknowledged"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            },
+            {
+                "id": "41-Flow026", 
+                "source": {"id": "55-Step023", "name": "Transaction Acknowledged"}, 
+                "target": {"id": "55-Step024", "name": "Leaves the Store"}, 
+                "label": "", 
+                "offPageConnection": false, 
+                "offPageOutputLabel": null, 
+                "offPageInputLabel": null
+            }
+        ], 
+        "stepInputs": [
+            {
+                "id": "41-58257D76B0D8444DAC7A3E71E7E54E57", 
+                "target": {"id": "55-Step008", "name": "Checks formula for the Compound"}, 
+                "source": {"id": "55-B79E11F7A6DF43C0AEFD46349BD71375", "name": "Formula Document", "shortName": null, "type": "Document / Form", "navigable": false}, 
+                "label": null
+            },
+            {
+                "id": "41-324A4AF1C6674376837B781D9422A122", 
+                "target": {"id": "55-Step009", "name": "Checks ingredients in the formula"}, 
+                "source": {"id": "55-1EFA0B50792E4F9D8F40A20F93358828", "name": "Ingredients Document", "shortName": null, "type": "Document / Form", "navigable": false}, 
+                "label": null, 
+                "flow": null
+            }
+        ], 
+        "stepOutputs": [
+        ], 
+        "stepGroups": [], 
+        "stepGroupSteps": []
+    }
+}

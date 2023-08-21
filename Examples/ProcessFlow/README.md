@@ -23,6 +23,7 @@ Draw a Process Flow
     *   [Outputs](#header-outputs)
     *   [Actions](#header-actions)
 *   [Data Details](#data-details)
+*   [Symbols](#symbols)
     
 
 # Purpose
@@ -257,7 +258,7 @@ The visualisation has no actions.
     *	__Name__: name of the phase. Defaults to the Name property of the element.
 1.	__Steps__ – one or more elements
     *	__Name__: name of the step. Defaults to the Name property of the element.
-    *	__Step Type__: the type of the step, e.g. Process Step or Decision
+    *	__Step Type__: the type of the step, e.g. Process Step or Decision. See [Symbols](#symbols)
     *	__Swimlane ranges(s)__: one or more relationships
         *   __Actor__: one element
             *    __Name__: Name of the actor
@@ -285,13 +286,14 @@ The visualisation has no actions.
             *	__Label__: text to use as label for the link between information and step
     *   __Side of step to flow out of__: The side of the source process step that the flow should connect to. This is optional and if unspecified the side will be selected automatically. Values are "left", "right", "top" and "bottom"
     *   __Side of step to flow into__: The side of the target process step that the flow should connect to. This is optional and if unspecified the side will be selected automatically. Values are "left", "right", "top" and "bottom"
+    *   __Type of Flow__: The type of the flow, e.g. Sequence Flow, IO Flow. See [Link Types](#link-types). __Defaults__ to "Sequence Flow" if not specified.
 1.	__StepInputs__ – zero or more relationships
     *	__Step__: one element
         *	__Name__: name of step
     *	__Input__: one element
         *	__Name__: name of input
         *	__Short Name__: short name to use as label for input; the full name appears in a hover-over (tooltip). If not defined the full name is used as the label and no hover-over appears.
-        *	__Type__: the type of input element, e.g. External Data
+        *	__Type__: the type of input element, e.g. External Data. See [Input / Output symbols](#input--output-symbols)
         *	__Label__: text to use as label for the link between input and step
 1.	__StepOutputs__ – zero or more relationships
     *	__Step__: one element
@@ -299,7 +301,7 @@ The visualisation has no actions.
     *	__Output__: one element
         *	__Name__: name of output
         *	__Short Name__: short name to use as label for output; the full name appears in a hover-over (tooltip). If not defined the full name is used as the label and no hover-over appears.
-        *	__Type__: the type of output element, e.g. External Data
+        *	__Type__: the type of output element, e.g. External Data. See [Input / Output symbols](#input--output-symbols)
         *	__Label__: text to use as label for the link between step and output where the link is defined as a flow (see below)
         *	__Flow__: indicates if the link from step to output should be drawn as a flow (true) or as an output (false)
 1.	__StepGroups Steps__ – zero or more elements
@@ -310,6 +312,64 @@ The visualisation has no actions.
         *	__Name__: name of activity (step) group
     *	__Step__ 
         *	__Name__: name of step
+1.	__Step Types__ – step types available
+
+# Symbols
+## Standard Step Symbols
+
+| Name      | Code |
+| :----------- | :----------- |
+| Start | Start |
+| End | End |
+| Process Step | Process Step |
+| Decision | Decision |
+| Decision (large) | Decision Large |
+| Sub-Process | Sub Process |
+
+## BPMN symbols
+
+| Name      | Code |
+| :----------- | :----------- |
+| Start Event | BPMN Start Event |
+| Start Event - Message | BPMN Start Event Message |
+| Start Event - Timer | BPMN Start Event Timer |
+| Start Event - Error | BPMN Start Event Error |
+| Intermediate Event | BPMN Intermediate Event |
+| Intermediate Event - Message | BPMN Intermediate Event Message |
+| Intermediate Event - Timer | BPMN Intermediate Event Timer |
+| Intermediate Event - Error | BPMN Intermediate Event Error |
+| End Event | BPMN End Event |
+| End Event - Message | BPMN End Event Message |
+| End Event - Timer | BPMN End Event Timer |
+| End Event - Error | BPMN End Event Error |
+| Exclusive Gateway | BPMN Exclusive Gateway |
+| Parallel Gateway | BPMN Parallel Gateway |
+| Inclusive Gateway | BPMN Inclusive Gateway |
+| Data Object |BPMN Data Object |
+| Data Input | BPMN Data Object Input |
+| Data Output | BPMN Data Object Output |
+| Data Storage | BPMN Data Storage |
+
+
+## Input / Output symbols
+
+| Name      | Code |
+| :----------- | :----------- |
+| Process | Process |
+| Document | Document / Form |
+| External Data | External Data |
+| Database or Application | Database / Application |
+| Data | Data |
+| Other | Other |
+
+## Link Types
+
+| Name      | Code |
+| :----------- | :----------- |
+| Sequence Flow | Sequence Flow |
+| IO Flow | IO Flow |
+| Message Flow | Message Flow |
+| Association | Association |
 
 [Table of Contents](#table-of-contents)
 

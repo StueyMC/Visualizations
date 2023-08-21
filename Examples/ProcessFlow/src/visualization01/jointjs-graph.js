@@ -589,6 +589,82 @@ export class Graph {
           jointElement = Shapes.createOther(id)
           type = elementTypeIO
           break
+        case Types.BPMNStartEvent:
+          jointElement = Shapes.createBPMNStartEvent(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNStartEventMessage:
+          jointElement = Shapes.createBPMNStartEventMessage(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNStartEventTimer:
+          jointElement = Shapes.createBPMNStartEventTimer(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNStartEventError:
+          jointElement = Shapes.createBPMNStartEventError(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNIntermediateEvent:
+          jointElement = Shapes.createBPMNIntermediateEvent(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNIntermediateEventMessage:
+          jointElement = Shapes.createBPMNIntermediateEventMessage(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNIntermediateEventTimer:
+          jointElement = Shapes.createBPMNIntermediateEventTimer(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNIntermediateEventError:
+          jointElement = Shapes.createBPMNIntermediateEventError(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNEndEvent:
+          jointElement = Shapes.createBPMNEndEvent(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNEndEventMessage:
+          jointElement = Shapes.createBPMNEndEventMessage(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNEndEventTimer:
+          jointElement = Shapes.createBPMNEndEventTimer(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNEndEventError:
+          jointElement = Shapes.createBPMNEndEventError(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNExclusiveGateway:
+          jointElement = Shapes.createBPMNExclusiveGateway(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNParallelGateway:
+          jointElement = Shapes.createBPMNParallelGateway(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNInclusiveGateway:
+          jointElement = Shapes.createBPMNInclusiveGateway(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNDataObject:
+          jointElement = Shapes.createBPMNDataObject(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNDataObjectInput:
+          jointElement = Shapes.createBPMNDataObjectInput(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNDataObjectOutput:
+          jointElement = Shapes.createBPMNDataObjectOutput(id)
+          type = elementTypeStep
+          break
+        case Types.BPMNDataStorage:
+          jointElement = Shapes.createBPMNDataStorage(id)
+          type = elementTypeStep
+          break
         default:
           jointElement = Shapes.createProcessStep(id)
           type = elementTypeIO
@@ -849,16 +925,32 @@ export class Graph {
 
     /**
      * return the end (source or target) object for a link
-     * Where the end has a port specified, the object is the postion of the port
+     * Where the end has a port specified, the object is the position of the port
      * otherwise the object is the JointJS graph element (model)
      * @param {Data.Element} element
      * @param {String} portId
+     * @param {int} offset offset from start / end point for link line to start or end
      */
-    function linkEnd (element, portId) {
+    function linkEnd (element, portId, offset) {
       let end
       if (portId) {
-        // const portPos = element.graphElement().getPortPosition(portId)
+        const portPos = element.graphElement().getPortPosition(portId)
         end = { id: element.id(), port: portId }
+        if (portPos && offset !== 0) {
+          //
+          // Add offset if port exists on element
+          // If the port doesn't exist then the anchor will be the centre
+          // of the element and adding an offset would force the line to
+          // start within the element rather than on the edge
+          //
+          end.connectionPoint = {
+            name: 'anchor',
+            args: {
+              offset
+            }
+          }
+        }
+
         // }
 
         // const elementPos = element.position()
@@ -867,6 +959,7 @@ export class Graph {
         //         x: elementPos.x + portPos.x,
         //         y: elementPos.y + portPos.y
         //     }
+        //   }
       } else {
         end = element.graphElement().element()
       }
@@ -874,20 +967,31 @@ export class Graph {
       return end
     }
 
-    function createLink (link, routerOptions, labelOptions, lineOptions) {
+    function createLink (link, routerOptions, labelOptions) {
       const connectorName = routerOptions.connectorName === undefined ? 'jumpover' : routerOptions.connectorName
       const jumpOverOnHorizontalLines = routerOptions.jumpOverOnHorizontalLines !== undefined ? routerOptions.jumpOverOnHorizontalLines : true
       const connectorOptions = { size: 5, jump: 'arc', radius: 0, jumpOverOnHorizontalLines }
       const routerName = routerOptions.routerName
       const vertices = routerOptions.vertices === undefined ? [] : routerOptions.vertices
       const id = { id: link.id() }
-      const jointLink = isEditable
-        ? new joint.dia.Link(id)
-        : new joint.shapes.standard.Link(id)
+      let jointLink
+      switch (link.type()) {
+        case Types.sequenceFlow:
+          jointLink = Shapes.createSequenceFlow(id)
+          break
+        case Types.ioFlow:
+          jointLink = Shapes.createIOFlow(id)
+          break
+        case Types.messageFlow:
+          jointLink = Shapes.createMessageFlow(id)
+          break
+        case Types.association:
+          jointLink = Shapes.createAssociation(id)
+          break
+      }
       const sides = new OrientedSides(verticalSwimlanes)
-      jointLink.attr('wrapper/cursor', 'pointer')
-      jointLink.source(linkEnd(link.source(), routerOptions.sourcePortId))
-      jointLink.target(linkEnd(link.target(), routerOptions.targetPortId))
+      jointLink.source(linkEnd(link.source(), routerOptions.sourcePortId, jointLink.sourceOffset))
+      jointLink.target(linkEnd(link.target(), routerOptions.targetPortId, jointLink.targetOffset))
       if (link instanceof Data.Flow) {
         console.log('Link source: ' + JSON.stringify(link.sourcePort()))
       }
@@ -923,9 +1027,6 @@ export class Graph {
         jointLink.router(routerName, options)
       }
       jointLink.connector(connectorName, connectorOptions)
-      if (lineOptions !== undefined && lineOptions.strokeDasharray !== undefined) {
-        jointLink.attr('line/strokeDasharray', lineOptions.strokeDasharray)
-      }
       if (labelOptions.text !== null) {
         const labelText = elementLabel(
           jointLink,
@@ -995,8 +1096,6 @@ export class Graph {
      * @param {*} options
      */
     this.createIOLink = function (ioLink, options) {
-      // Set line styling for flow or input / output
-      const lineOptions = ioLink.isFlow() === true ? {} : { strokeDasharray: '5 5' }
       return createLink(
         ioLink,
         {
@@ -1014,8 +1113,7 @@ export class Graph {
           text: ioLink.name(),
           labelStandoff: 0.3,
           labelMaxSize: options.labelMaxSize
-        },
-        lineOptions)
+        })
     }
   }
 }

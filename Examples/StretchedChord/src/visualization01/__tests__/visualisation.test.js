@@ -1,3 +1,5 @@
+//import { jest } from '@jest/globals'
+import 'regenerator-runtime/runtime'
 import { createStretchedChord } from '../visualization'
 
 var mockErrorOccurred = jest.fn(e => e)

@@ -40,6 +40,11 @@ jobs:
         with:
           working-directory: './Examples/StretchedChord'
 
+      - name: Check WebpackD3MetaModel (full)
+        uses: ./.github/workflows/actions/check-package
+        with:
+          working-directory: './Examples/WebpackD3MetaModel'
+
       - name: Check WebpackD3Visualization (full)
         uses: ./.github/workflows/actions/check-package
         with:

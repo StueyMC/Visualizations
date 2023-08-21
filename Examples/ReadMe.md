@@ -1,6 +1,6 @@
 ## What's in this folder?
 ### D3 Meta Model
-An example of showing data about your Repository meta model, built using D3 force layout graph.
+An example of showing data about your Repository meta model, built using the force layout graph in D3 version 3.
 
 ### ECharts Meta Model
 An example of showing data about your Repository meta model, built using ECharts force layout graph.
@@ -19,6 +19,9 @@ An example of a process flow diagram using on JointJS (built on Backbone) and we
 
 ### StretchedChord
 An example of a Stretched Chord diagram built using D3 and webpack.
+
+### WebpackD3MetaModel
+An example of showing data about your Repository meta model, built using D3 v7 force layout graph and webpack.
 
 ### WebpackD3Visualization
 An example of a Scatter Plot chart built using D3 and webpack.

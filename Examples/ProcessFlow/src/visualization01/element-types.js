@@ -13,3 +13,32 @@ export const externalData = 'External Data'
 export const database = 'Database / Application'
 export const data = 'Data'
 export const other = 'Other'
+//
+// BPMN Shapes
+//
+export const BPMNStartEvent = 'BPMN Start Event'
+export const BPMNStartEventMessage = 'BPMN Start Event Message'
+export const BPMNStartEventTimer = 'BPMN Start Event Timer'
+export const BPMNStartEventError = 'BPMN Start Event Error'
+export const BPMNIntermediateEvent = 'BPMN Intermediate Event'
+export const BPMNIntermediateEventMessage = 'BPMN Intermediate Event Message'
+export const BPMNIntermediateEventTimer = 'BPMN Intermediate Event Timer'
+export const BPMNIntermediateEventError = 'BPMN Intermediate Event Error'
+export const BPMNEndEvent = 'BPMN End Event'
+export const BPMNEndEventMessage = 'BPMN End Event Message'
+export const BPMNEndEventTimer = 'BPMN End Event Timer'
+export const BPMNEndEventError = 'BPMN End Event Error'
+export const BPMNExclusiveGateway = 'BPMN Exclusive Gateway'
+export const BPMNParallelGateway = 'BPMN Parallel Gateway'
+export const BPMNInclusiveGateway = 'BPMN Inclusive Gateway'
+export const BPMNDataObject = 'BPMN Data Object'
+export const BPMNDataObjectInput = 'BPMN Data Object Input'
+export const BPMNDataObjectOutput = 'BPMN Data Object Output'
+export const BPMNDataStorage = 'BPMN Data Storage'
+//
+// Link Shapes
+//
+export const sequenceFlow = 'Sequence Flow'
+export const ioFlow = 'IO Flow'
+export const messageFlow = 'Message Flow'
+export const association = 'Association'

@@ -65,6 +65,7 @@ type link implements MooDElement{
 	informationCarried: [flowInformation] @UI(name:"Information contained in Flow")
 	sourcePort: String @UI(name:"Side of step to flow out of")
 	targetPort: String @UI(name:"Side of step to flow into")
+	type: String @UI(name:"Type of flow" default: "Sequence Flow")
 }
 
 type stepInput implements MooDElement{
