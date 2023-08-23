@@ -10,6 +10,8 @@ const cssTestPropertyAppliedValue = '10px'
 let elementId
 
 const config = {}
+const pkg = require('../../package.json')
+config.version = pkg.version
 let key
 let css
 
