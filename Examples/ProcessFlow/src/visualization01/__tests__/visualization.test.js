@@ -6,12 +6,6 @@ import { visualization } from '../visualization'
 import * as Data from '../process-data'
 import { Diagram } from '../diagram'
  
-//
-// Get package version number
-//
-const pkg = require('../visualization.config.json')
-const packageVersion = pkg.version
-
 //const { testEnvironment } = require('../../../jest.config')
 
 jest.mock('../process-data')
@@ -23,6 +17,7 @@ var mockDataChanged = jest.fn((data) => {})
 var mockUpdateState = jest.fn((state) => {})
 
 const config = {
+  version: '2.6.1',
   width: '1500px',
   height: '600px',
   element: 'visualisation01_element_guid',
@@ -78,6 +73,10 @@ const config = {
     editable: false
   }
 }
+//
+// Get package version number
+//
+const packageVersion = config.version
 
 describe('Visualisation', () => {
     const mockDiagramHeight = jest.fn().mockReturnValue(123)
