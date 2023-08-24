@@ -5,6 +5,8 @@ import styleConfig from './style.json';
 import inputsConfig from './inputs.json';
 
 const config = {};
+const pkg = require('../../package.json')
+config.version = pkg.version
 let key;
 let css;
 

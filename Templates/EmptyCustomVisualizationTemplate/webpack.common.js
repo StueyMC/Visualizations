@@ -3,6 +3,7 @@ const VersionFile = require('webpack-version-file-plugin'); // Used to write pac
 const path = require('path');
 const outputPath = path.join(__dirname, 'dist');
 const fs = require('fs');
+const ejs = require('ejs');
 //require("core-js");
 //require("regenerator-runtime/runtime");
 
@@ -47,13 +48,16 @@ module.exports = {
     ],
     entry: fs.readdirSync(path.join(__dirname, 'src'))
         .filter(d => fs.lstatSync(path.join(__dirname, 'src', d)).isDirectory())
-        .filter(d => fs.readdirSync(path.join(__dirname, 'src', d)).find(d => d === 'visualization.config.json'))
+        .filter(d => fs.readdirSync(path.join(__dirname, 'src', d)).find(d => d === 'visualization.config.json.ejs'))
         .reduce(function (prev, current) {
+            const ejsTemplate = fs.readFileSync('./src/' + current + '/visualization.config.json.ejs').toString()
+            const configText = ejs.render(ejsTemplate, {package: {version: "1"}})
+            const config = JSON.parse(configText)
             prev[current] = path.join(
                 __dirname,
                 'src',
                 current,
-                require('./src/' + current + '/visualization.config.json').entry.file
+                config.entry.file
             );
             return prev;
         }, {}),
@@ -69,10 +73,9 @@ module.exports = {
             forOf: false,
             module: false
         },
-        libraryTarget: "var",
+        //libraryTarget: "var",
         library: 'vis',
-        hashFunction: "sha256"
-        //globalObject: 'vis'
+        hashFunction: 'sha256'
     },
     optimization: {
         splitChunks: { //{ chunks: 'all' }
@@ -118,7 +121,6 @@ function getPlugins() {
                 }
         configFiles() {
             return [
-                'visualization.config.json',
                 'visualization.datashape.gql'
             ]
         }
@@ -131,9 +133,9 @@ function getPlugins() {
 // VersionFile for visualization package configuration
 //
     let vpcVersionFile = Object(new VersionFile({
-        packageFile: path.join(__dirname, 'package.json'),
-        template: path.join(__dirname, 'src/package.json.ejs'),
-        outputFile: path.join(__dirname, 'src/package.json')
+        packageFile: 'package.json',
+        template: path.join('src', 'package.json.ejs'),
+        outputFile: 'package.json'
     }));
 //
 //  VersionFiles for each visualization configuration
@@ -141,14 +143,14 @@ function getPlugins() {
     let vcVersionFiles = VisualizationDirectories
         .filter(d => d.containsEJS() === true)
         .map(d => Object(new VersionFile({
-            packageFile: path.join(__dirname, 'package.json'),
-            template: path.join(__dirname, 'src', d.directoryName, 'visualization.config.json.ejs'),
-            outputFile: path.join(__dirname, 'src', d.directoryName, 'visualization.config.json')
-            })));
+            packageFile: 'package.json',
+            template: path.join('src', d.directoryName, 'visualization.config.json.ejs'),
+            outputFile: path.join(d.directoryName, 'visualization.config.json')
+        })));
 //
-// CopyPlugin for visualization package configuration
+// Define array for CopyPlugin configuration
 //
-    let copyPatterns = [getCopyPluginOption('', 'package.json')]
+    const copyPatterns = []
 //
 // CopyPlugin for each visualization configuration
 //
