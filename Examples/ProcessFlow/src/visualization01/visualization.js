@@ -14,8 +14,7 @@ export function visualization (config) {
   //
   // Get package version number
   //
-  const pkg = require('./visualization.config.json')
-  const packageVersion = pkg.version
+  const packageVersion = config.version
   //
   // Retrieve configuration
   //
