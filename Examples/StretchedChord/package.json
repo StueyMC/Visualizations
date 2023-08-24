@@ -1,6 +1,6 @@
 {
   "name": "stretched-chord",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Stretched Chord visualisation based on work of visualcinnamon.com for Deloitte, see https://www.visualcinnamon.com/2015/08/stretched-chord",
   "repository": "https://supportportal.moodinternational.com",
   "main": "index.js",
@@ -41,7 +41,7 @@
     "webpack-cli": "4.9.1",
     "webpack-dev-server": "~4.9.3",
     "webpack-merge": "5.8.0",
-    "webpack-version-file-plugin": "0.4.0",
+    "webpack-version-file-plugin": "^0.5.0",
     "zip-webpack-plugin": "4.0.1"
   },
   "jest": {

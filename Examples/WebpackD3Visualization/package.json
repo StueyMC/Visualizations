@@ -1,7 +1,7 @@
 {
     "name": "scatter_plot",
     "description": "Example scatter plot chart based on D3 framework",
-    "version": "1.1.25",
+    "version": "1.1.26",
     "license": "MIT",
     "dependencies": {
         "babel-jest": "^29.6.1",
@@ -28,7 +28,7 @@
         "webpack-cli": "4.9.1",
         "webpack-dev-server": "~4.9.3",
         "webpack-merge": "5.8.0",
-        "webpack-version-file-plugin": "0.4.0",
+        "webpack-version-file-plugin": "^0.5.0",
         "zip-webpack-plugin": "4.0.1"
     },
     "scripts": {

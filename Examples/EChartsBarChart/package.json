@@ -1,7 +1,7 @@
 {
   "name": "echarts-bar-chart",
   "description": "ECharts Bar Chart Visualization",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "dependencies": {
     "echarts": "5.3.0"
@@ -27,7 +27,7 @@
     "webpack-cli": "4.9.1",
     "webpack-dev-server": "~4.9.3",
     "webpack-merge": "5.8.0",
-    "webpack-version-file-plugin": "0.4.0",
+    "webpack-version-file-plugin": "^0.5.0",
     "zip-webpack-plugin": "4.0.1"
   },
   "scripts": {
