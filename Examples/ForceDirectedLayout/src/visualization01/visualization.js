@@ -17,6 +17,29 @@ export function createForceLayout (config) {
   // const animation = config.animation
   const data = config.data
   //
+  // Check that the source and target of all the links are members of the nodes data set
+  //
+  try {
+    //
+    // Build a lookup for Nodes
+    //
+    const nodeMap = {}
+    data.nodes.forEach(node => {
+      nodeMap[node.id] = node.name
+    })
+    //
+    // Check all the links for a missing node
+    //
+    data.links.forEach(link => {
+      if (!nodeMap[link.source.id]) {
+        throw new Error('Source node for link between "' + link.source.name + '" and "' + link.target.name + '" is not in Nodes data')
+      }
+      if (!nodeMap[link.target.id]) {
+        throw new Error('Target node for link between "' + link.source.name + '" and "' + link.target.name + '" is not in Nodes data')
+      }
+    })
+
+  //
   // The force simulation mutates links and nodes, so create a copy
   // so that re-evaluating this cell produces the same result.
   //
@@ -38,21 +61,17 @@ export function createForceLayout (config) {
     .attr('height', height)
     .attr('viewBox', [0, 0, width, height])
     .attr('style', 'max-width: 100%; height: auto;')
-  // .attr('width', width + margin.left + margin.right)
-  // .attr('height', height + margin.top + margin.bottom)
-  // .append('g')
-  // .attr('transform',
-  //   'translate(' + margin.left + ',' + margin.top + ')')
 
-  // Add a line for each link, and a circle for each node.
+  // Add a line for each link
   const link = svg.append('g')
     .attr('stroke', '#999')
     .attr('stroke-opacity', 0.6)
     .selectAll()
-    .data(links/* .map(link => {return {source: link.source.id, target: link.target.id, value: link.value}}) */)
+    .data(links)
     .join('line')
     .attr('stroke-width', d => Math.sqrt(d.value))
 
+  // Add a circle for each node.
   const node = svg.append('g')
     .attr('stroke', '#fff')
     .attr('stroke-width', 1.5)
@@ -111,4 +130,11 @@ export function createForceLayout (config) {
   // invalidation.then(() => simulation.stop());
 
   return svg.node()
+  } catch (e) {
+    const errorMessage = e.name + ': ' + e.message
+    //
+    // Report error to MooD BA
+    //
+    config.functions.errorOccurred(errorMessage)
+  }
 }
