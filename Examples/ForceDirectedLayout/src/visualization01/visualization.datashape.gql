@@ -1,0 +1,22 @@
+type data {
+	nodes: [node]!
+	links: [link]!
+}
+
+type node implements MooDElement{
+	id: ID!
+	name: String! @UI(name:"Name" default: "name")
+	colour: Colour @UI(name:"Colour of node")
+}
+
+type link implements MooDElement{
+	id: ID!
+	source: endPoint!
+	target: endPoint!
+	value: Int @UI(name:"Weight of link")
+}
+
+type endPoint implements MooDElement{
+	id: ID!
+	name: String! @UI(name:"Name" default: "name")
+}

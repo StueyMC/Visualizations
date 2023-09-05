@@ -1,0 +1,16 @@
+{
+    "URL": "visualization01/Style.css",
+    "style": {
+        "Node Colour":"#EEE",
+        "Relationship Colour": "#0000FF",
+        "Node Line Colour":"#111",
+        "Edge Colour":"#444",
+        "Show Icons":true,
+        "Min Node Size": 20,
+        "Max Node Size": 40,
+        "Node Stand Off": 5,
+        "Min Link Length": 100,
+        "Curved Links": true,
+        "Ignore Nodes": ["Represents", "Connects To"]
+    }
+}

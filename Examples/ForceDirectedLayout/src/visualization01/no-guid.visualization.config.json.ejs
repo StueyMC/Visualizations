@@ -1,0 +1,29 @@
+{
+  "id": "<%= uuid.v4(); %>",
+  "version": "<%%= package.version %%>",
+  "name": "Force Directed Layout",
+  "description": "Network chart using D3 Force Directed Layout",
+  "supportedVersions": "0",
+  "moodVersion": "16.0.082",
+  "entry": {
+    "file": "visualization.js",
+    "function": "vis.createForceLayout"
+  },
+  "supportedBrowsers": "Chrome, Edge, FireFox",
+  "style": {
+    "URL":"Style.css",
+    "JSON": {
+      "Node Colour": "#FFF",
+      "Relationship Colour": "#0000FF",
+      "Node Line Colour": "#000",
+      "Edge Colour": "#000",
+      "Show Icons": true,
+      "Min Node Size": 20,
+      "Max Node Size": 40,
+      "Node Stand Off": 5,
+      "Min Link Length": 100,
+      "Curved Links": true,
+      "Ignore Nodes": []
+    }
+  }
+}
