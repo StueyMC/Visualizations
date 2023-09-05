@@ -123,13 +123,6 @@ export function createForceLayout (config) {
       event.subject.fx = null
       event.subject.fy = null
     }
-
-    // When this cell is re-run, stop the previous simulation. (This doesn’t
-    // really matter since the target alpha is zero and the simulation will
-    // stop naturally, but it’s a good practice.)
-    // invalidation.then(() => simulation.stop());
-
-    return svg.node()
   } catch (e) {
     const errorMessage = e.name + ': ' + e.message
     //
