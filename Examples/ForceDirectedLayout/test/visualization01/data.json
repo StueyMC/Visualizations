@@ -1,11 +1,11 @@
 {
 	"data": {
 		"nodes":[{
-			"id":"Myriel-id","name":"Myriel","colour": "#9467bd"
+			"id":"Myriel-id","name":"Myriel","colour": "#9467bd", "size": 20
 		},{
-			"id":"Napoleon-id","name":"Napoleon","colour":"#9467bd"
+			"id":"Napoleon-id","name":"Napoleon","colour":"#9467bd", "size": 10
 		},{
-			"id":"Mlle.Baptistine-id","name":"Mlle.Baptistine","colour":"#9467bd"
+			"id":"Mlle.Baptistine-id","name":"Mlle.Baptistine","colour":"#9467bd", "size": 0
 		},{
 			"id":"Mme.Magloire-id","name":"Mme.Magloire","colour":"#9467bd"
 		},{
@@ -156,11 +156,11 @@
 			"id":"Mme.Hucheloup-id","name":"Mme.Hucheloup","colour":"#7f7f7f"
 		}],
 	"links":[{
-		"source":{"id":"Napoleon-id", "name":"Napoleon"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":1
+		"source":{"id":"Napoleon-id", "name":"Napoleon", "linkColour": "#2ca02c"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":25
 	},{
-		"source":{"id":"Mlle.Baptistine-id", "name":"Mlle.Baptistine"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":8
+		"source":{"id":"Mlle.Baptistine-id", "name":"Mlle.Baptistine"},"target":{"id":"Myriel-id", "name":"Myriel", "linkColour":"#d62728"},"value":25
 	},{
-		"source":{"id":"Mme.Magloire-id", "name":"Mme.Magloire"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":10
+		"source":{"id":"Mme.Magloire-id", "name":"Mme.Magloire"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":25, "linkColour": "#bcbd22"
 	},{
 		"source":{"id":"Mme.Magloire-id", "name":"Mme.Magloire"},"target":{"id":"Mlle.Baptistine-id", "name":"Mlle.Baptistine"},"value":6
   },{

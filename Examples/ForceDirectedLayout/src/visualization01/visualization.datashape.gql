@@ -7,6 +7,7 @@ type node implements MooDElement{
 	id: ID!
 	name: String! @UI(name:"Name" default: "name")
 	colour: Colour @UI(name:"Colour of node")
+	size: Int @UI(name:"Size of Circle")
 }
 
 type link implements MooDElement{
@@ -14,9 +15,11 @@ type link implements MooDElement{
 	source: endPoint!
 	target: endPoint!
 	value: Int @UI(name:"Weight of link")
+	linkColour: Colour @UI(name:"Colour of link") 
 }
 
 type endPoint implements MooDElement{
 	id: ID!
 	name: String! @UI(name:"Name" default: "name")
+	linkColour: Colour @UI(name:"Colour of link")
 }

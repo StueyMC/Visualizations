@@ -11,14 +11,12 @@ export function createForceLayout (config) {
   // Retrieve graph configuration
   //
   // const inputs = config.inputs
-  // const style = config.style
+  const style = config.style
   const width = parseFloat(config.width)
   const height = parseFloat(config.height)
   // const animation = config.animation
   const data = config.data
-  //
-  // Check that the source and target of all the links are members of the nodes data set
-  //
+
   try {
     //
     // Build a lookup for Nodes
@@ -27,29 +25,33 @@ export function createForceLayout (config) {
     data.nodes.forEach(node => {
       nodeMap[node.id] = node.name
     })
-    //
-    // Check all the links for a missing node
-    //
-    data.links.forEach(link => {
-      if (!nodeMap[link.source.id]) {
-        throw new Error('Source node for link between "' + link.source.name + '" and "' + link.target.name + '" is not in Nodes data')
-      }
-      if (!nodeMap[link.target.id]) {
-        throw new Error('Target node for link between "' + link.source.name + '" and "' + link.target.name + '" is not in Nodes data')
-      }
-    })
-
+    if (!style['Ignore Unknown Nodes']) {
+      //
+      // Check all the links for a missing node
+      //
+      data.links.forEach(link => {
+        if (!nodeMap[link.source.id]) {
+          throw new Error('Source node for link between "' + link.source.name + '" and "' + link.target.name + '" is not in Nodes data')
+        }
+        if (!nodeMap[link.target.id]) {
+          throw new Error('Target node for link between "' + link.source.name + '" and "' + link.target.name + '" is not in Nodes data')
+        }
+      })
+    }
     //
     // The force simulation mutates links and nodes, so create a copy
     // so that re-evaluating this cell produces the same result.
     //
-    const links = data.links.map(link => ({ source: link.source.id, target: link.target.id, value: link.value }))
-    const nodes = data.nodes.map(d => ({ ...d }))
+    const links = data.links
+      .filter(link => nodeMap[link.source.id] && nodeMap[link.target.id])
+      .map(link => ({ source: link.source.id, target: link.target.id, value: link.value, colour: linkColour(link, style) }))
+    const nodes = data.nodes.map(d => ({ id: d.id, name: d.name, colour: d.colour, radius: circleRadius(d, style) }))
 
     // Create a simulation with several forces.
     const simulation = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink(links).id(d => d.id))
-      .force('charge', d3.forceManyBody())
+      .force('link', d3.forceLink(links).id(d => d.id).distance(style['Link Distance'] || 30))
+      .force('charge', d3.forceManyBody().strength(style['Node Force Strength'] || -30))
+      .force('collision', d3.forceCollide().radius(function (d) { return d.radius }))
       .force('center', d3.forceCenter(width / 2, height / 2))
       .on('tick', ticked)
 
@@ -64,11 +66,11 @@ export function createForceLayout (config) {
 
     // Add a line for each link
     const link = svg.append('g')
-      .attr('stroke', '#999')
       .attr('stroke-opacity', 0.6)
       .selectAll()
       .data(links)
       .join('line')
+      .attr('stroke', d => d.colour)
       .attr('stroke-width', d => Math.sqrt(d.value))
 
     // Add a circle for each node.
@@ -78,7 +80,7 @@ export function createForceLayout (config) {
       .selectAll()
       .data(nodes)
       .join('circle')
-      .attr('r', 5)
+      .attr('r', d => d.radius)
       .attr('fill', d => d.colour)
 
     node.append('title')
@@ -90,6 +92,17 @@ export function createForceLayout (config) {
       .on('drag', dragged)
       .on('end', dragended))
 
+    // Determine colour for link
+    function linkColour (link, style) {
+      return link.linkColour || link.source.linkColour || link.target.linkColour || style['Link Colour']
+    }
+
+    // Determine radius of circle
+    function circleRadius (node, style) {
+      const minRadius = style['Node Minimum Radius'] || 5
+      const maxRadius = style['Node Maximum Radius'] || 500
+      return node.size ? Math.min(Math.max(node.size, minRadius), maxRadius) : minRadius
+    }
     // Set the position attributes of links and nodes each time the simulation ticks.
     function ticked () {
       link
