@@ -14,6 +14,8 @@ export function createForceLayout (config) {
   const style = config.style
   const width = parseFloat(config.width)
   const height = parseFloat(config.height)
+  style.width = width
+  style.height = height
   // const animation = config.animation
   const data = config.data
 
@@ -23,7 +25,16 @@ export function createForceLayout (config) {
     //
     const nodeMap = {}
     data.nodes.forEach(node => {
-      nodeMap[node.id] = node.name
+      nodeMap[node.id] = {
+        name: node.name,
+        radius: circleRadius(node, style),
+        isLinked: false
+      }
+    })
+    // Add indicator for node is linked
+    data.links.forEach(link => {
+      nodeMap[link.source.id].isLinked = true
+      nodeMap[link.target.id].isLinked = true
     })
     if (!style['Ignore Unknown Nodes']) {
       //
@@ -44,15 +55,33 @@ export function createForceLayout (config) {
     //
     const links = data.links
       .filter(link => nodeMap[link.source.id] && nodeMap[link.target.id])
-      .map(link => ({ source: link.source.id, target: link.target.id, value: link.value, colour: linkColour(link, style) }))
-    const nodes = data.nodes.map(d => ({ id: d.id, name: d.name, colour: d.colour, radius: circleRadius(d, style) }))
+      .map(link => ({
+        source: link.source.id,
+        target: link.target.id,
+        value: link.value,
+        colour: linkColour(link, style),
+        distance: (style['Link Distance'] || 30) + nodeMap[link.source.id].radius + nodeMap[link.target.id].radius
+      }))
+    const nodes = data.nodes.map(d => ({
+      id: d.id,
+      name: d.name,
+      colour: d.colour,
+      radius: circleRadius(d, style),
+      isLinked: nodeMap[d.id].isLinked
+    }))
+
+    // console.log('Nodes: ' + JSON.stringify(nodes))
+    // console.log('Links: ' + JSON.stringify(links))
+    // console.log('Style: ' + JSON.stringify(style))
 
     // Create a simulation with several forces.
     const simulation = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink(links).id(d => d.id).distance(style['Link Distance'] || 30))
-      .force('charge', d3.forceManyBody().strength(style['Node Force Strength'] || -30))
-      .force('collision', d3.forceCollide().radius(function (d) { return d.radius }))
       .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('charge', d3.forceManyBody().strength(d => nodeCharge(d, style)))
+      .force('collision', d3.forceCollide().radius(function (d) { return d.radius }))
+      .force('x', d3.forceX().x(d => nodeForceCentreX(d, style)).strength(d => nodeRepositionStrength(d, style)))
+      .force('y', d3.forceY().y(height / 2).strength(d => nodeRepositionStrength(d, style)))
+      .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.distance))
       .on('tick', ticked)
 
     const el = d3.select('#' + config.element)
@@ -103,6 +132,33 @@ export function createForceLayout (config) {
       const maxRadius = style['Node Maximum Radius'] || 500
       return node.size ? Math.min(Math.max(node.size, minRadius), maxRadius) : minRadius
     }
+    // 
+    // Repositioning strength of node depending on whether the node is linked
+    //
+    // The strength determines how much to increment the node’s x-velocity: (x - node.x) × strength.
+    // For example, a value of 0.1 indicates that the node should move a tenth of the way from its current x-position
+    // to the target x-position with each application.
+    // Higher values moves nodes more quickly to the target position, often at the expense of other forces or constraints.
+    // A value outside the range [0,1] is not recommended.
+    //
+    // Linked nodes have a zero strength so rely on other forces alone
+    //
+    function nodeRepositionStrength (node, style) {
+      return node.isLinked ? 0.0 : style['Unlinked Node Cluster Repositioning Strength'] || 0.1
+    }
+
+    // Force centre X coordinate for node depending on whether the node is linked
+    // Linked nodes are positioned in the centred
+    function nodeForceCentreX (node, style) {
+      return node.isLinked ? style.width / 2 : style['Unlinked Node Cluster x'] || 100
+    }
+
+    // The charge for all nodes depending on whether the node is linked
+    // Unlinked nodes attract each other
+    function nodeCharge (node, style) {
+      return node.isLinked ? style['Linked Node Force Strength'] || -40 : style['Unlinked Node Force Strength']
+    }
+
     // Set the position attributes of links and nodes each time the simulation ticks.
     function ticked () {
       link
