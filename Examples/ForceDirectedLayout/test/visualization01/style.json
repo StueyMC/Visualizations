@@ -1,8 +1,6 @@
 {
     "URL": "visualization01/Style.css",
     "style": {
-        "Node Colour":"#EEE",
-        "Node Line Colour":"#111",
         "Node Minimum Radius": 5,
         "Node Maximum Radius": 100,
         "Linked Node Force Strength": -40,
@@ -11,13 +9,6 @@
         "Unlinked Node Cluster x": 100,
         "Link Colour": "#444",
         "Link Distance": 30,
-        "Ignore Unknown Nodes": true,
-        "Show Icons":true,
-        "Min Node Size": 20,
-        "Max Node Size": 40,
-        "Node Stand Off": 5,
-        "Min Link Length": 100,
-        "Curved Links": true,
-        "Ignore Nodes": ["Represents", "Connects To"]
+        "Ignore Unknown Nodes": true
     }
 }

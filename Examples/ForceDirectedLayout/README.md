@@ -1,8 +1,8 @@
 [README](../../README.md)
 
-# Webpack D3 Meta Model
+# Force Directed Layout
 
-MooD Meta Model chart using D3 v7 framework
+Force Direct Layout of nodes using D3 framework
 
 # Table of Contents
 
@@ -17,7 +17,7 @@ MooD Meta Model chart using D3 v7 framework
 *   [Data Details](#data-details)
 
 # Purpose
-The chart renders a MooD Meta Model using D3's force-directed layout which uses a physics based simulator for positioning visual elements.
+The chart renders a set of linked nodes using D3's force-directed layout which uses a physics based simulator for positioning visual elements.
 
 [![D3 Meta Model](images/d3-meta-model.png "D3 Meta Model")](https://www.d3indepth.com/force-layout/)
 
@@ -25,9 +25,11 @@ The chart renders a MooD Meta Model using D3's force-directed layout which uses 
 
 # Data Summary
 
-The Meta Model visualization consumes a single data set. The details of the attributes of the data set is provided in the section Data Details section
-1.	__Meta__
-    * The meta model of a MooD repository
+The Meta Model visualization consumes two data sets: nodes and links. The details of the attributes of the data set is provided in the section Data Details section
+1.	__Nodes__
+    * The list of nodes
+1.  __Links__
+    * List of links between the nodes
 
 [Table of Contents](#table-of-contents)
 
@@ -41,8 +43,6 @@ A Cascading Style Sheet (CSS) is defined containing selectors for the following 
 
 *	Text
 *   Text Shadow
-*   Path Link
-*   Circle
 
 [Table of Contents](#table-of-contents)
 
@@ -50,17 +50,15 @@ A Cascading Style Sheet (CSS) is defined containing selectors for the following 
 
 The properties are:
 
-*	__Node Colour__: The colour that nodes (circles) in the meta model are drawn in.
-*	__Relationship Colour__: The colour that relationships (circles) are drawn in.
-*	__Node Line Colour__: The colour of the line drawn between a node and a relationship.
-*	__Edge Colour__: The colour of the edge drawn around nodes and relationships.
-*	__Show Icons__: Not used
-*	__Min Node Size__: The minimum radius that D3 is permitted to use for drawing circles. This defines the radius of relationships.
-*	__Max Node Size__: The maximum radius that D3 is permitted to use for drawing circles. This defines the radius of nodes.
-*   __Node Stand Off__: The minimum gap between nodes.
-*   __Min Link Length__: The minimum length of link lines between a node and a relationship. Note: this length is between the centres of the node and relationship circles.
-*   __Curved Links__: Select whether link lines are draw as a curve (true) or a straight line (false). Defaults to true.
-*   __Ignore Nodes__: An array of names or identifiers (GUIDs) of nodes to exclude from the rendered diagram.
+*   __Node Minimum Radius__: The minimum radius of circles drawn to represent nodes. __Default 5__
+*   __Node Maximum Radius__: The minimum radius of circles drawn to represent nodes. __Default 100__
+*   __Linked Node Force Strength__: The force exerted between linked nodes. Negative numbers specify repulsion, positive numbers specify attraction. __Default -40__
+*   __Unlinked Node Force Strength__: The force exerted between unlinked nodes. Negative numbers specify repulsion, positive numbers specify attraction. __Default 1__
+*   __Unlinked Node Cluster Repositioning Strength__: The strength of the force to move unlinked nodes to the position where they will cluster. A value between 0 and 1. Higher values moves nodes more quickly to the target position. A value of zero will disable clustering of unlinked nodes. __Default 0.05__
+*   __Unlinked Node Cluster x__: The x coordinate of the centre of the cluster zone for unlinked nodes. __Default 100__
+*	__Link Colour__: The default colour of the line drawn between nodes representing links. __Default #000__
+*   __Link Distance__: The minimum length of the link lines drawn between the edges of nodes. __Default 30__
+*   __Ignore Unknown Nodes__: Indicates if links in the links dataset involving source ot target nodes not in the nodes dataset should be ignored (true) or reported as an error (false). __Default true__
 
 [Table of Contents](#table-of-contents)
 
@@ -85,7 +83,20 @@ The visualization has no actions.
 
 # Data Details
 
-1.	__Meta__ – The meta model in the MooD repository. This conforms to the [MooDMetaModel interface](../../docs/data-shape-schema.md#graphql-interfaces)
+1.	__Nodes__ – The list of nodes to visualise
+    *	__Name__: Name of the node
+    *   __Colour of node__: The colour to draw the circle representing the node
+    *   __Size of Circle__: Radius of the circle
+1.  __Links__ - the list of links between nodes
+    *   __Source__: The source node of the link
+        *    __Name__: The name of the source node
+        *    __Colour of link__: The colour to draw the link line. If not defined, the __Colour of link__ defined for the target is used
+    *   __Target__: The target node of the link
+        *    __Name__: The name of the target node
+        *    __Colour of link__: The colour to draw the link line. If not defined, the __Colour of link__ defined for the link is used
+    *   __Weight of link__: Controls width of the line drawn between the nodes. The width is the square root of the weight. 
+    *   __Colour of link__: The colour to draw the link line. If not defined, the __Link Colour__ defined in the stylep is used
+
 
 [Table of Contents](#table-of-contents)
 
