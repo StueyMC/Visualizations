@@ -132,7 +132,7 @@ export function createForceLayout (config) {
       const maxRadius = style['Node Maximum Radius'] || 500
       return node.size ? Math.min(Math.max(node.size, minRadius), maxRadius) : minRadius
     }
-    // 
+    //
     // Repositioning strength of node depending on whether the node is linked
     //
     // The strength determines how much to increment the node’s x-velocity: (x - node.x) × strength.
@@ -140,6 +140,7 @@ export function createForceLayout (config) {
     // to the target x-position with each application.
     // Higher values moves nodes more quickly to the target position, often at the expense of other forces or constraints.
     // A value outside the range [0,1] is not recommended.
+    // See https://github.com/d3/d3-force#positioning
     //
     // Linked nodes have a zero strength so rely on other forces alone
     //
