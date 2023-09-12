@@ -145,19 +145,25 @@ export function createForceLayout (config) {
     // Linked nodes have a zero strength so rely on other forces alone
     //
     function nodeRepositionStrength (node, style) {
-      return node.isLinked ? 0.0 : style['Unlinked Node Cluster Repositioning Strength'] || 0.1
+      const strength = style['Unlinked Node Cluster Repositioning Strength']
+      return node.isLinked ? 0.0 : strength || (strength === 0 ? 0 : 0.1)
     }
 
     // Force centre X coordinate for node depending on whether the node is linked
     // Linked nodes are positioned in the centred
     function nodeForceCentreX (node, style) {
-      return node.isLinked ? style.width / 2 : style['Unlinked Node Cluster x'] || 100
+      const xPos = style['Unlinked Node Cluster x']
+      return node.isLinked ? style.width / 2 : xPos || (xPos === 0 ? 0 : 100)
     }
 
     // The charge for all nodes depending on whether the node is linked
     // Unlinked nodes attract each other
     function nodeCharge (node, style) {
-      return node.isLinked ? style['Linked Node Force Strength'] || -40 : style['Unlinked Node Force Strength']
+      const linkedStrength = style['Linked Node Force Strength']
+      const unlinkedStrength = style['Unlinked Node Force Strength']
+      return node.isLinked
+        ? linkedStrength || (linkedStrength === 0 ? 0 : -40)
+        : unlinkedStrength || (unlinkedStrength === 0 ? 0 : 1)
     }
 
     // Set the position attributes of links and nodes each time the simulation ticks.
