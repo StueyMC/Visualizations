@@ -145,8 +145,11 @@ export function createForceLayout (config) {
     // Linked nodes have a zero strength so rely on other forces alone
     //
     function nodeRepositionStrength (node, style) {
-      const strength = style['Unlinked Node Cluster Repositioning Strength']
-      return node.isLinked ? 0.0 : strength || (strength === 0 ? 0 : 0.1)
+      const linkedStrength = style['Linked Node Cluster Repositioning Strength']
+      const unlinkedStrength = style['Unlinked Node Cluster Repositioning Strength']
+      return node.isLinked
+        ? linkedStrength || (linkedStrength === 0 ? 0 : 0.1)
+        : unlinkedStrength || (unlinkedStrength === 0 ? 0 : 0.1)
     }
 
     // Force centre X coordinate for node depending on whether the node is linked
