@@ -112,7 +112,7 @@ export function createForceLayout (config) {
       .attr('viewBox', [0, 0, width, height])
       .attr('style', 'max-width: 100%; height: auto;')
 
-    markers = addArrowHeads(svg)
+    markers = addArrowHeads(svg, links)
 
     // Add a line for each link
     const link = svg.append('g')
@@ -121,12 +121,12 @@ export function createForceLayout (config) {
       .data(simulation.force('link').links())
       .enter().append('svg:path')
       .attr('stroke', d => d.colour)
-      .attr('fill', d => d.colour)
+      .attr('fill', 'none')
       .attr('stroke-width', d => d.strokeWidth)
       .style('marker-end', function (d) {
         return typeof (markers) === 'undefined' || !useMarker
           ? null
-          : 'url(#' + markerName + ')'
+          : 'url(#' + linkMarkerId(d) + ')'
       })
 
     // Add a circle for each node.
@@ -201,7 +201,7 @@ export function createForceLayout (config) {
       link.attr('d', function (d) {
         const dx = d.target.x - d.source.x
         const dy = d.target.y - d.source.y
-        const pathLength = Math.sqrt(dx * dx + dy * dy)
+        const pathLength = Math.sqrt(dx * dx + dy * dy) // This is only correct for straight lines
 
         // x and y distances from center to outside edge of target circle
         // Also move back to start of marker to avoid thick lines appearing underneath point of arrow
@@ -211,8 +211,7 @@ export function createForceLayout (config) {
         // Path from centre of source circle to edge of target circle
         if (curvedLinks) {
           return 'M' + d.source.x + ',' + d.source.y +
-           'A' + pathLength + ',' + pathLength + ' 0 0 1,' + (d.target.x - offsetX) + ',' + (d.target.y - offsetY) +
-           'A' + pathLength + ',' + pathLength + ' 0 0 -1,' + d.source.x + ',' + d.source.y
+           'A' + pathLength + ',' + pathLength + ' 0 0 1,' + (d.target.x - offsetX) + ',' + (d.target.y - offsetY)
         } else {
           return 'M' + d.source.x + ',' + d.source.y + 'A0,0 0 0 1,' + (d.target.x - offsetX) + ',' + (d.target.y - offsetY)
         }
@@ -253,11 +252,17 @@ export function createForceLayout (config) {
 
   /**
    *
-   * @param {*} svg The SVG element to append the marker to
+   * @param {*} svg The SVG element to append the marker definitions to
+   * @param {*} links The array of links containing colour definition
    * @returns
    */
-  function addArrowHeads (svg) {
-    return svg.append('svg:defs')
+  function addArrowHeads (svg, links) {
+    const markerPathName = markerName + 'Path'
+    const defs = svg.append('svg:defs')
+    defs.append('svg:path')
+      .attr('id', markerPathName)
+      .attr('d', 'M0,-' + markerSize / 2 + 'L' + markerSize + ',0L0,' + markerSize / 2)
+    const markerTemplate = defs
       .append('svg:marker')
       .attr('id', markerName)
       .attr('viewBox', '0 -' + markerSize / 2 + ' ' + markerSize + ' ' + markerSize)
@@ -267,8 +272,31 @@ export function createForceLayout (config) {
       .attr('markerHeight', markerSize)
       .attr('markerUnits', 'strokeWidth')
       .attr('orient', 'auto')
-      .append('svg:path')
-      .attr('fill', 'context-fill')
-      .attr('d', 'M0,-' + markerSize / 2 + 'L' + markerSize + ',0L0,' + markerSize / 2)
+      .attr('opacity', linkStrokeOpacity)
+    markerTemplate
+      .append('svg:use')
+      .attr('href', '#' + markerPathName)
+    const colouredMarkers = {}
+    links.forEach(link => {
+      const markerId = linkMarkerId(link)
+      if (!colouredMarkers[markerId]) {
+        const cloneMarker = markerTemplate.node().cloneNode(true)
+        cloneMarker.id = markerId
+        cloneMarker.setAttribute('fill', link.colour)
+        defs.node().appendChild(cloneMarker)
+        colouredMarkers[markerId] = cloneMarker
+      }
+    })
+
+    return defs
+  }
+
+  /**
+   * Return the identity of the marker definition for the link
+   * @param {*} link Definition of link
+   * @returns the identity of the marker definition for the link
+   */
+  function linkMarkerId (link) {
+    return markerName + '_' + link.colour.toString()
   }
 }
