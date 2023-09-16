@@ -18,6 +18,26 @@ export function createForceLayout (config) {
   style.height = height
   // const animation = config.animation
   const data = config.data
+  //
+  // Node styling
+  //
+  const nodeStrokeWidth = 0
+  const nodeStroke = '#aaa'
+  //
+  // Link styling
+  //
+  const linkStrokeOpacity = 0.6
+  const useMarker = config.style['Link Arrow'] === undefined ? false : config.style['Link Arrow']
+  //
+  // Arrow markers for target end of links
+  //
+  const markerSize = 5
+  const markerName = 'arrow'
+  const markerOffset = useMarker ? markerSize - 0 : 0
+  let markers
+
+  // const curvedLinks = config.style['Curved Links'] === undefined ? false : config.style['Curved Links']
+  const curvedLinks = false
 
   try {
     //
@@ -26,7 +46,11 @@ export function createForceLayout (config) {
     const nodeMap = {}
     data.nodes.forEach(node => {
       nodeMap[node.id] = {
+        id: node.id,
         name: node.name,
+        colour: node.colour,
+        strokeWidth: nodeStrokeWidth,
+        stroke: nodeStroke,
         radius: circleRadius(node, style),
         isLinked: false
       }
@@ -56,19 +80,14 @@ export function createForceLayout (config) {
     const links = data.links
       .filter(link => nodeMap[link.source.id] && nodeMap[link.target.id])
       .map(link => ({
-        source: link.source.id,
-        target: link.target.id,
-        value: link.value,
+        id: link.source.id + link.target.id,
+        source: nodeMap[link.source.id],
+        target: nodeMap[link.target.id],
+        strokeWidth: Math.sqrt(link.value),
         colour: linkColour(link, style),
         distance: (style['Link Distance'] || 30) + nodeMap[link.source.id].radius + nodeMap[link.target.id].radius
       }))
-    const nodes = data.nodes.map(d => ({
-      id: d.id,
-      name: d.name,
-      colour: d.colour,
-      radius: circleRadius(d, style),
-      isLinked: nodeMap[d.id].isLinked
-    }))
+    const nodes = data.nodes.map(d => nodeMap[d.id])
 
     // console.log('Nodes: ' + JSON.stringify(nodes))
     // console.log('Links: ' + JSON.stringify(links))
@@ -93,19 +112,27 @@ export function createForceLayout (config) {
       .attr('viewBox', [0, 0, width, height])
       .attr('style', 'max-width: 100%; height: auto;')
 
+    markers = addArrowHeads(svg)
+
     // Add a line for each link
     const link = svg.append('g')
-      .attr('stroke-opacity', 0.6)
-      .selectAll()
-      .data(links)
-      .join('line')
+      .attr('stroke-opacity', linkStrokeOpacity)
+      .selectAll('path')
+      .data(simulation.force('link').links())
+      .enter().append('svg:path')
       .attr('stroke', d => d.colour)
-      .attr('stroke-width', d => Math.sqrt(d.value))
+      .attr('fill', d => d.colour)
+      .attr('stroke-width', d => d.strokeWidth)
+      .style('marker-end', function (d) {
+        return typeof (markers) === 'undefined' || !useMarker
+          ? null
+          : 'url(#' + markerName + ')'
+      })
 
     // Add a circle for each node.
     const node = svg.append('g')
-      .attr('stroke', '#fff')
-      .attr('stroke-width', 1.5)
+      .attr('stroke', nodeStroke)
+      .attr('stroke-width', nodeStrokeWidth)
       .selectAll()
       .data(nodes)
       .join('circle')
@@ -171,11 +198,25 @@ export function createForceLayout (config) {
 
     // Set the position attributes of links and nodes each time the simulation ticks.
     function ticked () {
-      link
-        .attr('x1', d => d.source.x)
-        .attr('y1', d => d.source.y)
-        .attr('x2', d => d.target.x)
-        .attr('y2', d => d.target.y)
+      link.attr('d', function (d) {
+        const dx = d.target.x - d.source.x
+        const dy = d.target.y - d.source.y
+        const pathLength = Math.sqrt(dx * dx + dy * dy)
+
+        // x and y distances from center to outside edge of target circle
+        // Also move back to start of marker to avoid thick lines appearing underneath point of arrow
+        const offsetX = (dx * (d.target.radius + markerOffset * d.strokeWidth + nodeStrokeWidth / 2)) / pathLength
+        const offsetY = (dy * (d.target.radius + markerOffset * d.strokeWidth + nodeStrokeWidth / 2)) / pathLength
+
+        // Path from centre of source circle to edge of target circle
+        if (curvedLinks) {
+          return 'M' + d.source.x + ',' + d.source.y +
+           'A' + pathLength + ',' + pathLength + ' 0 0 1,' + (d.target.x - offsetX) + ',' + (d.target.y - offsetY) +
+           'A' + pathLength + ',' + pathLength + ' 0 0 -1,' + d.source.x + ',' + d.source.y
+        } else {
+          return 'M' + d.source.x + ',' + d.source.y + 'A0,0 0 0 1,' + (d.target.x - offsetX) + ',' + (d.target.y - offsetY)
+        }
+      })
 
       node
         .attr('cx', d => d.x)
@@ -208,5 +249,26 @@ export function createForceLayout (config) {
     // Report error to MooD BA
     //
     config.functions.errorOccurred(errorMessage)
+  }
+
+  /**
+   *
+   * @param {*} svg The SVG element to append the marker to
+   * @returns
+   */
+  function addArrowHeads (svg) {
+    return svg.append('svg:defs')
+      .append('svg:marker')
+      .attr('id', markerName)
+      .attr('viewBox', '0 -' + markerSize / 2 + ' ' + markerSize + ' ' + markerSize)
+      .attr('refX', 0)
+      .attr('refY', 0)
+      .attr('markerWidth', markerSize)
+      .attr('markerHeight', markerSize)
+      .attr('markerUnits', 'strokeWidth')
+      .attr('orient', 'auto')
+      .append('svg:path')
+      .attr('fill', 'context-fill')
+      .attr('d', 'M0,-' + markerSize / 2 + 'L' + markerSize + ',0L0,' + markerSize / 2)
   }
 }
