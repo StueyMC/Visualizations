@@ -112,7 +112,9 @@ export function createForceLayout (config) {
       .attr('viewBox', [0, 0, width, height])
       .attr('style', 'max-width: 100%; height: auto;')
 
-    markers = addArrowHeads(svg, links)
+    if (useMarker) {
+      markers = addArrowHeads(svg, links)
+    }
 
     // Add a line for each link
     const link = svg.append('g')
@@ -124,9 +126,9 @@ export function createForceLayout (config) {
       .attr('fill', 'none')
       .attr('stroke-width', d => d.strokeWidth)
       .style('marker-end', function (d) {
-        return typeof (markers) === 'undefined' || !useMarker
-          ? null
-          : 'url(#' + linkMarkerId(d) + ')'
+        return useMarker
+          ? 'url(#' + linkMarkerId(d) + ')'
+          : null
       })
 
     // Add a circle for each node.

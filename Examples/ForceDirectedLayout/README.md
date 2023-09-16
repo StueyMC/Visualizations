@@ -59,6 +59,7 @@ The properties are:
 *   __Unlinked Node Cluster x__: The x coordinate of the centre of the cluster zone for unlinked nodes. __Default 100__
 *	__Link Colour__: The default colour of the line drawn between nodes representing links. __Default #000__
 *   __Link Distance__: The minimum length of the link lines drawn between the edges of nodes. __Default 30__
+*   __Link Arrow__: Indicates if an arrow marker should be drawn at the target end of the link (true) or not (false). __Default false__
 *   __Ignore Unknown Nodes__: Indicates if links in the links dataset involving source ot target nodes not in the nodes dataset should be ignored (true) or reported as an error (false). __Default true__
 
 [Table of Contents](#table-of-contents)
