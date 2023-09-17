@@ -19,6 +19,20 @@ export function createForceLayout (config) {
   // const animation = config.animation
   const data = config.data
   //
+  // Handle inputs and changes to inputs
+  //
+  const superInputChanged = config.functions.inputChanged
+  config.functions.inputChanged = inputChanged
+  let showNodeLabels = config.inputs.showLabels || false
+  const nodeLabelClass = 'node-label'
+  const showLabelTextClass = 'show'
+  const hideLabelTextClass = 'hide'
+  const labelVisibilityClass = {
+    true: showLabelTextClass,
+    false: hideLabelTextClass
+  }
+  let title
+  //
   // Node styling
   //
   const nodeStrokeWidth = 0
@@ -144,6 +158,16 @@ export function createForceLayout (config) {
     node.append('title')
       .text(d => d.name)
 
+    // Add a title for each node.
+    title = svg.append('g')
+      .selectAll()
+      .data(nodes)
+      .enter()
+      .append('text')
+      .classed(nodeLabelClass, true)
+      .classed(labelVisibilityClass[showNodeLabels], true)
+      .text(d => d.name)
+
     // Add a drag behavior.
     node.call(d3.drag()
       .on('start', dragstarted)
@@ -222,6 +246,11 @@ export function createForceLayout (config) {
       node
         .attr('cx', d => d.x)
         .attr('cy', d => d.y)
+
+      title
+        .attr('x', d => d.x)
+        .attr('y', d => d.y)
+        .attr('opacity', 1)
     }
 
     // Reheat the simulation when drag starts, and fix the subject position.
@@ -300,5 +329,30 @@ export function createForceLayout (config) {
    */
   function linkMarkerId (link) {
     return markerName + '_' + link.colour.toString()
+  }
+  /**
+   * Handle change to input.
+   * Show / hide node labels
+   * @param {String} name name of input
+   * @param {*} value number
+   */
+  function inputChanged (name, value) {
+    try {
+      superInputChanged(name, value)
+      console.log('name: ' + name + ', value: ' + value)
+
+      if (name === 'showLabels') {
+        showNodeLabels = value
+        title
+          .classed(labelVisibilityClass[!showNodeLabels], false)
+          .classed(labelVisibilityClass[showNodeLabels], true)
+      }
+    } catch (e) {
+      const errorMessage = e.name + ': ' + e.message
+      //
+      // Report error to MooD BA
+      //
+      config.functions.errorOccurred(errorMessage)
+    }
   }
 }

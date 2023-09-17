@@ -43,6 +43,8 @@ A Cascading Style Sheet (CSS) is defined containing selectors for the following 
 
 *	Text
 *   Text Shadow
+*   Node Labels (shown)
+*   Node Labels (hidden)
 
 [Table of Contents](#table-of-contents)
 
@@ -67,7 +69,9 @@ The properties are:
 
 # Inputs
 
-The visualization has no inputs.
+The visualization has one input.
+
+* __Show node labels__: a boolean value that defines whether the labels for nodes are displayed (true) or hidden (false). __Default false__
 
 [Table of Contents](#table-of-contents)
 

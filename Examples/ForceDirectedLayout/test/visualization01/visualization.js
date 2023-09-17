@@ -60,6 +60,16 @@ for (key in inputsConfig) {
         console.log('Inputs Changed: name = ' + name + ', value: ' + JSON.stringify(value))
     }
 
+    //
+    // Define button click functions to alter the inputs
+    //
+    function toggleShowLabel() {
+        config.inputs.showLabels = !config.inputs.showLabels
+        config.functions.inputChanged('showLabels', config.inputs.showLabels)
+    }
+
+    document.getElementById("toggle-show-labels").addEventListener('click', () => toggleShowLabel())
+
     config.functions = {
         errorOccurred: errorOccurred,
         performAction: performAction,
