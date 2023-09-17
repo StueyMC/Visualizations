@@ -250,7 +250,6 @@ export function createForceLayout (config) {
       title
         .attr('x', d => d.x)
         .attr('y', d => d.y)
-        .attr('opacity', 1)
     }
 
     // Reheat the simulation when drag starts, and fix the subject position.
