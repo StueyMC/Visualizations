@@ -69,11 +69,6 @@ export function createForceLayout (config) {
         isLinked: false
       }
     })
-    // Add indicator for node is linked
-    data.links.forEach(link => {
-      nodeMap[link.source.id].isLinked = true
-      nodeMap[link.target.id].isLinked = true
-    })
     if (!style['Ignore Unknown Nodes']) {
       //
       // Check all the links for a missing node
@@ -102,6 +97,11 @@ export function createForceLayout (config) {
         distance: (style['Link Distance'] || 30) + nodeMap[link.source.id].radius + nodeMap[link.target.id].radius
       }))
     const nodes = data.nodes.map(d => nodeMap[d.id])
+    // Add indicator for node is linked
+    links.forEach(link => {
+      nodeMap[link.source.id].isLinked = true
+      nodeMap[link.target.id].isLinked = true
+    })
 
     // console.log('Nodes: ' + JSON.stringify(nodes))
     // console.log('Links: ' + JSON.stringify(links))
