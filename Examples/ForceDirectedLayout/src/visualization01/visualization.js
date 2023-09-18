@@ -48,7 +48,6 @@ export function createForceLayout (config) {
   const markerSize = 5
   const markerName = 'arrow'
   const markerOffset = useMarker ? markerSize - 0 : 0
-  let markers
 
   // const curvedLinks = config.style['Curved Links'] === undefined ? false : config.style['Curved Links']
   const curvedLinks = false
@@ -109,7 +108,7 @@ export function createForceLayout (config) {
 
     // Create a simulation with several forces.
     const simulation = d3.forceSimulation(nodes)
-      .force('center', d3.forceCenter(width / 2, height / 2))
+      // .force('center', d3.forceCenter(width / 2, height / 2))
       .force('charge', d3.forceManyBody().strength(d => nodeCharge(d, style)))
       .force('collision', d3.forceCollide().radius(function (d) { return d.radius }))
       .force('x', d3.forceX().x(d => nodeForceCentreX(d, style)).strength(d => nodeRepositionStrength(d, style)))
@@ -127,7 +126,7 @@ export function createForceLayout (config) {
       .attr('style', 'max-width: 100%; height: auto;')
 
     if (useMarker) {
-      markers = addArrowHeads(svg, links)
+      addArrowHeads(svg, links)
     }
 
     // Add a line for each link
