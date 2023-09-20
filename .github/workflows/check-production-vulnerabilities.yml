@@ -27,6 +27,12 @@ jobs:
           working-directory: './Examples/EChartsRadialTree'
           options: '--omit=dev'
 
+      - name: Check ForceDirectedLayout (production)
+        uses: ./.github/workflows/actions/check-package
+        with:
+          working-directory: './Examples/ForceDirectedLayout'
+          options: '--omit=dev'
+
       - name: Check Lollipop (production)
         uses: ./.github/workflows/actions/check-package
         with:

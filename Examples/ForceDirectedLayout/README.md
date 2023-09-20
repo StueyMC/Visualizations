@@ -2,7 +2,7 @@
 
 # Force Directed Layout
 
-Force Direct Layout of nodes using D3 framework
+Force Directed Layout of linked nodes using D3 framework
 
 # Table of Contents
 

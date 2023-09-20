@@ -25,6 +25,11 @@ jobs:
         with:
           working-directory: './Examples/EChartsRadialTree'
 
+      - name: Check ForceDirectedLayout (full)
+        uses: ./.github/workflows/actions/check-package
+        with:
+          working-directory: './Examples/ForceDirectedLayout'
+
       - name: Check Lollipop (full)
         uses: ./.github/workflows/actions/check-package
         with:

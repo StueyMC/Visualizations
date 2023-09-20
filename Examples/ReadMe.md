@@ -11,6 +11,9 @@ An example of vertical bar chart, built using ECharts and webpack.
 ### ECharts Radial Tree Chart
 An example of radial tree chart, built using ECharts and webpack.
 
+### Force Direct Layout
+An example of a Force Directed Layout of linked nodes using D3 framework
+
 ### Lollipop
 An example of a Lollipop chart built using D3 and webpack.
 

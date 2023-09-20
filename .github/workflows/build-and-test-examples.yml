@@ -4,6 +4,7 @@ on:
     paths:
       - 'Examples/EChartsBarChart/**'
       - 'Examples/EChartsRadialTree/**'
+      - 'Examples/ForceDirectedLayout/**'
       - 'Examples/Lollipop/**'
       - 'Examples/ProcessFlow/**'
       - 'Examples/StretchedChord/**'
@@ -32,6 +33,11 @@ jobs:
         uses: ./.github/workflows/actions/build-and-test-package
         with:
           working-directory: './Examples/EChartsRadialTree'
+
+      - name: Build ForceDirectedLayout
+        uses: ./.github/workflows/actions/build-and-test-package
+        with:
+          working-directory: './Examples/ForceDirectedLayout'
 
       - name: Build Lollipop
         uses: ./.github/workflows/actions/build-and-test-package
