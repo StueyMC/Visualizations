@@ -160,6 +160,7 @@ export function createForceLayout (config) {
       .attr('fill', d => d.colour)
       .on('mouseover', nodeMouseover)
       .on('mouseout', nodeMouseout)
+      .on('click', nodeClick)
 
     // Add a title for each node.
     title = svg.append('g')
@@ -282,6 +283,7 @@ export function createForceLayout (config) {
           .append('title')
           .text(d => d.name)
       }
+      config.functions.updateOutput('hoverNode', hoverNode.id)
     }
 
     function nodeMouseout (event, hoverNode) {
@@ -306,6 +308,10 @@ export function createForceLayout (config) {
           .selectChild()
           .remove()
       }
+    }
+
+    function nodeClick (event, d) {
+      config.functions.performAction('Node Click', d.id, event)
     }
 
     // Reheat the simulation when drag starts, and fix the subject position.

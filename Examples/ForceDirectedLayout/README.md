@@ -83,13 +83,17 @@ The visualization has one input.
 
 # Outputs
 
-The visualization has no outputs.
+The visualization has one output.
+
+* __Node__: the identity of the node that the cursor is hovering over
 
 [Table of Contents](#table-of-contents)
 
 # Actions
 
-The visualization has no actions.
+The visualization has one event. This can be configured to trigger actions in MooD, e.g. navigation
+1.	__Node Click__: a mouse click on a node
+    * Identifies the element
 
 [Table of Contents](#table-of-contents)
 

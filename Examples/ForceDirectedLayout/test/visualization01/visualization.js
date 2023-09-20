@@ -43,6 +43,12 @@ for (key in inputsConfig) {
     //
     // Define updateOutput function to log to console changes to output
     //
+    var updateOutput = function(name, value) {
+        console.log('Output changed: name = ' + name + ', value = ' + value.toString())
+    }
+    //
+    // Define errorOccurred function to log errors to console
+    //
     var errorOccurred = function(error) {
         console.log(error)
     }
@@ -51,7 +57,6 @@ for (key in inputsConfig) {
     //
     var performAction = function(name, id, event) {
         console.log('Perform Action: name = ' + name + ', id = ' + id + ', event: ' + JSON.stringify(event))
-        config.functions.inputChanged('highlightNode', id)
     }
     //
     // Define inputChanged function
@@ -78,7 +83,8 @@ for (key in inputsConfig) {
     config.functions = {
         errorOccurred: errorOccurred,
         performAction: performAction,
-        inputChanged: inputChanged
+        inputChanged: inputChanged,
+        updateOutput: updateOutput
     };
     //    console.log(JSON.stringify(config));
     addCSSFile(css);
