@@ -18,12 +18,17 @@ export function createForceLayout (config) {
   style.height = height
   // const animation = config.animation
   const data = config.data
+  const showNodeLabelSeparation = config.style['Show Label Node Separation'] || 100
   //
   // Handle inputs and changes to inputs
   //
   const superInputChanged = config.functions.inputChanged
   config.functions.inputChanged = inputChanged
-  let showNodeLabels = showLabels(config.inputs.showLabels || 1)
+  const showNodeLabelsNone = 1
+  const showNodeLabelsAll = 2
+  const showNodeLabelsNear = 3
+  let showNodeLabelsCode = config.inputs.showLabels || showNodeLabelsNone // default to don't show any labels
+  let showAllNodeLabels = showLabels(showNodeLabelsCode)
   const nodeLabelClass = 'node-label'
   const showLabelTextClass = 'show'
   const hideLabelTextClass = 'hide'
@@ -153,9 +158,8 @@ export function createForceLayout (config) {
       .join('circle')
       .attr('r', d => d.radius)
       .attr('fill', d => d.colour)
-
-    node.append('title')
-      .text(d => d.name)
+      .on('mouseover', nodeMouseover)
+      .on('mouseout', nodeMouseout)
 
     // Add a title for each node.
     title = svg.append('g')
@@ -164,7 +168,7 @@ export function createForceLayout (config) {
       .enter()
       .append('text')
       .classed(nodeLabelClass, true)
-      .classed(labelVisibilityClass[showNodeLabels], true)
+      .classed(labelVisibilityClass[showAllNodeLabels], true)
       .text(d => d.name)
 
     // Add a drag behavior.
@@ -249,6 +253,59 @@ export function createForceLayout (config) {
       title
         .attr('x', d => d.x)
         .attr('y', d => d.y)
+    }
+
+    function separation (centreX, centreY, x, y) {
+      const dx = centreX - x
+      const dy = centreY - y
+      return Math.sqrt(dx * dx + dy * dy)
+    }
+
+    function nodeMouseover (event, hoverNode) {
+      if (showNodeLabelsCode === showNodeLabelsNear) {
+        //
+        // If show label mode is to show labels near current node
+        // make nearby node labels visible
+        //
+        title
+          .filter(d => separation(hoverNode.x, hoverNode.y, d.x, d.y) < showNodeLabelSeparation)
+          .classed(labelVisibilityClass.false, false)
+          .classed(labelVisibilityClass.true, true)
+      }
+      if (showNodeLabelsCode === showNodeLabelsNone) {
+        //
+        // If show label mode is to hide all labels
+        // then add a tooltip for the current node
+        //
+        node
+          .filter(d => d.id === hoverNode.id)
+          .append('title')
+          .text(d => d.name)
+      }
+    }
+
+    function nodeMouseout (event, hoverNode) {
+      if (showNodeLabelsCode === showNodeLabelsNear) {
+        //
+        // If show label mode is to show labels near current node
+        // make all node labels invisible
+        // current node may have been dragged so previously nearby nodes
+        // may not be nearby any more
+        //
+        title
+          .classed(labelVisibilityClass.true, false)
+          .classed(labelVisibilityClass.false, true)
+      }
+      if (showNodeLabelsCode === showNodeLabelsNone) {
+        //
+        // If show label mode is to hide all labels
+        // then remove tooltip from the current node
+        //
+        node
+          .filter(d => d.id === hoverNode.id)
+          .selectChild()
+          .remove()
+      }
     }
 
     // Reheat the simulation when drag starts, and fix the subject position.
@@ -342,10 +399,11 @@ export function createForceLayout (config) {
       console.log('Input Changed - name: ' + name + ', value: ' + value)
 
       if (name === 'showLabels') {
-        showNodeLabels = showLabels(value)
+        showAllNodeLabels = showLabels(value)
+        showNodeLabelsCode = value
         title
-          .classed(labelVisibilityClass[!showNodeLabels], false)
-          .classed(labelVisibilityClass[showNodeLabels], true)
+          .classed(labelVisibilityClass[!showAllNodeLabels], false)
+          .classed(labelVisibilityClass[showAllNodeLabels], true)
       }
     } catch (e) {
       const errorMessage = e.name + ': ' + e.message
@@ -365,6 +423,6 @@ export function createForceLayout (config) {
    * @returns Whether to show labels (true) or not (false)
    */
   function showLabels (inputValue) {
-    return inputValue !== 1
+    return inputValue === showNodeLabelsAll
   }
 }

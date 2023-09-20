@@ -60,15 +60,20 @@ for (key in inputsConfig) {
         console.log('Inputs Changed: name = ' + name + ', value: ' + JSON.stringify(value))
     }
 
+    var buttonEl = document.getElementById("toggle-show-labels")
+    buttonEl.addEventListener('click', () => toggleShowLabel())
+    buttonEl.children.item(0).innerText = config.inputs.showLabels.toString()
     //
     // Define button click functions to alter the inputs
     //
     function toggleShowLabel() {
-        config.inputs.showLabels = config.inputs.showLabels === 1 ? 2 : 1
+        config.inputs.showLabels++
+        if (config.inputs.showLabels > 3) {
+            config.inputs.showLabels = 1
+        }
         config.functions.inputChanged('showLabels', config.inputs.showLabels)
+        buttonEl.children.item(0).innerText = config.inputs.showLabels.toString()
     }
-
-    document.getElementById("toggle-show-labels").addEventListener('click', () => toggleShowLabel())
 
     config.functions = {
         errorOccurred: errorOccurred,

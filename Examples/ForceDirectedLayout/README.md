@@ -63,6 +63,7 @@ The properties are:
 *   __Link Distance__: The minimum length of the link lines drawn between the edges of nodes. __Default 30__
 *   __Link Arrow__: Indicates if an arrow marker should be drawn at the target end of the link (true) or not (false). __Default false__
 *   __Ignore Unknown Nodes__: Indicates if links in the links dataset involving source ot target nodes not in the nodes dataset should be ignored (true) or reported as an error (false). __Default true__
+*   __Show Label Node Separation__: Defines how close, in pixels, nodes need to be to the current (under cursor) node in order to display node labels when in __Show node labels__ mode 3 (Nearby). __Default 100__
 
 [Table of Contents](#table-of-contents)
 
@@ -71,7 +72,12 @@ The properties are:
 
 The visualization has one input.
 
-* __Show node labels__: a numeric value that defines whether the labels for nodes are displayed (2) or hidden (1). __Note:__ when pinning this input, do not change the initial value / variable from 0 to 1 or 2 as doing so will mean that this input cannot be changed back. __Default 1__
+* __Show node labels__: a numeric value that defines which node labels are displayed
+   * 1 - None: do not display node labels, but a tooltip appears for the current (under cursor) node
+   * 2 - All: display labels for all nodes
+   * 3 - Nearby: display labels for nearby nodes (within __Show Label Node Separation__ pixels of the current node)
+
+  __Note:__ when pinning this input, do not change the initial value / variable from 0 to 1, 2 or 3 as doing so will mean that this input cannot be changed back. __Default 1__
 
 [Table of Contents](#table-of-contents)
 
