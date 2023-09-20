@@ -71,7 +71,7 @@ The properties are:
 
 The visualization has one input.
 
-* __Show node labels__: a boolean value that defines whether the labels for nodes are displayed (true) or hidden (false). __Default false__
+* __Show node labels__: a numeric value that defines whether the labels for nodes are displayed (2) or hidden (1). __Note:__ when pinning this input, do not change the initial value / variable from 0 to 1 or 2 as doing so will mean that this input cannot be changed back. __Default 1__
 
 [Table of Contents](#table-of-contents)
 

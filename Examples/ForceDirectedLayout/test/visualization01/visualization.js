@@ -64,7 +64,7 @@ for (key in inputsConfig) {
     // Define button click functions to alter the inputs
     //
     function toggleShowLabel() {
-        config.inputs.showLabels = !config.inputs.showLabels
+        config.inputs.showLabels = config.inputs.showLabels === 1 ? 2 : 1
         config.functions.inputChanged('showLabels', config.inputs.showLabels)
     }
 

@@ -23,7 +23,7 @@ export function createForceLayout (config) {
   //
   const superInputChanged = config.functions.inputChanged
   config.functions.inputChanged = inputChanged
-  let showNodeLabels = config.inputs.showLabels || false
+  let showNodeLabels = showLabels(config.inputs.showLabels || 1)
   const nodeLabelClass = 'node-label'
   const showLabelTextClass = 'show'
   const hideLabelTextClass = 'hide'
@@ -336,11 +336,13 @@ export function createForceLayout (config) {
    */
   function inputChanged (name, value) {
     try {
-      superInputChanged(name, value)
-      console.log('name: ' + name + ', value: ' + value)
+      if (superInputChanged !== inputChanged) {
+        superInputChanged(name, value)
+      }
+      console.log('Input Changed - name: ' + name + ', value: ' + value)
 
       if (name === 'showLabels') {
-        showNodeLabels = value
+        showNodeLabels = showLabels(value)
         title
           .classed(labelVisibilityClass[!showNodeLabels], false)
           .classed(labelVisibilityClass[showNodeLabels], true)
@@ -352,5 +354,17 @@ export function createForceLayout (config) {
       //
       config.functions.errorOccurred(errorMessage)
     }
+  }
+
+  /**
+   * Converts numeric input value into Boolean to workaround
+   * bug in MooD that will not change an input back to its initial value.
+   * Thus for Boolean with only two values, after changing once it
+   * will not change it back
+   * @param {integer} inputValue Value input to visualisation
+   * @returns Whether to show labels (true) or not (false)
+   */
+  function showLabels (inputValue) {
+    return inputValue !== 1
   }
 }
