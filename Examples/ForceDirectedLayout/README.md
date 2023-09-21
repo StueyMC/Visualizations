@@ -62,6 +62,7 @@ The properties are:
 *	__Link Colour__: The default colour of the line drawn between nodes representing links. __Default #000__
 *   __Link Distance__: The minimum length of the link lines drawn between the edges of nodes. __Default 30__
 *   __Link Arrow__: Indicates if an arrow marker should be drawn at the target end of the link (true) or not (false). __Default false__
+*   __Curved Links__: Select whether link lines are draw as a curve (true) or a straight line (false). __Default false__
 *   __Ignore Unknown Nodes__: Indicates if links in the links dataset involving source ot target nodes not in the nodes dataset should be ignored (true) or reported as an error (false). __Default true__
 *   __Show Label Node Separation__: Defines how close, in pixels, nodes need to be to the current (under cursor) node in order to display node labels when in __Show node labels__ mode 3 (Nearby). __Default 100__
 

@@ -54,8 +54,7 @@ export function createForceLayout (config) {
   const markerName = 'arrow'
   const markerOffset = useMarker ? markerSize - 0 : 0
 
-  // const curvedLinks = config.style['Curved Links'] === undefined ? false : config.style['Curved Links']
-  const curvedLinks = false
+  const curvedLinks = config.style['Curved Links'] === undefined ? false : config.style['Curved Links']
 
   try {
     //
@@ -231,17 +230,19 @@ export function createForceLayout (config) {
       link.attr('d', function (d) {
         const dx = d.target.x - d.source.x
         const dy = d.target.y - d.source.y
-        const pathLength = Math.sqrt(dx * dx + dy * dy) // This is only correct for straight lines
+        const pathLength = Math.sqrt(dx * dx + dy * dy)
 
         // x and y distances from center to outside edge of target circle
         // Also move back to start of marker to avoid thick lines appearing underneath point of arrow
-        const offsetX = (dx * (d.target.radius + markerOffset * d.strokeWidth + nodeStrokeWidth / 2)) / pathLength
-        const offsetY = (dy * (d.target.radius + markerOffset * d.strokeWidth + nodeStrokeWidth / 2)) / pathLength
+        const effectiveRadius = d.target.radius + markerOffset * d.strokeWidth + nodeStrokeWidth / 2
+        const offsetX = (Math.abs((dx / pathLength) * effectiveRadius) - 0.5) * Math.sign(dx)
+        const offsetY = (Math.abs((dy / pathLength) * effectiveRadius) - 0.5) * Math.sign(dy)
 
         // Path from centre of source circle to edge of target circle
         if (curvedLinks) {
+          const curveRadius = pathLength * (effectiveRadius / d.target.radius)
           return 'M' + d.source.x + ',' + d.source.y +
-           'A' + pathLength + ',' + pathLength + ' 0 0 1,' + (d.target.x - offsetX) + ',' + (d.target.y - offsetY)
+           'A' + curveRadius + ',' + curveRadius + ' 0 0 1,' + (d.target.x - offsetX) + ',' + (d.target.y - offsetY)
         } else {
           return 'M' + d.source.x + ',' + d.source.y + 'A0,0 0 0 1,' + (d.target.x - offsetX) + ',' + (d.target.y - offsetY)
         }

@@ -11,6 +11,7 @@
         "Link Colour": "#000",
         "Link Distance": 50,
         "Link Arrow": true,
+        "Curved Links": false,
         "Ignore Unknown Nodes": true,
         "Show Label Node Separation": 100
     }
