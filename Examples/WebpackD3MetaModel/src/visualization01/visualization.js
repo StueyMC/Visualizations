@@ -20,7 +20,7 @@ const circleStrokeWidth = 3
 const edgeStrokeWidth = 2
 const markerSize = 5
 const markerName = 'arrow'
-const markerOffset = markerSize - 1
+const markerOffset = markerSize - 0
 
 const seedRandom = function (i) {
   let mW = 123456789
@@ -258,8 +258,9 @@ function onDataLoaded (dataset) {
       const pathLength = Math.sqrt(dx * dx + dy * dy)
 
       // x and y distances from center to outside edge of target circle
-      const offsetX = (dx * (radiusScale(d.target.radius) + circleStrokeWidth / 2)) / pathLength
-      const offsetY = (dy * (radiusScale(d.target.radius) + circleStrokeWidth / 2)) / pathLength
+      const effectiveRadius = radiusScale(d.target.radius) + markerOffset + circleStrokeWidth // / 2
+      const offsetX = (Math.abs((dx / pathLength) * effectiveRadius) + 1.5) * Math.sign(dx)
+      const offsetY = (Math.abs((dy / pathLength) * effectiveRadius) + 1.5) * Math.sign(dy)
 
       // Path from centre of source circle to edge of target circle
       if (curvedLinks) {
@@ -346,7 +347,7 @@ function addArrowHeads () {
     .append('svg:marker')
     .attr('id', markerName)
     .attr('viewBox', '0 -' + markerSize / 2 + ' ' + markerSize + ' ' + markerSize)
-    .attr('refX', markerOffset)
+    .attr('refX', 0)
     .attr('refY', 0)
     .attr('markerWidth', markerSize)
     .attr('markerHeight', markerSize)
