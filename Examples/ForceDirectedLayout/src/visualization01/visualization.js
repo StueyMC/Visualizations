@@ -215,18 +215,18 @@ export function createForceLayout (config) {
     // Create a node data object
     /**
      * Create a node data object
-     * @param {*} id 
-     * @param {*} name 
-     * @param {*} colour 
-     * @param {*} size 
+     * @param {*} id
+     * @param {*} name
+     * @param {*} colour
+     * @param {*} size
      * @returns Node object
      */
-    function createNode(id, name, colour, size) {
+    function createNode (id, name, colour, size) {
       return {
-        id: id,
+        id,
         originalId: id,
-        name: name,
-        colour: colour,
+        name,
+        colour,
         strokeWidth: nodeStrokeWidth,
         stroke: nodeStroke,
         radius: circleRadius(size, style),
@@ -235,20 +235,20 @@ export function createForceLayout (config) {
     }
     //
     /**
-     * 
-     * @param {Object} source 
-     * @param {Object} target 
-     * @param {integer} strokeWidth 
-     * @param {*} colour 
-     * @returns 
+     *
+     * @param {Object} source
+     * @param {Object} target
+     * @param {integer} strokeWidth
+     * @param {*} colour
+     * @returns
      */
-    function createLink(source, target, strokeWidth, colour) {
+    function createLink (source, target, strokeWidth, colour) {
       return {
         id: source.id + target.id,
-        source: source,
-        target: target,
-        strokeWidth: strokeWidth,
-        colour: colour,
+        source,
+        target,
+        strokeWidth,
+        colour,
         distance: linkDistance + source.radius + target.radius
       }
     }
