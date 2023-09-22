@@ -53,6 +53,12 @@ export function createForceLayout (config) {
   const markerSize = 5
   const markerName = 'arrow'
   const markerOffset = useMarker ? markerSize - 0 : 0
+  //
+  // Link Distance configuration
+  //
+  const linkDistance = style['Link Distance'] || 30
+  const busyNodeLinkThreshold = config.style['Busy Node Link Threshold'] === undefined ? 6 : config.style['Busy Node Link Threshold']
+  const busyNodeLinkDistanceMultiplier = config.style['Busy Node Link Distance Multiplier'] === undefined ? 3 : config.style['Busy Node Link Distance Multiplier']
 
   const curvedLinks = config.style['Curved Links'] === undefined ? false : config.style['Curved Links']
 
@@ -62,15 +68,7 @@ export function createForceLayout (config) {
     //
     const nodeMap = {}
     data.nodes.forEach(node => {
-      nodeMap[node.id] = {
-        id: node.id,
-        name: node.name,
-        colour: node.colour,
-        strokeWidth: nodeStrokeWidth,
-        stroke: nodeStroke,
-        radius: circleRadius(node, style),
-        isLinked: false
-      }
+      nodeMap[node.id] = createNode(node.id, node.name, node.colour, node.size)
     })
     if (!style['Ignore Unknown Nodes']) {
       //
@@ -91,19 +89,51 @@ export function createForceLayout (config) {
     //
     const links = data.links
       .filter(link => nodeMap[link.source.id] && nodeMap[link.target.id])
-      .map(link => ({
-        id: link.source.id + link.target.id,
-        source: nodeMap[link.source.id],
-        target: nodeMap[link.target.id],
-        strokeWidth: Math.sqrt(link.value),
-        colour: linkColour(link, style),
-        distance: (style['Link Distance'] || 30) + nodeMap[link.source.id].radius + nodeMap[link.target.id].radius
-      }))
+      .map(link => createLink(
+        nodeMap[link.source.id],
+        nodeMap[link.target.id],
+        Math.sqrt(link.value),
+        linkColour(link, style)))
     const nodes = data.nodes.map(d => nodeMap[d.id])
     // Add indicator for node is linked
     links.forEach(link => {
-      nodeMap[link.source.id].isLinked = true
-      nodeMap[link.target.id].isLinked = true
+      link.source.linkCount++
+      link.target.linkCount++
+    })
+    //
+    // Add separator nodes on links between busy nodes
+    //
+    const separatorLinks = []
+    links.forEach(link => {
+      if (link.source.linkCount > busyNodeLinkThreshold && link.target.linkCount > busyNodeLinkThreshold) {
+        // //
+        // // Create separator node based on source node
+        // //
+        // const separatorNodeId = link.id + '-separator'
+        // const separatorNode = createNode(separatorNodeId, link.source.name, link.source.colour, link.source.size)
+        // separatorNode.linkCount = 2
+        // nodeMap[separatorNodeId] = separatorNode
+        // nodes.push(separatorNode)
+        // //
+        // // Create link from separator node to target
+        // //
+        // separatorLinks.push(createLink(
+        //   separatorNode,
+        //   link.target,
+        //   link.strokeWidth,
+        //   link.colour))
+        // //
+        // // Update original link to be from source to separator node
+        // //
+        // link.target = separatorNode
+        link.distance = busyNodeLinkDistanceMultiplier * link.distance
+      }
+    })
+    //
+    // Add any separator links to the link array
+    //
+    separatorLinks.forEach(link => {
+      links.push(link)
     })
 
     // console.log('Nodes: ' + JSON.stringify(nodes))
@@ -182,11 +212,51 @@ export function createForceLayout (config) {
       return link.linkColour || link.source.linkColour || link.target.linkColour || style['Link Colour']
     }
 
+    // Create a node data object
+    /**
+     * Create a node data object
+     * @param {*} id 
+     * @param {*} name 
+     * @param {*} colour 
+     * @param {*} size 
+     * @returns Node object
+     */
+    function createNode(id, name, colour, size) {
+      return {
+        id: id,
+        originalId: id,
+        name: name,
+        colour: colour,
+        strokeWidth: nodeStrokeWidth,
+        stroke: nodeStroke,
+        radius: circleRadius(size, style),
+        linkCount: 0
+      }
+    }
+    //
+    /**
+     * 
+     * @param {Object} source 
+     * @param {Object} target 
+     * @param {integer} strokeWidth 
+     * @param {*} colour 
+     * @returns 
+     */
+    function createLink(source, target, strokeWidth, colour) {
+      return {
+        id: source.id + target.id,
+        source: source,
+        target: target,
+        strokeWidth: strokeWidth,
+        colour: colour,
+        distance: linkDistance + source.radius + target.radius
+      }
+    }
     // Determine radius of circle
-    function circleRadius (node, style) {
+    function circleRadius (size, style) {
       const minRadius = style['Node Minimum Radius'] || 5
       const maxRadius = style['Node Maximum Radius'] || 500
-      return node.size ? Math.min(Math.max(node.size, minRadius), maxRadius) : minRadius
+      return size ? Math.min(Math.max(size, minRadius), maxRadius) : minRadius
     }
     //
     // Repositioning strength of node depending on whether the node is linked
@@ -203,7 +273,7 @@ export function createForceLayout (config) {
     function nodeRepositionStrength (node, style) {
       const linkedStrength = style['Linked Node Cluster Repositioning Strength']
       const unlinkedStrength = style['Unlinked Node Cluster Repositioning Strength']
-      return node.isLinked
+      return node.linkCount
         ? linkedStrength || (linkedStrength === 0 ? 0 : 0.1)
         : unlinkedStrength || (unlinkedStrength === 0 ? 0 : 0.1)
     }
@@ -212,7 +282,7 @@ export function createForceLayout (config) {
     // Linked nodes are positioned in the centred
     function nodeForceCentreX (node, style) {
       const xPos = style['Unlinked Node Cluster x']
-      return node.isLinked ? style.width / 2 : xPos || (xPos === 0 ? 0 : 100)
+      return node.linkCount ? style.width / 2 : xPos || (xPos === 0 ? 0 : 100)
     }
 
     // The charge for all nodes depending on whether the node is linked
@@ -220,7 +290,7 @@ export function createForceLayout (config) {
     function nodeCharge (node, style) {
       const linkedStrength = style['Linked Node Force Strength']
       const unlinkedStrength = style['Unlinked Node Force Strength']
-      return node.isLinked
+      return node.linkCount
         ? linkedStrength || (linkedStrength === 0 ? 0 : -40)
         : unlinkedStrength || (unlinkedStrength === 0 ? 0 : 1)
     }
@@ -284,7 +354,7 @@ export function createForceLayout (config) {
           .append('title')
           .text(d => d.name)
       }
-      config.functions.updateOutput('hoverNode', hoverNode.id)
+      config.functions.updateOutput('hoverNode', hoverNode.originalId)
     }
 
     function nodeMouseout (event, hoverNode) {
@@ -312,7 +382,7 @@ export function createForceLayout (config) {
     }
 
     function nodeClick (event, d) {
-      config.functions.performAction('Node Click', d.id, event)
+      config.functions.performAction('Node Click', d.originalId, event)
     }
 
     // Reheat the simulation when drag starts, and fix the subject position.

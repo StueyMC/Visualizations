@@ -23,7 +23,7 @@
 		},{
 			"id":"Labarre-id","name":"Labarre","colour":"#ff7f0e"
 		},{
-			"id":"Valjean-id","name":"Valjean","colour":"#ff7f0e"
+			"id":"Valjean-id","name":"Valjean","colour":"#ff7f0e", "size": "20"
 		},{
 			"id":"Marguerite-id","name":"Marguerite","colour":"#e377c2"
 		},{
@@ -97,7 +97,7 @@
 		},{
 			"id":"Mme.Burgon-id","name":"Mme.Burgon","colour":"#8c564b"
 		},{
-			"id":"Gavroche-id","name":"Gavroche","colour":"#7f7f7f"
+			"id":"Gavroche-id","name":"Gavroche","colour":"#2ca02c"
 		},{
 			"id":"Gillenormand-id","name":"Gillenormand","colour":"#bcbd22"
 		},{
@@ -111,29 +111,29 @@
 		},{
 			"id":"Lt.Gillenormand-id","name":"Lt.Gillenormand","colour":"#bcbd22"
 		},{
-			"id":"Marius-id","name":"Marius","colour":"#7f7f7f"
+			"id":"Marius-id","name":"Marius","colour":"#2ca02c"
 		},{
 			"id":"BaronessT-id","name":"BaronessT","colour":"#bcbd22"
 		},{
-			"id":"Mabeuf-id","name":"Mabeuf","colour":"#7f7f7f"
+			"id":"Mabeuf-id","name":"Mabeuf","colour":"#2ca02c"
 		},{
-			"id":"Enjolras-id","name":"Enjolras","colour":"#7f7f7f"
+			"id":"Enjolras-id","name":"Enjolras","colour":"#2ca02c"
 		},{
-			"id":"Combeferre-id","name":"Combeferre","colour":"#7f7f7f"
+			"id":"Combeferre-id","name":"Combeferre","colour":"#2ca02c"
 		},{
-			"id":"Prouvaire-id","name":"Prouvaire","colour":"#7f7f7f"
+			"id":"Prouvaire-id","name":"Prouvaire","colour":"#2ca02c"
 		},{
-			"id":"Feuilly-id","name":"Feuilly","colour":"#7f7f7f"
+			"id":"Feuilly-id","name":"Feuilly","colour":"#2ca02c"
 		},{
-			"id":"Courfeyrac-id","name":"Courfeyrac","colour":"#7f7f7f"
+			"id":"Courfeyrac-id","name":"Courfeyrac","colour":"#2ca02c"
 		},{
-			"id":"Bahorel-id","name":"Bahorel","colour":"#7f7f7f"
+			"id":"Bahorel-id","name":"Bahorel","colour":"#2ca02c"
 		},{
-			"id":"Bossuet-id","name":"Bossuet","colour":"#7f7f7f"
+			"id":"Bossuet-id","name":"Bossuet","colour":"#2ca02c"
 		},{
-			"id":"Joly-id","name":"Joly","colour":"#7f7f7f"
+			"id":"Joly-id","name":"Joly","colour":"#2ca02c"
 		},{
-			"id":"Grantaire-id","name":"Grantaire","colour":"#7f7f7f"
+			"id":"Grantaire-id","name":"Grantaire","colour":"#2ca02c"
 		},{
 			"id":"MotherPlutarch-id","name":"MotherPlutarch","colour":"#000000"
 		},{
@@ -153,7 +153,7 @@
 		},{
 			"id":"Brujon-id","name":"Brujon","colour":"#d62728"
 		},{
-			"id":"Mme.Hucheloup-id","name":"Mme.Hucheloup","colour":"#7f7f7f"
+			"id":"Mme.Hucheloup-id","name":"Mme.Hucheloup","colour":"#2ca02c"
 		}],
 	"links":[{
 		"source":{"id":"Napoleon-id", "name":"Napoleon", "linkColour": "#2ca02c"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":25
