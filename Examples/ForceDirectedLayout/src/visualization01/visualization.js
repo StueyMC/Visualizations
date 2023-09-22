@@ -1,5 +1,6 @@
 //
 //    Entry function declaration
+//    Based on D3 Force Directed Graph https://observablehq.com/@d3/force-directed-graph/2
 //
 import * as d3 from 'd3'
 /**
@@ -42,11 +43,23 @@ export function createForceLayout (config) {
   //
   const nodeStrokeWidth = 0
   const nodeStroke = '#aaa'
+  const minRadius = style['Node Minimum Radius'] || 5
+  const maxRadius = style['Node Maximum Radius'] || 500
   //
   // Link styling
   //
   const linkStrokeOpacity = 0.6
-  const useMarker = config.style['Link Arrow'] === undefined ? false : config.style['Link Arrow']
+  const useMarker = style['Link Arrow'] === undefined ? false : style['Link Arrow']
+  const defaultLinkColour = style['Link Colour']
+  const ignoreUnknownNodes = style['Ignore Unknown Nodes']
+  //
+  // Forces
+  //
+  const linkedStrength = style['Linked Node Force Strength']
+  const unlinkedStrength = style['Unlinked Node Force Strength']
+  const linkedRepositionStrength = style['Linked Node Cluster Repositioning Strength']
+  const unlinkedRepositionStrength = style['Unlinked Node Cluster Repositioning Strength']
+  const unlinkedNodeClusterXPos = style['Unlinked Node Cluster x']
   //
   // Arrow markers for target end of links
   //
@@ -57,10 +70,10 @@ export function createForceLayout (config) {
   // Link Distance configuration
   //
   const linkDistance = style['Link Distance'] || 30
-  const busyNodeLinkThreshold = config.style['Busy Node Link Threshold'] === undefined ? 6 : config.style['Busy Node Link Threshold']
-  const busyNodeLinkDistanceMultiplier = config.style['Busy Node Link Distance Multiplier'] === undefined ? 3 : config.style['Busy Node Link Distance Multiplier']
+  const busyNodeLinkThreshold = style['Busy Node Link Threshold'] === undefined ? 6 : style['Busy Node Link Threshold']
+  const busyNodeLinkDistanceMultiplier = style['Busy Node Link Distance Multiplier'] === undefined ? 3 : style['Busy Node Link Distance Multiplier']
 
-  const curvedLinks = config.style['Curved Links'] === undefined ? false : config.style['Curved Links']
+  const curvedLinks = style['Curved Links'] === undefined ? false : style['Curved Links']
 
   try {
     //
@@ -70,7 +83,7 @@ export function createForceLayout (config) {
     data.nodes.forEach(node => {
       nodeMap[node.id] = createNode(node.id, node.name, node.colour, node.size)
     })
-    if (!style['Ignore Unknown Nodes']) {
+    if (!ignoreUnknownNodes) {
       //
       // Check all the links for a missing node
       //
@@ -93,7 +106,7 @@ export function createForceLayout (config) {
         nodeMap[link.source.id],
         nodeMap[link.target.id],
         Math.sqrt(link.value),
-        linkColour(link, style)))
+        linkColour(link)))
     const nodes = data.nodes.map(d => nodeMap[d.id])
     // Add indicator for node is linked
     links.forEach(link => {
@@ -101,41 +114,13 @@ export function createForceLayout (config) {
       link.target.linkCount++
     })
     //
-    // Add separator nodes on links between busy nodes
+    // Adjust length of links between busy nodes
     //
-    const separatorLinks = []
     links.forEach(link => {
       if (link.source.linkCount > busyNodeLinkThreshold && link.target.linkCount > busyNodeLinkThreshold) {
-        // //
-        // // Create separator node based on source node
-        // //
-        // const separatorNodeId = link.id + '-separator'
-        // const separatorNode = createNode(separatorNodeId, link.source.name, link.source.colour, link.source.size)
-        // separatorNode.linkCount = 2
-        // nodeMap[separatorNodeId] = separatorNode
-        // nodes.push(separatorNode)
-        // //
-        // // Create link from separator node to target
-        // //
-        // separatorLinks.push(createLink(
-        //   separatorNode,
-        //   link.target,
-        //   link.strokeWidth,
-        //   link.colour))
-        // //
-        // // Update original link to be from source to separator node
-        // //
-        // link.target = separatorNode
         link.distance = busyNodeLinkDistanceMultiplier * link.distance
       }
     })
-    //
-    // Add any separator links to the link array
-    //
-    separatorLinks.forEach(link => {
-      links.push(link)
-    })
-
     // console.log('Nodes: ' + JSON.stringify(nodes))
     // console.log('Links: ' + JSON.stringify(links))
     // console.log('Style: ' + JSON.stringify(style))
@@ -143,10 +128,10 @@ export function createForceLayout (config) {
     // Create a simulation with several forces.
     const simulation = d3.forceSimulation(nodes)
       // .force('center', d3.forceCenter(width / 2, height / 2))
-      .force('charge', d3.forceManyBody().strength(d => nodeCharge(d, style)))
+      .force('charge', d3.forceManyBody().strength(d => nodeCharge(d)))
       .force('collision', d3.forceCollide().radius(function (d) { return d.radius }))
-      .force('x', d3.forceX().x(d => nodeForceCentreX(d, style)).strength(d => nodeRepositionStrength(d, style)))
-      .force('y', d3.forceY().y(height / 2).strength(d => nodeRepositionStrength(d, style)))
+      .force('x', d3.forceX().x(d => nodeForceCentreX(d)).strength(d => nodeRepositionStrength(d)))
+      .force('y', d3.forceY().y(height / 2).strength(d => nodeRepositionStrength(d)))
       .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.distance))
       .on('tick', ticked)
 
@@ -208,8 +193,8 @@ export function createForceLayout (config) {
       .on('end', dragended))
 
     // Determine colour for link
-    function linkColour (link, style) {
-      return link.linkColour || link.source.linkColour || link.target.linkColour || style['Link Colour']
+    function linkColour (link) {
+      return link.linkColour || link.source.linkColour || link.target.linkColour || defaultLinkColour
     }
 
     // Create a node data object
@@ -229,7 +214,7 @@ export function createForceLayout (config) {
         colour,
         strokeWidth: nodeStrokeWidth,
         stroke: nodeStroke,
-        radius: circleRadius(size, style),
+        radius: circleRadius(size),
         linkCount: 0
       }
     }
@@ -253,9 +238,7 @@ export function createForceLayout (config) {
       }
     }
     // Determine radius of circle
-    function circleRadius (size, style) {
-      const minRadius = style['Node Minimum Radius'] || 5
-      const maxRadius = style['Node Maximum Radius'] || 500
+    function circleRadius (size) {
       return size ? Math.min(Math.max(size, minRadius), maxRadius) : minRadius
     }
     //
@@ -270,26 +253,20 @@ export function createForceLayout (config) {
     //
     // Linked nodes have a zero strength so rely on other forces alone
     //
-    function nodeRepositionStrength (node, style) {
-      const linkedStrength = style['Linked Node Cluster Repositioning Strength']
-      const unlinkedStrength = style['Unlinked Node Cluster Repositioning Strength']
+    function nodeRepositionStrength (node) {
       return node.linkCount
-        ? linkedStrength || (linkedStrength === 0 ? 0 : 0.1)
-        : unlinkedStrength || (unlinkedStrength === 0 ? 0 : 0.1)
+        ? linkedRepositionStrength || (linkedRepositionStrength === 0 ? 0 : 0.1)
+        : unlinkedRepositionStrength || (unlinkedRepositionStrength === 0 ? 0 : 0.1)
     }
 
     // Force centre X coordinate for node depending on whether the node is linked
     // Linked nodes are positioned in the centred
-    function nodeForceCentreX (node, style) {
-      const xPos = style['Unlinked Node Cluster x']
-      return node.linkCount ? style.width / 2 : xPos || (xPos === 0 ? 0 : 100)
+    function nodeForceCentreX (node) {
+      return node.linkCount ? style.width / 2 : unlinkedNodeClusterXPos || (unlinkedNodeClusterXPos === 0 ? 0 : 100)
     }
 
     // The charge for all nodes depending on whether the node is linked
-    // Unlinked nodes attract each other
-    function nodeCharge (node, style) {
-      const linkedStrength = style['Linked Node Force Strength']
-      const unlinkedStrength = style['Unlinked Node Force Strength']
+    function nodeCharge (node) {
       return node.linkCount
         ? linkedStrength || (linkedStrength === 0 ? 0 : -40)
         : unlinkedStrength || (unlinkedStrength === 0 ? 0 : 1)
@@ -335,20 +312,20 @@ export function createForceLayout (config) {
 
     function nodeMouseover (event, hoverNode) {
       if (showNodeLabelsCode === showNodeLabelsNear) {
-        //
-        // If show label mode is to show labels near current node
-        // make nearby node labels visible
-        //
+      //
+      // If show label mode is to show labels near current node
+      // make nearby node labels visible
+      //
         title
           .filter(d => separation(hoverNode.x, hoverNode.y, d.x, d.y) < showNodeLabelSeparation)
           .classed(labelVisibilityClass.false, false)
           .classed(labelVisibilityClass.true, true)
       }
       if (showNodeLabelsCode === showNodeLabelsNone) {
-        //
-        // If show label mode is to hide all labels
-        // then add a tooltip for the current node
-        //
+      //
+      // If show label mode is to hide all labels
+      // then add a tooltip for the current node
+      //
         node
           .filter(d => d.id === hoverNode.id)
           .append('title')
@@ -359,21 +336,21 @@ export function createForceLayout (config) {
 
     function nodeMouseout (event, hoverNode) {
       if (showNodeLabelsCode === showNodeLabelsNear) {
-        //
-        // If show label mode is to show labels near current node
-        // make all node labels invisible
-        // current node may have been dragged so previously nearby nodes
-        // may not be nearby any more
-        //
+      //
+      // If show label mode is to show labels near current node
+      // make all node labels invisible
+      // current node may have been dragged so previously nearby nodes
+      // may not be nearby any more
+      //
         title
           .classed(labelVisibilityClass.true, false)
           .classed(labelVisibilityClass.false, true)
       }
       if (showNodeLabelsCode === showNodeLabelsNone) {
-        //
-        // If show label mode is to hide all labels
-        // then remove tooltip from the current node
-        //
+      //
+      // If show label mode is to hide all labels
+      // then remove tooltip from the current node
+      //
         node
           .filter(d => d.id === hoverNode.id)
           .selectChild()
@@ -412,7 +389,6 @@ export function createForceLayout (config) {
     //
     config.functions.errorOccurred(errorMessage)
   }
-
   /**
    *
    * @param {*} svg The SVG element to append the marker definitions to
