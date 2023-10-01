@@ -1,9 +1,9 @@
 import { createForceLayout } from '../../src/visualization01/visualization';
 import MooDConfig from './MooDConfig.json';
 // import dataConfig from './data.json';
-// import dataConfig from './data2.json';
+import dataConfig from './data2.json';
 // import dataConfig from './data3.json';
-import dataConfig from './data4.json';
+// import dataConfig from './data4.json';
 import styleConfig from './style.json';
 import inputsConfig from './inputs.json';
 

@@ -134,6 +134,7 @@ export function createForceLayout (config) {
       .force('y', d3.forceY().y(height / 2).strength(d => nodeRepositionStrength(d)))
       .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.distance))
       .on('tick', ticked)
+    // simulation.force('link').strength(d => 0.5 / Math.min(d.source.linkCount, d.target.linkCount) )
 
     const el = d3.select('#' + config.element)
     // Create the SVG container.
@@ -268,7 +269,7 @@ export function createForceLayout (config) {
     // The charge for all nodes depending on whether the node is linked
     function nodeCharge (node) {
       return node.linkCount
-        ? linkedStrength || (linkedStrength === 0 ? 0 : -40)
+        ? Math.sqrt(node.linkCount) * (linkedStrength || (linkedStrength === 0 ? 0 : -40))
         : unlinkedStrength || (unlinkedStrength === 0 ? 0 : 1)
     }
 
