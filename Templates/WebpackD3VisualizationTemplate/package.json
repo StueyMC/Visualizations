@@ -4,16 +4,16 @@
   "version": "0.0.0",
   "license": "MIT",
   "dependencies": {
-    "babel-jest": "^29.6.1",
-    "core-js": "3.22.0",
     "d3": "7.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
+    "babel-jest": "^29.7.0",
     "babel-loader": "^8.3.0",
     "clean-webpack-plugin": "3.0.0",
     "copy-webpack-plugin": "~11.0.0",
+    "core-js": "^3.33.0",
     "ejs": "^3.1.7",
     "file-loader": "6.2.0",
     "fs": "~0.0.1-security",
