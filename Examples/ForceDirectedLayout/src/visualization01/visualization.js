@@ -25,6 +25,7 @@ export function createForceLayout (config) {
   //
   const superInputChanged = config.functions.inputChanged
   config.functions.inputChanged = inputChanged
+  // input: Show node labels
   const showNodeLabelsNone = 1
   const showNodeLabelsAll = 2
   const showNodeLabelsNear = 3
@@ -37,7 +38,17 @@ export function createForceLayout (config) {
     true: showLabelTextClass,
     false: hideLabelTextClass
   }
+  // input: Force between nodes
+  let linkedStrength = -config.inputs.nodeForce || -40
+  // input: Strength of force clustering nodes
+  let linkedRepositionStrength = (config.inputs.gravityStrength || 5) / 100
+  // input: Elastic strength of links
+  let linkStrength = (config.inputs.linkStrength || 50) / 100
+  // input: Length of links
+  let linkDistance = config.inputs.linkLength || 30
+
   let title
+  let simulation
   //
   // Node styling
   //
@@ -55,9 +66,9 @@ export function createForceLayout (config) {
   //
   // Forces
   //
-  const linkedStrength = style['Linked Node Force Strength']
+  // const linkedStrength = style['Linked Node Force Strength']
   const unlinkedStrength = style['Unlinked Node Force Strength']
-  const linkedRepositionStrength = style['Linked Node Cluster Repositioning Strength']
+  // const linkedRepositionStrength = style['Linked Node Cluster Repositioning Strength']
   const unlinkedRepositionStrength = style['Unlinked Node Cluster Repositioning Strength']
   const unlinkedNodeClusterXPos = style['Unlinked Node Cluster x']
   //
@@ -69,9 +80,9 @@ export function createForceLayout (config) {
   //
   // Link Distance configuration
   //
-  const linkDistance = style['Link Distance'] || 30
-  const busyNodeLinkThreshold = style['Busy Node Link Threshold'] === undefined ? 6 : style['Busy Node Link Threshold']
-  const busyNodeLinkDistanceMultiplier = style['Busy Node Link Distance Multiplier'] === undefined ? 3 : style['Busy Node Link Distance Multiplier']
+  // const linkDistance = style['Link Distance'] || 30
+  // const busyNodeLinkThreshold = style['Busy Node Link Threshold'] === undefined ? 6 : style['Busy Node Link Threshold']
+  // const busyNodeLinkDistanceMultiplier = style['Busy Node Link Distance Multiplier'] === undefined ? 3 : style['Busy Node Link Distance Multiplier']
 
   const curvedLinks = style['Curved Links'] === undefined ? false : style['Curved Links']
 
@@ -116,25 +127,26 @@ export function createForceLayout (config) {
     //
     // Adjust length of links between busy nodes
     //
-    links.forEach(link => {
-      if (link.source.linkCount > busyNodeLinkThreshold && link.target.linkCount > busyNodeLinkThreshold) {
-        link.distance = busyNodeLinkDistanceMultiplier * link.distance
-      }
-    })
+    // links.forEach(link => {
+    //   if (link.source.linkCount > busyNodeLinkThreshold && link.target.linkCount > busyNodeLinkThreshold) {
+    //     link.distance = busyNodeLinkDistanceMultiplier * link.distance
+    //   }
+    // })
     // console.log('Nodes: ' + JSON.stringify(nodes))
     // console.log('Links: ' + JSON.stringify(links))
     // console.log('Style: ' + JSON.stringify(style))
 
     // Create a simulation with several forces.
-    const simulation = d3.forceSimulation(nodes)
+    simulation = d3.forceSimulation(nodes)
       // .force('center', d3.forceCenter(width / 2, height / 2))
       .force('charge', d3.forceManyBody().strength(d => nodeCharge(d)))
       .force('collision', d3.forceCollide().radius(function (d) { return d.radius }))
       .force('x', d3.forceX().x(d => nodeForceCentreX(d)).strength(d => nodeRepositionStrength(d)))
       .force('y', d3.forceY().y(height / 2).strength(d => nodeRepositionStrength(d)))
-      .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.distance))
+      .force('link', d3.forceLink(links).id(d => d.id).distance(linkDistance)) //d => d.distance))
       .on('tick', ticked)
-    // simulation.force('link').strength(d => 0.5 / Math.min(d.source.linkCount, d.target.linkCount) )
+    // simulation.force('link').strength(d => linkStrength / Math.min(d.source.linkCount, d.target.linkCount) )
+    simulation.force('link').strength(linkStrength)
 
     const el = d3.select('#' + config.element)
     // Create the SVG container.
@@ -458,6 +470,28 @@ export function createForceLayout (config) {
         title
           .classed(labelVisibilityClass[!showAllNodeLabels], false)
           .classed(labelVisibilityClass[showAllNodeLabels], true)
+      }
+
+      if (name === 'nodeForce') {
+        linkedStrength = -value
+        simulation.alphaTarget(0.3).restart()
+      }
+
+      if (name === 'gravityStrength') {
+        linkedRepositionStrength = value / 100
+        simulation.alphaTarget(0.3).restart()
+      }
+
+      if (name === 'linkStrength') {
+        linkStrength = value / 100
+        simulation.force('link').strength(linkStrength)
+        simulation.alphaTarget(0.3).restart()
+      }
+
+      if (name === 'linkLength') {
+        linkDistance = value
+        simulation.force('link').distance(linkDistance)
+        simulation.alphaTarget(0.3).restart()
       }
     } catch (e) {
       const errorMessage = e.name + ': ' + e.message

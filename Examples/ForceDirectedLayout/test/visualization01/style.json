@@ -10,8 +10,6 @@
         "Unlinked Node Cluster x": 150,
         "Link Colour": "#000",
         "Link Distance": 40,
-        "Busy Node Link Threshold": 6,
-        "Busy Node Link Distance Multiplier": 1,
         "Link Arrow": true,
         "Curved Links": false,
         "Ignore Unknown Nodes": true,

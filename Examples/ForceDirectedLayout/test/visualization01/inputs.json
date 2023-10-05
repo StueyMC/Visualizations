@@ -1,5 +1,9 @@
 {
     "inputs" : {
-        "showLabels": 1
+        "showLabels": 1,
+        "nodeForce": 40,
+        "gravityStrength": 5,
+        "linkStrength": 50,
+        "linkLength": 30
     }
 }
