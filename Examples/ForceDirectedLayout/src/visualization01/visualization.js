@@ -40,7 +40,7 @@ export function createForceLayout (config) {
   }
   // input: Force between nodes
   let linkedStrength = -config.inputs.nodeForce || -40
-  // input: Strength of force clustering nodes
+  // input: Strength of Gravity
   let linkedRepositionStrength = (config.inputs.gravityStrength || 5) / 100
   // input: Elastic strength of links
   let linkStrength = (config.inputs.linkStrength || 50) / 100
@@ -49,6 +49,8 @@ export function createForceLayout (config) {
 
   let title
   let simulation
+  let nodes
+  let links
   //
   // Node styling
   //
@@ -66,9 +68,7 @@ export function createForceLayout (config) {
   //
   // Forces
   //
-  // const linkedStrength = style['Linked Node Force Strength']
   const unlinkedStrength = style['Unlinked Node Force Strength']
-  // const linkedRepositionStrength = style['Linked Node Cluster Repositioning Strength']
   const unlinkedRepositionStrength = style['Unlinked Node Cluster Repositioning Strength']
   const unlinkedNodeClusterXPos = style['Unlinked Node Cluster x']
   //
@@ -77,12 +77,6 @@ export function createForceLayout (config) {
   const markerSize = 5
   const markerName = 'arrow'
   const markerOffset = useMarker ? markerSize - 0 : 0
-  //
-  // Link Distance configuration
-  //
-  // const linkDistance = style['Link Distance'] || 30
-  // const busyNodeLinkThreshold = style['Busy Node Link Threshold'] === undefined ? 6 : style['Busy Node Link Threshold']
-  // const busyNodeLinkDistanceMultiplier = style['Busy Node Link Distance Multiplier'] === undefined ? 3 : style['Busy Node Link Distance Multiplier']
 
   const curvedLinks = style['Curved Links'] === undefined ? false : style['Curved Links']
 
@@ -111,14 +105,14 @@ export function createForceLayout (config) {
     // The force simulation mutates links and nodes, so create a copy
     // so that re-evaluating this cell produces the same result.
     //
-    const links = data.links
+    links = data.links
       .filter(link => nodeMap[link.source.id] && nodeMap[link.target.id])
       .map(link => createLink(
         nodeMap[link.source.id],
         nodeMap[link.target.id],
         Math.sqrt(link.value),
         linkColour(link)))
-    const nodes = data.nodes.map(d => nodeMap[d.id])
+    nodes = data.nodes.map(d => nodeMap[d.id])
     // Add indicator for node is linked
     links.forEach(link => {
       link.source.linkCount++
@@ -143,7 +137,7 @@ export function createForceLayout (config) {
       .force('collision', d3.forceCollide().radius(function (d) { return d.radius }))
       .force('x', d3.forceX().x(d => nodeForceCentreX(d)).strength(d => nodeRepositionStrength(d)))
       .force('y', d3.forceY().y(height / 2).strength(d => nodeRepositionStrength(d)))
-      .force('link', d3.forceLink(links).id(d => d.id).distance(linkDistance)) //d => d.distance))
+      .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.distance))
       .on('tick', ticked)
     // simulation.force('link').strength(d => linkStrength / Math.min(d.source.linkCount, d.target.linkCount) )
     simulation.force('link').strength(linkStrength)
@@ -247,42 +241,18 @@ export function createForceLayout (config) {
         target,
         strokeWidth,
         colour,
-        distance: linkDistance + source.radius + target.radius
+        distance: linkLength(source, target)
       }
     }
     // Determine radius of circle
     function circleRadius (size) {
       return size ? Math.min(Math.max(size, minRadius), maxRadius) : minRadius
     }
-    //
-    // Repositioning strength of node depending on whether the node is linked
-    //
-    // The strength determines how much to increment the node’s x-velocity: (x - node.x) × strength.
-    // For example, a value of 0.1 indicates that the node should move a tenth of the way from its current x-position
-    // to the target x-position with each application.
-    // Higher values moves nodes more quickly to the target position, often at the expense of other forces or constraints.
-    // A value outside the range [0,1] is not recommended.
-    // See https://github.com/d3/d3-force#positioning
-    //
-    // Linked nodes have a zero strength so rely on other forces alone
-    //
-    function nodeRepositionStrength (node) {
-      return node.linkCount
-        ? linkedRepositionStrength || (linkedRepositionStrength === 0 ? 0 : 0.1)
-        : unlinkedRepositionStrength || (unlinkedRepositionStrength === 0 ? 0 : 0.1)
-    }
 
     // Force centre X coordinate for node depending on whether the node is linked
     // Linked nodes are positioned in the centred
     function nodeForceCentreX (node) {
       return node.linkCount ? style.width / 2 : unlinkedNodeClusterXPos || (unlinkedNodeClusterXPos === 0 ? 0 : 100)
-    }
-
-    // The charge for all nodes depending on whether the node is linked
-    function nodeCharge (node) {
-      return node.linkCount
-        ? Math.sqrt(node.linkCount) * (linkedStrength || (linkedStrength === 0 ? 0 : -40))
-        : unlinkedStrength || (unlinkedStrength === 0 ? 0 : 1)
     }
 
     // Set the position attributes of links and nodes each time the simulation ticks.
@@ -465,32 +435,39 @@ export function createForceLayout (config) {
       console.log('Input Changed - name: ' + name + ', value: ' + value)
 
       if (name === 'showLabels') {
-        showAllNodeLabels = showLabels(value)
-        showNodeLabelsCode = value
+        const code = parseInt(value)
+        showAllNodeLabels = showLabels(code)
+        showNodeLabelsCode = code
         title
           .classed(labelVisibilityClass[!showAllNodeLabels], false)
           .classed(labelVisibilityClass[showAllNodeLabels], true)
       }
 
       if (name === 'nodeForce') {
-        linkedStrength = -value
+        linkedStrength = -parseInt(value)
+        simulation.force('charge').strength(d => nodeCharge(d))
         simulation.alphaTarget(0.3).restart()
       }
 
       if (name === 'gravityStrength') {
-        linkedRepositionStrength = value / 100
+        linkedRepositionStrength = parseInt(value) / 100
+        simulation.force('x').strength(d => nodeRepositionStrength(d))
+        simulation.force('y').strength(d => nodeRepositionStrength(d))
         simulation.alphaTarget(0.3).restart()
       }
 
       if (name === 'linkStrength') {
-        linkStrength = value / 100
+        linkStrength = parseInt(value) / 100
         simulation.force('link').strength(linkStrength)
         simulation.alphaTarget(0.3).restart()
       }
 
       if (name === 'linkLength') {
-        linkDistance = value
-        simulation.force('link').distance(linkDistance)
+        linkDistance = parseInt(value)
+        links.forEach(link => {
+          link.distance = linkLength(link.source, link.target)
+        })
+        simulation.force('link').distance(d => d.distance)
         simulation.alphaTarget(0.3).restart()
       }
     } catch (e) {
@@ -512,5 +489,33 @@ export function createForceLayout (config) {
    */
   function showLabels (inputValue) {
     return inputValue === showNodeLabelsAll
+  }
+
+  function linkLength (source, target) {
+    const retVal = linkDistance + source.radius + target.radius
+    return retVal
+  }
+  //
+  // Repositioning strength of node depending on whether the node is linked
+  //
+  // The strength determines how much to increment the node’s x-velocity: (x - node.x) × strength.
+  // For example, a value of 0.1 indicates that the node should move a tenth of the way from its current x-position
+  // to the target x-position with each application.
+  // Higher values moves nodes more quickly to the target position, often at the expense of other forces or constraints.
+  // A value outside the range [0,1] is not recommended.
+  // See https://github.com/d3/d3-force#positioning
+  //
+  // Linked nodes have a zero strength so rely on other forces alone
+  //
+  function nodeRepositionStrength (node) {
+    return node.linkCount
+      ? linkedRepositionStrength || (linkedRepositionStrength === 0 ? 0 : 0.1)
+      : unlinkedRepositionStrength || (unlinkedRepositionStrength === 0 ? 0 : 0.1)
+  }
+  // The charge for all nodes depending on whether the node is linked
+  function nodeCharge (node) {
+    return node.linkCount
+      ? Math.sqrt(node.linkCount) * (linkedStrength || (linkedStrength === 0 ? 0 : -40))
+      : unlinkedStrength || (unlinkedStrength === 0 ? 0 : 1)
   }
 }
