@@ -54,15 +54,10 @@ The properties are:
 
 *   __Node Minimum Radius__: The minimum radius of circles drawn to represent nodes. __Default 5__
 *   __Node Maximum Radius__: The minimum radius of circles drawn to represent nodes. __Default 100__
-*   __Linked Node Force Strength__: The force exerted between linked nodes. Negative numbers specify repulsion, positive numbers specify attraction. __Default -40__
 *   __Unlinked Node Force Strength__: The force exerted between unlinked nodes. Negative numbers specify repulsion, positive numbers specify attraction. __Default -10__
-*   __Linked Node Cluster Repositioning Strength__: The strength of the force to move linked nodes to the to the centre of the graph where they will cluster. A value between 0 and 1. Higher values moves nodes more quickly to the target position. A value of zero will disable clustering of linked nodes. __Default 0.05__
 *   __Unlinked Node Cluster Repositioning Strength__: The strength of the force to move unlinked nodes to the position where they will cluster. A value between 0 and 1. Higher values moves nodes more quickly to the target position. A value of zero will disable clustering of unlinked nodes. __Default 0.1__
 *   __Unlinked Node Cluster x__: The x coordinate of the centre of the cluster zone for unlinked nodes. __Default 100__
 *	__Link Colour__: The default colour of the line drawn between nodes representing links. __Default #000__
-*   __Link Distance__: The minimum length of the link lines drawn between the edges of nodes. __Default 30__
-*   __Busy Node Link Threshold__: The total number of links flowing into and out of a node above which indicates that the node is _busy_ and should be separated from other _busy_ nodes via longer link lines. __Default 6__
-*   __Busy Node Link Distance Multiplier__: The multiplication factor to apply to link length for links between _busy_ nodes. __Default 3__
 *   __Link Arrow__: Indicates if an arrow marker should be drawn at the target end of the link (true) or not (false). __Default false__
 *   __Curved Links__: Select whether link lines are draw as a curve (true) or a straight line (false). __Default false__
 *   __Ignore Unknown Nodes__: Indicates if links in the links dataset involving source ot target nodes not in the nodes dataset should be ignored (true) or reported as an error (false). __Default true__
@@ -73,7 +68,7 @@ The properties are:
 
 # Inputs
 
-The visualization has one input.
+The visualization has five inputs.
 
 * __Show node labels__: a numeric value that defines which node labels are displayed
    * 1 - None: do not display node labels, but a tooltip appears for the current (under cursor) node
@@ -81,6 +76,14 @@ The visualization has one input.
    * 3 - Nearby: display labels for nearby nodes (within __Show Label Node Separation__ pixels of the current node)
 
   __Note:__ when pinning this input, do not change the initial value / variable from 0 to 1, 2 or 3 as doing so will mean that this input cannot be changed back. __Default 1__
+
+* __Force between nodes__: The force exerted between linked nodes. Positive numbers specify repulsion, negative numbers specify attraction. The recommended range of values to select from is 0 to 100. __Default 40__
+
+* __Strength of Gravity__: The strength of the force to move linked nodes to the to the centre of the graph where they will cluster. A value between 0 and 100. Higher values moves nodes more quickly to the target position. A value of zero will disable clustering of linked nodes. The recommended range of values to select from is 0 to 20. __Default 5__
+
+* __Elastic strength of links__: The rigidity of the links between.  A value between 0 and 100. Higher values give the links less ability to extend under node repulsive forces. __Default 50__
+
+* __Length of links__: The minimum length of the link lines drawn between the edges of nodes. __Default 30__
 
 [Table of Contents](#table-of-contents)
 

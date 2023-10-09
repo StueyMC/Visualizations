@@ -7,7 +7,6 @@
         "Unlinked Node Cluster Repositioning Strength": 0.15,
         "Unlinked Node Cluster x": 150,
         "Link Colour": "#000",
-        "Link Distance": 40,
         "Link Arrow": true,
         "Curved Links": false,
         "Ignore Unknown Nodes": true,
