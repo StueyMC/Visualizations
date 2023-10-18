@@ -257,6 +257,7 @@ export function createForceLayout (config) {
 
     // Set the position attributes of links and nodes each time the simulation ticks.
     function ticked () {
+      // console.log('Tick, alpha: ' + simulation.alpha())
       link.attr('d', function (d) {
         const dx = d.target.x - d.source.x
         const dy = d.target.y - d.source.y
@@ -429,13 +430,14 @@ export function createForceLayout (config) {
    */
   function inputChanged (name, value) {
     try {
+      let restart = false
       if (superInputChanged !== inputChanged) {
         superInputChanged(name, value)
       }
       console.log('Input Changed - name: ' + name + ', value: ' + value)
 
       if (name === 'showLabels') {
-        const code = parseInt(value)
+        const code = value
         showAllNodeLabels = showLabels(code)
         showNodeLabelsCode = code
         title
@@ -444,31 +446,35 @@ export function createForceLayout (config) {
       }
 
       if (name === 'nodeForce') {
-        linkedStrength = -parseInt(value)
+        linkedStrength = -value
         simulation.force('charge').strength(d => nodeCharge(d))
-        simulation.alphaTarget(0.3).restart()
+        restart = true
       }
 
       if (name === 'gravityStrength') {
-        linkedRepositionStrength = parseInt(value) / 100
+        linkedRepositionStrength = value / 100
         simulation.force('x').strength(d => nodeRepositionStrength(d))
         simulation.force('y').strength(d => nodeRepositionStrength(d))
-        simulation.alphaTarget(0.3).restart()
+        restart = true
       }
 
       if (name === 'linkStrength') {
-        linkStrength = parseInt(value) / 100
+        linkStrength = value / 100
         simulation.force('link').strength(linkStrength)
-        simulation.alphaTarget(0.3).restart()
+        restart = true
       }
 
       if (name === 'linkLength') {
-        linkDistance = parseInt(value)
+        linkDistance = value
         links.forEach(link => {
           link.distance = linkLength(link.source, link.target)
         })
         simulation.force('link').distance(d => d.distance)
-        simulation.alphaTarget(0.3).restart()
+        restart = true
+      }
+
+      if (restart) {
+        simulation.alpha(0.3).velocityDecay(0.3).restart()
       }
     } catch (e) {
       const errorMessage = e.name + ': ' + e.message

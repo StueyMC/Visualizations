@@ -88,7 +88,7 @@ for (key in inputsConfig) {
     var nodeForceSliderEl = document.getElementById("node-force-slider")
     // Update the current slider value (each time you drag the slider handle)
     nodeForceSliderEl.oninput = function() {
-        config.inputs.nodeForce = this.value
+        config.inputs.nodeForce = parseInt(this.value)
         config.functions.inputChanged('nodeForce', config.inputs.nodeForce)
     }
     //
@@ -97,7 +97,7 @@ for (key in inputsConfig) {
     var gravitySliderEl = document.getElementById("gravity-slider")
     // Update the current slider value (each time you drag the slider handle)
     gravitySliderEl.oninput = function() {
-        config.inputs.gravityStrength = this.value
+        config.inputs.gravityStrength = parseInt(this.value)
         config.functions.inputChanged('gravityStrength', config.inputs.gravityStrength)
     }
     //
@@ -106,7 +106,7 @@ for (key in inputsConfig) {
     var linkStrengthSliderEl = document.getElementById("link-strength-slider")
     // Update the current slider value (each time you drag the slider handle)
     linkStrengthSliderEl.oninput = function() {
-        config.inputs.linkStrength = this.value
+        config.inputs.linkStrength = parseInt(this.value)
         config.functions.inputChanged('linkStrength', config.inputs.linkStrength)
     }
     //
@@ -115,7 +115,7 @@ for (key in inputsConfig) {
     var linkLengthSliderEl = document.getElementById("link-length-slider")
     // Update the current slider value (each time you drag the slider handle)
     linkLengthSliderEl.oninput = function() {
-        config.inputs.linkLength = this.value
+        config.inputs.linkLength = parseInt(this.value)
         config.functions.inputChanged('linkLength', config.inputs.linkLength)
     }
   
