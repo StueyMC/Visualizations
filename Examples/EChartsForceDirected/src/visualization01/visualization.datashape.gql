@@ -1,0 +1,25 @@
+
+type data {
+	rootNode: node!
+	level1Relationship: [relation]!
+	level2Relationship: [relation]
+	level3Relationship: [relation]
+	level4Relationship: [relation]
+}
+
+type node implements MooDElement{
+	key: ID!
+	name: String! @UI(name:"Name" default: "name")
+}
+
+type targetNode implements MooDElement{
+	key: ID!
+	name: String! @UI(name:"Name" default: "name")
+	value: Number
+}
+
+type relation implements MooDElement{
+	key: ID!
+	source: node! @UI(name:"Source")
+	target: targetNode! @UI(name:"Target")
+}

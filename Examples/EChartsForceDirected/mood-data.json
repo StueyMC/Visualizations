@@ -1,0 +1,3018 @@
+{
+  "data": {
+    "rootNode": {
+      "key": "flare-key",
+      "name": "flare"
+    },
+    "level1Relationship": [
+      {
+        "source": {
+          "key": "flare-key",
+          "name": "flare"
+        },
+        "target": {
+          "key": "flare.analytics",
+          "name": "analytics",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare-key",
+          "name": "flare"
+        },
+        "target": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare-key",
+          "name": "flare"
+        },
+        "target": {
+          "key": "flare.data",
+          "name": "data",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare-key",
+          "name": "flare"
+        },
+        "target": {
+          "key": "flare.display",
+          "name": "display",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare-key",
+          "name": "flare"
+        },
+        "target": {
+          "key": "flare.flex",
+          "name": "flex",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare-key",
+          "name": "flare"
+        },
+        "target": {
+          "key": "flare.physics",
+          "name": "physics",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare-key",
+          "name": "flare"
+        },
+        "target": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare-key",
+          "name": "flare"
+        },
+        "target": {
+          "key": "flare.scale",
+          "name": "scale",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare-key",
+          "name": "flare"
+        },
+        "target": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare-key",
+          "name": "flare"
+        },
+        "target": {
+          "key": "flare.vis",
+          "name": "vis",
+          "value": null
+        }
+      }
+    ],
+    "level2Relationship": [
+      {
+        "source": {
+          "key": "flare.analytics",
+          "name": "analytics",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.cluster",
+          "name": "cluster",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.analytics",
+          "name": "analytics",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.graph",
+          "name": "graph",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.analytics",
+          "name": "analytics",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.optimization",
+          "name": "optimization",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.Easing",
+          "name": "Easing",
+          "value": 17010
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.FunctionSequence",
+          "name": "FunctionSequence",
+          "value": 5842
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.interpolate",
+          "name": "interpolate",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.ISchedulable",
+          "name": "ISchedulable",
+          "value": 1041
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.Parallel",
+          "name": "Parallel",
+          "value": 5176
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.Pause",
+          "name": "Pause",
+          "value": 449
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.Scheduler",
+          "name": "Scheduler",
+          "value": 5593
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.Sequence",
+          "name": "Sequence",
+          "value": 5534
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.Transition",
+          "name": "Transition",
+          "value": 9201
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.Transitioner",
+          "name": "Transitioner",
+          "value": 19975
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.TransitionEvent",
+          "name": "TransitionEvent",
+          "value": 1116
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate",
+          "name": "animate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.Tween",
+          "name": "Tween",
+          "value": 6006
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.converters",
+          "name": "converters",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.DataField",
+          "name": "DataField",
+          "value": 1759
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.DataSchema",
+          "name": "DataSchema",
+          "value": 2165
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.DataSet",
+          "name": "DataSet",
+          "value": 586
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.DataSource",
+          "name": "DataSource",
+          "value": 3331
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.DataTable",
+          "name": "DataTable",
+          "value": 772
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.DataUtil",
+          "name": "DataUtil",
+          "value": 3322
+        }
+      },
+      {
+        "source": {
+          "key": "flare.display",
+          "name": "display",
+          "value": null
+        },
+        "target": {
+          "key": "flare.display.DirtySprite",
+          "name": "DirtySprite",
+          "value": 8833
+        }
+      },
+      {
+        "source": {
+          "key": "flare.display",
+          "name": "display",
+          "value": null
+        },
+        "target": {
+          "key": "flare.display.LineSprite",
+          "name": "LineSprite",
+          "value": 1732
+        }
+      },
+      {
+        "source": {
+          "key": "flare.display",
+          "name": "display",
+          "value": null
+        },
+        "target": {
+          "key": "flare.display.RectSprite",
+          "name": "RectSprite",
+          "value": 3623
+        }
+      },
+      {
+        "source": {
+          "key": "flare.display",
+          "name": "display",
+          "value": null
+        },
+        "target": {
+          "key": "flare.display.TextSprite",
+          "name": "TextSprite",
+          "value": 10066
+        }
+      },
+      {
+        "source": {
+          "key": "flare.flex",
+          "name": "flex",
+          "value": null
+        },
+        "target": {
+          "key": "flare.flex.FlareVis",
+          "name": "FlareVis",
+          "value": 4116
+        }
+      },
+      {
+        "source": {
+          "key": "flare.physics",
+          "name": "physics",
+          "value": null
+        },
+        "target": {
+          "key": "flare.physics.DragForce",
+          "name": "DragForce",
+          "value": 1082
+        }
+      },
+      {
+        "source": {
+          "key": "flare.physics",
+          "name": "physics",
+          "value": null
+        },
+        "target": {
+          "key": "flare.physics.GravityForce",
+          "name": "GravityForce",
+          "value": 1336
+        }
+      },
+      {
+        "source": {
+          "key": "flare.physics",
+          "name": "physics",
+          "value": null
+        },
+        "target": {
+          "key": "flare.physics.IForce",
+          "name": "IForce",
+          "value": 319
+        }
+      },
+      {
+        "source": {
+          "key": "flare.physics",
+          "name": "physics",
+          "value": null
+        },
+        "target": {
+          "key": "flare.physics.NBodyForce",
+          "name": "NBodyForce",
+          "value": 10498
+        }
+      },
+      {
+        "source": {
+          "key": "flare.physics",
+          "name": "physics",
+          "value": null
+        },
+        "target": {
+          "key": "flare.physics.Particle",
+          "name": "Particle",
+          "value": 2822
+        }
+      },
+      {
+        "source": {
+          "key": "flare.physics",
+          "name": "physics",
+          "value": null
+        },
+        "target": {
+          "key": "flare.physics.Simulation",
+          "name": "Simulation",
+          "value": 9983
+        }
+      },
+      {
+        "source": {
+          "key": "flare.physics",
+          "name": "physics",
+          "value": null
+        },
+        "target": {
+          "key": "flare.physics.Spring",
+          "name": "Spring",
+          "value": 2213
+        }
+      },
+      {
+        "source": {
+          "key": "flare.physics",
+          "name": "physics",
+          "value": null
+        },
+        "target": {
+          "key": "flare.physics.SpringForce",
+          "name": "SpringForce",
+          "value": 1681
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.AggregateExpression",
+          "name": "AggregateExpression",
+          "value": 1616
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.And",
+          "name": "And",
+          "value": 1027
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Arithmetic",
+          "name": "Arithmetic",
+          "value": 3891
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Average",
+          "name": "Average",
+          "value": 891
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.BinaryExpression",
+          "name": "BinaryExpression",
+          "value": 2893
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Comparison",
+          "name": "Comparison",
+          "value": 5103
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.CompositeExpression",
+          "name": "CompositeExpression",
+          "value": 3677
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Count",
+          "name": "Count",
+          "value": 781
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.DateUtil",
+          "name": "DateUtil",
+          "value": 4141
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Distinct",
+          "name": "Distinct",
+          "value": 933
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Expression",
+          "name": "Expression",
+          "value": 5130
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.ExpressionIterator",
+          "name": "ExpressionIterator",
+          "value": 3617
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Fn",
+          "name": "Fn",
+          "value": 3240
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.If",
+          "name": "If",
+          "value": 2732
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.IsA",
+          "name": "IsA",
+          "value": 2039
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Literal",
+          "name": "Literal",
+          "value": 1214
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Match",
+          "name": "Match",
+          "value": 3748
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Maximum",
+          "name": "Maximum",
+          "value": 843
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Minimum",
+          "name": "Minimum",
+          "value": 843
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Not",
+          "name": "Not",
+          "value": 1554
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Or",
+          "name": "Or",
+          "value": 970
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Query",
+          "name": "Query",
+          "value": 13896
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Range",
+          "name": "Range",
+          "value": 1594
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.StringUtil",
+          "name": "StringUtil",
+          "value": 4130
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Sum",
+          "name": "Sum",
+          "value": 791
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Variable",
+          "name": "Variable",
+          "value": 1124
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Variance",
+          "name": "Variance",
+          "value": 1876
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query",
+          "name": "query",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.Xor",
+          "name": "Xor",
+          "value": 1101
+        }
+      },
+      {
+        "source": {
+          "key": "flare.scale",
+          "name": "scale",
+          "value": null
+        },
+        "target": {
+          "key": "flare.scale.IScaleMap",
+          "name": "IScaleMap",
+          "value": 2105
+        }
+      },
+      {
+        "source": {
+          "key": "flare.scale",
+          "name": "scale",
+          "value": null
+        },
+        "target": {
+          "key": "flare.scale.LinearScale",
+          "name": "LinearScale",
+          "value": 1316
+        }
+      },
+      {
+        "source": {
+          "key": "flare.scale",
+          "name": "scale",
+          "value": null
+        },
+        "target": {
+          "key": "flare.scale.LogScale",
+          "name": "LogScale",
+          "value": 3151
+        }
+      },
+      {
+        "source": {
+          "key": "flare.scale",
+          "name": "scale",
+          "value": null
+        },
+        "target": {
+          "key": "flare.scale.OrdinalScale",
+          "name": "OrdinalScale",
+          "value": 3770
+        }
+      },
+      {
+        "source": {
+          "key": "flare.scale",
+          "name": "scale",
+          "value": null
+        },
+        "target": {
+          "key": "flare.scale.QuantileScale",
+          "name": "QuantileScale",
+          "value": 2435
+        }
+      },
+      {
+        "source": {
+          "key": "flare.scale",
+          "name": "scale",
+          "value": null
+        },
+        "target": {
+          "key": "flare.scale.QuantitativeScale",
+          "name": "QuantitativeScale",
+          "value": 4839
+        }
+      },
+      {
+        "source": {
+          "key": "flare.scale",
+          "name": "scale",
+          "value": null
+        },
+        "target": {
+          "key": "flare.scale.RootScale",
+          "name": "RootScale",
+          "value": 1756
+        }
+      },
+      {
+        "source": {
+          "key": "flare.scale",
+          "name": "scale",
+          "value": null
+        },
+        "target": {
+          "key": "flare.scale.Scale",
+          "name": "Scale",
+          "value": 4268
+        }
+      },
+      {
+        "source": {
+          "key": "flare.scale",
+          "name": "scale",
+          "value": null
+        },
+        "target": {
+          "key": "flare.scale.ScaleType",
+          "name": "ScaleType",
+          "value": 1821
+        }
+      },
+      {
+        "source": {
+          "key": "flare.scale",
+          "name": "scale",
+          "value": null
+        },
+        "target": {
+          "key": "flare.scale.TimeScale",
+          "name": "TimeScale",
+          "value": 5833
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Arrays",
+          "name": "Arrays",
+          "value": 8258
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Colors",
+          "name": "Colors",
+          "value": 10001
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Dates",
+          "name": "Dates",
+          "value": 8217
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Displays",
+          "name": "Displays",
+          "value": 12555
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Filter",
+          "name": "Filter",
+          "value": 2324
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Geometry",
+          "name": "Geometry",
+          "value": 10993
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.heap",
+          "name": "heap",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.IEvaluable",
+          "name": "IEvaluable",
+          "value": 335
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.IPredicate",
+          "name": "IPredicate",
+          "value": 383
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.IValueProxy",
+          "name": "IValueProxy",
+          "value": 874
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.math",
+          "name": "math",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Maths",
+          "name": "Maths",
+          "value": 17705
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Orientation",
+          "name": "Orientation",
+          "value": 1486
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.palette",
+          "name": "palette",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Property",
+          "name": "Property",
+          "value": 5559
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Shapes",
+          "name": "Shapes",
+          "value": 19118
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Sort",
+          "name": "Sort",
+          "value": 6887
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Stats",
+          "name": "Stats",
+          "value": 6557
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util",
+          "name": "util",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.Strings",
+          "name": "Strings",
+          "value": 22026
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis",
+          "name": "vis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.axis",
+          "name": "axis",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis",
+          "name": "vis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis",
+          "name": "vis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data",
+          "name": "data",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis",
+          "name": "vis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.events",
+          "name": "events",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis",
+          "name": "vis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.legend",
+          "name": "legend",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis",
+          "name": "vis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis",
+          "name": "vis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.Visualization",
+          "name": "Visualization",
+          "value": 16540
+        }
+      }
+    ],
+    "level3Relationship": [
+      {
+        "source": {
+          "key": "flare.analytics.cluster",
+          "name": "cluster",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.cluster.AgglomerativeCluster",
+          "name": "AgglomerativeCluster",
+          "value": 3938
+        }
+      },
+      {
+        "source": {
+          "key": "flare.analytics.cluster",
+          "name": "cluster",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.cluster.CommunityStructure",
+          "name": "CommunityStructure",
+          "value": 3812
+        }
+      },
+      {
+        "source": {
+          "key": "flare.analytics.cluster",
+          "name": "cluster",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.cluster.HierarchicalCluster",
+          "name": "HierarchicalCluster",
+          "value": 6714
+        }
+      },
+      {
+        "source": {
+          "key": "flare.analytics.cluster",
+          "name": "cluster",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.cluster.MergeEdge",
+          "name": "MergeEdge",
+          "value": 743
+        }
+      },
+      {
+        "source": {
+          "key": "flare.analytics.graph",
+          "name": "graph",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.graph.BetweennessCentrality",
+          "name": "BetweennessCentrality",
+          "value": 3534
+        }
+      },
+      {
+        "source": {
+          "key": "flare.analytics.graph",
+          "name": "graph",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.graph.LinkDistance",
+          "name": "LinkDistance",
+          "value": 5731
+        }
+      },
+      {
+        "source": {
+          "key": "flare.analytics.graph",
+          "name": "graph",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.graph.MaxFlowMinCut",
+          "name": "MaxFlowMinCut",
+          "value": 7840
+        }
+      },
+      {
+        "source": {
+          "key": "flare.analytics.graph",
+          "name": "graph",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.graph.ShortestPaths",
+          "name": "ShortestPaths",
+          "value": 5914
+        }
+      },
+      {
+        "source": {
+          "key": "flare.analytics.graph",
+          "name": "graph",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.graph.SpanningTree",
+          "name": "SpanningTree",
+          "value": 3416
+        }
+      },
+      {
+        "source": {
+          "key": "flare.analytics.optimization",
+          "name": "optimization",
+          "value": null
+        },
+        "target": {
+          "key": "flare.analytics.optimization.AspectRatioBanker",
+          "name": "AspectRatioBanker",
+          "value": 7074
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate.interpolate",
+          "name": "interpolate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.interpolate.ArrayInterpolator",
+          "name": "ArrayInterpolator",
+          "value": 1983
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate.interpolate",
+          "name": "interpolate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.interpolate.ColorInterpolator",
+          "name": "ColorInterpolator",
+          "value": 2047
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate.interpolate",
+          "name": "interpolate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.interpolate.DateInterpolator",
+          "name": "DateInterpolator",
+          "value": 1375
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate.interpolate",
+          "name": "interpolate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.interpolate.Interpolator",
+          "name": "Interpolator",
+          "value": 8746
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate.interpolate",
+          "name": "interpolate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.interpolate.MatrixInterpolator",
+          "name": "MatrixInterpolator",
+          "value": 2202
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate.interpolate",
+          "name": "interpolate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.interpolate.NumberInterpolator",
+          "name": "NumberInterpolator",
+          "value": 1382
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate.interpolate",
+          "name": "interpolate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.interpolate.ObjectInterpolator",
+          "name": "ObjectInterpolator",
+          "value": 1629
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate.interpolate",
+          "name": "interpolate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.interpolate.PointInterpolator",
+          "name": "PointInterpolator",
+          "value": 1675
+        }
+      },
+      {
+        "source": {
+          "key": "flare.animate.interpolate",
+          "name": "interpolate",
+          "value": null
+        },
+        "target": {
+          "key": "flare.animate.interpolate.RectangleInterpolator",
+          "name": "RectangleInterpolator",
+          "value": 2042
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data.converters",
+          "name": "converters",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.converters.Converters",
+          "name": "Converters",
+          "value": 721
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data.converters",
+          "name": "converters",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.converters.DelimitedTextConverter",
+          "name": "DelimitedTextConverter",
+          "value": 4294
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data.converters",
+          "name": "converters",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.converters.GraphMLConverter",
+          "name": "GraphMLConverter",
+          "value": 9800
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data.converters",
+          "name": "converters",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.converters.IDataConverter",
+          "name": "IDataConverter",
+          "value": 1314
+        }
+      },
+      {
+        "source": {
+          "key": "flare.data.converters",
+          "name": "converters",
+          "value": null
+        },
+        "target": {
+          "key": "flare.data.converters.JSONConverter",
+          "name": "JSONConverter",
+          "value": 2220
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.add",
+          "name": "add",
+          "value": 593
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.and",
+          "name": "and",
+          "value": 330
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.average",
+          "name": "average",
+          "value": 287
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.count",
+          "name": "count",
+          "value": 277
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.distinct",
+          "name": "distinct",
+          "value": 292
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.div",
+          "name": "div",
+          "value": 595
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.eq",
+          "name": "eq",
+          "value": 594
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.fn",
+          "name": "fn",
+          "value": 460
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.gt",
+          "name": "gt",
+          "value": 603
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.gte",
+          "name": "gte",
+          "value": 625
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.iff",
+          "name": "iff",
+          "value": 748
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.isa",
+          "name": "isa",
+          "value": 461
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.lt",
+          "name": "lt",
+          "value": 597
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.lte",
+          "name": "lte",
+          "value": 619
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.max",
+          "name": "max",
+          "value": 283
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.min",
+          "name": "min",
+          "value": 283
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.mod",
+          "name": "mod",
+          "value": 591
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.mul",
+          "name": "mul",
+          "value": 603
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.neq",
+          "name": "neq",
+          "value": 599
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.not",
+          "name": "not",
+          "value": 386
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.or",
+          "name": "or",
+          "value": 323
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.orderby",
+          "name": "orderby",
+          "value": 307
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.range",
+          "name": "range",
+          "value": 772
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.select",
+          "name": "select",
+          "value": 296
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.stddev",
+          "name": "stddev",
+          "value": 363
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.sub",
+          "name": "sub",
+          "value": 600
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.sum",
+          "name": "sum",
+          "value": 280
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.update",
+          "name": "update",
+          "value": 307
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.variance",
+          "name": "variance",
+          "value": 335
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.where",
+          "name": "where",
+          "value": 299
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.xor",
+          "name": "xor",
+          "value": 354
+        }
+      },
+      {
+        "source": {
+          "key": "flare.query.methods",
+          "name": "methods",
+          "value": null
+        },
+        "target": {
+          "key": "flare.query.methods.-",
+          "name": "-",
+          "value": 264
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util.heap",
+          "name": "heap",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.heap.FibonacciHeap",
+          "name": "FibonacciHeap",
+          "value": 9354
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util.heap",
+          "name": "heap",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.heap.HeapNode",
+          "name": "HeapNode",
+          "value": 1233
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util.math",
+          "name": "math",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.math.DenseMatrix",
+          "name": "DenseMatrix",
+          "value": 3165
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util.math",
+          "name": "math",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.math.IMatrix",
+          "name": "IMatrix",
+          "value": 2815
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util.math",
+          "name": "math",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.math.SparseMatrix",
+          "name": "SparseMatrix",
+          "value": 3366
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util.palette",
+          "name": "palette",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.palette.ColorPalette",
+          "name": "ColorPalette",
+          "value": 6367
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util.palette",
+          "name": "palette",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.palette.Palette",
+          "name": "Palette",
+          "value": 1229
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util.palette",
+          "name": "palette",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.palette.ShapePalette",
+          "name": "ShapePalette",
+          "value": 2059
+        }
+      },
+      {
+        "source": {
+          "key": "flare.util.palette",
+          "name": "palette",
+          "value": null
+        },
+        "target": {
+          "key": "flare.util.palette.SizePalette",
+          "name": "SizePalette",
+          "value": 2291
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.axis",
+          "name": "axis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.axis.Axes",
+          "name": "Axes",
+          "value": 1302
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.axis",
+          "name": "axis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.axis.Axis",
+          "name": "Axis",
+          "value": 24593
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.axis",
+          "name": "axis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.axis.AxisGridLine",
+          "name": "AxisGridLine",
+          "value": 652
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.axis",
+          "name": "axis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.axis.AxisLabel",
+          "name": "AxisLabel",
+          "value": 636
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.axis",
+          "name": "axis",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.axis.CartesianAxes",
+          "name": "CartesianAxes",
+          "value": 6703
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls.AnchorControl",
+          "name": "AnchorControl",
+          "value": 2138
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls.ClickControl",
+          "name": "ClickControl",
+          "value": 3824
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls.Control",
+          "name": "Control",
+          "value": 1353
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls.ControlList",
+          "name": "ControlList",
+          "value": 4665
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls.DragControl",
+          "name": "DragControl",
+          "value": 2649
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls.ExpandControl",
+          "name": "ExpandControl",
+          "value": 2832
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls.HoverControl",
+          "name": "HoverControl",
+          "value": 4896
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls.IControl",
+          "name": "IControl",
+          "value": 763
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls.PanZoomControl",
+          "name": "PanZoomControl",
+          "value": 5222
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls.SelectionControl",
+          "name": "SelectionControl",
+          "value": 7862
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.controls",
+          "name": "controls",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.controls.TooltipControl",
+          "name": "TooltipControl",
+          "value": 8435
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.Data",
+          "name": "Data",
+          "value": 20544
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.DataList",
+          "name": "DataList",
+          "value": 19788
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.DataSprite",
+          "name": "DataSprite",
+          "value": 10349
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.EdgeSprite",
+          "name": "EdgeSprite",
+          "value": 3301
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.NodeSprite",
+          "name": "NodeSprite",
+          "value": 19382
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.render",
+          "name": "render",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.ScaleBinding",
+          "name": "ScaleBinding",
+          "value": 11275
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.Tree",
+          "name": "Tree",
+          "value": 7147
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data",
+          "name": "data",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.TreeBuilder",
+          "name": "TreeBuilder",
+          "value": 9930
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.events",
+          "name": "events",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.events.DataEvent",
+          "name": "DataEvent",
+          "value": 2313
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.events",
+          "name": "events",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.events.SelectionEvent",
+          "name": "SelectionEvent",
+          "value": 1880
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.events",
+          "name": "events",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.events.TooltipEvent",
+          "name": "TooltipEvent",
+          "value": 1701
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.events",
+          "name": "events",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.events.VisualizationEvent",
+          "name": "VisualizationEvent",
+          "value": 1117
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.legend",
+          "name": "legend",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.legend.Legend",
+          "name": "Legend",
+          "value": 20859
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.legend",
+          "name": "legend",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.legend.LegendItem",
+          "name": "LegendItem",
+          "value": 4614
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.legend",
+          "name": "legend",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.legend.LegendRange",
+          "name": "LegendRange",
+          "value": 10530
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.distortion",
+          "name": "distortion",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.encoder",
+          "name": "encoder",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.filter",
+          "name": "filter",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.IOperator",
+          "name": "IOperator",
+          "value": 1286
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.label",
+          "name": "label",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.Operator",
+          "name": "Operator",
+          "value": 2490
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.OperatorList",
+          "name": "OperatorList",
+          "value": 5248
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.OperatorSequence",
+          "name": "OperatorSequence",
+          "value": 4190
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.OperatorSwitch",
+          "name": "OperatorSwitch",
+          "value": 2581
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator",
+          "name": "operator",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.SortOperator",
+          "name": "SortOperator",
+          "value": 2023
+        }
+      }
+    ],
+    "level4Relationship": [
+      {
+        "source": {
+          "key": "flare.vis.data.render",
+          "name": "render",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.render.ArrowType",
+          "name": "ArrowType",
+          "value": 698
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data.render",
+          "name": "render",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.render.EdgeRenderer",
+          "name": "EdgeRenderer",
+          "value": 5569
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data.render",
+          "name": "render",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.render.IRenderer",
+          "name": "IRenderer",
+          "value": 353
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.data.render",
+          "name": "render",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.data.render.ShapeRenderer",
+          "name": "ShapeRenderer",
+          "value": 2247
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.distortion",
+          "name": "distortion",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.distortion.BifocalDistortion",
+          "name": "BifocalDistortion",
+          "value": 4461
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.distortion",
+          "name": "distortion",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.distortion.Distortion",
+          "name": "Distortion",
+          "value": 6314
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.distortion",
+          "name": "distortion",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.distortion.FisheyeDistortion",
+          "name": "FisheyeDistortion",
+          "value": 3444
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.encoder",
+          "name": "encoder",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.encoder.ColorEncoder",
+          "name": "ColorEncoder",
+          "value": 3179
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.encoder",
+          "name": "encoder",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.encoder.Encoder",
+          "name": "Encoder",
+          "value": 4060
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.encoder",
+          "name": "encoder",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.encoder.PropertyEncoder",
+          "name": "PropertyEncoder",
+          "value": 4138
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.encoder",
+          "name": "encoder",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.encoder.ShapeEncoder",
+          "name": "ShapeEncoder",
+          "value": 1690
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.encoder",
+          "name": "encoder",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.encoder.SizeEncoder",
+          "name": "SizeEncoder",
+          "value": 1830
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.filter",
+          "name": "filter",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.filter.FisheyeTreeFilter",
+          "name": "FisheyeTreeFilter",
+          "value": 5219
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.filter",
+          "name": "filter",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.filter.GraphDistanceFilter",
+          "name": "GraphDistanceFilter",
+          "value": 3165
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.filter",
+          "name": "filter",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.filter.VisibilityFilter",
+          "name": "VisibilityFilter",
+          "value": 3509
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.label",
+          "name": "label",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.label.Labeler",
+          "name": "Labeler",
+          "value": 9956
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.label",
+          "name": "label",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.label.RadialLabeler",
+          "name": "RadialLabeler",
+          "value": 3899
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.label",
+          "name": "label",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.label.StackedAreaLabeler",
+          "name": "StackedAreaLabeler",
+          "value": 3202
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.AxisLayout",
+          "name": "AxisLayout",
+          "value": 6725
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.BundledEdgeRouter",
+          "name": "BundledEdgeRouter",
+          "value": 3727
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.CircleLayout",
+          "name": "CircleLayout",
+          "value": 9317
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.CirclePackingLayout",
+          "name": "CirclePackingLayout",
+          "value": 12003
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.DendrogramLayout",
+          "name": "DendrogramLayout",
+          "value": 4853
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.ForceDirectedLayout",
+          "name": "ForceDirectedLayout",
+          "value": 8411
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.IcicleTreeLayout",
+          "name": "IcicleTreeLayout",
+          "value": 4864
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.IndentedTreeLayout",
+          "name": "IndentedTreeLayout",
+          "value": 3174
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.Layout",
+          "name": "Layout",
+          "value": 7881
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.NodeLinkTreeLayout",
+          "name": "NodeLinkTreeLayout",
+          "value": 12870
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.PieLayout",
+          "name": "PieLayout",
+          "value": 2728
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.RadialTreeLayout",
+          "name": "RadialTreeLayout",
+          "value": 12348
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.RandomLayout",
+          "name": "RandomLayout",
+          "value": 870
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.StackedAreaLayout",
+          "name": "StackedAreaLayout",
+          "value": 9121
+        }
+      },
+      {
+        "source": {
+          "key": "flare.vis.operator.layout",
+          "name": "layout",
+          "value": null
+        },
+        "target": {
+          "key": "flare.vis.operator.layout.TreeMapLayout",
+          "name": "TreeMapLayout",
+          "value": 9191
+        }
+      }
+    ]
+  }
+}
