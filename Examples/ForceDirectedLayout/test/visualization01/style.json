@@ -3,7 +3,7 @@
     "style": {
         "Node Minimum Radius": 5,
         "Node Maximum Radius": 100,
-        "Unlinked Node Force Strength": -30,
+        "Unlinked Node Force Strength": 30,
         "Unlinked Node Cluster Repositioning Strength": 0.15,
         "Unlinked Node Cluster x": 150,
         "Link Colour": "#000",

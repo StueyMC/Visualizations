@@ -54,7 +54,7 @@ The properties are:
 
 *   __Node Minimum Radius__: The minimum radius of circles drawn to represent nodes. __Default 5__
 *   __Node Maximum Radius__: The minimum radius of circles drawn to represent nodes. __Default 100__
-*   __Unlinked Node Force Strength__: The force exerted between unlinked nodes. Negative numbers specify repulsion, positive numbers specify attraction. __Default -10__
+*   __Unlinked Node Force Strength__: The force exerted between unlinked nodes. Positive numbers specify repulsion, negative numbers specify attraction. The recommended range of values to select from is 0 to 40. __Default 10__
 *   __Unlinked Node Cluster Repositioning Strength__: The strength of the force to move unlinked nodes to the position where they will cluster. A value between 0 and 1. Higher values moves nodes more quickly to the target position. A value of zero will disable clustering of unlinked nodes. __Default 0.1__
 *   __Unlinked Node Cluster x__: The x coordinate of the centre of the cluster zone for unlinked nodes. __Default 100__
 *	__Link Colour__: The default colour of the line drawn between nodes representing links. __Default #000__

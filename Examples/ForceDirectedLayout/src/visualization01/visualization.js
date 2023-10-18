@@ -68,7 +68,7 @@ export function createForceLayout (config) {
   //
   // Forces
   //
-  const unlinkedStrength = style['Unlinked Node Force Strength']
+  const unlinkedStrength = -style['Unlinked Node Force Strength']
   const unlinkedRepositionStrength = style['Unlinked Node Cluster Repositioning Strength']
   const unlinkedNodeClusterXPos = style['Unlinked Node Cluster x']
   //
