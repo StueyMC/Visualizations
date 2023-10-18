@@ -1,7 +1,7 @@
 {
-  "name": "echarts-radial-chart",
+  "name": "echarts-force-directed",
   "description": "ECharts Force Directed Graph",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "dependencies": {
     "core-js": "3.19.0",
