@@ -62,6 +62,11 @@ The properties are:
 *   __Curved Links__: Select whether link lines are draw as a curve (true) or a straight line (false). __Default false__
 *   __Ignore Unknown Nodes__: Indicates if links in the links dataset involving source ot target nodes not in the nodes dataset should be ignored (true) or reported as an error (false). __Default true__
 *   __Show Label Node Separation__: Defines how close, in pixels, nodes need to be to the current (under cursor) node in order to display node labels when in __Show node labels__ mode 3 (Nearby). __Default 100__
+*   __Disable Pan and Zoom__: Select whether panning and zooming is allowed (false) or not (true). __Default false__
+*   __Zoom Minimum__: Minimum zoom scale factor. __Default 0.5__
+*   __Zoom Maximum__: Maximum zoom scale factor. __Default 5__
+*   __Pan Extent__: Controls the extent of the pan range. This is the additional space surrounding the canvas as a factor of the canvas size. __Default 1.0__
+
 
 [Table of Contents](#table-of-contents)
 

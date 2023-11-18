@@ -77,6 +77,13 @@ export function createForceLayout (config) {
   const markerSize = 5
   const markerName = 'arrow'
   const markerOffset = useMarker ? markerSize - 0 : 0
+  //
+  // Pan and Zoom settings
+  //
+  const disablePanandZoom = style['Disable Pan and Zoom'] || false
+  const zoomMinScale = style['Zoom Minimum'] || 0.5
+  const zoomMaxScale = style['Zoom Maximum'] || 5
+  const panExtentFactor = style['Pan Extent'] || 1.0
 
   const curvedLinks = style['Curved Links'] === undefined ? false : style['Curved Links']
 
@@ -118,6 +125,23 @@ export function createForceLayout (config) {
       link.source.linkCount++
       link.target.linkCount++
     })
+    //
+    // Pan and Zoom handling
+    //
+    const zoom = d3.zoom()
+      .on('zoom', handleZoom)
+      .scaleExtent([zoomMinScale, zoomMaxScale])
+      .translateExtent([[-panExtentFactor * width, -panExtentFactor * height], [(1.0 + panExtentFactor) * width, (1.0 + panExtentFactor) * height]])
+
+    function handleZoom (e) {
+      d3.selectAll('svg g')
+        .attr('transform', e.transform)
+    }
+
+    function initZoom () {
+      d3.select('svg')
+        .call(zoom)
+    }
     //
     // Adjust length of links between busy nodes
     //
@@ -198,6 +222,11 @@ export function createForceLayout (config) {
       .on('start', dragstarted)
       .on('drag', dragged)
       .on('end', dragended))
+
+    // Initialise Zoom
+    if (!disablePanandZoom) {
+      initZoom()
+    }
 
     // Determine colour for link
     function linkColour (link) {

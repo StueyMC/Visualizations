@@ -10,6 +10,10 @@
         "Link Arrow": true,
         "Curved Links": false,
         "Ignore Unknown Nodes": true,
-        "Show Label Node Separation": 100
-    }
+        "Show Label Node Separation": 100,
+        "Disable Pan and Zoom": false,
+        "Zoom Minimum": 0.5,
+        "Zoom Maximum": 5,
+        "Pan Extent": 1.0
+      }
 }
