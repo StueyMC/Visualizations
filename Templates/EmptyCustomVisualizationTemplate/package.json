@@ -1,7 +1,7 @@
 {
   "name": "mood-empty-visualization-template",
   "description": "Template for a MooD custom visualization package based on no framework",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.22.9",

@@ -1,7 +1,7 @@
 {
   "name": "mood-echarts-visualization-template",
   "description": "Template for a MooD custom visualization package based on ECharts framework",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "dependencies": {
     "echarts": "5.3.0"
