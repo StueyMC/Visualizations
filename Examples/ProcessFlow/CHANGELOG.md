@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.6.6 (26/03/2024)
+
+* Fix development environment vulnerability in express
+
 ## 2.6.5 (22/03/2024)
 
 * Fix another development environment vulnerability in follow-redirects
