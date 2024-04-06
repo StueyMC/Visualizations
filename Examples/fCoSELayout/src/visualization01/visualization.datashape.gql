@@ -1,0 +1,6 @@
+
+# Define your data shape here.
+
+type data {
+	test: String
+}
