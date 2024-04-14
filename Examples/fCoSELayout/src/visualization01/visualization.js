@@ -73,7 +73,19 @@ export function visualization (config) {
         node.css('height', size)
       })
 
-      const initialLayout = this.layout({ name: 'fcose', step: 'all', animationEasing: 'ease-out' })
+      const layoutOptions = {
+        name: 'fcose',
+        step: 'all',
+        animationEasing: 'ease-out',
+        nodeSeparation: 300,
+        // Node repulsion (non overlapping) multiplier
+        nodeRepulsion: node => 36000,
+        // Ideal edge (non nested) length
+        idealEdgeLength: edge => 150,
+        // Divisor to compute edge forces
+        edgeElasticity: edge => 0.9
+      }
+      const initialLayout = this.layout( layoutOptions )
       // initialLayout.pon('layoutstart').then(function( event ){
       //   // constraints.fixedNodeConstraint = JSON.parse(JSON.stringify(sample_constraints.fixedNodeConstraint));
       //   // clearConstraintListTable();
