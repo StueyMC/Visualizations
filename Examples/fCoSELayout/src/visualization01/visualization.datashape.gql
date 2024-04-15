@@ -1,6 +1,40 @@
 
-# Define your data shape here.
-
 type data {
-	test: String
+	nodes: [node]!
+	links: [link]!
+	parents: [parent]
 }
+
+type node implements MooDElement{
+	id: ID!
+	name: String! @UI(name:"Name" default: "name")
+	colour: Colour @UI(name:"Colour of node")
+	shape: String @UI(name: "Shape of Node")
+	size: Int @UI(name:"Size of Shape")
+}
+
+type link implements MooDElement{
+	id: ID!
+	source: linkEndPoint!
+	target: linkEndPoint!
+	width: Int @UI(name:"Weight of link")
+	linkColour: Colour @UI(name:"Colour of link") 
+}
+
+type linkEndPoint implements MooDElement{
+	id: ID!
+	name: String! @UI(name:"Name" default: "name")
+	linkColour: Colour @UI(name:"Colour of link")
+}
+
+type parent implements MooDElement{
+	id: ID!
+	child: endPoint!
+	parent: endPoint!
+}
+
+type endPoint implements MooDElement{
+	id: ID!
+	name: String! @UI(name:"Name" default: "name")
+}
+

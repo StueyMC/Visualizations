@@ -1,0 +1,548 @@
+{
+	"data": {
+		"nodes":[{
+			"id":"Myriel-id","name":"Myriel","colour": "#9467bd", "size": 40
+		},{
+			"id":"Napoleon-id","name":"Napoleon","colour":"#9467bd", "size": 10
+		},{
+			"id":"Mlle.Baptistine-id","name":"Mlle.Baptistine","colour":"#9467bd", "size": 0
+		},{
+			"id":"Mme.Magloire-id","name":"Mme.Magloire","colour":"#9467bd"
+		},{
+			"id":"CountessdeLo-id","name":"CountessdeLo","colour":"#9467bd"
+		},{
+			"id":"Geborand-id","name":"Geborand","colour":"#9467bd"
+		},{
+			"id":"Champtercier-id","name":"Champtercier","colour":"#9467bd"
+		},{
+			"id":"Cravatte-id","name":"Cravatte","colour":"#9467bd"
+		},{
+			"id":"Count-id","name":"Count","colour":"#9467bd"
+		},{
+			"id":"OldMan-id","name":"OldMan","colour":"#9467bd"
+		},{
+			"id":"Labarre-id","name":"Labarre","colour":"#ff7f0e"
+		},{
+			"id":"Valjean-id","name":"Valjean","colour":"#ff7f0e", "size": "20"
+		},{
+			"id":"Marguerite-id","name":"Marguerite","colour":"#e377c2"
+		},{
+			"id":"Mme.deR-id","name":"Mme.deR","colour":"#ff7f0e"
+		},{
+			"id":"Isabeau-id","name":"Isabeau","colour":"#ff7f0e"
+		},{
+			"id":"Gervais-id","name":"Gervais","colour":"#ff7f0e"
+		},{
+			"id":"Tholomyes-id","name":"Tholomyes","colour":"#e377c2"
+		},{
+			"id":"Listolier-id","name":"Listolier","colour":"#e377c2"
+		},{
+			"id":"Fameuil-id","name":"Fameuil","colour":"#e377c2"
+		},{
+			"id":"Blacheville-id","name":"Blacheville","colour":"#e377c2"
+		},{
+			"id":"Favourite-id","name":"Favourite","colour":"#e377c2"
+		},{
+			"id":"Dahlia-id","name":"Dahlia","colour":"#e377c2"
+		},{
+			"id":"Zephine-id","name":"Zephine","colour":"#e377c2"
+		},{
+			"id":"Fantine-id","name":"Fantine","colour":"#e377c2"
+		},{
+			"id":"Mme.Thenardier-id","name":"Mme.Thenardier","colour":"#d62728"
+		},{
+			"id":"Thenardier-id","name":"Thenardier","colour":"#d62728"
+		},{
+			"id":"Cosette-id","name":"Cosette","colour":"#bcbd22"
+		},{
+			"id":"Javert-id","name":"Javert","colour":"#d62728"
+		},{
+			"id":"Fauchelevent-id","name":"Fauchelevent","colour":"#17becf"
+		},{
+			"id":"Bamatabois-id","name":"Bamatabois","colour":"#ff7f0e"
+		},{
+			"id":"Perpetue-id","name":"Perpetue","colour":"#e377c2"
+		},{
+			"id":"Simplice-id","name":"Simplice","colour":"#ff7f0e"
+		},{
+			"id":"Scaufflaire-id","name":"Scaufflaire","colour":"#ff7f0e"
+		},{
+			"id":"Woman1-id","name":"Woman1","colour":"#ff7f0e"
+		},{
+			"id":"Judge-id","name":"Judge","colour":"#ff7f0e"
+		},{
+			"id":"Champmathieu-id","name":"Champmathieu","colour":"#ff7f0e"
+		},{
+			"id":"Brevet-id","name":"Brevet","colour":"#ff7f0e"
+		},{
+			"id":"Chenildieu-id","name":"Chenildieu","colour":"#ff7f0e"
+		},{
+			"id":"Cochepaille-id","name":"Cochepaille","colour":"#ff7f0e"
+		},{
+			"id":"Pontmercy-id","name":"Pontmercy","colour":"#d62728"
+		},{
+			"id":"Boulatruelle-id","name":"Boulatruelle","colour":"#1f77b4"
+		},{
+			"id":"Eponine-id","name":"Eponine","colour":"#d62728"
+		},{
+			"id":"Anzelma-id","name":"Anzelma","colour":"#d62728"
+		},{
+			"id":"Woman2-id","name":"Woman2","colour":"#bcbd22"
+		},{
+			"id":"MotherInnocent-id","name":"MotherInnocent","colour":"#17becf"
+		},{
+			"id":"Gribier-id","name":"Gribier","colour":"#17becf"
+		},{
+			"id":"Jondrette-id","name":"Jondrette","colour":"#8c564b"
+		},{
+			"id":"Mme.Burgon-id","name":"Mme.Burgon","colour":"#8c564b"
+		},{
+			"id":"Gavroche-id","name":"Gavroche","colour":"#2ca02c"
+		},{
+			"id":"Gillenormand-id","name":"Gillenormand","colour":"#bcbd22"
+		},{
+			"id":"Magnon-id","name":"Magnon","colour":"#bcbd22"
+		},{
+			"id":"Mlle.Gillenormand-id","name":"Mlle.Gillenormand","colour":"#bcbd22"
+		},{
+			"id":"Mme.Pontmercy-id","name":"Mme.Pontmercy","colour":"#bcbd22"
+		},{
+			"id":"Mlle.Vaubois-id","name":"Mlle.Vaubois","colour":"#bcbd22"
+		},{
+			"id":"Lt.Gillenormand-id","name":"Lt.Gillenormand","colour":"#bcbd22"
+		},{
+			"id":"Marius-id","name":"Marius","colour":"#2ca02c"
+		},{
+			"id":"BaronessT-id","name":"BaronessT","colour":"#bcbd22"
+		},{
+			"id":"Mabeuf-id","name":"Mabeuf","colour":"#2ca02c"
+		},{
+			"id":"Enjolras-id","name":"Enjolras","colour":"#2ca02c"
+		},{
+			"id":"Combeferre-id","name":"Combeferre","colour":"#2ca02c"
+		},{
+			"id":"Prouvaire-id","name":"Prouvaire","colour":"#2ca02c"
+		},{
+			"id":"Feuilly-id","name":"Feuilly","colour":"#2ca02c"
+		},{
+			"id":"Courfeyrac-id","name":"Courfeyrac","colour":"#2ca02c"
+		},{
+			"id":"Bahorel-id","name":"Bahorel","colour":"#2ca02c"
+		},{
+			"id":"Bossuet-id","name":"Bossuet","colour":"#2ca02c"
+		},{
+			"id":"Joly-id","name":"Joly","colour":"#2ca02c"
+		},{
+			"id":"Grantaire-id","name":"Grantaire","colour":"#2ca02c"
+		},{
+			"id":"MotherPlutarch-id","name":"MotherPlutarch","colour":"#000000"
+		},{
+			"id":"Gueulemer-id","name":"Gueulemer","colour":"#d62728"
+		},{
+			"id":"Babet-id","name":"Babet","colour":"#d62728"
+		},{
+			"id":"Claquesous-id","name":"Claquesous","colour":"#d62728"
+		},{
+			"id":"Montparnasse-id","name":"Montparnasse","colour":"#d62728"
+		},{
+			"id":"Toussaint-id","name":"Toussaint","colour":"#bcbd22"
+		},{
+			"id":"Child1-id","name":"Child1","colour":"#2ca02c"
+		},{
+			"id":"Child2-id","name":"Child2","colour":"#2ca02c"
+		},{
+			"id":"Brujon-id","name":"Brujon","colour":"#d62728"
+		},{
+			"id":"Mme.Hucheloup-id","name":"Mme.Hucheloup","colour":"#2ca02c"
+		}],
+	"links":[{
+		"source":{"id":"Napoleon-id", "name":"Napoleon", "linkColour": "#2ca02c"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":25
+  },{
+		"source":{"id":"Mlle.Baptistine-id", "name":"Mlle.Baptistine"},"target":{"id":"Myriel-id", "name":"Myriel", "linkColour":"#d62728"},"value":25
+	},{
+		"source":{"id":"Mme.Magloire-id", "name":"Mme.Magloire"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":25, "linkColour": "#bcbd22"
+	},{
+		"source":{"id":"Mme.Magloire-id", "name":"Mme.Magloire"},"target":{"id":"Mlle.Baptistine-id", "name":"Mlle.Baptistine"},"value":6
+  },{
+    "source":{"id":"CountessdeLo-id", "name":"CountessdeLo"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":1
+  },{
+    "source":{"id":"Geborand-id", "name":"Geborand"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":1
+  },{
+    "source":{"id":"Champtercier-id", "name":"Champtercier"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":1
+  },{
+    "source":{"id":"Cravatte-id", "name":"Cravatte"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":1
+  },{
+    "source":{"id":"Count-id", "name":"Count"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":2
+  },{
+    "source":{"id":"OldMan-id", "name":"OldMan"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":1
+  },{
+    "source":{"id":"Valjean-id", "name":"Valjean"},"target":{"id":"Labarre-id", "name":"Labarre"},"value":1
+  },{
+    "source":{"id":"Valjean-id", "name":"Valjean"},"target":{"id":"Mme.Magloire-id", "name":"Mme.Magloire"},"value":3
+  },{
+    "source":{"id":"Valjean-id", "name":"Valjean"},"target":{"id":"Mlle.Baptistine-id", "name":"Mlle.Baptistine"},"value":3
+  },{
+    "source":{"id":"Valjean-id", "name":"Valjean"},"target":{"id":"Myriel-id", "name":"Myriel"},"value":5
+  },{
+    "source":{"id":"Marguerite-id", "name":"Marguerite"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":1
+  },{
+    "source":{"id":"Mme.deR-id", "name":"Mme.deR"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":1
+  },{
+    "source":{"id":"Isabeau-id", "name":"Isabeau"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":1
+  },{
+    "source":{"id":"Gervais-id", "name":"Gervais"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":1
+  },{
+    "source":{"id":"Listolier-id", "name":"Listolier"},"target":{"id":"Tholomyes-id", "name":"Tholomyes"},"value":4
+  },{
+    "source":{"id":"Fameuil-id", "name":"Fameuil"},"target":{"id":"Tholomyes-id", "name":"Tholomyes"},"value":4
+  },{
+    "source":{"id":"Fameuil-id", "name":"Fameuil"},"target":{"id":"Listolier-id", "name":"Listolier"},"value":4
+  },{
+    "source":{"id":"Blacheville-id", "name":"Blacheville"},"target":{"id":"Tholomyes-id", "name":"Tholomyes"},"value":4
+  },{
+    "source":{"id":"Blacheville-id", "name":"Blacheville"},"target":{"id":"Listolier-id", "name":"Listolier"},"value":4
+  },{
+    "source":{"id":"Blacheville-id", "name":"Blacheville"},"target":{"id":"Fameuil-id", "name":"Fameuil"},"value":4
+  },{
+    "source":{"id":"Favourite-id", "name":"Favourite"},"target":{"id":"Tholomyes-id", "name":"Tholomyes"},"value":3
+  },{
+    "source":{"id":"Favourite-id", "name":"Favourite"},"target":{"id":"Listolier-id", "name":"Listolier"},"value":3
+  },{
+    "source":{"id":"Favourite-id", "name":"Favourite"},"target":{"id":"Fameuil-id", "name":"Fameuil"},"value":3
+  },{
+    "source":{"id":"Favourite-id", "name":"Favourite"},"target":{"id":"Blacheville-id", "name":"Blacheville"},"value":4
+  },{
+    "source":{"id":"Dahlia-id", "name":"Dahlia"},"target":{"id":"Tholomyes-id", "name":"Tholomyes"},"value":3
+  },{
+    "source":{"id":"Dahlia-id", "name":"Dahlia"},"target":{"id":"Listolier-id", "name":"Listolier"},"value":3
+  },{
+    "source":{"id":"Dahlia-id", "name":"Dahlia"},"target":{"id":"Fameuil-id", "name":"Fameuil"},"value":3
+  },{
+    "source":{"id":"Dahlia-id", "name":"Dahlia"},"target":{"id":"Blacheville-id", "name":"Blacheville"},"value":3
+  },{
+    "source":{"id":"Dahlia-id", "name":"Dahlia"},"target":{"id":"Favourite-id", "name":"Favourite"},"value":5
+  },{
+    "source":{"id":"Zephine-id", "name":"Zephine"},"target":{"id":"Tholomyes-id", "name":"Tholomyes"},"value":3
+  },{
+    "source":{"id":"Zephine-id", "name":"Zephine"},"target":{"id":"Listolier-id", "name":"Listolier"},"value":3
+  },{
+    "source":{"id":"Zephine-id", "name":"Zephine"},"target":{"id":"Fameuil-id", "name":"Fameuil"},"value":3
+  },{
+    "source":{"id":"Zephine-id", "name":"Zephine"},"target":{"id":"Blacheville-id", "name":"Blacheville"},"value":3
+  },{
+    "source":{"id":"Zephine-id", "name":"Zephine"},"target":{"id":"Favourite-id", "name":"Favourite"},"value":4
+  },{
+    "source":{"id":"Zephine-id", "name":"Zephine"},"target":{"id":"Dahlia-id", "name":"Dahlia"},"value":4
+  },{
+    "source":{"id":"Fantine-id", "name":"Fantine"},"target":{"id":"Tholomyes-id", "name":"Tholomyes"},"value":3
+  },{
+    "source":{"id":"Fantine-id", "name":"Fantine"},"target":{"id":"Listolier-id", "name":"Listolier"},"value":3
+  },{
+    "source":{"id":"Fantine-id", "name":"Fantine"},"target":{"id":"Fameuil-id", "name":"Fameuil"},"value":3
+  },{
+    "source":{"id":"Fantine-id", "name":"Fantine"},"target":{"id":"Blacheville-id", "name":"Blacheville"},"value":3
+  },{
+    "source":{"id":"Fantine-id", "name":"Fantine"},"target":{"id":"Favourite-id", "name":"Favourite"},"value":4
+  },{
+    "source":{"id":"Fantine-id", "name":"Fantine"},"target":{"id":"Dahlia-id", "name":"Dahlia"},"value":4
+  },{
+    "source":{"id":"Fantine-id", "name":"Fantine"},"target":{"id":"Zephine-id", "name":"Zephine"},"value":4
+  },{
+    "source":{"id":"Fantine-id", "name":"Fantine"},"target":{"id":"Marguerite-id", "name":"Marguerite"},"value":2
+  },{
+    "source":{"id":"Fantine-id", "name":"Fantine"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":9
+  },{
+    "source":{"id":"Mme.Thenardier-id", "name":"Mme.Thenardier"},"target":{"id":"Fantine-id", "name":"Fantine"},"value":2
+  },{
+    "source":{"id":"Mme.Thenardier-id", "name":"Mme.Thenardier"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":7
+  },{
+    "source":{"id":"Thenardier-id", "name":"Thenardier"},"target":{"id":"Mme.Thenardier-id", "name":"Mme.Thenardier"},"value":13
+  },{
+    "source":{"id":"Thenardier-id", "name":"Thenardier"},"target":{"id":"Fantine-id", "name":"Fantine"},"value":1
+  },{
+    "source":{"id":"Thenardier-id", "name":"Thenardier"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":12
+  },{
+    "source":{"id":"Cosette-id", "name":"Cosette"},"target":{"id":"Mme.Thenardier-id", "name":"Mme.Thenardier"},"value":4
+  },{
+    "source":{"id":"Cosette-id", "name":"Cosette"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":31
+  },{
+    "source":{"id":"Cosette-id", "name":"Cosette"},"target":{"id":"Tholomyes-id", "name":"Tholomyes"},"value":1
+  },{
+    "source":{"id":"Cosette-id", "name":"Cosette"},"target":{"id":"Thenardier-id", "name":"Thenardier"},"value":1
+  },{
+    "source":{"id":"Javert-id", "name":"Javert"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":17
+  },{
+    "source":{"id":"Javert-id", "name":"Javert"},"target":{"id":"Fantine-id", "name":"Fantine"},"value":5
+  },{
+    "source":{"id":"Javert-id", "name":"Javert"},"target":{"id":"Thenardier-id", "name":"Thenardier"},"value":5
+  },{
+    "source":{"id":"Javert-id", "name":"Javert"},"target":{"id":"Mme.Thenardier-id", "name":"Mme.Thenardier"},"value":1
+  },{
+    "source":{"id":"Javert-id", "name":"Javert"},"target":{"id":"Cosette-id", "name":"Cosette"},"value":1
+  },{
+    "source":{"id":"Fauchelevent-id", "name":"Fauchelevent"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":8
+  },{
+    "source":{"id":"Fauchelevent-id", "name":"Fauchelevent"},"target":{"id":"Javert-id", "name":"Javert"},"value":1
+  },{
+    "source":{"id":"Bamatabois-id", "name":"Bamatabois"},"target":{"id":"Fantine-id", "name":"Fantine"},"value":1
+  },{
+    "source":{"id":"Bamatabois-id", "name":"Bamatabois"},"target":{"id":"Javert-id", "name":"Javert"},"value":1
+  },{
+    "source":{"id":"Bamatabois-id", "name":"Bamatabois"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":2
+  },{
+    "source":{"id":"Perpetue-id", "name":"Perpetue"},"target":{"id":"Fantine-id", "name":"Fantine"},"value":1
+  },{
+    "source":{"id":"Simplice-id", "name":"Simplice"},"target":{"id":"Perpetue-id", "name":"Perpetue"},"value":2
+  },{
+    "source":{"id":"Simplice-id", "name":"Simplice"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":3
+  },{
+    "source":{"id":"Simplice-id", "name":"Simplice"},"target":{"id":"Fantine-id", "name":"Fantine"},"value":2
+  },{
+    "source":{"id":"Simplice-id", "name":"Simplice"},"target":{"id":"Javert-id", "name":"Javert"},"value":1
+  },{
+    "source":{"id":"Scaufflaire-id", "name":"Scaufflaire"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":1
+  },{
+    "source":{"id":"Woman1-id", "name":"Woman1"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":2
+  },{
+    "source":{"id":"Woman1-id", "name":"Woman1"},"target":{"id":"Javert-id", "name":"Javert"},"value":1
+  },{
+    "source":{"id":"Judge-id", "name":"Judge"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":3
+  },{
+    "source":{"id":"Judge-id", "name":"Judge"},"target":{"id":"Bamatabois-id", "name":"Bamatabois"},"value":2
+  },{
+    "source":{"id":"Champmathieu-id", "name":"Champmathieu"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":3
+  },{
+    "source":{"id":"Champmathieu-id", "name":"Champmathieu"},"target":{"id":"Judge-id", "name":"Judge"},"value":3
+  },{
+    "source":{"id":"Champmathieu-id", "name":"Champmathieu"},"target":{"id":"Bamatabois-id", "name":"Bamatabois"},"value":2
+  },{
+    "source":{"id":"Brevet-id", "name":"Brevet"},"target":{"id":"Judge-id", "name":"Judge"},"value":2
+  },{
+    "source":{"id":"Brevet-id", "name":"Brevet"},"target":{"id":"Champmathieu-id", "name":"Champmathieu"},"value":2
+  },{
+    "source":{"id":"Brevet-id", "name":"Brevet"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":2
+  },{
+    "source":{"id":"Brevet-id", "name":"Brevet"},"target":{"id":"Bamatabois-id", "name":"Bamatabois"},"value":1
+  },{
+    "source":{"id":"Chenildieu-id", "name":"Chenildieu"},"target":{"id":"Judge-id", "name":"Judge"},"value":2
+  },{
+    "source":{"id":"Chenildieu-id", "name":"Chenildieu"},"target":{"id":"Champmathieu-id", "name":"Champmathieu"},"value":2
+  },{
+    "source":{"id":"Chenildieu-id", "name":"Chenildieu"},"target":{"id":"Brevet-id", "name":"Brevet"},"value":2
+  },{
+    "source":{"id":"Chenildieu-id", "name":"Chenildieu"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":2
+  },{
+    "source":{"id":"Chenildieu-id", "name":"Chenildieu"},"target":{"id":"Bamatabois-id", "name":"Bamatabois"},"value":1
+  },{
+    "source":{"id":"Cochepaille-id", "name":"Cochepaille"},"target":{"id":"Judge-id", "name":"Judge"},"value":2
+  },{
+    "source":{"id":"Cochepaille-id", "name":"Cochepaille"},"target":{"id":"Champmathieu-id", "name":"Champmathieu"},"value":2
+  },{
+    "source":{"id":"Cochepaille-id", "name":"Cochepaille"},"target":{"id":"Brevet-id", "name":"Brevet"},"value":2
+  },{
+    "source":{"id":"Cochepaille-id", "name":"Cochepaille"},"target":{"id":"Chenildieu-id", "name":"Chenildieu"},"value":2
+  },{
+    "source":{"id":"Cochepaille-id", "name":"Cochepaille"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":2
+  },{
+    "source":{"id":"Cochepaille-id", "name":"Cochepaille"},"target":{"id":"Bamatabois-id", "name":"Bamatabois"},"value":1
+  },{
+    "source":{"id":"Pontmercy-id", "name":"Pontmercy"},"target":{"id":"Thenardier-id", "name":"Thenardier"},"value":1
+  },{
+    "source":{"id":"Boulatruelle-id", "name":"Boulatruelle"},"target":{"id":"Thenardier-id", "name":"Thenardier"},"value":1
+  },{
+    "source":{"id":"Eponine-id", "name":"Eponine"},"target":{"id":"Mme.Thenardier-id", "name":"Mme.Thenardier"},"value":2
+  },{
+    "source":{"id":"Eponine-id", "name":"Eponine"},"target":{"id":"Thenardier-id", "name":"Thenardier"},"value":3
+  },{
+    "source":{"id":"Anzelma-id", "name":"Anzelma"},"target":{"id":"Eponine-id", "name":"Eponine"},"value":2
+  },{
+    "source":{"id":"Anzelma-id", "name":"Anzelma"},"target":{"id":"Thenardier-id", "name":"Thenardier"},"value":2
+  },{
+    "source":{"id":"Anzelma-id", "name":"Anzelma"},"target":{"id":"Mme.Thenardier-id", "name":"Mme.Thenardier"},"value":1
+  },{
+    "source":{"id":"Woman2-id", "name":"Woman2"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":3
+  },{
+    "source":{"id":"Woman2-id", "name":"Woman2"},"target":{"id":"Cosette-id", "name":"Cosette"},"value":1
+  },{
+    "source":{"id":"Woman2-id", "name":"Woman2"},"target":{"id":"Javert-id", "name":"Javert"},"value":1
+  },{
+    "source":{"id":"MotherInnocent-id", "name":"MotherInnocent"},"target":{"id":"Fauchelevent-id", "name":"Fauchelevent"},"value":3
+  },{
+    "source":{"id":"MotherInnocent-id", "name":"MotherInnocent"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":1
+  },{
+    "source":{"id":"Gribier-id", "name":"Gribier"},"target":{"id":"Fauchelevent-id", "name":"Fauchelevent"},"value":2
+  },{
+    "source":{"id":"Mme.Burgon-id", "name":"Mme.Burgon"},"target":{"id":"Jondrette-id", "name":"Jondrette"},"value":1
+  },{
+    "source":{"id":"Gavroche-id", "name":"Gavroche"},"target":{"id":"Mme.Burgon-id", "name":"Mme.Burgon"},"value":2
+  },{
+    "source":{"id":"Gavroche-id", "name":"Gavroche"},"target":{"id":"Thenardier-id", "name":"Thenardier"},"value":1
+  },{
+    "source":{"id":"Gavroche-id", "name":"Gavroche"},"target":{"id":"Javert-id", "name":"Javert"},"value":1
+  },{
+    "source":{"id":"Gavroche-id", "name":"Gavroche"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":1
+  },{
+    "source":{"id":"Gillenormand-id", "name":"Gillenormand"},"target":{"id":"Cosette-id", "name":"Cosette"},"value":3
+  },{
+    "source":{"id":"Gillenormand-id", "name":"Gillenormand"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":2
+  },{
+    "source":{"id":"Magnon-id", "name":"Magnon"},"target":{"id":"Gillenormand-id", "name":"Gillenormand"},"value":1
+  },{
+    "source":{"id":"Magnon-id", "name":"Magnon"},"target":{"id":"Mme.Thenardier-id", "name":"Mme.Thenardier"},"value":1
+  },{
+    "source":{"id":"Mlle.Gillenormand-id", "name":"Mlle.Gillenormand"},"target":{"id":"Gillenormand-id", "name":"Gillenormand"},"value":9
+  },{
+    "source":{"id":"Mlle.Gillenormand-id", "name":"Mlle.Gillenormand"},"target":{"id":"Cosette-id", "name":"Cosette"},"value":2
+  },{
+    "source":{"id":"Mlle.Gillenormand-id", "name":"Mlle.Gillenormand"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":2
+  },{
+    "source":{"id":"Mme.Pontmercy-id", "name":"Mme.Pontmercy"},"target":{"id":"Mlle.Gillenormand-id", "name":"Mlle.Gillenormand"},"value":1
+  },{
+    "source":{"id":"Mme.Pontmercy-id", "name":"Mme.Pontmercy"},"target":{"id":"Pontmercy-id", "name":"Pontmercy"},"value":1
+  },{
+    "source":{"id":"Mlle.Vaubois-id", "name":"Mlle.Vaubois"},"target":{"id":"Mlle.Gillenormand-id", "name":"Mlle.Gillenormand"},"value":1
+  },{
+    "source":{"id":"Lt.Gillenormand-id", "name":"Lt.Gillenormand"},"target":{"id":"Mlle.Gillenormand-id", "name":"Mlle.Gillenormand"},"value":2
+  },{
+    "source":{"id":"Lt.Gillenormand-id", "name":"Lt.Gillenormand"},"target":{"id":"Gillenormand-id", "name":"Gillenormand"},"value":1
+  },{
+    "source":{"id":"Lt.Gillenormand-id", "name":"Lt.Gillenormand"},"target":{"id":"Cosette-id", "name":"Cosette"},"value":1
+  },{
+    "source":{"id":"Marius-id", "name":"Marius"},"target":{"id":"Mlle.Gillenormand-id", "name":"Mlle.Gillenormand"},"value":6
+  },{
+    "source":{"id":"Marius-id", "name":"Marius"},"target":{"id":"Gillenormand-id", "name":"Gillenormand"},"value":12
+  },{
+    "source":{"id":"Marius-id", "name":"Marius"},"target":{"id":"Pontmercy-id", "name":"Pontmercy"},"value":1
+  },{
+    "source":{"id":"Marius-id", "name":"Marius"},"target":{"id":"Lt.Gillenormand-id", "name":"Lt.Gillenormand"},"value":1
+  },{
+    "source":{"id":"Marius-id", "name":"Marius"},"target":{"id":"Cosette-id", "name":"Cosette"},"value":21
+  },{
+    "source":{"id":"Marius-id", "name":"Marius"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":19
+  },{
+    "source":{"id":"Marius-id", "name":"Marius"},"target":{"id":"Tholomyes-id", "name":"Tholomyes"},"value":1
+  },{
+    "source":{"id":"Marius-id", "name":"Marius"},"target":{"id":"Thenardier-id", "name":"Thenardier"},"value":2
+  },{
+    "source":{"id":"Marius-id", "name":"Marius"},"target":{"id":"Eponine-id", "name":"Eponine"},"value":5
+  },{
+    "source":{"id":"Marius-id", "name":"Marius"},"target":{"id":"Gavroche-id", "name":"Gavroche"},"value":4
+  },{
+    "source":{"id":"BaronessT-id", "name":"BaronessT"},"target":{"id":"Gillenormand-id", "name":"Gillenormand"},"value":1
+  },{
+    "source":{"id":"BaronessT-id", "name":"BaronessT"},"target":{"id":"Marius-id", "name":"Marius"},"value":1
+  },{
+    "source":{"id":"Mabeuf-id", "name":"Mabeuf"},"target":{"id":"Marius-id", "name":"Marius"},"value":1
+  },{
+    "source":{"id":"Mabeuf-id", "name":"Mabeuf"},"target":{"id":"Eponine-id", "name":"Eponine"},"value":1
+  },{
+    "source":{"id":"Mabeuf-id", "name":"Mabeuf"},"target":{"id":"Gavroche-id", "name":"Gavroche"},"value":1
+  },{
+    "source":{"id":"Enjolras-id", "name":"Enjolras"},"target":{"id":"Marius-id", "name":"Marius"},"value":7
+  },{
+    "source":{"id":"Enjolras-id", "name":"Enjolras"},"target":{"id":"Gavroche-id", "name":"Gavroche"},"value":7
+  },{
+    "source":{"id":"Enjolras-id", "name":"Enjolras"},"target":{"id":"Javert-id", "name":"Javert"},"value":6
+  },{
+    "source":{"id":"Enjolras-id", "name":"Enjolras"},"target":{"id":"Mabeuf-id", "name":"Mabeuf"},"value":1
+  },{
+    "source":{"id":"Enjolras-id", "name":"Enjolras"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":4
+  },{
+    "source":{"id":"Combeferre-id", "name":"Combeferre"},"target":{"id":"Enjolras-id", "name":"Enjolras"},"value":15
+  },{
+    "source":{"id":"Combeferre-id", "name":"Combeferre"},"target":{"id":"Marius-id", "name":"Marius"},"value":5
+  },{
+    "source":{"id":"Combeferre-id", "name":"Combeferre"},"target":{"id":"Gavroche-id", "name":"Gavroche"},"value":6
+  },{
+    "source":{"id":"Combeferre-id", "name":"Combeferre"},"target":{"id":"Mabeuf-id", "name":"Mabeuf"},"value":2
+  },{
+    "source":{"id":"Prouvaire-id", "name":"Prouvaire"},"target":{"id":"Gavroche-id", "name":"Gavroche"},"value":1
+  },{
+    "source":{"id":"Prouvaire-id", "name":"Prouvaire"},"target":{"id":"Enjolras-id", "name":"Enjolras"},"value":4
+  },{
+    "source":{"id":"Prouvaire-id", "name":"Prouvaire"},"target":{"id":"Combeferre-id", "name":"Combeferre"},"value":2
+  },{
+    "source":{"id":"Feuilly-id", "name":"Feuilly"},"target":{"id":"Gavroche-id", "name":"Gavroche"},"value":2
+  },{
+    "source":{"id":"Feuilly-id", "name":"Feuilly"},"target":{"id":"Enjolras-id", "name":"Enjolras"},"value":6
+  },{
+    "source":{"id":"Feuilly-id", "name":"Feuilly"},"target":{"id":"Prouvaire-id", "name":"Prouvaire"},"value":2
+  },{
+    "source":{"id":"Feuilly-id", "name":"Feuilly"},"target":{"id":"Combeferre-id", "name":"Combeferre"},"value":5
+  },{
+    "source":{"id":"Feuilly-id", "name":"Feuilly"},"target":{"id":"Mabeuf-id", "name":"Mabeuf"},"value":1
+  },{
+    "source":{"id":"Feuilly-id", "name":"Feuilly"},"target":{"id":"Marius-id", "name":"Marius"},"value":1
+  },{
+    "source":{"id":"Courfeyrac-id", "name":"Courfeyrac"},"target":{"id":"Marius-id", "name":"Marius"},"value":9
+  },{
+    "source":{"id":"Courfeyrac-id", "name":"Courfeyrac"},"target":{"id":"Enjolras-id", "name":"Enjolras"},"value":17
+  },{
+    "source":{"id":"Courfeyrac-id", "name":"Courfeyrac"},"target":{"id":"Combeferre-id", "name":"Combeferre"},"value":13
+  },{
+    "source":{"id":"Courfeyrac-id", "name":"Courfeyrac"},"target":{"id":"Gavroche-id", "name":"Gavroche"},"value":7
+  },{
+    "source":{"id":"Courfeyrac-id", "name":"Courfeyrac"},"target":{"id":"Mabeuf-id", "name":"Mabeuf"},"value":2
+  },{
+    "source":{"id":"Courfeyrac-id", "name":"Courfeyrac"},"target":{"id":"Eponine-id", "name":"Eponine"},"value":1
+  },{
+    "source":{"id":"Courfeyrac-id", "name":"Courfeyrac"},"target":{"id":"Feuilly-id", "name":"Feuilly"},"value":6
+  },{
+    "source":{"id":"Courfeyrac-id", "name":"Courfeyrac"},"target":{"id":"Prouvaire-id", "name":"Prouvaire"},"value":3
+  },{
+    "source":{"id":"Bahorel-id", "name":"Bahorel"},"target":{"id":"Combeferre-id", "name":"Combeferre"},"value":5
+  },{
+    "source":{"id":"Bahorel-id", "name":"Bahorel"},"target":{"id":"Gavroche-id", "name":"Gavroche"},"value":5
+  },{
+    "source":{"id":"Bahorel-id", "name":"Bahorel"},"target":{"id":"Courfeyrac-id", "name":"Courfeyrac"},"value":6
+  },{
+    "source":{"id":"Bahorel-id", "name":"Bahorel"},"target":{"id":"Mabeuf-id", "name":"Mabeuf"},"value":2
+  },{
+    "source":{"id":"Bahorel-id", "name":"Bahorel"},"target":{"id":"Enjolras-id", "name":"Enjolras"},"value":4
+  },{
+    "source":{"id":"Bahorel-id", "name":"Bahorel"},"target":{"id":"Feuilly-id", "name":"Feuilly"},"value":3
+  },{
+    "source":{"id":"Bahorel-id", "name":"Bahorel"},"target":{"id":"Prouvaire-id", "name":"Prouvaire"},"value":2
+  },{
+    "source":{"id":"Bahorel-id", "name":"Bahorel"},"target":{"id":"Marius-id", "name":"Marius"},"value":1
+  },{
+    "source":{"id":"Bossuet-id", "name":"Bossuet"},"target":{"id":"Marius-id", "name":"Marius"},"value":5
+  },{
+    "source":{"id":"Bossuet-id", "name":"Bossuet"},"target":{"id":"Courfeyrac-id", "name":"Courfeyrac"},"value":12
+  },{
+    "source":{"id":"Bossuet-id", "name":"Bossuet"},"target":{"id":"Gavroche-id", "name":"Gavroche"},"value":5
+  },{
+    "source":{"id":"Bossuet-id", "name":"Bossuet"},"target":{"id":"Bahorel-id", "name":"Bahorel"},"value":4
+  },{
+    "source":{"id":"Bossuet-id", "name":"Bossuet"},"target":{"id":"Enjolras-id", "name":"Enjolras"},"value":10
+  },{
+    "source":{"id":"Bossuet-id", "name":"Bossuet"},"target":{"id":"Feuilly-id", "name":"Feuilly"},"value":6
+  },{
+    "source":{"id":"Bossuet-id", "name":"Bossuet"},"target":{"id":"Prouvaire-id", "name":"Prouvaire"},"value":2
+  },{
+    "source":{"id":"Bossuet-id", "name":"Bossuet"},"target":{"id":"Combeferre-id", "name":"Combeferre"},"value":9
+  },{
+    "source":{"id":"Bossuet-id", "name":"Bossuet"},"target":{"id":"Mabeuf-id", "name":"Mabeuf"},"value":1
+  },{
+    "source":{"id":"Bossuet-id", "name":"Bossuet"},"target":{"id":"Valjean-id", "name":"Valjean"},"value":1
+  },{
+    "source":{"id":"Joly-id", "name":"Joly"},"target":{"id":"Bahorel-id", "name":"Bahorel"},"value":5
+  },{
+    "source":{"id":"Joly-id", "name":"Joly"},"target":{"id":"Bossuet-id", "name":"Bossuet"},"value":7
+  },{
+    "source":{"id":"Joly-id", "name":"Joly"},"target":{"id":"Gavroche-id", "name":"Gavroche"},"value":3
+  },{
+    "source":{"id":"Joly-id", "name":"Joly"},"target":{"id":"Courfeyrac-id", "name":"Courfeyrac"},"value":5
+  },{
+    "source":{"id":"Joly-id", "name":"Joly"},"target":{"id":"Enjolras-id", "name":"Enjolras"},"value":5
+  },{
+    "source":{"id":"Joly-id", "name":"Joly"},"target":{"id":"Feuilly-id", "name":"Feuilly"},"value":5
+  },{
+    "source":{"id":"Joly-id", "name":"Joly"},"target":{"id":"Prouvaire-id", "name":"Prouvaire"},"value":2
+  },{
+    "source":{"id":"Joly-id", "name":"Joly"},"target":{"id":"Combeferre-id", "name":"Combeferre"},"value":5
+  },{
+    "source":{"id":"Joly-id", "name":"Joly"},"target":{"id":"Mabeuf-id", "name":"Mabeuf"},"value":1
+  }]}
+}
+

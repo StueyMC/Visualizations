@@ -1,6 +1,7 @@
 import {visualization} from '../../src/visualization01/visualization';
 import MooDConfig from './MooDConfig.json';
-import dataConfig from './data.json';
+// import dataConfig from './data.json';
+import dataConfig from './data2.json';
 import styleConfig from './style.json';
 import inputsConfig from './inputs.json';
 
@@ -38,14 +39,42 @@ for (key in inputsConfig) {
     }
 }
 
+//
+// Define updateOutput function to log to console changes to output
+//
+var updateOutput = function(name, value) {
+    console.log('Output changed: name = ' + name + ', value = ' + value.toString())
+}
+//
+// Define errorOccurred function to log errors to console
+//
+var errorOccurred = function(error) {
+    console.log(error)
+}
+//
+// Define performAction function to log to console actions triggered by visualisation
+//
+var performAction = function(name, id, event) {
+    console.log('Perform Action: name = ' + name + ', id = ' + id)
+}
+//
+// Define inputChanged function
+//
+var inputChanged = function (name, value) {
+    console.log('Inputs Changed: name = ' + name + ', value: ' + JSON.stringify(value))
+}
+config.functions = {
+    errorOccurred: errorOccurred,
+    performAction: performAction,
+    inputChanged: inputChanged,
+    updateOutput: updateOutput
+};
 //    console.log(JSON.stringify(config));
 addCSSFile(css);
 
 var el = document.getElementById(config.element)
 el.style.height = config.height
 el.style.width = config.width
-config.functions = {};
-config.functions.errorOccurred = function(msg){console.log(msg);}
 visualization(config);
 
 function addCSSFile(cssURL) {

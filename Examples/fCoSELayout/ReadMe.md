@@ -1,66 +1,134 @@
 # How to use this template
 
-Note that the repository top level [README](../../README.md) has a much more detailed explanation of how to use the templates.
+## Cytoscape Style
 
-First you'll need to set up Visual Studio Code and Node, see [Development Environment](../../README.md#development-environment)
+### Shape
 
-Next open this file: ```visualization.code-workspace```
+Valid shapes are:
 
-Remember to run: ```npm install``` before doing anything else, this will install the relevant node modules.
+* ellipse
+* triangle
+* round-triangle
+* rectangle
+* round-rectangle
+* bottom-round-rectangle
+* cut-rectangle
+* barrel
+* rhomboid
+* right-rhomboid
+* diamond
+* round-diamond
+* pentagon
+* round-pentagon
+* hexagon
+* round-hexagon
+* concave-hexagon
+* heptagon
+* round-heptagon
+* octagon
+* round-octagon
+* star
+* tag
+* round-tag
+* vee
 
-## The folder structure
+__Not supported in Custom Viz (yet at least)__:
 
-- root
-  - Files which are used by Node
-  - The final visualizations.zip file
-  - package.json (containing a list of commands you can use with ```npm run```)
-- src
-  - visualization01
-    - This is where you can edit your custom visualisation code
-- test
-  - A folder where you can add your automated test scaffolding (run using ```npm run test```)
-- dist
-  - An automatically generated output folder
-- node_modules
-  - Another automatically generated output folder
+_polygon_ (custom polygon specified via shape-polygon-points)
 
-## Getting started
+_shape-polygon-points_ : An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node’s shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node’s position is the origin (0, 0).
 
-Look in the following files for visualization names / descriptions. I'm going to assume you want a single Custom Visualization inside this package.
+## Fast Compound Spring Embedded layout default options
 
-- src\package.json.no-guid.ejs
-- src\visualization01\package.json.no-guid.ejs
-
-> The purpose of these files is to automatically generate a unique ID for the package/visualization.
-
-Now run this command: ```npm run generate-guids```
-
-Which will produce these 2 files:
-
-- src\package.json.ejs
-- src\visualization01\package.json.ejs
-
-> The purpose of these files is to automatically increment the version number every time you build
-
-Now you can run: ```npm run build```
-
-Which will produce:
-
-- src\package.json
-- src\visualization01\package.json
-- visualizations.zip
-
-> These are automatically generated files which you shouldn't manually edit.
-
-You should also choose a preview image by changing ```visualization.png```.
-
-## Editing your custom visualization
-
-You can run: ```npm run start```
-
-This will open your browser showing test-page.html. You can now start modifying the visualization code.
-Interesting files:
-
-- visualization.js: This is where your main code lives.
-- test-page.js: Hooks the test page in to the main visualization code.
-- data.json: This file passes test data in to your test visualization page.
+```javascript
+        // 'draft', 'default' or 'proof' 
+        // - "draft" only applies spectral layout 
+        // - "default" improves the quality with incremental layout (fast cooling rate)
+        // - "proof" improves the quality with incremental layout (slow cooling rate) 
+        quality: "default",
+        // Use random node positions at beginning of layout
+        // if this is set to false, then quality option must be "proof"
+        randomize: true, 
+        // Whether or not to animate the layout
+        animate: true, 
+        // Duration of animation in ms, if enabled
+        animationDuration: 1000, 
+        // Easing of animation, if enabled
+        animationEasing: undefined, 
+        // Fit the viewport to the repositioned nodes
+        fit: true, 
+        // Padding around layout
+        padding: 30,
+        // Whether to include labels in node dimensions. Valid in "proof" quality
+        nodeDimensionsIncludeLabels: false,
+        // Whether or not simple nodes (non-compound nodes) are of uniform dimensions
+        uniformNodeDimensions: false,
+        // Whether to pack disconnected components - cytoscape-layout-utilities extension should be registered and initialized
+        packComponents: true,
+        // Layout step - all, transformed, enforced, cose - for debug purpose only
+        step: "all",
+        
+        /* spectral layout options */
+        
+        // False for random, true for greedy sampling
+        samplingType: true,
+        // Sample size to construct distance matrix
+        sampleSize: 25,
+        // Separation amount between nodes
+        nodeSeparation: 75,
+        // Power iteration tolerance
+        piTol: 0.0000001,
+        
+        /* incremental layout options */
+        
+        // Node repulsion (non overlapping) multiplier
+        nodeRepulsion: node => 4500,
+        // Ideal edge (non nested) length
+        idealEdgeLength: edge => 50,
+        // Divisor to compute edge forces
+        edgeElasticity: edge => 0.45,
+        // Nesting factor (multiplier) to compute ideal edge length for nested edges
+        nestingFactor: 0.1,
+        // Maximum number of iterations to perform - this is a suggested value and might be adjusted by the algorithm as required
+        numIter: 2500,
+        // For enabling tiling
+        tile: true,
+        // The comparison function to be used while sorting nodes during tiling operation.
+        // Takes the ids of 2 nodes that will be compared as a parameter and the default tiling operation is performed when this option is not set.
+        // It works similar to ``compareFunction`` parameter of ``Array.prototype.sort()``
+        // If node1 is less then node2 by some ordering criterion ``tilingCompareBy(nodeId1, nodeId2)`` must return a negative value
+        // If node1 is greater then node2 by some ordering criterion ``tilingCompareBy(nodeId1, nodeId2)`` must return a positive value
+        // If node1 is equal to node2 by some ordering criterion ``tilingCompareBy(nodeId1, nodeId2)`` must return 0
+        tilingCompareBy: undefined, 
+        // Represents the amount of the vertical space to put between the zero degree members during the tiling operation(can also be a function)
+        tilingPaddingVertical: 10,
+        // Represents the amount of the horizontal space to put between the zero degree members during the tiling operation(can also be a function)
+        tilingPaddingHorizontal: 10,
+        // Gravity force (constant)
+        gravity: 0.25,
+        // Gravity range (constant) for compounds
+        gravityRangeCompound: 1.5,
+        // Gravity force (constant) for compounds
+        gravityCompound: 1.0,
+        // Gravity range (constant)
+        gravityRange: 3.8, 
+        // Initial cooling factor for incremental layout  
+        initialEnergyOnIncremental: 0.3,
+      
+        /* constraint options */
+      
+        // Fix desired nodes to predefined positions
+        // [{nodeId: 'n1', position: {x: 100, y: 200}}, {...}]
+        fixedNodeConstraint: undefined,
+        // Align desired nodes in vertical/horizontal direction
+        // {vertical: [['n1', 'n2'], [...]], horizontal: [['n2', 'n4'], [...]]}
+        alignmentConstraint: undefined,
+        // Place two nodes relatively in vertical/horizontal direction
+        // [{top: 'n1', bottom: 'n2', gap: 100}, {left: 'n3', right: 'n4', gap: 75}, {...}]
+        relativePlacementConstraint: undefined,
+      
+        /* layout event callbacks */
+        ready: () => {}, // on layoutready
+        stop: () => {} // on layoutstop
+      };
+```
