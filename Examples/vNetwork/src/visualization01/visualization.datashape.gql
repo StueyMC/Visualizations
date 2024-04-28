@@ -1,11 +1,23 @@
 type data {
-	ExampleVariable1: String!
-	ExampleVariable2: Boolean!
-	ExampleVariable3: [Query]!
+	nodes: [Node]!
+	links: [Link]!
 }
 
-type Query implements MooDElement {
-	key: ID!
-	Name: String! @UI (default: "name")
-	Value: Any!
+type Node implements MooDElement{
+	id: ID!
+	name: String! @UI(name:"Name" default: "name")
+	x: Int @UI(name:"X Coordinate")
+	y: Int @UI(name:"Y Coordinate")
+}
+
+type Link implements MooDElement{
+	id: ID!
+	name: String! @UI(name:"Name" default: "name")
+	source: EndPoint!
+	target: EndPoint!
+}
+
+type EndPoint implements MooDElement{
+	id: ID!
+	name: String! @UI(name:"Name" default: "name")
 }
