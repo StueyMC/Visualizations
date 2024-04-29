@@ -33,15 +33,15 @@ export function visualization(config: MooDConfig) {
   // console.log("Type of config: " + typeof config)
   // const nodes: vNG.Nodes = {}
   // const nodes = {}
-  var nodes: Record<string,any> = {}
-  const data = getVisualizationData(false)
-  if (data && data.nodes) {
-    for (let node of data.nodes) {
-      // console.log(JSON.stringify(node))
-      const id: string = node.id;
-      nodes[id] = { name: node.name }
-    }
-  }
+  // var nodes: Record<string,any> = {}
+  // const data = getVisualizationData(false)
+  // if (data && data.nodes) {
+  //   for (let node of data.nodes) {
+  //     // console.log(JSON.stringify(node))
+  //     const id: string = node.id;
+  //     nodes[id] = { name: node.name }
+  //   }
+  // }
   // data.nodes?.forEach((node) => {
   //   // nodes[node.id] = { name: node.name }
   //   console.log(JSON.stringify(node))
