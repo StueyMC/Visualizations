@@ -2,6 +2,7 @@ import { createApp } from "vue"
 import App from "./App.vue"
 import * as vNG from "v-network-graph"
 
+
 // import Logger from "@helpers/logger";
 // import { ConfigContext } from "@helpers/context/configContext";
 import {
@@ -31,7 +32,6 @@ export function visualization(config: MooDConfig) {
   // const state = getVisualizationState(true);
 
   // console.log("Type of config: " + typeof config)
-  // const nodes: vNG.Nodes = {}
   // const nodes = {}
   // var nodes: Record<string,any> = {}
   // const data = getVisualizationData(false)
@@ -42,16 +42,13 @@ export function visualization(config: MooDConfig) {
   //     nodes[id] = { name: node.name }
   //   }
   // }
-  // data.nodes?.forEach((node) => {
-  //   // nodes[node.id] = { name: node.name }
-  //   console.log(JSON.stringify(node))
-  // })
 
   // Logger.Log("This is an example of a development log");
 
   // Create the Vue application root element with the element provided by MooD BA
-  const app = createApp(App)
-  app.mount("#" + config.element)
+  const app = createApp(App);
+  app.component('vNG', vNG);
+  app.mount("#" + config.element);
 
   
   // We use ErrorBoundary to produce a nicer error message to display to the user

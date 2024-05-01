@@ -1,8 +1,8 @@
-<script setup>
-// import paths from "./components/paths.vue"
-import HelloWorld from "./components/HelloWorld.vue"
+<script setup lang="tsx">
+import Paths from "./components/Paths.vue"
+// import HelloWorld from "./components/HelloWorld.vue"
 </script>
 
 <template>
-  <HelloWorld />
+  <Paths />
 </template>
