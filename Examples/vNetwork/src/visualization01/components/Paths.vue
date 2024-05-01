@@ -9,11 +9,15 @@ import * as vNG from "v-network-graph"
 const data = getVisualizationData(false)
 const nodes: vNG.Nodes = {};
 const edges: vNG.Edges = {};
+const layouts: vNG.Layouts = {nodes: {}};
 
 if (data) {
   data.nodes?.forEach((node) => {
     if (node.id) {
       nodes[node.id] = { name: node.name }
+      if (node.x !== undefined && node.y !== undefined) {
+        layouts.nodes[node.id] = {x: node.x, y: node.y}
+      }
     }
   })
 
@@ -23,6 +27,8 @@ if (data) {
     }
   })
 }
+// console.log('Nodes: ' + JSON.stringify(nodes))
+// console.log('Layouts: ' + JSON.stringify(layouts))
 
 </script>
 
@@ -30,5 +36,6 @@ if (data) {
     <v-network-graph
     :nodes="nodes"
     :edges="edges"
+    :layouts="layouts"
   />
 </template>
