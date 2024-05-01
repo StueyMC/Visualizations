@@ -2,6 +2,7 @@ import {visualization} from '../../src/visualization01/visualization';
 import MooDConfig from './MooDConfig.json';
 // import dataConfig from './data.json';
 import dataConfig from './data2.json';
+// import dataConfig from './data3.json';
 import styleConfig from './style.json';
 import inputsConfig from './inputs.json';
 
@@ -49,7 +50,7 @@ var updateOutput = function(name, value) {
 // Define errorOccurred function to log errors to console
 //
 var errorOccurred = function(error) {
-    console.log(error)
+    console.error(error)
 }
 //
 // Define performAction function to log to console actions triggered by visualisation

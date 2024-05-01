@@ -86,6 +86,10 @@ export function visualization (config) {
     if (!Array.isArray(data.nodes)) {
       throw new Error('Node data is not an array')
     }
+    const unnamedNodes = data.nodes.filter(node => !node.name).map(node => node.id)
+    if (unnamedNodes.length > 0) {
+      throw new Error('Node(s) ' + JSON.stringify(unnamedNodes) + ' is/are unnamed')
+    }
     const nodes = data.nodes
       .map(node => {
         const retVal = { data: node }
