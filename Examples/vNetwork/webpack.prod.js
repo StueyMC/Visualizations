@@ -54,8 +54,8 @@ module.exports = merge(common, {
       filename: process.env.npm_package_name + '-' + process.env.npm_package_version.replace(/\./g, "-")
     }),
     new MiniCSSExtractPlugin({
-      filename: 'css/[name].[hash].css',
-      chunkFilename: 'css/[id].[hash].css'
+      filename: 'css/[name].[fullhash].css',
+      chunkFilename: 'css/[id].[fullhash].css'
     })
   ]
 
