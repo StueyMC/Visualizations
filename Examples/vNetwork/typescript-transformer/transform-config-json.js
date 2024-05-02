@@ -87,18 +87,24 @@ glob("src/**/no-guid.visualization.config.json.ejs", function (er, files) {
       actionsConfig,
       inputConfig,
       outputConfig,
-      stateConfig
+      stateConfig,
+      JSON.stringify(jsonResult)
     );
   });
 });
 
 /**
  * Write all of the parsed values to file
+ * Also write the entire config data parsed from ejs to json equivalent
+ * Note: The json file is only required at visualisation compile time by helpers/hooks/useInput.tsx
+ *       The json file is ignored by source control, the json.ejs is the source
+ *       The development and production build regenerate the json from ejs
  * @param {string[]} styleConfig The parsed style
  * @param {string[]} actionsConfig The parsed actions
  * @param {string[]} inputsConfig The parsed inputs
  * @param {string[]} outputsConfig The parse outputs
  * @param {string[]} stateConfig The parse state
+ * @param {string} config The entire parsed config
  */
 function writeTypesToFiles(
   visDir,
@@ -106,7 +112,8 @@ function writeTypesToFiles(
   actionsConfig,
   inputsConfig,
   outputsConfig,
-  stateConfig
+  stateConfig,
+  config
 ) {
   //Ensure that the folder structure is set up correctly
   if (!fs.existsSync(path.join(visDir, "src/types"))) {
@@ -139,6 +146,11 @@ function writeTypesToFiles(
   fs.writeFileSync(
     path.join(visDir, "src/types", "state.d.ts"),
     stateConfig.join("\n")
+  );
+
+  fs.writeFileSync(
+    path.join(visDir, "visualization.config.json"),
+    config
   );
 }
 
