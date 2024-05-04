@@ -1,6 +1,7 @@
 type data {
 	nodes: [Node]!
-	links: [Link]!
+	edges: [Edge]!
+  paths: [Path]
 }
 
 type Node implements MooDElement{
@@ -10,11 +11,18 @@ type Node implements MooDElement{
 	y: Int @UI(name:"Y Coordinate")
 }
 
-type Link implements MooDElement{
+type Edge implements MooDElement{
 	id: ID!
 	name: String! @UI(name:"Name" default: "name")
 	source: EndPoint!
 	target: EndPoint!
+}
+
+type Path implements MooDElement{
+	id: ID!
+	name: String! @UI(name:"Name" default: "name")
+	path: EndPoint!
+	edge: EndPoint!
 }
 
 type EndPoint implements MooDElement{

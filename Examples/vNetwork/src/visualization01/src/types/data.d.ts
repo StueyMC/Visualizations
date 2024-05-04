@@ -1,7 +1,8 @@
 declare namespace Vis {
   interface Data {
     nodes: Array<Vis.Data.Node>,
-    links: Array<Vis.Data.Link>,
+    edges: Array<Vis.Data.Edge>,
+    paths?: Array<Vis.Data.Path>,
   }
 }
 
@@ -14,11 +15,18 @@ declare namespace Vis.Data {
     y?: number,
   }
   
-  interface Link extends MooDElement{
+  interface Edge extends MooDElement{
     id: ID,
     name: string,
     source: Vis.Data.EndPoint,
     target: Vis.Data.EndPoint,
+  }
+  
+  interface Path extends MooDElement{
+    id: ID,
+    name: string,
+    path: Vis.Data.EndPoint,
+    edge: Vis.Data.EndPoint,
   }
   
   interface EndPoint extends MooDElement{
