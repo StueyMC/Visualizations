@@ -20,6 +20,10 @@ const layouts: vNG.Layouts = {nodes: {}};
 const paths: vNG.Paths = {};
 const configs = vNG.defineConfigs({
   view: {
+    autoPanAndZoomOnLoad: "center-content", //"fit-content", // false | "center-zero" | "center-content" | 
+    // fitContentMargin: 0,
+    minZoomLevel: 0.5,
+    maxZoomLevel: 5,
       layoutHandler: new ForceLayout({
         positionFixedByDrag: false,
         positionFixedByClickWithAltKey: true,
