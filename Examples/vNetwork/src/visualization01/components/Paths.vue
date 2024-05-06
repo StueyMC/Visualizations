@@ -124,14 +124,20 @@ const configs = vNG.defineConfigs({
     normal: {
       color: "#6699cc",
     },
+    hover: {
+      color: "#6699cc",
+      width: 6,
+    },
   },
   path: {
     visible: true,
+    clickable: true,
+    hoverable: true,
     normal: {
       width: 8,
     },
     hover: {
-      width: 20,
+      width: 10,
     }
   },
 })
