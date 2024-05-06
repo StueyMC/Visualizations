@@ -1,16 +1,22 @@
 import { visualization } from "../../src/visualization01/visualization";
-// import { MooDConfig } from "@moodtypes/index"; // "../../types/typescript-transformer/moodtypes/index";
+// import { MooDConfig } from "@moodtypes/index";
+// "../../types/typescript-transformer/moodtypes/index";
 
 import MooDConfiguration from "./MooDConfig.json";
 import dataConfig from "./data.json";
 import styleConfig from "./style.json";
 import inputsConfig from "./inputs.json";
 import stateConfig from "./state.json";
+import { getOutputs } from "./outputs";
+// import { setupDevelopmentConfig } from "@helpers/development"
 
-// const config: MooDConfig = {};
+// const config: MooDConfig = setupDevelopmentConfig({});
 const config = {};
 let key;
 let css;
+
+config.outputs = getOutputs();
+// console.log("Outputs: " + JSON.stringify(config.outputs));
 
 for (key in MooDConfiguration) {
   if (MooDConfiguration.hasOwnProperty(key)) {
@@ -48,6 +54,44 @@ for (key in inputsConfig) {
 
 //    console.log(JSON.stringify(config));
 addCSSFile(css);
+//
+// Define updateOutput function to log to console changes to output
+//
+var errorOccurred = function(error) {
+  console.error(error)
+}
+//
+// Define empty dataChanged function that the visualisation extends
+//
+var dataChanged = function(config)
+{
+
+}
+//
+// Define inputChanged function
+//
+var inputChanged = function (name, value) {
+  console.log('Inputs Changed: name = ' + name + ', value: ' + JSON.stringify(value))
+}
+//
+// Define updateOutput function to log to console changes to output
+//
+var updateOutput = function(name, value) {
+    console.log('Output changed: name = ' + name + ', value = ' + value.toString())
+}
+//
+// Define performAction function to log to console actions triggered by visualisation
+//
+var performAction = function(name, id, event) {
+    console.log('Perform Action: name = ' + name + ', id = ' + id + ', event: ' + JSON.stringify(event))
+}
+   config.functions = {
+       dataChanged: dataChanged,
+       updateOutput: updateOutput,
+       errorOccurred: errorOccurred,
+       performAction: performAction,
+       inputChanged: inputChanged
+  };
 
 var el = document.getElementById(config.element);
 if (el) {

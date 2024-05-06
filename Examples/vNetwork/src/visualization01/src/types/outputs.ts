@@ -1,7 +1,11 @@
-export enum OutputsEnum {}
+export enum OutputsEnum {
+  hoverNode = "hoverNode",
+  hoverEdge = "hoverEdge",
+}
 
 export interface OutputsTypes {
-  [key: string | number | symbol]: never;
+  [OutputsEnum.hoverNode]: Elements,
+  [OutputsEnum.hoverEdge]: Elements
 }
 
 declare global {

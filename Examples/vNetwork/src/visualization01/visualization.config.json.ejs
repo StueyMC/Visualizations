@@ -11,11 +11,21 @@
         "function": "vis.visualization"
     },
     "supportedBrowsers": "Chrome, Edge, Firefox",
-    "dynamicData": true,
-    "canOverflow": true,
+    "dynamicData": false,
+    "canOverflow": false,
     "inputs": [
     ],
     "outputs": [
+      {
+        "name": "hoverNode",
+        "displayName": "Node Hover",
+        "type": "elements"
+      },
+      {
+        "name": "hoverEdge",
+        "displayName": "Edge Hover",
+        "type": "elements"
+      }
     ],
     "style": {
         "URL": "visualization01/visualization.css",
@@ -24,6 +34,14 @@
         }
     },
     "actions": {
+        "Node Click": {
+            "description": "A source shape representing an node has been clicked.",
+            "title": "Node Click"
+        },
+        "Edge Click": {
+            "description": "A source shape representing an edge has been clicked.",
+            "title": "Edge Click"
+        }
     },
     "state": {
         "ExampleState": true

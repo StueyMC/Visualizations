@@ -3,7 +3,14 @@ import {
   getVisualizationConfig,
   getVisualizationState,
   getVisualizationData,
+  getVisualizationOutputs,
 } from "@helpers/config";
+import { setupProductionConfig } from "@helpers/production";
+// import { useStrictAction } from "@helpers/hooks/useStrictAction";
+import { ActionsEnum } from "../src/types/actions";
+import { OutputsEnum } from "../src/types/outputs";
+// import { useData } from "@helpers/hooks/useData";
+
 // import { reactive, ref } from "vue"
 import * as vNG from "v-network-graph"
 import {
@@ -12,6 +19,48 @@ import {
   ForceEdgeDatum,
 } from "v-network-graph/lib/force-layout"
 
+// Get a reference to the "Node Click" action that we can call
+//  but only if the action has been set up in MooD BA
+// const [nodeClickStrict, nodeClickStrictHasAction] = useStrictAction(
+//   ActionsEnum.Node_Click
+// );
+// Get a reference to the "Edge Click" action that we can call
+//  but only if the action has been set up in MooD BA
+// const [edgeClickStrict, edgeClickStrictHasAction] = useStrictAction(
+//   ActionsEnum.Edge_Click
+// );
+const config = getVisualizationConfig();
+setupProductionConfig(config);
+const outputs = getVisualizationOutputs();
+console.log("Outputs: " + JSON.stringify(outputs))
+const eventHandlers: vNG.EventHandlers = {
+  "node:click": ({ node, event }) => {
+    config.functions.performAction(ActionsEnum.Node_Click, node, event)
+    // nodeClickStrict(node, event)
+    //           .then(() => {
+    //             alert(`${ActionsEnum.Node_Click} has executed successfully`);
+    //           })
+    //           .catch(() => {
+    //             alert(`${ActionsEnum.Node_Click} has failed to execute`);
+    //           });
+  },
+  "edge:click": ({ edge, edges, event, summarized }) => {
+    config.functions.performAction(ActionsEnum.Edge_Click, edge ?? "", event)
+    // edgeClickStrict(edge ?? "", event)
+    //           .then(() => {
+    //             alert(`${ActionsEnum.Edge_Click} has executed successfully, edges: ${JSON.stringify(edges)}, summarize: ${summarized}`);
+    //           })
+    //           .catch(() => {
+    //             alert(`${ActionsEnum.Edge_Click} has failed to execute`);
+    //           });
+  },
+  "node:pointerover": ({ node }) => {
+    config.functions.updateOutput(OutputsEnum.hoverNode, node)
+  },
+  "edge:pointerover": ({ edge }) => {
+    config.functions.updateOutput(OutputsEnum.hoverEdge, edge)
+  },
+}
 
 const data = getVisualizationData(false)
 const nodes: vNG.Nodes = {};
@@ -117,5 +166,6 @@ if (data) {
     :paths="paths"
     :layouts="layouts"
     :configs="configs"
+    :event-handlers="eventHandlers"
   />
 </template>
