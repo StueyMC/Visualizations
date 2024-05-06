@@ -54,11 +54,17 @@ const eventHandlers: vNG.EventHandlers = {
     //             alert(`${ActionsEnum.Edge_Click} has failed to execute`);
     //           });
   },
+  "path:click": ({ path, event }) => {
+    config.functions.performAction(ActionsEnum.Path_Click, path, event)
+  },
   "node:pointerover": ({ node }) => {
     config.functions.updateOutput(OutputsEnum.hoverNode, node)
   },
   "edge:pointerover": ({ edge }) => {
     config.functions.updateOutput(OutputsEnum.hoverEdge, edge)
+  },
+  "path:pointerover": ({ path }) => {
+    config.functions.updateOutput(OutputsEnum.hoverPath, path)
   },
 }
 
@@ -121,9 +127,12 @@ const configs = vNG.defineConfigs({
   },
   path: {
     visible: true,
-    path: {
-      width: 10,
+    normal: {
+      width: 8,
     },
+    hover: {
+      width: 20,
+    }
   },
 })
 
