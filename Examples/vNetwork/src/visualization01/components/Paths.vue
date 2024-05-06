@@ -5,7 +5,7 @@ import {
   getVisualizationData,
   getVisualizationOutputs,
 } from "@helpers/config";
-import { setupProductionConfig } from "@helpers/production";
+// import { setupProductionConfig } from "@helpers/production";
 // import { useStrictAction } from "@helpers/hooks/useStrictAction";
 import { ActionsEnum } from "../src/types/actions";
 import { OutputsEnum } from "../src/types/outputs";
@@ -30,7 +30,7 @@ import {
 //   ActionsEnum.Edge_Click
 // );
 const config = getVisualizationConfig();
-setupProductionConfig(config);
+// setupProductionConfig(config);
 const outputs = getVisualizationOutputs();
 console.log("Outputs: " + JSON.stringify(outputs))
 const eventHandlers: vNG.EventHandlers = {
@@ -69,6 +69,7 @@ const layouts: vNG.Layouts = {nodes: {}};
 const paths: vNG.Paths = {};
 const configs = vNG.defineConfigs({
   view: {
+    // builtInLayerOrder: ["edges", "paths"],
     autoPanAndZoomOnLoad: "center-content", //"fit-content", // false | "center-zero" | "center-content" | 
     // fitContentMargin: 0,
     minZoomLevel: 0.5,
