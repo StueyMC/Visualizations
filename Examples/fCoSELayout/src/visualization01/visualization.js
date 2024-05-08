@@ -73,7 +73,7 @@ export function visualization (config) {
 
     const el = document.getElementById(config.element)
 
-    const styleSheet = getStylesheet()
+    const styleSheet = getStylesheet(style)
     // console.log(JSON.stringify(styleSheet))
 
     const parentMap = {}
@@ -86,6 +86,10 @@ export function visualization (config) {
     if (!Array.isArray(data.nodes)) {
       throw new Error('Node data is not an array')
     }
+    const nodeMap = {}
+    data.nodes.forEach(node => {
+      nodeMap[node.id] = node
+    })
     const unnamedNodes = data.nodes.filter(node => !node.name).map(node => node.id)
     if (unnamedNodes.length > 0) {
       throw new Error('Node(s) ' + JSON.stringify(unnamedNodes) + ' is/are unnamed')
@@ -103,8 +107,22 @@ export function visualization (config) {
     if (!Array.isArray(data.links)) {
       throw new Error('Edge data is not an array')
     }
+    if (!style.ignoreUnknownNodes) {
+      //
+      // Check all the links for a missing node
+      //
+      data.links.forEach(link => {
+        if (!nodeMap[link.source.id]) {
+          throw new Error('Source node for link between "' + link.source.name + '" and "' + link.target.name + '" is not in Nodes data')
+        }
+        if (!nodeMap[link.target.id]) {
+          throw new Error('Target node for link between "' + link.source.name + '" and "' + link.target.name + '" is not in Nodes data')
+        }
+      })
+    }
     const edges = data.links
-      .map(edge => ({ data: {
+    .filter(link => nodeMap[link.source.id] && nodeMap[link.target.id])
+    .map(edge => ({ data: {
         id: edge.id,
         source: edge.source.id,
         target: edge.target.id,
@@ -268,13 +286,24 @@ export function visualization (config) {
   }
 
 
-  function getStylesheet () {
+  function getStylesheet (style) {
     const nodeLabel = (node) => node.attr().name || node.id
     const nodeShape = (node) => node.attr().shape || 'ellipse'
     const nodeSize = (node) => node.attr().size || 40
     const nodeColour = (node) => node.attr().colour || '#bdd3ff'
     const edgeColour = (edge) => edge.attr().colour || '#ffd3d4'
     const edgeWidth = (edge) => edge.attr().width || 1
+    const edgeType = (edge) => edge.attr().linkType || 'solid'
+    const dashPattern = (edge) => edge.attr().linkDashPattern || '5 5'
+    const nodeLabelFontSize = style.nodeLabelSize || 12
+    const nodeLabelPos = style.nodeLabelPos || 'center'
+    const nodeLabelMarginX = style.nodeLabelMarginX || 0
+    const nodeLabelMarginY = style.nodeLabelMarginY || 0
+    const parentLabelFontSize = style.parentLabelSize || 14
+    const parentLabelMarginX = style.parentLabelMarginX || 0
+    const parentLabelMarginY = style.parentLabelMarginY || 0
+    const parentLabelPos = style.parentLabelPos || 'bottom'
+
   
     // define default stylesheet
     const defaultStylesheet = [
@@ -286,7 +315,10 @@ export function visualization (config) {
           height: nodeSize,
           shape: nodeShape,
           label: nodeLabel,
-          // 'text-valign': 'center',
+          'font-size': nodeLabelFontSize,
+          'text-margin-x': nodeLabelMarginX,
+          'text-margin-y': nodeLabelMarginY,
+          'text-valign': nodeLabelPos,
           'background-opacity': 0.7
         }
       },
@@ -295,10 +327,13 @@ export function visualization (config) {
         selector: ':parent',
         style: {
           //      'background-opacity': 0.333,
-          'background-color': '#e8ffe8',
+          // 'background-color': '#e8ffe8',
           'border-color': '#DADADA',
           //      'border-width': 3,
-          'text-valign': 'bottom'
+          'font-size': parentLabelFontSize,
+          'text-margin-x': parentLabelMarginX,
+          'text-margin-y': parentLabelMarginY,
+          'text-valign': parentLabelPos
         }
       },
 
@@ -309,8 +344,9 @@ export function visualization (config) {
           'target-arrow-shape': 'triangle',
           'line-color': edgeColour,
           'target-arrow-color': edgeColour,
-          width: edgeWidth
-
+          width: edgeWidth,
+          'line-style': edgeType,
+          'line-dash-pattern': dashPattern
         }
       },
 

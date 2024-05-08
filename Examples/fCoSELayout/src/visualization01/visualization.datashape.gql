@@ -19,6 +19,8 @@ type link implements MooDElement{
 	target: linkEndPoint!
 	width: Int @UI(name:"Weight of link")
 	linkColour: Colour @UI(name:"Colour of link") 
+	linkType: String @UI(name:"Type of line to draw for link")
+	linkDashPattern: String @UI(name: "Pattern for dashed lines, e.g. 5 5")
 }
 
 type linkEndPoint implements MooDElement{
