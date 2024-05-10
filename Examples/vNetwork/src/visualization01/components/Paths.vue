@@ -9,6 +9,7 @@ import {
 // import { useStrictAction } from "@helpers/hooks/useStrictAction";
 import { ActionsEnum } from "../src/types/actions";
 import { OutputsEnum } from "../src/types/outputs";
+import { orderPaths } from "../graph";
 // import { useData } from "@helpers/hooks/useData";
 
 // import { reactive, ref } from "vue"
@@ -167,6 +168,10 @@ if (data) {
       paths[pathLink.path.id].edges.push(pathLink.edge.id)
     }
   })
+  const orderedPath = orderPaths(paths, edges)
+  console.log('Ordered Paths: ' + JSON.stringify(orderedPath))
+
+ 
 }
 // console.log('Nodes: ' + JSON.stringify(nodes))
 // console.log('Edges: ' + JSON.stringify(edges))
