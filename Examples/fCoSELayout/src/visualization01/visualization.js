@@ -127,7 +127,9 @@ export function visualization (config) {
         source: edge.source.id,
         target: edge.target.id,
         width: edge.width,
-        colour: edge.linkColour || edge.source.linkColour || edge.target.linkColour }} ))
+        colour: edge.linkColour || edge.source.linkColour || edge.target.linkColour,
+        linkType: edge.linkType,
+        linkDashPattern: edge.linkDashPattern }} ))
     // console.log(JSON.stringify(edges))
 
     const constraints = getConstraints()
