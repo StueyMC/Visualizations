@@ -1,7 +1,8 @@
+import { node } from "prop-types"
 import * as vNG from "v-network-graph"
 
 interface NodeInfo {
-  visited: boolean,
+  /*visited: boolean,*/
   edgeIds: string[]
 }
 interface NodeMap {
@@ -52,7 +53,7 @@ export function orderPaths (paths: vNG.Paths, edges: vNG.Edges) : vNG.Paths {
         if (pathInfo.sourceNodes[sourceNodeId]) {
           pathInfo.hasCycles = true
         } else {
-          pathInfo.sourceNodes[sourceNodeId] = {visited: false, edgeIds: []}
+          pathInfo.sourceNodes[sourceNodeId] = {/*visited: false,*/ edgeIds: []}
         }
         pathInfo.sourceNodes[sourceNodeId].edgeIds.push(edgeId)
         //
@@ -61,7 +62,7 @@ export function orderPaths (paths: vNG.Paths, edges: vNG.Edges) : vNG.Paths {
         if (pathInfo.targetNodes[targetNodeId]) {
           pathInfo.hasCycles = true
         } else {
-          pathInfo.targetNodes[targetNodeId] = {visited: false, edgeIds: []}
+          pathInfo.targetNodes[targetNodeId] = {/*visited: false,*/ edgeIds: []}
         }
         pathInfo.targetNodes[targetNodeId].edgeIds.push(edgeId)
       } else {
@@ -166,8 +167,9 @@ export function orderPaths (paths: vNG.Paths, edges: vNG.Edges) : vNG.Paths {
     // in order to identify the ultimate destination (self node or sink node) of edges at a branch node
     //
     console.log("pathInfo: "  + JSON.stringify(pathInfo))
-    // const path = findPath(sourceNodeId, sinkNodeId, pathInfo, edges)
-    // orderedPaths[pathId] = {edges: path.orderedEdgeIds}
+    // console.log("sourceNodeId: "  + JSON.stringify(sourceNodeId))
+    const path = findPath(sourceNodeId, sourceNodeId, sinkNodeId, pathInfo, edges, undefined)
+    orderedPaths[pathId] = {edges: path.orderedEdgeIds}
   }
   //
   // Set the edge order for each path
@@ -184,25 +186,34 @@ export function orderPaths (paths: vNG.Paths, edges: vNG.Edges) : vNG.Paths {
   return orderedPaths
 }
 
-function findPath(startNodeId: string, sinkNodeId: string, pathInfo: PathInfo, edges: vNG.Edges): SubPath {
-  const path: SubPath = {orderedEdgeIds: [], isLoop: true}
+function findPath(startNodeId: string, endOfLoopNodeId: string, sinkNodeId: string, pathInfo: PathInfo, edges: vNG.Edges, initialEdgeId: string | undefined): SubPath {
+  console.log("Entry to findPath: (" + startNodeId + ", " + endOfLoopNodeId + ", " + sinkNodeId + ", " + initialEdgeId)
+  const path: SubPath = {orderedEdgeIds: [], isLoop: false}
   let currentNodeId: string = startNodeId
   let atEndOfPath: boolean = false
 
+  if (initialEdgeId) {
+    console.log("Initial edge id: " + initialEdgeId)
+    path.orderedEdgeIds.push(initialEdgeId)
+  }
+
   while (!atEndOfPath) {
+    console.log("Current Node Id: " + currentNodeId)
     let nodeInfo = pathInfo.sourceNodes[currentNodeId]
 
-    if (nodeInfo.edgeIds.length === 0) {
+    if (!nodeInfo || nodeInfo.edgeIds.length === 0 /*|| (startNodeId === endOfLoopNodeId && initialEdgeId)*/ ) {
+      console.log("Ending path: " + JSON.stringify(nodeInfo))
       atEndOfPath = true
     } else if (nodeInfo.edgeIds.length === 1) {
       //
       // Single edge out of the current node
       //
       const edgeId = nodeInfo.edgeIds[0]
+      console.log("Add edge: " + edgeId)
       path.orderedEdgeIds.push(edgeId)
       currentNodeId = edges[edgeId].target
       nodeInfo.edgeIds.pop()
-      if (currentNodeId === startNodeId) {
+      if (currentNodeId === endOfLoopNodeId) {
         atEndOfPath = true
         path.isLoop = true
       }
@@ -211,19 +222,35 @@ function findPath(startNodeId: string, sinkNodeId: string, pathInfo: PathInfo, e
       // Branch in the path
       // Need to traverse loops before heading for sink node
       //
+      console.log("Branch at node: " + currentNodeId)
       let finalPath: string[] = []
-      nodeInfo.edgeIds.forEach(edgeId => {
-        const subPath = findPath(currentNodeId, sinkNodeId, pathInfo, edges)
-        if (subPath.isLoop) {
-          path.orderedEdgeIds = path.orderedEdgeIds.concat(subPath.orderedEdgeIds)
+      let newNodeId: string = ""
+      nodeInfo.edgeIds.forEach((edgeId, index, array) => {
+        console.log("Processing edge: " + edgeId)
+        const nextNodeId = edges[edgeId].target
+        // array.shift()
+        if (nextNodeId === currentNodeId) {
+          console.log("Single node loop, edgeId: " + edgeId)
+          path.orderedEdgeIds.push(edgeId)
         } else {
-          finalPath = subPath.orderedEdgeIds
+          const subPath = findPath(nextNodeId, currentNodeId, sinkNodeId, pathInfo, edges, edgeId)
+          if (subPath.isLoop) {
+            console.log("Add subpath:" + JSON.stringify(subPath.orderedEdgeIds))
+            path.orderedEdgeIds = path.orderedEdgeIds.concat(subPath.orderedEdgeIds)
+          } else {
+            console.log("Final path: " + JSON.stringify(subPath.orderedEdgeIds))
+            finalPath = subPath.orderedEdgeIds
+            newNodeId = nextNodeId
+          }
         }
       })
+      console.log("Add final path node: " + JSON.stringify(finalPath))
       path.orderedEdgeIds = path.orderedEdgeIds.concat(finalPath)
+      currentNodeId = newNodeId
     }
   }
 
+  console.log("Sub-path" + JSON.stringify(path))
   return path
 }
 

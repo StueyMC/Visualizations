@@ -73,7 +73,8 @@ const data = getVisualizationData(false)
 const nodes: vNG.Nodes = {};
 const edges: vNG.Edges = {};
 const layouts: vNG.Layouts = {nodes: {}};
-const paths: vNG.Paths = {};
+const unorderedPaths: vNG.Paths = {};
+let paths: vNG.Paths = {};
 const configs = vNG.defineConfigs({
   view: {
     // builtInLayerOrder: ["edges", "paths"],
@@ -134,6 +135,7 @@ const configs = vNG.defineConfigs({
     visible: true,
     clickable: true,
     hoverable: true,
+    curveInNode: true,
     normal: {
       width: 8,
     },
@@ -162,14 +164,14 @@ if (data) {
 
   data?.paths?.forEach((pathLink) => {
     if (pathLink.path && pathLink?.path.id && pathLink.edge && pathLink.edge.id) {
-      if (!paths[pathLink.path.id]) {
-        paths[pathLink.path.id] = {edges: []}
+      if (!unorderedPaths[pathLink.path.id]) {
+        unorderedPaths[pathLink.path.id] = {edges: []}
       }
-      paths[pathLink.path.id].edges.push(pathLink.edge.id)
+      unorderedPaths[pathLink.path.id].edges.push(pathLink.edge.id)
     }
   })
-  const orderedPath = orderPaths(paths, edges)
-  console.log('Ordered Paths: ' + JSON.stringify(orderedPath))
+  paths = orderPaths(unorderedPaths, edges)
+  console.log('Ordered Paths: ' + JSON.stringify(paths))
 
  
 }
