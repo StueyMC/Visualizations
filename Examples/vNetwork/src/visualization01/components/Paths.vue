@@ -123,8 +123,14 @@ const configs = vNG.defineConfigs({
   },
   edge: {
     gap: 12,
+    marker: {
+      target: {
+        type:  "arrow"
+      }
+    }, 
     normal: {
       color: "#6699cc",
+      linecap: "round" 
     },
     hover: {
       color: "#6699cc",
@@ -138,6 +144,7 @@ const configs = vNG.defineConfigs({
     curveInNode: true,
     normal: {
       width: 8,
+      // color: "#6699cc"
     },
     hover: {
       width: 10,
@@ -170,9 +177,16 @@ if (data) {
       unorderedPaths[pathLink.path.id].edges.push(pathLink.edge.id)
     }
   })
-  paths = orderPaths(unorderedPaths, edges)
-  console.log('Ordered Paths: ' + JSON.stringify(paths))
-
+  try {
+    paths = orderPaths(unorderedPaths, edges)
+    console.log('Ordered Paths: ' + JSON.stringify(paths))
+  } catch (e) {
+      const errorMessage = e.name + ': ' + e.message
+      //
+      // Report error to MooD BA
+      //
+      config.functions.errorOccurred(errorMessage)
+    }
  
 }
 // console.log('Nodes: ' + JSON.stringify(nodes))

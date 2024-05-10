@@ -4,6 +4,10 @@ import { visualization } from "../../src/visualization01/visualization";
 
 import MooDConfiguration from "./MooDConfig.json";
 import dataConfig from "./data.json";
+// import dataConfig from "./data-two-source-node-path.json";
+// import dataConfig from "./data-two-sink-node-path.json";
+// import dataConfig from "./data-no-source-or-sink-node-path.json"
+// import dataConfig from "./data-disjointed-path.json"
 import styleConfig from "./style.json";
 import inputsConfig from "./inputs.json";
 import stateConfig from "./state.json";

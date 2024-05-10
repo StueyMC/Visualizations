@@ -80,7 +80,7 @@ export function orderPaths (paths: vNG.Paths, edges: vNG.Edges) : vNG.Paths {
       }
     }
     if (sourceNodes.length > 1) {
-      throw new DOMException("Path " + pathId + "' has " + sourceNodes.length + " source nodes")
+      throw new DOMException("Path " + pathId + " has " + sourceNodes.length + " source nodes")
     }
     //
     // Determine sink node(s) for the path, i.e. nodes that are not sources of any of the edges in the path
@@ -94,7 +94,7 @@ export function orderPaths (paths: vNG.Paths, edges: vNG.Edges) : vNG.Paths {
       }
     }
     if (sinkNodes.length > 1) {
-      throw new DOMException("Path " + pathId + "' has " + sinkNodes.length + " sink nodes")
+      throw new DOMException("Path " + pathId + " has " + sinkNodes.length + " sink nodes")
     }
     const hasSourceNode = sourceNodes.length === 1
     const hasSinkNode = sinkNodes.length === 1
@@ -138,10 +138,10 @@ export function orderPaths (paths: vNG.Paths, edges: vNG.Edges) : vNG.Paths {
     //
     if (hasSourceNode === hasSinkNode) { // either both sink and source or neither
       if ((unbalancedBranchNodes.length + unbalancedMergeNodes.length) === 0) {
-        sourceNodeId = sourceNodes[0]
-        sinkNodeId = sinkNodes[0]
+        sourceNodeId = sourceNodes[0] || Object.keys(pathInfo.sourceNodes)[0]
+        sinkNodeId = sinkNodes[0] || Object.keys(pathInfo.sourceNodes)[0]
       } else {
-        throw new DOMException("Path " + pathId + "' has invalid branches in it")
+        throw new DOMException("Path " + pathId + " has invalid branches in it")
       }
     } else if (hasSourceNode) { // source but no sink
       if ((unbalancedMergeNodes.length === 1 && unbalancedMergeNodes[0].edgeCountMismatch === -1) &&
@@ -150,7 +150,7 @@ export function orderPaths (paths: vNG.Paths, edges: vNG.Edges) : vNG.Paths {
         sourceNodeId = sourceNodes[0]
         sinkNodeId = unbalancedMergeNodes[0].nodeId
       } else {
-        throw new DOMException("Path " + pathId + "' has invalid branches in it")
+        throw new DOMException("Path " + pathId + " has invalid branches in it")
       }
     } else if (hasSinkNode) { // sink but no source
       if ((unbalancedBranchNodes.length === 1 && unbalancedBranchNodes[0].edgeCountMismatch === 1) &&
@@ -159,7 +159,7 @@ export function orderPaths (paths: vNG.Paths, edges: vNG.Edges) : vNG.Paths {
         sourceNodeId = unbalancedBranchNodes[0].nodeId
         sinkNodeId = sinkNodes[0]
       } else {
-        throw new DOMException("Path " + pathId + "' has invalid branches in it")
+        throw new DOMException("Path " + pathId + " has invalid branches in it")
       }
     }
     //
@@ -169,6 +169,9 @@ export function orderPaths (paths: vNG.Paths, edges: vNG.Edges) : vNG.Paths {
     console.log("pathInfo: "  + JSON.stringify(pathInfo))
     // console.log("sourceNodeId: "  + JSON.stringify(sourceNodeId))
     const path = findPath(sourceNodeId, sourceNodeId, sinkNodeId, pathInfo, edges, undefined)
+    if (path.orderedEdgeIds.length !== paths[pathId].edges.length) {
+      throw new DOMException("Path " + pathId + " is not contiguous")
+    }
     orderedPaths[pathId] = {edges: path.orderedEdgeIds}
   }
   //
