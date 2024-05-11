@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
   getVisualizationConfig,
-  getVisualizationState,
+  getVisualizationStyle,
   getVisualizationData,
   getVisualizationOutputs,
 } from "@helpers/config";
@@ -19,6 +19,10 @@ import {
   ForceNodeDatum,
   ForceEdgeDatum,
 } from "v-network-graph/lib/force-layout"
+
+interface Config {
+  [name: string]: any
+}
 
 // Get a reference to the "Node Click" action that we can call
 //  but only if the action has been set up in MooD BA
@@ -75,82 +79,7 @@ const edges: vNG.Edges = {};
 const layouts: vNG.Layouts = {nodes: {}};
 const unorderedPaths: vNG.Paths = {};
 let paths: vNG.Paths = {};
-const configs = vNG.defineConfigs({
-  view: {
-    // builtInLayerOrder: ["edges", "paths"],
-    autoPanAndZoomOnLoad: "center-content", //"fit-content", // false | "center-zero" | "center-content" | 
-    // fitContentMargin: 0,
-    minZoomLevel: 0.5,
-    maxZoomLevel: 5,
-      layoutHandler: new ForceLayout({
-        positionFixedByDrag: false,
-        positionFixedByClickWithAltKey: true,
-        createSimulation: (d3, nodes, edges) => {
-          // d3-force parameters
-          const forceLink = d3.forceLink<ForceNodeDatum, ForceEdgeDatum>(edges).id(d => d.id)
-          return d3
-            .forceSimulation(nodes)
-            .force("edge", forceLink.distance(40).strength(0.5))
-            .force("charge", d3.forceManyBody().strength(-800))
-            .force("center", d3.forceCenter().strength(0.05))
-            .alphaMin(0.001)
-
-            // * The following are the default parameters for the simulation.
-            // const forceLink = d3.forceLink<ForceNodeDatum, ForceEdgeDatum>(edges).id(d => d.id)
-            // return d3
-            //   .forceSimulation(nodes)
-            //   .force("edge", forceLink.distance(100))
-            //   .force("charge", d3.forceManyBody())
-            //   .force("collide", d3.forceCollide(50).strength(0.2))
-            //   .force("center", d3.forceCenter().strength(0.05))
-            //   .alphaMin(0.001)
-        }
-      }),
-    },
-  node: {
-    normal: {
-      type: "circle",
-      // radius: 20,
-      color: "#99ccff",
-    },
-    hover: {
-      color: "#88bbff",
-    },
-    label: {
-      visible: true,
-      fontSize: 8,
-    },
-  },
-  edge: {
-    gap: 12,
-    marker: {
-      target: {
-        type:  "arrow"
-      }
-    }, 
-    normal: {
-      color: "#6699cc",
-      linecap: "round" 
-    },
-    hover: {
-      color: "#6699cc",
-      width: 6,
-    },
-  },
-  path: {
-    visible: true,
-    clickable: true,
-    hoverable: true,
-    curveInNode: true,
-    normal: {
-      width: 8,
-      // color: "#6699cc"
-    },
-    hover: {
-      width: 10,
-    }
-  },
-})
+const configs = vNG.defineConfigs(getConfig())
 
 
 if (data) {
@@ -193,6 +122,90 @@ if (data) {
 // console.log('Edges: ' + JSON.stringify(edges))
 // console.log('Layouts: ' + JSON.stringify(layouts))
 // console.log('Paths: ' + JSON.stringify(paths))
+
+function getConfig(): Config {
+  const style = getVisualizationStyle()
+  const config: Config = {
+    view: {
+      // builtInLayerOrder: ["edges", "paths"],
+      autoPanAndZoomOnLoad: "center-content", //"fit-content", // false | "center-zero" | "center-content" | 
+      // fitContentMargin: 0,
+      minZoomLevel: 0.5,
+      maxZoomLevel: 5,
+        layoutHandler: new ForceLayout({
+          positionFixedByDrag: false,
+          positionFixedByClickWithAltKey: true,
+          createSimulation: (d3, nodes, edges) => {
+            // d3-force parameters
+            const forceLink = d3.forceLink<ForceNodeDatum, ForceEdgeDatum>(edges).id(d => d.id)
+            return d3
+              .forceSimulation(nodes)
+              .force("edge", forceLink.distance(40).strength(0.5))
+              .force("charge", d3.forceManyBody().strength(-800))
+              .force("center", d3.forceCenter().strength(0.05))
+              .alphaMin(0.001)
+
+              // * The following are the default parameters for the simulation.
+              // const forceLink = d3.forceLink<ForceNodeDatum, ForceEdgeDatum>(edges).id(d => d.id)
+              // return d3
+              //   .forceSimulation(nodes)
+              //   .force("edge", forceLink.distance(100))
+              //   .force("charge", d3.forceManyBody())
+              //   .force("collide", d3.forceCollide(50).strength(0.2))
+              //   .force("center", d3.forceCenter().strength(0.05))
+              //   .alphaMin(0.001)
+          }
+        }),
+      },
+    node: {
+      normal: {
+        type: "circle",
+        // radius: 20,
+        color: "#99ccff",
+      },
+      hover: {
+        color: "#88bbff",
+      },
+      label: {
+        visible: true,
+        fontSize: 8,
+      },
+    },
+    edge: {
+      gap: 12,
+      normal: {
+        color: "#6699cc",
+        linecap: "round" 
+      },
+      hover: {
+        color: "#6699cc",
+        width: 6,
+      },
+    },
+    path: {
+      visible: true,
+      clickable: true,
+      hoverable: true,
+      curveInNode: true,
+      normal: {
+        width: 8,
+        // color: "#6699cc"
+      },
+      hover: {
+        width: 10,
+      }
+    },
+  }
+
+  if (style?.showArrows) {
+    config.edge.marker = {
+      target: {
+          type:  "arrow"
+        }
+    }
+  }
+  return config
+}
 
 </script>
 
