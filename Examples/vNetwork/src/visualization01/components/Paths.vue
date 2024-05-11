@@ -9,7 +9,7 @@ import {
 // import { useStrictAction } from "@helpers/hooks/useStrictAction";
 import { ActionsEnum } from "../src/types/actions";
 import { OutputsEnum } from "../src/types/outputs";
-import { orderPaths } from "../graph";
+import { orderPaths } from "../graph2";
 // import { useData } from "@helpers/hooks/useData";
 
 // import { reactive, ref } from "vue"
@@ -77,8 +77,8 @@ const data = getVisualizationData(false)
 const nodes: vNG.Nodes = {};
 const edges: vNG.Edges = {};
 const layouts: vNG.Layouts = {nodes: {}};
-const unorderedPaths: vNG.Paths = {};
-let paths: vNG.Paths = {};
+// const unorderedPaths: vNG.Paths = {};
+const paths: vNG.Paths = {};
 const configs = vNG.defineConfigs(getConfig())
 
 
@@ -100,14 +100,18 @@ if (data) {
 
   data?.paths?.forEach((pathLink) => {
     if (pathLink.path && pathLink?.path.id && pathLink.edge && pathLink.edge.id) {
-      if (!unorderedPaths[pathLink.path.id]) {
-        unorderedPaths[pathLink.path.id] = {edges: []}
+      if (!paths[pathLink.path.id]) {
+        paths[pathLink.path.id] = {edges: []}
       }
-      unorderedPaths[pathLink.path.id].edges.push(pathLink.edge.id)
+      paths[pathLink.path.id].edges.push(pathLink.edge.id)
     }
   })
   try {
-    paths = orderPaths(unorderedPaths, edges)
+    
+    const report = orderPaths(paths, edges)
+    if (report.length > 0) {
+      config.functions.errorOccurred(report.join("\n"))
+    }
     console.log('Ordered Paths: ' + JSON.stringify(paths))
   } catch (e) {
       const errorMessage = e.name + ': ' + e.message
