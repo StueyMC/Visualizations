@@ -5,12 +5,9 @@ import {
   getVisualizationData,
   getVisualizationOutputs,
 } from "@helpers/config";
-// import { setupProductionConfig } from "@helpers/production";
-// import { useStrictAction } from "@helpers/hooks/useStrictAction";
 import { ActionsEnum } from "../src/types/actions";
 import { OutputsEnum } from "../src/types/outputs";
-import { orderPaths } from "../graph2";
-// import { useData } from "@helpers/hooks/useData";
+import { orderPathEdges } from "../graph4";
 
 // import { reactive, ref } from "vue"
 import * as vNG from "v-network-graph"
@@ -108,11 +105,11 @@ if (data) {
   })
   try {
     
-    const report = orderPaths(paths, edges)
+    const report = orderPathEdges(paths, edges)
     if (report.length > 0) {
       config.functions.errorOccurred(report.join("\n"))
     }
-    console.log('Ordered Paths: ' + JSON.stringify(paths))
+    // console.log('Ordered Paths: ' + JSON.stringify(paths))
   } catch (e) {
       const errorMessage = e.name + ': ' + e.message
       //
