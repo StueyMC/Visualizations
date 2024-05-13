@@ -15,8 +15,7 @@ export function orderPathEdges (paths: vNG.Paths, edges: vNG.Edges) : string[] {
   for (let pathId in paths) {
     try {
       const vNGpath = paths[pathId]
-      vNGpath.id = pathId
-      const path = new Path(vNGpath, edges) 
+      const path = new Path(pathId, vNGpath, edges) 
       let errorReport = path.validate()
       if (!errorReport) {
         errorReport = path.orderEdges()

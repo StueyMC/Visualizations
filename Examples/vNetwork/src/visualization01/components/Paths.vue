@@ -7,7 +7,7 @@ import {
 } from "@helpers/config";
 import { ActionsEnum } from "../src/types/actions";
 import { OutputsEnum } from "../src/types/outputs";
-import { orderPathEdges } from "../graph4";
+import { orderPathEdges } from "../graph";
 
 // import { reactive, ref } from "vue"
 import * as vNG from "v-network-graph"

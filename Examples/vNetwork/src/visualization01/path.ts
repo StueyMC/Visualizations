@@ -14,19 +14,24 @@ interface SubPath {
 export class Path {
   readonly id: string
   readonly nodes: NodeMap
+  protected readonly edges: vNG.Edges = {}
   readonly originalEdgeOrder: string[]
   protected startNode: Node | undefined
   protected readonly vNGpath: vNG.Path
 
-  constructor(path: vNG.Path, edges: vNG.Edges) {
-    this.id = path.id || "unknown"
+  constructor(pathId: string, path: vNG.Path, edges: vNG.Edges) {
+    this.id = pathId
     this.vNGpath = path
     this.nodes = {}
     this.originalEdgeOrder = path.edges.map(edgeId => edgeId)
     path.edges.forEach(edgeId => {
+      if (this.edges[edgeId]) {
+        throw new DOMException("Edge " + edgeId + " appears in path " + this.id + " more than once")
+      }
       if (!edges[edgeId]) {
         throw new DOMException("Path " + this.id + " has unknown edge " + edgeId)
       }
+      this.edges[edgeId] = edges[edgeId]
       const newEdge = new Edge(edgeId, edges[edgeId])
       this.getNode(newEdge.source).addEdge(newEdge)
       this.getNode(newEdge.target).addEdge(newEdge)
