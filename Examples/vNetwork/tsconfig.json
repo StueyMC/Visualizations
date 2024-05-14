@@ -21,19 +21,19 @@
 
     "baseUrl": ".",
     "paths": {
-      "@helpers/*": ["../../helpers/*"],
-      "@moodtypes/*": ["../../typescript-transformer/types/*"],
-      "@core/*": ["./*"]
+      "@helpers/*": ["./helpers/*"],
+      "@moodtypes/*": ["./typescript-transformer/types/*"],
+      "@core/*": ["./src/visualization01/*"]
     }
   },
   "include": [
-    "../../helpers/**/*",
-    "../../globals/*",
-    "../../typescript-transformer/types/*",
-    "./**/*",
-    "../../helpers/context/configContext.ts",
-    "../../helpers/hooks/useInput.tsx",
-    "../*.d.ts"
+    "./helpers/**/*",
+    "./globals/*",
+    "./typescript-transformer/types/*",
+    "./src/**/*",
+    "./helpers/context/configContext.ts",
+    "./helpers/hooks/useInput.tsx",
+    "./src/*.d.ts"
   ],
   "exclude": ["./*.json", "**/*.json"]
 }
