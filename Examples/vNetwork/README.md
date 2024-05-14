@@ -8,6 +8,18 @@ Next open this file: ```TypeScriptWebpackReactVisualizationTemplate.code-workspa
 
 Remember to run: ```npm install``` before doing anything else, this will install the relevant node modules.
 
+```mermaid
+graph TD;
+  A-->B;
+  B-->C;
+  C-->D;
+  D-->E;
+  E-->C;
+  C-->A;
+```
+
+See definition of path and trail here in [graph theory](https://en.wikipedia.org/wiki/Path_(graph_theory))
+
 ## The folder structure
 
 - root
