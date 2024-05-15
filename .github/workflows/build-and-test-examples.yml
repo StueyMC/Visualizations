@@ -59,7 +59,7 @@ jobs:
         uses: ./.github/workflows/actions/build-and-test-package
         with:
           working-directory: './Examples/vNetwork'
-          generate-types: true
+          generate-types: 'true'
 
       - name: Build WebpackD3MetaModel
         uses: ./.github/workflows/actions/build-and-test-package

@@ -131,6 +131,10 @@ export class Path {
     return report
   }
 
+  /**
+   * Attempt to order the edges of the path and report reason if unsuccessful
+   * @returns report if unsuccessful or undefined otherwise
+   */
   public orderEdges (): string | undefined {
     let report: string | undefined
     if (this.startNode == null) {
