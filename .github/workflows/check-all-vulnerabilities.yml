@@ -45,6 +45,11 @@ jobs:
         with:
           working-directory: './Examples/StretchedChord'
 
+      - name: Check vNetwork (full)
+        uses: ./.github/workflows/actions/check-package
+        with:
+          working-directory: './Examples/vNetwork'
+
       - name: Check WebpackD3MetaModel (full)
         uses: ./.github/workflows/actions/check-package
         with:

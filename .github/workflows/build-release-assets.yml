@@ -62,6 +62,13 @@ jobs:
           working-directory: './Examples/StretchedChord'
           asset-directory: ${{ env.asset-folder }}
 
+      - name: Build vNetwork
+        id: build-vNetwork
+        uses: ./.github/workflows/actions/build-asset
+        with:
+          working-directory: './Examples/vNetwork'
+          asset-directory: ${{ env.asset-folder }}
+
       - name: Build WebpackD3MetaModel
         id: build-WebpackD3MetaModel
         uses: ./.github/workflows/actions/build-asset
