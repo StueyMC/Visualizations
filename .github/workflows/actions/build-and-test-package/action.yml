@@ -4,7 +4,10 @@ inputs:
   working-directory:  # sub-folder containing package
     description: 'Package Sub-Folder'
     required: true
-    default: '.'
+  generate-types: # run generate-types indicator
+    description: 'Run generate-types'
+    required: false
+    default: ''
 runs:
   using: "composite"
   steps:
@@ -13,6 +16,7 @@ runs:
       uses: ./.github/workflows/actions/build-package
       with:
         working-directory: ${{ inputs.working-directory }}
+        generate-types: ${{ inputs.generate-types }}
 
     - name: Test
       shell: bash

@@ -45,6 +45,11 @@ export class Path {
     return this.nodes[nodeId]
   }
 
+  /**
+   * Get the node object with a specific node id
+   * @param nodeId Identity of node
+   * @returns the node
+   */
   public node (nodeId: string): Node {
     if (this.nodes[nodeId] === undefined) {
       throw new DOMException('Unknown node ' + nodeId + ' on path ' + this.id)

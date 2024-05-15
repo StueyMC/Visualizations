@@ -4,11 +4,13 @@ inputs:
   working-directory:  # sub-folder containing package
     description: 'Package Sub-Folder'
     required: true
-    default: '.'
+  generate-types: # run generate-types indicator
+    description: 'Run generate-types'
+    required: false
+    default: ''
   asset-directory:  # folder to upload package to
     description: 'Asset Folder'
     required: true
-    default: './assets'
 outputs:
   asset-file-name:
     description: "Name of asset file"
@@ -21,6 +23,7 @@ runs:
       uses: ./.github/workflows/actions/build-package
       with:
         working-directory: ${{ inputs.working-directory }}
+        generate-types: ${{ inputs.generate-types }}
       
     - name: Read Package name
       id: package_name

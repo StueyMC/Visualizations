@@ -67,6 +67,7 @@ jobs:
         uses: ./.github/workflows/actions/build-asset
         with:
           working-directory: './Examples/vNetwork'
+          generate-types: 'true'
           asset-directory: ${{ env.asset-folder }}
 
       - name: Build WebpackD3MetaModel
