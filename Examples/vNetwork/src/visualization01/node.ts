@@ -1,4 +1,4 @@
-import { Edge } from "./edge"
+import { Edge } from './edge'
 
 interface EdgeMap {
   [name: string]: Edge
@@ -10,15 +10,15 @@ export class Node {
   protected inEdges: Edge[] = []
   protected edgeMap: EdgeMap = {}
 
-  constructor(id: string) {
+  constructor (id: string) {
     this.id = id
   }
 
-  public addEdge(edge: Edge) {
+  public addEdge (edge: Edge): void {
     if (edge.source !== this.id && edge.target !== this.id) {
-      throw new DOMException("Edge " + edge.id + " is not a valid edge to add to node " + this.id)      
+      throw new DOMException('Edge ' + edge.id + ' is not a valid edge to add to node ' + this.id)
     }
-    if (!this.edgeMap[edge.id]) {
+    if (this.edgeMap[edge.id] === undefined) {
       this.edgeMap[edge.id] = edge
       if (edge.source === this.id) {
         this.outEdges.push(edge)
@@ -29,36 +29,36 @@ export class Node {
     }
   }
 
-  public isUnbalanced(): boolean {
+  public isUnbalanced (): boolean {
     return this.outEdges.length !== this.inEdges.length
   }
 
-  public flowMismatch(): number {
+  public flowMismatch (): number {
     return this.outEdges.length - this.inEdges.length
   }
 
-  public edges(): Edge[] {
+  public edges (): Edge[] {
     return this.outEdges
   }
 
-  public untraversedEdges(): Edge[] {
+  public untraversedEdges (): Edge[] {
     return this.outEdges.filter(edge => !edge.isTraversed())
   }
 
-  public isSource(): boolean {
+  public isSource (): boolean {
     return this.inEdges.length === 0
   }
 
-  public isValidPathSource(): boolean {
+  public isValidPathSource (): boolean {
     return this.inEdges.length === 0 &&
      this.outEdges.length === 1
   }
 
-  public isSink(): boolean {
+  public isSink (): boolean {
     return this.outEdges.length === 0
   }
 
-  public isValidPathSink(): boolean {
+  public isValidPathSink (): boolean {
     return this.outEdges.length === 0 &&
      this.inEdges.length === 1
   }

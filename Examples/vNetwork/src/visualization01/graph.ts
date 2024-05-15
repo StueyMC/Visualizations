@@ -1,5 +1,5 @@
-import * as vNG from "v-network-graph"
-import { Path } from "./path"
+import * as vNG from 'v-network-graph'
+import { Path } from './path'
 
 /**
  * Place the edges within each path in the correct order
@@ -9,23 +9,23 @@ import { Path } from "./path"
  * @param edges the edges for the graph
  * @returns an array of reports, one element for each invalid path
  */
-export function orderPathEdges (paths: vNG.Paths, edges: vNG.Edges) : string[] {
+export function orderPathEdges (paths: vNG.Paths, edges: vNG.Edges): string[] {
   const report: string[] = []
 
-  for (let pathId in paths) {
+  for (const pathId in paths) {
     try {
       const vNGpath = paths[pathId]
-      const path = new Path(pathId, vNGpath, edges) 
+      const path = new Path(pathId, vNGpath, edges)
       let errorReport = path.validate()
-      if (!errorReport) {
+      if (errorReport === undefined) {
         errorReport = path.orderEdges()
       }
 
-      if (errorReport) {
+      if (errorReport !== undefined) {
         report.push(errorReport)
       }
     } catch (e) {
-      report.push(e.name + ': ' + e.message)
+      report.push((e.name as string) + ': ' + (e.message as string))
     }
   }
 

@@ -1,13 +1,13 @@
-import * as vNG from "v-network-graph"
-import { Edge } from "./edge"
-import { Node } from "./node"
+import * as vNG from 'v-network-graph'
+import { Edge } from './edge'
+import { Node } from './node'
 
 interface NodeMap {
   [name: string]: Node
 }
 
 interface SubPath {
-  orderedEdgeIds: string[],
+  orderedEdgeIds: string[]
   isLoop: boolean
 }
 
@@ -19,17 +19,17 @@ export class Path {
   protected startNode: Node | undefined
   protected readonly vNGpath: vNG.Path
 
-  constructor(pathId: string, path: vNG.Path, edges: vNG.Edges) {
+  constructor (pathId: string, path: vNG.Path, edges: vNG.Edges) {
     this.id = pathId
     this.vNGpath = path
     this.nodes = {}
     this.originalEdgeOrder = path.edges.map(edgeId => edgeId)
     path.edges.forEach(edgeId => {
-      if (this.edges[edgeId]) {
-        throw new DOMException("Edge " + edgeId + " appears in path " + this.id + " more than once")
+      if (this.edges[edgeId] !== undefined) {
+        throw new DOMException('Edge ' + edgeId + ' appears in path ' + this.id + ' more than once')
       }
-      if (!edges[edgeId]) {
-        throw new DOMException("Path " + this.id + " has unknown edge " + edgeId)
+      if (edges[edgeId] === undefined) {
+        throw new DOMException('Path ' + this.id + ' has unknown edge ' + edgeId)
       }
       this.edges[edgeId] = edges[edgeId]
       const newEdge = new Edge(edgeId, edges[edgeId])
@@ -38,40 +38,40 @@ export class Path {
     })
   }
 
-  protected getNode(nodeId: string): Node {
-    if (!this.nodes[nodeId]) {
+  protected getNode (nodeId: string): Node {
+    if (this.nodes[nodeId] === undefined) {
       this.nodes[nodeId] = new Node(nodeId)
     }
     return this.nodes[nodeId]
   }
 
-  public node(nodeId: string): Node {
-    if (!this.nodes[nodeId]) {
-      throw new DOMException("Unknown node " + nodeId + " on path " + this.id)
+  public node (nodeId: string): Node {
+    if (this.nodes[nodeId] === undefined) {
+      throw new DOMException('Unknown node ' + nodeId + ' on path ' + this.id)
     }
     return this.nodes[nodeId]
   }
 
-  protected validSourceNode(): Node | undefined {
-    let returnNode: Node |undefined
+  protected validSourceNode (): Node | undefined {
+    let returnNode: Node | undefined
     const sourceNodes = Object.values(this.nodes)
-    .filter(node => node.isValidPathSource())
+      .filter(node => node.isValidPathSource())
     if (sourceNodes.length === 1) {
       returnNode = sourceNodes[0]
     } else if (sourceNodes.length > 1) {
-      throw new DOMException("Path " + this.id + " has " + sourceNodes.length + " source nodes")
+      throw new DOMException('Path ' + this.id + ' has ' + sourceNodes.length.toString() + ' source nodes')
     }
     return returnNode
   }
 
-  protected validSinkNode(): Node | undefined {
-    let returnNode: Node |undefined
+  protected validSinkNode (): Node | undefined {
+    let returnNode: Node | undefined
     const sinkNodes = Object.values(this.nodes)
-    .filter(node => node.isValidPathSink())
+      .filter(node => node.isValidPathSink())
     if (sinkNodes.length === 1) {
       returnNode = sinkNodes[0]
     } else if (sinkNodes.length > 1) {
-      throw new DOMException("Path " + this.id + " has " + sinkNodes.length + " sink nodes")
+      throw new DOMException('Path ' + this.id + ' has ' + sinkNodes.length.toString() + ' sink nodes')
     }
     return returnNode
   }
@@ -81,86 +81,86 @@ export class Path {
    * that can traverse each of the edges once and only once to reach a node at the
    * end of the path. Validation is performed using a set of rules without traversing
    * the path. Sets the startNode property to the node to start the path at
-   * @returns an undefined value if valid or a string describing the fault if invalid 
+   * @returns an undefined value if valid or a string describing the fault if invalid
    */
-  public validate(): string | undefined {
+  public validate (): string | undefined {
     let report: string | undefined
     try {
       const sourceNode = this.validSourceNode()
       const sinkNode = this.validSinkNode()
       const unbalancedNodes = Object.values(this.nodes)
-      .filter(node => node.isUnbalanced())
-      if (sourceNode && sinkNode) { // both sink and source nodes
-        if (unbalancedNodes.length === 2 &&
-          unbalancedNodes[0].flowMismatch() + unbalancedNodes[1].flowMismatch() === 0) {
-            // start path at source node
-            this.startNode = sourceNode
-        } else {
-          throw new DOMException("Path " + this.id + " has invalid branches in it")
-        }
-      } else if (sourceNode) { // source but no sink
+        .filter(node => node.isUnbalanced())
+      if ((sourceNode !== undefined) && (sinkNode !== undefined)) { // both sink and source nodes
         if (unbalancedNodes.length === 2 &&
           unbalancedNodes[0].flowMismatch() + unbalancedNodes[1].flowMismatch() === 0) {
           // start path at source node
           this.startNode = sourceNode
         } else {
-          throw new DOMException("Path " + this.id + " has invalid branches in it")
+          throw new DOMException('Path ' + this.id + ' has invalid branches in it')
         }
-      } else if (sinkNode) { // sink but no source
+      } else if (sourceNode !== undefined) { // source but no sink
+        if (unbalancedNodes.length === 2 &&
+          unbalancedNodes[0].flowMismatch() + unbalancedNodes[1].flowMismatch() === 0) {
+          // start path at source node
+          this.startNode = sourceNode
+        } else {
+          throw new DOMException('Path ' + this.id + ' has invalid branches in it')
+        }
+      } else if (sinkNode !== undefined) { // sink but no source
         if (unbalancedNodes.length === 2 &&
           unbalancedNodes[0].flowMismatch() + unbalancedNodes[1].flowMismatch() === 0) {
           // the path is a loop with a branch out towards the sink node
           // start path at node in loop where the path branches out to the sink
           this.startNode = unbalancedNodes[0]
         } else {
-          throw new DOMException("Path " + this.id + " has invalid branches in it")
+          throw new DOMException('Path ' + this.id + ' has invalid branches in it')
         }
       } else { // no source nor sink nodes
         if (unbalancedNodes.length === 0) {
           // with no source nor sink nodes the path is a loop
-          // start path at arbitary node
+          // start path at arbitrary node
           this.startNode = Object.values(this.nodes)[0]
         } else {
-          throw new DOMException("Path " + this.id + " has invalid branches in it")
+          throw new DOMException('Path ' + this.id + ' has invalid branches in it')
         }
       }
     } catch (e) {
-      report = e.name + ': ' + e.message
+      report = (e.name as string) + ': ' + (e.message as string)
     }
-  
+
     return report
   }
 
-  public orderEdges(): string | undefined {
+  public orderEdges (): string | undefined {
     let report: string | undefined
-    if (!this.startNode) {
-      throw new DOMException("Path " + this.id + ": orderEdges called on invalid or unvalidate path")
+    if (this.startNode == null) {
+      throw new DOMException('Path ' + this.id + ': orderEdges called on invalid or unvalidate path')
     }
     const orderedPath = this.findPath(this.startNode, this.startNode, undefined)
     if (orderedPath.orderedEdgeIds.length !== this.originalEdgeOrder.length) {
-      report = "Path " + this.id + " is not contiguous"
+      report = 'Path ' + this.id + ' is not contiguous'
     } else {
       this.vNGpath.edges = orderedPath.orderedEdgeIds
     }
-  
+
     return report
   }
 
-  protected findPath(startNode: Node, endOfLoopNode: Node, initialEdge: Edge | undefined): SubPath {
+  protected findPath (startNode: Node, endOfLoopNode: Node, initialEdge: Edge | undefined): SubPath {
     // console.log("Entry to findPath: (" + startNode.id + ", " + endOfLoopNode.id + ", " + initialEdge?.id)
-    const path: SubPath = {orderedEdgeIds: [], isLoop: false}
+    const path: SubPath = { orderedEdgeIds: [], isLoop: false }
     let currentNode: Node = startNode
     let atEndOfPath: boolean = false
-  
-    if (initialEdge) {
+
+    if (initialEdge != null) {
       // console.log("Initial edge id: " + initialEdge.id)
       path.orderedEdgeIds.push(initialEdge.id)
     }
-  
+
     while (!atEndOfPath) {
       // console.log("Current Node Id: " + currentNode.id)
-  
-      if (currentNode.untraversedEdges().length === 0 ) {
+
+      if (currentNode.untraversedEdges().length === 0) {
         // console.log("Ending path at node " + currentNode.id)
         atEndOfPath = true
       } else if (currentNode.untraversedEdges().length === 1) {
@@ -208,14 +208,14 @@ export class Path {
         })
         // console.log("Add final path node: " + JSON.stringify(finalPath))
         path.orderedEdgeIds = path.orderedEdgeIds.concat(finalPath)
-        if (!newNode) {
-          throw new DOMException("Path " + this.id + " has invalid branches in it")
+        if (newNode == null) {
+          throw new DOMException('Path ' + this.id + ' has invalid branches in it')
         }
         currentNode = newNode
       }
     }
-  
+
     // console.log("Sub-path" + JSON.stringify(path))
     return path
-  }  
+  }
 }
