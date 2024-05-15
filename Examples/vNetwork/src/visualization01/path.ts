@@ -146,6 +146,15 @@ export class Path {
     return report
   }
 
+  /**
+   * Find the route from the starting node to either the end of a loop or
+   * the sink node (no edges flowing out)
+   * @param startNode where to start the route
+   * @param endOfLoopNode where to terminate a loop
+   * @param initialEdge the edge to follow out of the start node
+   * @returns The identity of the edges in the route and an indication of whether the route
+   * terminated at the sink node or at the end of a loop
+   */
   protected findPath (startNode: Node, endOfLoopNode: Node, initialEdge: Edge | undefined): SubPath {
     // console.log("Entry to findPath: (" + startNode.id + ", " + endOfLoopNode.id + ", " + initialEdge?.id)
     const path: SubPath = { orderedEdgeIds: [], isLoop: false }
