@@ -1,103 +1,154 @@
-# How to use this template
+# V Network Graph
 
-Note that the repository top level [README](../../README.md) has a much more detailed explanation of how to use the templates.
+Force Directed Layout of linked nodes with path ovrlays using Vue framework
 
-First you'll need to set up Visual Studio Code and Node, see [Development Environment](../../README.md#development-environment)
+[README](../../README.md)
 
-Next open this file: ```TypeScriptWebpackReactVisualizationTemplate.code-workspace```
+## Table of Contents
 
-Remember to run: ```npm install``` before doing anything else, this will install the relevant node modules.
+* [Purpose](#purpose)
+* [Data Summary](#data-summary)
+* [Style](#style)
+  * [CSS](#css)
+  * [Properties (JSON)](#properties-json)
+* [Inputs](#inputs)
+* [Outputs](#outputs)
+* [Actions](#actions)
+* [Data Details](#data-details)
+
+## Purpose
+
+The chart renders a set of linked nodes using D3's force-directed layout which uses a physics based simulator for positioning visual elements. Paths and Trails through the graph can be overlayed on top.
+
+[![V Network Graph](images/v-network-example.png "V Network Graph")](https://dash14.github.io/v-network-graph/examples/paths.html)
+
+### Example Paths and Trails
+
+A Trail is a route through part of the graph involving a distinct set of edges. The trail can include loops and hence a node can be visited more than once. The entire trail can be a loop. If the trail with a loop has both a source node and a sink node they must flow in and out of the loop via the same node 
+
+A Path is a route through part of the graph involving a distinct set of nodes. A Path has no loops and a single source (starting) node and a single sink (ending) node.
 
 ```mermaid
-graph TD;
+flowchart TD;
+  subgraph Trail with two loops
+  Trail-Source-->B;
+  B-->Trail-Sink;
   A-->B;
   B-->C;
   C-->D;
   D-->E;
   E-->C;
   C-->A;
+  end
+  subgraph Simple Path
+  Source-->Intermediate
+  Intermediate-->Sink
+  end
+```
+
+```mermaid
+flowchart TD;
+  subgraph Invalid Path - 2 sources
+  Source1-->B2
+  Source2-->B2
+  B2-->Sink1
+  end
+  subgraph Invalid Path - 2 sinks
+  SourceA-->B3
+  B3-->SinkA
+  B3-->SinkB
+  end
+  subgraph Invalid Trail - no route visiting each edge only once
+  Trail-Source-->B;
+  A-->Trail-Sink;
+  A-->B;
+  B-->C;
+  C-->D;
+  D-->E;
+  E-->C;
+  C-->A;
+  end
 ```
 
 See definition of path and trail here in [graph theory](https://en.wikipedia.org/wiki/Path_(graph_theory))
 
-## The folder structure
 
-- root
-  - Files which are used by Node
-  - The final visualizations.zip file
-  - package.json (containing a list of commands you can use with ```npm run```)
-- helpers
-  - Files that are already set up to be passed to each visualization
-    - Context stores React context files that can be useful anywhere
-    - Hooks stores Reacts hooks files that allow reading/writing data to/from MooD
-- typescript-transformer
-  - Files that are used in the process of transforming the configuration files into TypeScript
-- src
-  - visualization01
-    - This is where you can edit your custom visualization code
-    - \_\_tests__
-      - A folder where you can add your automated test scaffolding (run using ```npm run test```)
-    - src
-      - This is where you can add any code to not clutter your root visualization01 level
-      - types
-        - An automatically generated folder that contains all of the parsed types from your visualization
-- test
-  - A folder where you can add your test data to run the visuailzation in development mode in a browser (run using ```npm run start```)
-- dist
-  - An automatically generated output folder
-- node_modules
-  - Another automatically generated output folder
+[Table of Contents](#table-of-contents)
 
-## Getting started
+## Data Summary
 
-Look in the following files for visualization names / descriptions. I'm going to assume you want a single Custom Visualization inside this package.
+The Meta Model visualization consumes two data sets: nodes and links. The details of the attributes of the data set is provided in the section Data Details section
 
-- src\package.json.no-guid.ejs
-- src\visualization01\no-guid.visualization.config.json.ejs
+1. __Nodes__
+    * The list of nodes
+1. __Edges__
+    * List of edges (links) between the nodes
+1. __Paths__
+    * List of edges (links) between the nodes
 
-> The purpose of these files is to automatically generate a unique ID for the package/visualization.
+[Table of Contents](#table-of-contents)
 
-Now run this command: ```npm run generate-guids```
+## Style
 
-Which will produce these 2 files:
+The style of the visualization is controlled by CSS and a collection of properties.
 
-- src\package.json.ejs
-- src\visualization01\visualization.config.json.ejs
+### CSS
 
-> The purpose of these files is to automatically increment the version number every time you build
+A Cascading Style Sheet (CSS) is defined containing selectors for the following HTML elements in the rendered diagram. The CSS is editable within MooD BA, allowing control of the visual styling of the diagram:
 
-Next run this command: ```npm run generate-types```
+__No styling currently defined__
 
-Which will produce these 6 files under each visualization
+[Table of Contents](#table-of-contents)
 
-- src\types\actions.ts
-- src\types\data.d.ts
-- src\types\inputs.ts
-- src\types\outputs.ts
-- src\types\state.d.ts
-- src\types\style.d.ts
+### Properties (JSON)
 
-> The purpose of these files is to automatically add TypeScript types to your configurations
+The properties are:
 
-Now you can run: ```npm run build```
+* __showArrows__: Indicates if an arrow marker should be drawn at the target end of the link (true) or not (false). __Default false__
 
-Which will produce:
+[Table of Contents](#table-of-contents)
 
-- src\package.json
-- src\visualization01\package.json
-- visualizations.zip
+## Inputs
 
-> These are automatically generated files which you shouldn't manually edit.
+The visualization has no inputs.
 
-You should also choose a preview image by changing ```visualization.png```.
+[Table of Contents](#table-of-contents)
 
-## Editing your custom visualization
+## Outputs
 
-You can run: ```npm run start```
+The visualization has three outputs.
 
-This will open your browser showing test-page.html. You can now start modifying the visualization code.
-Interesting files:
+* __Node Hover__: the identity of the node that the cursor is hovering over
+* __Edge Hover__: the identity of the edge that the cursor is hovering over
+* __Path Hover__: the identity of the path that the cursor is hovering over
 
-- app.tsx: This is where your main code lives.
-- test-page.js: Hooks the test page in to the main visualization code.
-- data.json: This file passes test data in to your test visualization page.
+[Table of Contents](#table-of-contents)
+
+## Actions
+
+The visualization has one event. This can be configured to trigger actions in MooD, e.g. navigation
+
+1. __Node Click__: a mouse click on a node
+    * Identifies the element
+1. __Edge Click__: a mouse click on an edge
+    * Identifies the relationship between two nodes
+1. __Path Click__: a mouse click on a path
+    * Identifies the element
+
+[Table of Contents](#table-of-contents)
+
+## Data Details
+
+1. __Nodes__ – Zero or more elements; the list of nodes to visualise
+    * __Name__: Name of the node
+    * __X Coordinate__: X Coordinate of position of node. __Currently ignored, position determined by force directed algorithm__
+    * __Y Coordinate__: Y Coordinate of position of node. __Currently ignored, position determined by force directed algorithm__
+1. __Edges__ - Zero or more relationships; the list of edges (links) between nodes
+    * __Source__: The source node of the edge
+        * __Name__: The name of the source node
+    * __Target__: The target node of the edge
+        * __Name__: The name of the target node
+
+[Table of Contents](#table-of-contents)
+
+[README](../../README.md)
