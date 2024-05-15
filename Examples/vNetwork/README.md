@@ -24,7 +24,7 @@ The chart renders a set of linked nodes using D3's force-directed layout which u
 
 ### Example Paths and Trails
 
-A Trail is a route through part of the graph involving a distinct set of edges. The trail can include loops and hence a node can be visited more than once. The entire trail can be a loop. If the trail with a loop has both a source node and a sink node they must flow in and out of the loop via the same node 
+A Trail is a route through part of the graph involving a distinct set of edges. The trail can include loops and hence a node can be visited more than once. The entire trail can be a loop. If the trail with a loop has both a source node and a sink node they must flow in and out of the loop via the same node
 
 A Path is a route through part of the graph involving a distinct set of nodes. A Path has no loops and a single source (starting) node and a single sink (ending) node.
 
@@ -95,7 +95,7 @@ The style of the visualization is controlled by CSS and a collection of properti
 
 A Cascading Style Sheet (CSS) is defined containing selectors for the following HTML elements in the rendered diagram. The CSS is editable within MooD BA, allowing control of the visual styling of the diagram:
 
-__No styling currently defined__
+Note: __No styling currently defined__
 
 [Table of Contents](#table-of-contents)
 
