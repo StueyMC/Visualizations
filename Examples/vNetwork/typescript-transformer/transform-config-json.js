@@ -125,27 +125,27 @@ function writeTypesToFiles(
   //Write all of the translated files to the types folder
   fs.writeFileSync(
     path.join(visDir, "src/types", "style.d.ts"),
-    styleConfig.join("\n")
+    styleConfig.join("\n") + "\n"
   );
 
   fs.writeFileSync(
     path.join(visDir, "src/types", "actions.ts"),
-    actionsConfig.join("\n")
+    actionsConfig.join("\n") + "\n"
   );
 
   fs.writeFileSync(
     path.join(visDir, "src/types", "inputs.ts"),
-    inputsConfig.join("\n")
+    inputsConfig.join("\n") + "\n"
   );
 
   fs.writeFileSync(
     path.join(visDir, "src/types", "outputs.ts"),
-    outputsConfig.join("\n")
+    outputsConfig.join("\n") + "\n"
   );
 
   fs.writeFileSync(
     path.join(visDir, "src/types", "state.d.ts"),
-    stateConfig.join("\n")
+    stateConfig.join("\n") + "\n"
   );
 
   fs.writeFileSync(
@@ -162,7 +162,10 @@ function parseToGlobal(parsedInput) {
   let ret = ["declare global {"];
   if (parsedInput == null) return ret.concat("}");
 
-  //Split any parsedInputs that arent in an array format
+  // Add lint directive to ignore namespace warning
+  ret = ret.concat(indentTS(["// eslint-disable-next-line @typescript-eslint/no-namespace"], false))
+
+  //Split any parsedInputs that aren't in an array format
   parsedInput = parsedInput.map((line) => {
     let lineSplit = line.split("\n");
     if (lineSplit.length == 1) return lineSplit[0];
@@ -186,7 +189,7 @@ function parseToNamespace(parsedInput, namespace, namespaceIsType) {
   let ret = [`declare namespace Vis {`];
   if (parsedInput == null) return ret.concat("}");
 
-  //Split any parsedInputs that arent in an array format
+  //Split any parsedInputs that aren't in an array format
   parsedInput = parsedInput.map((line) => {
     let lineSplit = line.split("\n");
     if (lineSplit.length == 1) return lineSplit[0];
@@ -236,16 +239,16 @@ function parseToNamespace(parsedInput, namespace, namespaceIsType) {
 function parseToEnumExport(enumName, object, accessor) {
   return [`export enum ${enumName} {`].concat(
     Object.keys(object).map((output, index) => {
-      return `${indenting}${object[index]} = "${
+      return `${indenting}${object[index]} = '${
         accessor == null ? object[index] : accessor(object[index])
-      }",`;
+      }',`;
     }),
     "}"
   );
 }
 
 /**
- * Adds an indent to the begining of all the lines of a parsed TypeScript
+ * Adds an indent to the beginning of all the lines of a parsed TypeScript
  * @param {string[]} parsedTypeScript The parsed TypeScript that needs to be indented
  * @param {boolean} removeDeclare Controls if any declares should be removed from the indent lines
  * @returns
@@ -286,14 +289,14 @@ function indentTS(parsedTypeScript, removeDeclare) {
 function parseStyle(styleJSON) {
   if (styleJSON == null) return ["interface Style {}"];
   try {
-    //Try to parse the json style into TS if available
-    let styleConfig = JsonToTS(styleJSON);
+    //Try to parse the json style into TS if available, strip off semi-colons
+    let styleConfig = JsonToTS(styleJSON).map(line => line.replace(/;/g,""));
     if (styleConfig.length > 0) {
       //Format the style onto one line if it is empty
       if (styleConfig[0] == "interface RootObject {\n}") {
         return [
           "interface Style {",
-          indenting + "[key: string | number | symbol]: JSONValue | undefined;",
+          indenting + "[key: string | number | symbol]: JSONValue | undefined",
           "}",
         ];
       } else {
@@ -301,14 +304,14 @@ function parseStyle(styleJSON) {
           "RootObject {",
           "Style { \n" +
             indenting +
-            "[key: string | number | symbol]: JSONValue | undefined;"
+            "[key: string | number | symbol]: JSONValue | undefined"
         );
       }
       return styleConfig;
     } else {
       return [
         "interface Style {",
-        indenting + "[key: string | number | symbol]: JSONValue | undefined;",
+        indenting + "[key: string | number | symbol]: JSONValue | undefined",
         "}",
       ];
     }
@@ -316,7 +319,7 @@ function parseStyle(styleJSON) {
     //Catch any errors with the styling not existing or being incorrectly formatted
     return [
       "interface Style {",
-      indenting + "[key: string | number | symbol]: JSONValue | undefined;",
+      indenting + "[key: string | number | symbol]: JSONValue | undefined",
       "}",
     ];
   }
@@ -342,7 +345,7 @@ function parseActions(actionsJSON) {
     });
 
     actionsConfig = Object.keys(actionsJSON).map((action, index) => {
-      return `${indenting}[ActionsEnum.${actionsEnum[index]}]: MooDAction,`;
+      return `${indenting}[ActionsEnum.${actionsEnum[index]}]: MooDAction`;
     });
   }
 
@@ -351,7 +354,7 @@ function parseActions(actionsJSON) {
     return [
       [
         "interface ActionsTypes {",
-        `${indenting}[key: string | number | symbol]: never;`,
+        `${indenting}[key: string | number | symbol]: never`,
         "}",
       ],
       ["export enum ActionsEnum {}"],
@@ -407,7 +410,7 @@ function parseIO(json, interfaceName) {
   } else {
     ret[0] = [
       `export interface ${interfaceName}Types {`,
-      `${indenting}[key: string | number | symbol]: never;`,
+      `${indenting}[key: string | number | symbol]: never`,
       "}",
     ];
     ret[1] = [`export enum ${interfaceName}Enum {}`];
@@ -424,19 +427,19 @@ function parseState(stateJSON) {
   if (stateJSON == null)
     return [
       "interface State {",
-      indenting + "[key: string | number | symbol]: JSONValue | undefined;",
+      indenting + "[key: string | number | symbol]: JSONValue | undefined",
       "}",
     ];
 
   try {
-    //Try to parse the json state into TS if available
-    let stateConfig = JsonToTS(stateJSON);
+    //Try to parse the json state into TS if available, strip off trailing semi-colons
+    let stateConfig = JsonToTS(stateJSON).map(line => line.replace(/;/g,""));
     if (stateConfig.length > 0) {
       //Format the state onto one line if it is empty
       if (stateConfig[0] == "interface RootObject {\n}") {
         return [
           "interface State {",
-          indenting + "[key: string | number | symbol]: JSONValue | undefined;",
+          indenting + "[key: string | number | symbol]: JSONValue | undefined",
           "}",
         ];
       } else {
@@ -444,22 +447,23 @@ function parseState(stateJSON) {
           "RootObject {",
           "State { \n" +
             indenting +
-            "[key: string | number | symbol]: JSONValue | undefined;"
+            "[key: string | number | symbol]: JSONValue | undefined"
         );
       }
       return stateConfig;
     } else {
       return [
         "interface State {",
-        indenting + "[key: string | number | symbol]: JSONValue | undefined;",
+        indenting + "[key: string | number | symbol]: JSONValue | undefined",
         "}",
       ];
     }
-  } catch {
+  } catch (e) {
+    console.error(e.name)
     //Catch any errors with the styling not existing or being incorrectly formatted
     return [
       "interface State {",
-      indenting + "[key: string | number | symbol]: JSONValue | undefined;",
+      indenting + "[key: string | number | symbol]: JSONValue | undefined",
       "}",
     ];
   }
@@ -506,8 +510,6 @@ function handleIOConversion(values) {
     }
 
     //MooD accepts Date but JS has it's own Date type so TypeScript Schema is slightly modified
-    return `${indenting}${value.name}: ${valueType}${
-      index == values.length - 1 ? "" : ","
-    }`;
+    return `${indenting}${value.name}: ${valueType}`;
   });
 }

@@ -20,7 +20,7 @@ glob("src/**/*.datashape.gql", function (er, files) {
 
     reader
       .on("line", function (line) {
-        //remove all spaces from the beginning of the line and remove multiple spaces inbetween the line before continuing
+        //remove all spaces from the beginning of the line and remove multiple spaces in between the line before continuing
         line = line
           .substring(/(?=[a-z])/gi.exec(line)?.index ?? 0)
           .split(" ")
@@ -69,8 +69,11 @@ glob("src/**/*.datashape.gql", function (er, files) {
         }
 
         //Conversion for types is a little more complicated so extracted to own function
-        if (line.substring(0, 4) == "type")
+        if (line.substring(0, 4) == "type") {
+          // Add lint directive to ignore unused variables warning (interfaces not used in generated file)
+          outputFileLines.push("// eslint-disable-next-line @typescript-eslint/no-unused-vars")
           return outputFileLines.push(handleTypeConversion(line));
+        }
 
         //Conversion for unions is a little more complicated so extracted to own function
         if (line.substring(0, 5) == "union")
@@ -112,7 +115,7 @@ glob("src/**/*.datashape.gql", function (er, files) {
           "",
           "declare namespace Vis.Data {",
           outputFileLines.map((line) => {
-            return indenting + line;
+            return (line.length > 0) ? indenting + line : "";
           }),
           "}"
         );
@@ -126,7 +129,7 @@ glob("src/**/*.datashape.gql", function (er, files) {
 
         fs.writeFileSync(
           path.join(path.dirname(files[0]), "src/types", "data.d.ts"),
-          outputFile.join("\n")
+          outputFile.join("\n") + "\n"
         );
       });
   });
@@ -240,8 +243,8 @@ function handleDataTypeConversion(line) {
     .join("|");
 
   return `  ${lineSplit[0]}${isOptional ? "?:" : ":"} ${
-    isArray ? "Array<" + finalDataType + ">" : finalDataType
-  },`;
+    isArray ? finalDataType + "[]" : finalDataType
+  }`;
 }
 
 /**
