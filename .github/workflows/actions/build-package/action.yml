@@ -7,7 +7,7 @@ inputs:
   generate-types: # run generate-types indicator
     description: 'Run generate-types'
     required: false
-    default: 'false'
+    default: ''
 runs:
   using: "composite"
   steps:
@@ -34,7 +34,7 @@ runs:
     - name: Generate Types
       shell: bash
       run: |
-        if [ -z "${{ inputs.generate-types }}" ]
+        if [ -n "${{ inputs.generate-types }}" ]
         then
           cd ${{ inputs.working-directory }}
           npm run generate-types

@@ -52,6 +52,10 @@ export class Path {
     return this.nodes[nodeId]
   }
 
+  /**
+   * Test if the path has a valid source node
+   * @returns true if the path has a valid source node
+   */
   protected validSourceNode (): Node | undefined {
     let returnNode: Node | undefined
     const sourceNodes = Object.values(this.nodes)
@@ -64,6 +68,10 @@ export class Path {
     return returnNode
   }
 
+  /**
+   * Test if the path has a valid sink node
+   * @returns true if the path has a valid sink node
+   */
   protected validSinkNode (): Node | undefined {
     let returnNode: Node | undefined
     const sinkNodes = Object.values(this.nodes)
