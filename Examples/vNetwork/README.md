@@ -72,7 +72,6 @@ flowchart TD;
 
 See definition of path and trail here in [graph theory](https://en.wikipedia.org/wiki/Path_(graph_theory))
 
-
 [Table of Contents](#table-of-contents)
 
 ## Data Summary
