@@ -1,8 +1,131 @@
-# How to use this template
+# Fast Compound Spring Embedder Layout
+
+Force Directed Layout of a hierarchy of linked nodes using Cytoscape framework
+
+[README](../../README.md)
+
+## Table of Contents
+
+* [Purpose](#purpose)
+* [Data Summary](#data-summary)
+* [Style](#style)
+  * [CSS](#css)
+  * [Properties (JSON)](#properties-json)
+* [Inputs](#inputs)
+* [Outputs](#outputs)
+* [Actions](#actions)
+* [Data Details](#data-details)
+* [Cytoscape Style](#cytoscape-style)
+* [Fast Compound Spring Embedded layout default options](#fast-compound-spring-embedded-layout-default-options)
+
+## Purpose
+
+The chart renders a set of linked nodes using the fCoSE plugin for Cytoscape. The chart supports nesting of nodes (compound) to group them together.
+
+For example a server with a set of ports that it communicates with ports in other servers.
+
+[![fast Compound Spring Embedder Layout](images/fcose-example.png "fast Compound Sprung Embedded Layout")](https://github.com/iVis-at-Bilkent/cytoscape.js-fcose)
+
+[Table of Contents](#table-of-contents)
+
+## Data Summary
+
+The Meta Model visualization consumes two data sets: nodes and links. The details of the attributes of the data set is provided in the section Data Details section
+
+1. __Nodes__
+    * The list of nodes
+1. __Links__
+    * List of links between the nodes
+1. __Parents__
+    * List of links between parent and child nodes
+
+[Table of Contents](#table-of-contents)
+
+## Style
+
+The style of the visualization is controlled by CSS and a collection of properties.
+
+### CSS
+
+A Cascading Style Sheet (CSS) is defined containing selectors for the following HTML elements in the rendered diagram. The CSS is editable within MooD BA, allowing control of the visual styling of the diagram:
+
+* Chart Background Colour
+
+[Table of Contents](#table-of-contents)
+
+### Properties (JSON)
+
+The properties are:
+
+* __ignoreUnknownNodes__: Indicates if links in the links dataset involving source ot target nodes not in the nodes dataset should be ignored (true) or reported as an error (false). __Default true__
+* __nodeLabelSize__: The size of the font for node labels. __Default 12__
+* __nodeLabelPos__: The vertical positioning of node labels: top, center or bottom. __Default center__
+* __nodeLabelMarginX__: The horizontal offset to apply to the positioning of node labels, negative or positive. __Default 0__
+* __nodeLabelMarginY__: The vertical offset to apply to the positioning of parent node labels, negative or positive. __Default 0__
+* __parentLabelSize__: The size of the font for parent node labels. __Default 12__
+* __parentLabelPos__: The vertical positioning of parent node labels: top, center or bottom. __Default center__
+* __parentLabelMarginX__: The horizontal offset to apply to the positioning of parent node labels, negative or positive. __Default 0__
+* __parentLabelMarginY__: The vertical offset to apply to the positioning of parent node labels, negative or positive. __Default 5__
+
+[Table of Contents](#table-of-contents)
+
+## Inputs
+
+The visualization has no inputs.
+
+[Table of Contents](#table-of-contents)
+
+## Outputs
+
+The visualization has two outputs.
+
+* __Node__: the identity of the node element that the cursor is hovering over
+* __Link__: the identity of the link relationship that the cursor is hovering over
+
+[Table of Contents](#table-of-contents)
+
+## Actions
+
+The visualization has one event. This can be configured to trigger actions in MooD, e.g. navigation
+
+1. __Node Click__: a mouse click on a node
+    * Identifies the element
+1. __Link Click__: a mouse click on a link
+    * Identifies the relationship
+
+[Table of Contents](#table-of-contents)
+
+## Data Details
+
+1. __Nodes__ – Zero or more elements; the list of nodes to visualise
+    * __Name__: Name of the node
+    * __Colour of node__: The colour to draw the shape representing the node
+    * __Shape of node__: The shape to draw for the node. See [Shapes](#shapes) for valid values.
+    * __Size of Shape__: Size specifying both the height and width of the shape
+1. __Links__ - Zero or more relationships; the list of links between nodes
+    * __Source__: The source node of the link
+        * __Name__: The name of the source node
+        * __Colour of link__: The colour to draw the link line. If not defined, the __Colour of link__ defined for the target is used
+    * __Target__: The target node of the link
+        * __Name__: The name of the target node
+        * __Colour of link__: The colour to draw the link line. If not defined, the __Colour of link__ defined for the link is used
+    * __Weight of link__: Controls width of the line drawn between the nodes.
+    * __Colour of link__: The colour to draw the link line. If not defined, the __Link Colour__ defined in the style is used
+    * __Type of line to draw for link__: Line type for the link, solid, dotted or dashed. __Default solid__
+    * __Pattern for dashed lines__: The pattern to apply when the line type is dashed. This is a pair of numbers, e.g. "5 5" which define the length of the solid and blank sections of the line
+1. __Parents__ - Zero or more relationships; the list of parent-child relationships
+    * __Child__: The child node
+        * __Name__: The name of the child node
+    * __Parent__: The parent node
+        * __Name__: The name of the parent node
+
+[Table of Contents](#table-of-contents)
 
 ## Cytoscape Style
 
-### Shape
+For reference, see full list of [styling available in Cytoscape](https://js.cytoscape.org/#style)
+
+### Shapes
 
 Valid shapes are:
 
@@ -37,6 +160,8 @@ __Not supported in Custom Viz (yet at least)__:
 _polygon_ (custom polygon specified via shape-polygon-points)
 
 _shape-polygon-points_ : An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node’s shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node’s position is the origin (0, 0).
+
+[Table of Contents](#table-of-contents)
 
 ## Fast Compound Spring Embedded layout default options
 
@@ -132,3 +257,7 @@ _shape-polygon-points_ : An array (or a space-separated string) of numbers rangi
         stop: () => {} // on layoutstop
       };
 ```
+
+[Table of Contents](#table-of-contents)
+
+[README](../../README.md)
