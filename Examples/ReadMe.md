@@ -32,6 +32,10 @@ An example of a process flow diagram using on JointJS (built on Backbone) and we
 
 An example of a Stretched Chord diagram built using D3 and webpack.
 
+## V Network Graph
+
+A graph visualisation featuring automated layout and a path overlay, built using the Vue framework. 
+
 ## WebpackD3MetaModel
 
 An example of showing data about your Repository meta model, built using D3 v7 force layout graph and webpack.
