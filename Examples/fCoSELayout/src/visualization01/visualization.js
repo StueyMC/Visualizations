@@ -51,9 +51,9 @@ export function visualization (config) {
       }
       console.log('Input Changed - name: ' + name + ', value: ' + value)
 
-      if (name === 'showLabels') {
-        const code = value
-      }
+      // if (name === 'showLabels') {
+      //   const code = value
+      // }
     } catch (e) {
       const errorMessage = e.name + ': ' + e.message
       //
@@ -63,14 +63,11 @@ export function visualization (config) {
     }
   }
 
-
-  
   if (!config.animation) {
     // Sometimes you need to draw differently when inside Business Architect. For example without animations.
   }
 
   try {
-
     const el = document.getElementById(config.element)
 
     const styleSheet = getStylesheet(style)
@@ -121,15 +118,18 @@ export function visualization (config) {
       })
     }
     const edges = data.links
-    .filter(link => nodeMap[link.source.id] && nodeMap[link.target.id])
-    .map(edge => ({ data: {
-        id: edge.id,
-        source: edge.source.id,
-        target: edge.target.id,
-        width: edge.width,
-        colour: edge.linkColour || edge.source.linkColour || edge.target.linkColour,
-        linkType: edge.linkType,
-        linkDashPattern: edge.linkDashPattern }} ))
+      .filter(link => nodeMap[link.source.id] && nodeMap[link.target.id])
+      .map(edge => ({
+        data: {
+          id: edge.id,
+          source: edge.source.id,
+          target: edge.target.id,
+          width: edge.width,
+          colour: edge.linkColour || edge.source.linkColour || edge.target.linkColour,
+          linkType: edge.linkType,
+          linkDashPattern: edge.linkDashPattern
+        }
+      }))
     // console.log(JSON.stringify(edges))
 
     const constraints = getConstraints()
@@ -160,13 +160,12 @@ export function visualization (config) {
         // console.log("Connections: " + this.nodes()[0].connectedEdges().length)
         // console.log("Size: " + JSON.stringify(this.nodes()[0].size()))
 
-
         const layoutOptions = {
           name: 'fcose',
           step: 'all',
           animationEasing: 'ease-out',
           nodeSeparation: 300,
-          quality: "proof",
+          quality: 'proof',
           // Node repulsion (non overlapping) multiplier
           nodeRepulsion: node => 4500 + node.connectedEdges().length * 4000,
           // Ideal edge (non nested) length
@@ -174,7 +173,7 @@ export function visualization (config) {
           // Divisor to compute edge forces
           edgeElasticity: edge => 0.99
         }
-        const initialLayout = this.layout( layoutOptions )
+        const initialLayout = this.layout(layoutOptions)
         // initialLayout.pon('layoutstart').then(function( event ){
         //   // constraints.fixedNodeConstraint = JSON.parse(JSON.stringify(sample_constraints.fixedNodeConstraint));
         //   // clearConstraintListTable();
@@ -224,69 +223,67 @@ export function visualization (config) {
     config.functions.errorOccurred(errorMessage)
   }
 
-
   function getConstraints () {
     const noConstraints = {
       fixedNodeConstraint: [],
       alignmentConstraint: {
         horizontal: [],
         vertical: []
-        },
+      },
       relativePlacementConstraint: []
     }
 
-    const sample4Constraints = {
-      fixedNodeConstraint: [
-        {
-          nodeId: 'f1-id',
-          position: {
-            x: -100,
-            y: 0
-          }
-        },
-        {
-          nodeId: 'f2-id',
-          position: {
-            x: 300,
-            y: 0
-          }
-        }
-      ],
-      alignmentConstraint: {
-        horizontal: [
-          [
-            'h1-id',
-            'h2-id',
-            'h3-id',
-            'h4r-id'
-          ]
-        ],
-        vertical: [
-          [
-            'v1-id',
-            'v2-id',
-            'v3-id',
-            'v4-id'
-          ]
-        ]
-      },
-      relativePlacementConstraint: [
-        {
-          top: 'r1-id',
-          bottom: 'r2-id',
-          gap: 150
-        },
-        {
-          left: 'r3-id',
-          right: 'h4r-id',
-          gap: 150
-        }
-      ]
-    }
+    // const sample4Constraints = {
+    //   fixedNodeConstraint: [
+    //     {
+    //       nodeId: 'f1-id',
+    //       position: {
+    //         x: -100,
+    //         y: 0
+    //       }
+    //     },
+    //     {
+    //       nodeId: 'f2-id',
+    //       position: {
+    //         x: 300,
+    //         y: 0
+    //       }
+    //     }
+    //   ],
+    //   alignmentConstraint: {
+    //     horizontal: [
+    //       [
+    //         'h1-id',
+    //         'h2-id',
+    //         'h3-id',
+    //         'h4r-id'
+    //       ]
+    //     ],
+    //     vertical: [
+    //       [
+    //         'v1-id',
+    //         'v2-id',
+    //         'v3-id',
+    //         'v4-id'
+    //       ]
+    //     ]
+    //   },
+    //   relativePlacementConstraint: [
+    //     {
+    //       top: 'r1-id',
+    //       bottom: 'r2-id',
+    //       gap: 150
+    //     },
+    //     {
+    //       left: 'r3-id',
+    //       right: 'h4r-id',
+    //       gap: 150
+    //     }
+    //   ]
+    // }
 
-    return noConstraints //sample4Constraints
+    return noConstraints // sample4Constraints
   }
-
 
   function getStylesheet (style) {
     const nodeLabel = (node) => node.attr().name || node.id
@@ -306,7 +303,6 @@ export function visualization (config) {
     const parentLabelMarginY = style.parentLabelMarginY || 0
     const parentLabelPos = style.parentLabelPos || 'bottom'
 
-  
     // define default stylesheet
     const defaultStylesheet = [
       {
