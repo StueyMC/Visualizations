@@ -1,0 +1,4 @@
+*.zip
+dist/
+node_modules/
+src/visualization01/visualization.config.json

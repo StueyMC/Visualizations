@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "files.associations": {
+      "**/*.json.ejs": "json-ejs"
+    },
+    "editor.formatOnSave": true,
+    "[json-ejs]": {
+      "editor.formatOnSave": false
+    },
+    "files.eol": "\n",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "prettier.tabWidth": 2,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "git.confirmSync": false,
+    "editor.inlineSuggest.enabled": true,
+    "git.enableSmartCommit": true
+  }
+}

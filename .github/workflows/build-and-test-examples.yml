@@ -8,6 +8,7 @@ on:
       - 'Examples/Lollipop/**'
       - 'Examples/ProcessFlow/**'
       - 'Examples/StretchedChord/**'
+      - 'Examples/vNetwork/**'
       - 'Examples/WebpackD3MetaModel/**'
       - 'Examples/WebpackD3Visualization/**'
       - 'Examples/WebpackReactVisualization/**'
@@ -53,6 +54,12 @@ jobs:
         uses: ./.github/workflows/actions/build-and-test-package
         with:
           working-directory: './Examples/StretchedChord'
+
+      - name: Build vNetwork
+        uses: ./.github/workflows/actions/build-and-test-package
+        with:
+          working-directory: './Examples/vNetwork'
+          generate-types: 'true'
 
       - name: Build WebpackD3MetaModel
         uses: ./.github/workflows/actions/build-and-test-package

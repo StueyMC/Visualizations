@@ -1,0 +1,59 @@
+{
+    "id": "7320f552-238b-4853-8c04-fb86c8d3133b",
+    "name": "V Network Graph",
+    "description": "MooD Custom Visualisation based on v-network-graph using Vue JS TypeScript framework",
+    "version": "<%= package.version %>",
+    "supportedVersions": "0",
+    "moodVersion": "16.0.85",
+    "webpackEntry": "visualization.ts",
+    "entry": {
+        "file": "visualization.js",
+        "function": "vis.visualization"
+    },
+    "supportedBrowsers": "Chrome, Edge, Firefox",
+    "dynamicData": false,
+    "canOverflow": false,
+    "inputs": [
+    ],
+    "outputs": [
+      {
+        "name": "hoverNode",
+        "displayName": "Node Hover",
+        "type": "elements"
+      },
+      {
+        "name": "hoverEdge",
+        "displayName": "Edge Hover",
+        "type": "elements"
+      },
+      {
+        "name": "hoverPath",
+        "displayName": "Path Hover",
+        "type": "elements"
+      }
+    ],
+    "style": {
+        "URL": "visualization01/visualization.css",
+        "JSON": {
+            "DevelopmentMode": false,
+            "showArrows": false
+        }
+    },
+    "actions": {
+        "Node Click": {
+            "description": "A shape representing an node has been clicked.",
+            "title": "Node Click"
+        },
+        "Edge Click": {
+            "description": "A shape representing an edge has been clicked.",
+            "title": "Edge Click"
+        },
+        "Path Click": {
+            "description": "A shape representing a path has been clicked.",
+            "title": "Path Click"
+        }
+    },
+    "state": {
+        "ExampleState": true
+    }
+}

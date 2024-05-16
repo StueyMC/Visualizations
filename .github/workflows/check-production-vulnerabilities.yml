@@ -51,6 +51,12 @@ jobs:
           working-directory: './Examples/StretchedChord'
           options: '--omit=dev'
 
+      - name: Check vNetwork (production)
+        uses: ./.github/workflows/actions/check-package
+        with:
+          working-directory: './Examples/vNetwork'
+          options: '--omit=dev'
+  
       - name: Check WebpackD3MetaModel (production)
         uses: ./.github/workflows/actions/check-package
         with:
@@ -98,3 +104,10 @@ jobs:
         with:
           working-directory: './Templates/WebpackReactVisualizationTemplate'
           options: '--omit=dev'
+
+      - name: Check TypeScriptWebpackReactVisualizationTemplate (production)
+        uses: ./.github/workflows/actions/check-package
+        with:
+          working-directory: './Templates/TypeScriptWebpackReactVisualizationTemplate'
+          options: '--omit=dev'
+  
