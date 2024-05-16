@@ -5,15 +5,8 @@ import {
   updateFrozenVisualizationData,
   updateFrozenVisualizationInputs,
   updateFrozenVisualizationOutputs,
-  updateFrozenVisualizationSize,
-  updateFrozenVisualizationState,
   updateFrozenVisualizationStyle,
 } from "./config";
-import { updateDataEventKey } from "./hooks/useData";
-import { updateInputEventKey } from "./hooks/useInput";
-import { updateOutputEventKey } from "./hooks/useOutput";
-import { updateSizeEventKey } from "./hooks/useSize";
-import { updateVisualizationStateEventKey } from "./hooks/useVisualizationState";
 import Logger from "./logger";
 
 /**
@@ -58,7 +51,6 @@ export const setupProductionConfig = (config: MooDConfig): MooDConfig => {
   updateFrozenVisualizationData();
   updateFrozenVisualizationInputs();
   updateFrozenVisualizationOutputs();
-  updateFrozenVisualizationSize();
   updateFrozenVisualizationStyle();
 
   //This allows us to update the state of the Custom Visualization
@@ -83,8 +75,6 @@ export const setupProductionConfig = (config: MooDConfig): MooDConfig => {
 
     config.state.value = state;
     setVisualizationState(JSON.parse(state));
-    //Send an event to any useVisualizationState hook listeners
-    document.dispatchEvent(new CustomEvent(updateVisualizationStateEventKey));
   };
 
   //This allows us to update the size of the Custom Visualization
@@ -98,10 +88,6 @@ export const setupProductionConfig = (config: MooDConfig): MooDConfig => {
 
     config.width = width + "px";
     config.height = height + "px";
-    updateFrozenVisualizationSize();
-
-    //Send an event to any useSize hook listeners
-    document.dispatchEvent(new CustomEvent(updateSizeEventKey));
   };
 
   //This allows us to update what is inside the inputs whenever they change
@@ -121,11 +107,6 @@ export const setupProductionConfig = (config: MooDConfig): MooDConfig => {
 
     config.inputs[name] = value;
     updateFrozenVisualizationInputs();
-
-    //Send an event to any useInput hook listeners
-    document.dispatchEvent(
-      new CustomEvent(updateInputEventKey, { detail: { key: name } })
-    );
   };
 
   //This allows us to update what is inside the outputs whenever they change
@@ -145,11 +126,6 @@ export const setupProductionConfig = (config: MooDConfig): MooDConfig => {
 
     config.outputs[name] = value as any;
     updateFrozenVisualizationOutputs();
-
-    //Send an event to any useOutput hook listeners
-    document.dispatchEvent(
-      new CustomEvent(updateOutputEventKey, { detail: { key: name } })
-    );
   };
 
   const dataChangedSuper = config.functions.dataChanged;
@@ -158,9 +134,6 @@ export const setupProductionConfig = (config: MooDConfig): MooDConfig => {
 
     dataChangedSuper?.(data);
     setVisualizationData(data);
-
-    //Send an event to any useData hook listeners
-    document.dispatchEvent(new CustomEvent(updateDataEventKey));
   };
 
   return config;

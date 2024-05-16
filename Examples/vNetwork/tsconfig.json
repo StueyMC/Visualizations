@@ -31,8 +31,6 @@
     "./globals/*",
     "./typescript-transformer/types/*",
     "./src/**/*",
-    "./helpers/context/configContext.ts",
-    "./helpers/hooks/useInput.tsx",
     "./src/*.d.ts"
   ],
   "exclude": ["./*.json", "**/*.json"]

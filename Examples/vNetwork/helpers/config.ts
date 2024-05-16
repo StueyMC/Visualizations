@@ -1,9 +1,7 @@
 import { DeepPartial, DeepReadonly } from "utility-types";
 import { setupDevelopmentConfig } from "./development";
-import { updateVisualizationStyleEventKey } from "./hooks/useStyle";
 import Logger from "./logger";
 import { setupProductionConfig } from "./production";
-import { useVisualizationError } from "./hooks/useVisualizationError";
 import { MooDConfig, ReadonlyOptional } from "@moodtypes/index";
 import { InputsEnum } from "@core/src/types/inputs";
 import { _DeepReadonlyObject } from "utility-types/dist/mapped-types";
@@ -119,9 +117,6 @@ export const setVisualizationStyle = (style: DeepPartial<Vis.Style>) => {
     typeof (style.DevelopmentMode ?? false) != "boolean"
       ? false
       : style.DevelopmentMode!;
-
-  //Send an event to any useStyle hook listeners
-  document.dispatchEvent(new CustomEvent(updateVisualizationStyleEventKey));
 };
 
 /**
@@ -229,34 +224,4 @@ export const updateFrozenVisualizationOutputs = () => {
   const outputsClone = structuredClone(getVisualizationConfig().outputs);
   deepFreeze(outputsClone);
   frozenVisualizationOutputs = outputsClone as DeepReadonly<Vis.Outputs>;
-};
-
-/**
- * Store the immutable version of the custom visualization's size
- */
-let frozenVisualizationSize:
-  | DeepReadonly<{ width: number; height: number }>
-  | undefined;
-
-/**
- * Return the MooD config's size variable
- */
-export const getVisualizationSize = () => {
-  if (frozenVisualizationSize == null) updateFrozenVisualizationSize();
-  return frozenVisualizationSize;
-};
-
-/**
- * Clone and deep freeze the visualization size into frozenVisualizationSize
- */
-export const updateFrozenVisualizationSize = () => {
-  if (visualizationConfig == null)
-    return useVisualizationError(
-      "Unable to edit Visualization size because it hasn't been set up yet"
-    );
-
-  frozenVisualizationSize = Object.freeze({
-    width: parseFloat(getVisualizationConfig().width),
-    height: parseFloat(getVisualizationConfig().height),
-  });
 };
