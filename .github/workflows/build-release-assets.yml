@@ -34,6 +34,13 @@ jobs:
           working-directory: './Examples/EChartsRadialTree'
           asset-directory: ${{ env.asset-folder }}
 
+      - name: Build fCoSELayout
+        id: build-fCoSELayout
+        uses: ./.github/workflows/actions/build-asset
+        with:
+          working-directory: './Examples/fCoSELayout'
+          asset-directory: ${{ env.asset-folder }}
+
       - name: Build ForceDirectedLayout
         id: build-ForceDirectedLayout
         uses: ./.github/workflows/actions/build-asset

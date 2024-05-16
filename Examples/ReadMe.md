@@ -16,6 +16,10 @@ An example of vertical bar chart, built using ECharts and webpack.
 
 An example of radial tree chart, built using ECharts and webpack.
 
+## Fast Compound Spring Embedder Layout
+
+Force Directed Layout of a hierarchy of linked nodes using Cytoscape framework
+
 ## Force Direct Layout
 
 An example of a Force Directed Layout of linked nodes using D3 framework
