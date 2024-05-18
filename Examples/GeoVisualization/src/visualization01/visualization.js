@@ -1,6 +1,9 @@
 //
 //    Entry function declaration
 //
+// For suggestions on how to add interactive D3 elements
+// see https://stackoverflow.com/questions/62065912/leaflet-overlaid-with-d3-chart-need-chart-to-remain-in-one-place
+//
 import {
   addGeomanControl,
   addSaveButton,
