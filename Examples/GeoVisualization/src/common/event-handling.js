@@ -29,7 +29,7 @@ export function clickEvent (performAction, editable) {
 export function mouseoverEvent (updateOutput, layerConfig) {
   return function (event) {
     // console.log('Feature GUID: ' + event.target.feature.properties.id)
-    // highlightFeature(event, layerConfig)
+    highlightFeature(event, layerConfig)
     updateOutput('hoverFeature', event.target.feature.properties.id)
   }
 }
