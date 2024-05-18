@@ -1,11 +1,10 @@
 {
-  "name": "op-model-visualisation",
-  "description": "Visualisation of an Operating Model with free flowing interaction",
-  "version": "0.0.98",
+  "name": "geo-visualisation",
+  "description": "Visualisation of data positioned over a map",
+  "version": "0.0.1",
   "license": "MIT",
   "dependencies": {
     "@geoman-io/leaflet-geoman-free": "^2.14.2",
-    "d3": "^7.9.0",
     "leaflet": "^1.9.4",
     "leaflet-minimap": "^3.6.1"
   },

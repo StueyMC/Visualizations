@@ -5,13 +5,20 @@ type data {
 type marker implements MooDElement{
 	id: ID!
 	name: Any! @UI(default:"Name")
+	minLayer: Int @UI(name:"Minimum Layer marker displayed at")
+	maxLayer: Int @UI(name:"Maximum Layer marker displayed at")
 	longitude: Number @UI(name:"Longitude of marker")
 	latitude: Number @UI(name:"Latitude of marker")
 	size: Int @UI(name:"Size of marker in pixels")
 	outerColour: Colour @UI(name:"Colour of outer marker")
+	outerBorderColour: Colour @UI(name:"Colour of border on outer marker")
+	outerFeatureWeight: Int @UI(name:"Border width on outer marker")
 	outerValue: Int @UI(name:"Value represented by outer marker")
 	innerColour: Colour @UI(name:"Colour of inner marker")
+	innerBorderColour: Colour @UI(name:"Colour of border on inner marker")
+	innerFeatureWeight: Int @UI(name:"Border width on inner marker")
 	innerValue: Int @UI(name:"Value represented by inner marker")
+	displayName: Boolean @UI(name:"Display Name")
 }
 
 
