@@ -1,0 +1,113 @@
+{"data" : {
+  "points": [],
+  "links": [],
+  "lines": [],
+  "polygons": [{
+    "id": "L1-Feature001", "name": "Feature 001",
+    "centreX": null, "centreY": null, "size": null,
+    "coordinates1": "175,-135 175,-185 225,-185 225,-135",
+    "coordinates2": null,
+    "coordinates3": null,
+    "coordinates4": null,
+    "coordinates5": null,
+    "minLayer": 1, "maxLayer": 1,
+    "colour": "#FF0000",
+    "borderColour": "#00FF00",
+    "featureWeight": 2,
+    "displayName": false
+  }, {
+    "id": "L1-Feature002", "name": "Feature 002",
+    "minLayer": 1, "maxLayer": 1,
+    "centreX": 150, "centreY": -70, "size": 50,
+    "coordinates1": "125,-45 125,-95 175,-95 175,-45",
+    "coordinates2": null,
+    "coordinates3": null,
+    "coordinates4": null,
+    "coordinates5": null,
+    "colour": "#00FF00",
+    "borderColour": null,
+    "featureWeight": null,
+    "displayName": true
+  }, {
+    "id": "L2-Feature001", "name": "Feature 101",
+    "minLayer": 2, "maxLayer": 2,
+    "centreX": 200, "centreY": -160, "size": 20,
+    "coordinates1": null,
+    "coordinates2": null,
+    "coordinates3": null,
+    "coordinates4": null,
+    "coordinates5": null,
+    "colour": "#0000FF",
+    "borderColour": null,
+    "featureWeight": null,
+    "displayName": true
+  }, {
+    "id": "L2-Feature002", "name": "Feature 102",
+    "minLayer": 2, "maxLayer": 2,
+    "centreX": 150, "centreY": -70, "size": 20,
+    "coordinates1": null,
+    "coordinates2": null,
+    "coordinates3": null,
+    "coordinates4": null,
+    "coordinates5": null,
+    "colour": "#00FF00",
+    "borderColour": null,
+    "featureWeight": null,
+    "displayName": true
+  }, {
+    "id": "L3-Feature001", "name": "Feature 201",
+    "minLayer": 3, "maxLayer": 3,
+    "centreX": 200, "centreY": -160, "size": 5,
+    "coordinates1": null,
+    "coordinates2": null,
+    "coordinates3": null,
+    "coordinates4": null,
+    "coordinates5": null,
+    "colour": "#0000FF",
+    "borderColour": null,
+    "featureWeight": null,
+    "displayName": true
+  }, {
+    "id": "L3-Feature002", "name": "Feature 202",
+    "minLayer": 3, "maxLayer": 3,
+    "centreX": 210, "centreY": -160, "size": 5,
+    "coordinates1": null,
+    "coordinates2": null,
+    "coordinates3": null,
+    "coordinates4": null,
+    "coordinates5": null,
+    "colour": "#0000FF",
+    "borderColour": null,
+    "featureWeight": null,
+    "displayName": true
+  }, {
+    "id": "L3-Feature003", "name": "Feature 203",
+    "minLayer": 3, "maxLayer": 3,
+    "centreX": 150, "centreY": -70, "size": 5,
+    "coordinates1": null,
+    "coordinates2": null,
+    "coordinates3": null,
+    "coordinates4": null,
+    "coordinates5": null,
+    "colour": "#00FF00",
+    "borderColour": null,
+    "featureWeight": null,
+    "displayName": true
+  }, {
+    "id": "L3-Feature004", "name": "Feature 204",
+    "minLayer": 3, "maxLayer": 3,
+    "centreX": 160, "centreY": -70, "size": 5,
+    "coordinates1": null,
+    "coordinates2": null,
+    "coordinates3": null,
+    "coordinates4": null,
+    "coordinates5": null,
+    "colour": "#00FF00",
+    "borderColour": null,
+    "featureWeight": null,
+    "displayName": true
+  }
+  ],
+  "polyRings": []
+  }
+}

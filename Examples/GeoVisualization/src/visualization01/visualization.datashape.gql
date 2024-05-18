@@ -1,0 +1,18 @@
+type data {
+	markers: [marker]!
+}
+
+type marker implements MooDElement{
+	id: ID!
+	name: Any! @UI(default:"Name")
+	longitude: Number @UI(name:"Longitude of marker")
+	latitude: Number @UI(name:"Latitude of marker")
+	size: Int @UI(name:"Size of marker in pixels")
+	outerColour: Colour @UI(name:"Colour of outer marker")
+	outerValue: Int @UI(name:"Value represented by outer marker")
+	innerColour: Colour @UI(name:"Colour of inner marker")
+	innerValue: Int @UI(name:"Value represented by inner marker")
+}
+
+
+

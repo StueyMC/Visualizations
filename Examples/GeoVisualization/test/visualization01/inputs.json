@@ -1,0 +1,18 @@
+{"inputs" : {
+  "tileServer": "http://eu.opmodel.guide/170203/export/",
+  "tileServerSubDomains": null,
+  "tilePattern": "{z}-{x}-{y}.gif",
+  "tileWidth": 256,
+  "tileHeight": 256,
+  "coordRefSystem": "simple",
+  "boundsBottomLeftX": 0,
+  "boundsBottomLeftY": 0,
+  "boundsTopRightX": 256,
+  "boundsTopRightY": -256,
+  "minZoom": 1,
+  "maxZoom": 6,
+  "zoomLevel": 1,
+  "centreX": 128,
+  "centreY": -128
+}
+}

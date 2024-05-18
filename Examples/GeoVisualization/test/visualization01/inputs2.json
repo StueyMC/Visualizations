@@ -1,0 +1,18 @@
+{"inputs" : {
+  "tileServer": "http://{s}.tile.openstreetmap.org/",
+  "tileServerSubDomains": "a,b,c",
+  "tilePattern": "{z}/{x}/{y}.png",
+  "tileWidth": 256,
+  "tileHeight": 256,
+  "coordRefSystem": "spherical",
+  "boundsBottomLeftX": -180,
+  "boundsBottomLeftY": -90,
+  "boundsTopRightX": 180,
+  "boundsTopRightY": 90,
+  "minZoom": 1,
+  "maxZoom": 10,
+  "zoomLevel": 5,
+  "centreX": -3.4875,
+  "centreY": 54.20861111111111
+}
+}
