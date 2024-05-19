@@ -9,7 +9,7 @@ type marker implements MooDElement{
 	maxLayer: Int @UI(name:"Maximum Layer marker displayed at")
 	longitude: Number @UI(name:"Longitude of marker")
 	latitude: Number @UI(name:"Latitude of marker")
-	size: Int @UI(name:"Size of marker in pixels")
+	size: Int @UI(name:"Size of marker in metres")
 	outerColour: Colour @UI(name:"Colour of outer marker")
 	outerBorderColour: Colour @UI(name:"Colour of border on outer marker")
 	outerFeatureWeight: Int @UI(name:"Border width on outer marker")
