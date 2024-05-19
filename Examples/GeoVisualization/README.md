@@ -129,20 +129,20 @@ The visualization has one event. This can be configured to trigger actions in Mo
 
 1. __Markers__ – zero or more point feature elements to display
     * __Name__: the name of the feature.
-	* __Longitude of marker__: the Longitude of the position of the marker
-	* __Latitude of marker__: the Latitude of the position of the marker
+    * __Longitude of marker__: the Longitude of the position of the marker
+    * __Latitude of marker__: the Latitude of the position of the marker
     * __Minimum Layer point displayed at__: The minimum 1 based layer index for the overlay layer that the point is displayed at. If undefined this defaults to 1.
     * __Maximum Layer point displayed at__: The maximum 1 based layer index for the overlay layer that the point is displayed at. If undefined then if the minimum layer is also undefined this defaults to the maximum layer, i.e. all layers. If undefined and the minimum layer is defined then this defaults to the minimum layer, i.e. the one layer.
     * __Size of marker in metres__: The radius of the circle drawn for the marker.
-	* __Colour of outer marker__: The colour of the outer circle drawn for the marker.
-	* __Colour of border on outer marker__: The colour of the border of outer circle drawn for the marker.
-	* __Border width on outer marker__: The width of the border, in pixels, for the outer circle
-	* __Value represented by outer marker__: The value represented by the outer circle, e.g. the total capacity of a storage tank
-	* __Colour of inner marker__: The colour of the inner circle drawn for the marker.
-	* __Colour of border on inner marker__: The colour of the border of inner circle drawn for the marker.
-	* __Border width on inner marker__: The width of the border, in pixels, for the inner circle
-	* __Value represented by inner marker__: The value represented by the inner circle, e.g. the volume currently stored in the tank. The radius of the inner circle is in proportion to the inner value / outer value
-	* __Display Name__: Indicates if the name of the feature should appear as a tooltip (true) or not (false) when hovering the cursor over the feature. If undefined, the configuration for the layer is used instead.
+    * __Colour of outer marker__: The colour of the outer circle drawn for the marker.
+    * __Colour of border on outer marker__: The colour of the border of outer circle drawn for the marker.
+    * __Border width on outer marker__: The width of the border, in pixels, for the outer circle
+    * __Value represented by outer marker__: The value represented by the outer circle, e.g. the total capacity of a storage tank
+    * __Colour of inner marker__: The colour of the inner circle drawn for the marker.
+    * __Colour of border on inner marker__: The colour of the border of inner circle drawn for the marker.
+    * __Border width on inner marker__: The width of the border, in pixels, for the inner circle
+    * __Value represented by inner marker__: The value represented by the inner circle, e.g. the volume currently stored in the tank. The radius of the inner circle is in proportion to the inner value / outer value
+    * __Display Name__: Indicates if the name of the feature should appear as a tooltip (true) or not (false) when hovering the cursor over the feature. If undefined, the configuration for the layer is used instead.
 
 [Table of Contents](#table-of-contents)
 
