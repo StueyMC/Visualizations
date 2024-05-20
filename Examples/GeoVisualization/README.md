@@ -1,6 +1,6 @@
 # Geo Visualizations
 
-Interactive visualizations over a map or other tiled imagery such as an Geo Visualisation
+Interactive visualizations over a map or other tiled imagery such as an Operational Model
 
 ## Table of Contents
 
@@ -12,20 +12,17 @@ Interactive visualizations over a map or other tiled imagery such as an Geo Visu
   * [Outputs](#geo-visualisation-outputs)
   * [Actions](#geo-visualisation-actions)
   * [Data Details](#geo-visualisation-data-details)
-  * [Visualization Content Security Policy](#geo-visualisation-visualization-content-security-policy)
+  * [Visualization Content Security Policy](#visualization-content-security-policy)
 
 ## Purpose
 
 The package contains two visualizations sharing common features of overlays on top of imagery that can be panned and zoomed.
 
 * __Geo Visualisation__ visualization provides free flowing interaction with a multi-layered picture of an organisation offering rapid information discovery
-* __Google Maps__ visualization provides interaction with MooD data driven overlays on a Google Map
-
-### Geo Visualisation Purpose
 
 The visualization allows the user to interact with a multi-layered map over which are drawn markers to visually convey location based information. The user can hover the cursor over areas of interest and instantly see information from the MooD repository. The user can click on a feature to navigate to a detailed view of the information at the location.
 
-The visualization connects to a Tile Server to receive the images to display as the user pans and zooms. An edit mode allows solution designers to move, resize and reshape the markers overlaying the tile images. See [Content Security Policy](#geo-visualisation-visualization-content-security-policy) for details of granting permission to access the tile server from MooD.
+The visualization connects to a Tile Server to receive the images to display as the user pans and zooms. An edit mode allows solution designers to move, resize and reshape the markers overlaying the tile images. See [Content Security Policy](#visualization-content-security-policy) for details of granting permission to access the tile server from MooD.
 
 ![Geo Visualisation](images/open-street-map.png)
 
@@ -86,7 +83,7 @@ The properties are:
 
 The visualization has fifteen inputs.
 
-* __Tile Server URL__: The URL of the tile server that delivers map tiles. A string of the following form: _https://{s}.somedomain.com/blabla/_. {s} means one of the available subdomains (used sequentially to help with browser parallel requests per domain limitation; subdomain values are specified in __tileServerSubDomains__, can be omitted). __Note:__ You need to ensure the content security policy for the repository permits access to the tile server; see [Visualization Content Security Policy](#geo-visualisation-visualization-content-security-policy) for how to do this.
+* __Tile Server URL__: The URL of the tile server that delivers map tiles. A string of the following form: _https://{s}.somedomain.com/blabla/_. {s} means one of the available subdomains (used sequentially to help with browser parallel requests per domain limitation; subdomain values are specified in __tileServerSubDomains__, can be omitted). __Note:__ You need to ensure the content security policy for the repository permits access to the tile server; see [Visualization Content Security Policy](#visualization-content-security-policy) for how to do this.
 * __Tile Server Sub-domains__: A comma separated string of sub-domain names for the tile server. Some image map servers provide multi-domain or sub-domain structures in order to optimize data downloading. In order to use sub-domains, the __Tile Server__ URL must include {s} place holder. The array should be empty for a tile server without sub-domains. __Default: empty string__
 * __Tile Pattern__: Defines the tile pattern for the tile server. A string of the following form: _{z}/{x}/{y}{r}.png_. {z} — zoom level, {x} and {y} — tile coordinates. {r} can be used to add "@2x" to the URL to load retina tiles.
 * __Tile Width__: Defines the width of the tiles that the tile server delivers. __Default 256__
@@ -146,7 +143,7 @@ The visualization has one event. This can be configured to trigger actions in Mo
 
 [Table of Contents](#table-of-contents)
 
-### Geo Visualisation Visualization Content Security Policy
+### Visualization Content Security Policy
 
 The default security policy for a MooD repository does not allow Custom Visualizations in MooD Active Enterprise (MAE) to access external domains. In order for this custom visualization to access a tile server in an external domain the Visualization Content Security Policy (CSP) needs to be relaxed by following the instructions below. __Repository Administration__ permissions are required for this.
 

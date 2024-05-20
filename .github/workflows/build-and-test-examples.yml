@@ -6,6 +6,7 @@ on:
       - 'Examples/EChartsRadialTree/**'
       - 'Examples/fCoSELayout/**'
       - 'Examples/ForceDirectedLayout/**'
+      - 'Examples/GeoVisualization/**'
       - 'Examples/Lollipop/**'
       - 'Examples/ProcessFlow/**'
       - 'Examples/StretchedChord/**'
@@ -45,6 +46,11 @@ jobs:
         uses: ./.github/workflows/actions/build-and-test-package
         with:
           working-directory: './Examples/ForceDirectedLayout'
+
+      - name: Build GeoVisualization
+        uses: ./.github/workflows/actions/build-and-test-package
+        with:
+          working-directory: './Examples/GeoVisualization'
 
       - name: Build Lollipop
         uses: ./.github/workflows/actions/build-and-test-package

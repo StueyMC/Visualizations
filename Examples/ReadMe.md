@@ -24,6 +24,10 @@ Force Directed Layout of a hierarchy of linked nodes using Cytoscape framework
 
 An example of a Force Directed Layout of linked nodes using D3 framework
 
+## Geo Visualizations
+
+Interactive visualizations over a map or other tiled imagery such as an Operational Model
+
 ## Lollipop
 
 An example of a Lollipop chart built using D3 and webpack.
