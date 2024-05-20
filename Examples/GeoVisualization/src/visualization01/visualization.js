@@ -10,7 +10,7 @@ import {
   createGeoJsonFeatureGroup,
   getZoomLevel,
   setZoomLevel,
-  resetStyle,
+  resetStyle
   // addSVG,
   // removeSVG
 } from '../common/leaflet-handling'
@@ -21,7 +21,7 @@ import {
 import * as LH from '../common/layer-handler'
 import {
   updateStateFunction,
-  getFeatureMovements,
+  getFeatureMovements
   // square
 } from '../common/state-handling'
 import {
@@ -136,7 +136,7 @@ export function visualization (config) {
     // function moveendEvent() {
     //   d3.selectAll("circle")
     //   .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.long]).x })
-    //   .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.long]).y })  
+    //   .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.long]).y })
     // }
     /**
      * Handle change to input.
@@ -241,7 +241,7 @@ function createFeatures (featureCollections, data, movedFeatures, layerConfig, n
     const editedFeature = movedFeatures[feature.id]
     const geometry = {
       type: GT.geoJsonPointName,
-      pointType: "circle",
+      pointType: 'circle',
       coordinates: editedFeature ? editedFeature.coordinates : [feature.longitude, feature.latitude]
     }
     const state = {
@@ -255,7 +255,7 @@ function createFeatures (featureCollections, data, movedFeatures, layerConfig, n
       maxLayer: feature.maxLayer
     }
   })
-  
+
   for (let i = 0; i < numLayers; i++) {
     featureCollections[i] = {}
     featureCollections[i].type = 'FeatureCollection'
@@ -273,8 +273,8 @@ function createFeatures (featureCollections, data, movedFeatures, layerConfig, n
           borderColour: feature.outerBorderColour,
           colour: feature.outerColour,
           displayName: feature.displayName,
-          featureWeight: feature.outerFeatureWeight 
-        }      
+          featureWeight: feature.outerFeatureWeight
+        }
       })
       .map(feature => buildFeature(feature, i, pointMap))
     //
@@ -291,14 +291,14 @@ function createFeatures (featureCollections, data, movedFeatures, layerConfig, n
           borderColour: feature.innerBorderColour,
           colour: feature.innerColour,
           displayName: feature.displayName,
-          featureWeight: feature.innerFeatureWeight 
-        }      
+          featureWeight: feature.innerFeatureWeight
+        }
       })
       .map(feature => buildFeature(feature, i, pointMap))
 
     featureCollections[i].features =
       outerMarkerFeatures
-      .concat(innerMarkerFeatures)
+        .concat(innerMarkerFeatures)
   }
   // console.log("Features: " + JSON.stringify(featureCollections))
   return featureCollections

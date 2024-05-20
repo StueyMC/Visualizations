@@ -2,9 +2,6 @@ import * as L from 'leaflet'
 import '@geoman-io/leaflet-geoman-free'
 import * as GT from '../common/geometry-types'
 
-const defaultMarkerSize = 40 // default size of marker icons in pixels
-let svg = undefined
-
 /**
  * Get the zoom level (z coordinate) currently selected on the map
  * @param {*} map
@@ -113,7 +110,7 @@ export function addSaveButton (map, saveFunction, position) {
 let featureStyle
 
 function resetFeatureStyle (feature, layer) {
-  if (feature.geometry.type !== GT.geoJsonPointName || feature.geometry.pointType != "icon") {
+  if (feature.geometry.type !== GT.geoJsonPointName || feature.geometry.pointType !== 'icon') {
     // reset style for non-point features
     layer.setStyle(featureStyle(feature))
   } else {
@@ -131,7 +128,7 @@ export function highlightFeature (e, layerConfig) {
   const layer = e.target
   const feature = e.target.feature
   const properties = feature.properties
-  if (feature.geometry.type !== GT.geoJsonPointName || feature.geometry.pointType !== "icon") {
+  if (feature.geometry.type !== GT.geoJsonPointName || feature.geometry.pointType !== 'icon') {
     // Set style for non-point features
     layer.setStyle({
       fillOpacity: properties.highlightFillOpacity || layerConfig[properties.layerIndex].featureHighlightOpacity,
@@ -201,12 +198,12 @@ export function createGeoJsonFeatureGroup (featureCollection, layerConfig, event
       opacity: point.properties.opacity,
       weight: point.properties.width,
       fillColor: point.properties.fillColour,
-      fillOpacity: point.properties.fillOpacity,
+      fillOpacity: point.properties.fillOpacity
     }
     // console.log("PointToLayer: " + JSON.stringify(markerOptions))
     const marker = L.circle(latLng, markerOptions) // L.marker(latLng, { icon: myIcon })
     // Set initial, unhighlighted opacity of the marker
-    if (point.geometry.pointType === "icon") {
+    if (point.geometry.pointType === 'icon') {
       marker.setOpacity(point.properties.fillOpacity)
     }
     return marker
