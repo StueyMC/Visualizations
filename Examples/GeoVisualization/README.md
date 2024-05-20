@@ -16,10 +16,6 @@ Interactive visualizations over a map or other tiled imagery such as an Operatio
 
 ## Purpose
 
-The package contains two visualizations sharing common features of overlays on top of imagery that can be panned and zoomed.
-
-* __Geo Visualisation__ visualization provides free flowing interaction with a multi-layered picture of an organisation offering rapid information discovery
-
 The visualization allows the user to interact with a multi-layered map over which are drawn markers to visually convey location based information. The user can hover the cursor over areas of interest and instantly see information from the MooD repository. The user can click on a feature to navigate to a detailed view of the information at the location.
 
 The visualization connects to a Tile Server to receive the images to display as the user pans and zooms. An edit mode allows solution designers to move, resize and reshape the markers overlaying the tile images. See [Content Security Policy](#visualization-content-security-policy) for details of granting permission to access the tile server from MooD.
@@ -32,7 +28,7 @@ The visualization connects to a Tile Server to receive the images to display as 
 
 ### Geo Visualisation Data Summary
 
-The Geo Visualisation visualization consumes five data sets. The details of the attributes of the data set is provided in the section Data Details section
+The Geo Visualisation visualization consumes one data set. The details of the attributes of the data set is provided in the section Data Details section
 
 1. __Markers__
     * Details of the point markers to draw over the map
