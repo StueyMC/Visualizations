@@ -2,6 +2,10 @@
     "width": "1200px",
     "height": "800px",
     "element": "visualisation01_element_guid",
-    "animation": true
+    "animation": true,
+    "state" : {
+        "editable": true,
+        "value": {}
+    }
 }
 

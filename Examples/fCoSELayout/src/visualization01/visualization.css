@@ -3,3 +3,12 @@ Put CSS in here.
 */
 
 div { background-color: white;  }
+
+#save {
+    float: right;
+    line-height: 12px;
+    font-size: 8pt;
+    font-family: tahoma;
+    margin-top: 1px;
+    margin-right: 1px;
+  }
