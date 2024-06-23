@@ -72,7 +72,7 @@ export function visualization (config) {
   }
 
   try {
-    const el = document.getElementById(config.element)
+    const containerElement = document.getElementById(config.element)
 
     const styleSheet = getStylesheet(style)
     const idealEdgeLength = style.idealEdgeLength || 150
@@ -87,6 +87,23 @@ export function visualization (config) {
     const nodeDimensionsIncludeLabels = style.nodeDimensionsIncludeLabels !== undefined ? style.nodeDimensionsIncludeLabels : true
     const layerGap = style.layerGap !== undefined ? style.layerGap : 150
     // console.log(JSON.stringify(styleSheet))
+    //
+    // Get state data if present
+    // State data was introduced in MooD Customer Release 6 (16.082)
+    //
+    const editable = config.state && config.state.editable
+    const stateValue = config.state && config.state.value
+
+    if (editable) {
+      function saveClick() {
+        console.log("Save Click")
+      }
+      const saveButton = document.createElement("button")
+      saveButton.id = "save"
+      saveButton.innerHTML = "Save"
+      saveButton.onclick = saveClick
+      containerElement.appendChild(saveButton)
+    }
 
     const parentMap = {}
     const childMap = {}
@@ -169,7 +186,7 @@ export function visualization (config) {
     cytoscape.use(layoutUtilities)
     cytoscape.use(fcose)
     const cy = cytoscape({
-      container: el,
+      container: containerElement,
       ready: function () {
         const layoutOptions = {
           name: 'fcose',
