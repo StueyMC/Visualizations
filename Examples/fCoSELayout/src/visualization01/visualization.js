@@ -111,6 +111,14 @@ export function visualization (config) {
       resetButton.innerHTML = 'Reset'
       resetButton.onclick = resetClick
       containerElement.appendChild(resetButton)
+      function cancelClick () {
+        console.log('Cancel Click')
+      }
+      const cancelButton = document.createElement('button')
+      cancelButton.id = 'cancel'
+      cancelButton.innerHTML = 'Cancel'
+      cancelButton.onclick = cancelClick
+      containerElement.appendChild(cancelButton)
     }
 
     const parentMap = {}
