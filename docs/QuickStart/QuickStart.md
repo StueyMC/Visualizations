@@ -6,7 +6,7 @@
 
 - Install [Visual Studio Code](https://code.visualstudio.com/)
 - Install [Node JS](https://nodejs.org/en)
-- Git clone/download the [repo](https://github.com/CACIMooD/Visualizations)
+- Install [Git](https://git-scm.com/downloads) and clone/download the [repo](https://github.com/CACIMooD/Visualizations)
 - Install MooD Business Architect
 
 ## Instructions
@@ -15,9 +15,15 @@
 1. In Visual Studio Code, open the Visualization workspace file located in that folder
 1. In package.json add a generated GUID ([from this site](https://www.guidgenerator.com/)) and change the name to something suitable, for instance here we've chosen "MyCustomVis"
 1. In this guide we will use the Tabulator control as an example. Tabulator can be imported in a variety of ways, in this example it will be installed directly:
-    - Open a Terminal in the Code/ folder and run this line: ```npm install tabulator-tables --save```
+    - Open a Terminal and create the folder which will contain Tabulator, by running these two lines in order:
+
+        ```cd .\Code\```
+
+        ```mkdir -p node_modules```
+
+    - Run this line to install Tabulator: ```npm install tabulator-tables --save```
     - Tabulator files should now be found in Code/node_modules/tabulator-tables (if not, move the node_modules folder into Code/)
-    - The additional dependency automatically added to package.json can be removed as it is not needed.
+    - The additional dependency automatically added to package.json **should be removed** as it is not needed, and can trigger a warning when using the Visualization in MooD.
 
     Here is an example of what your package.json should now look like:
 
@@ -32,7 +38,7 @@
     }
     ```
 
-1. In Code/visualization.config.json add a new generated GUID (different to package.json), change the name, and add new dependencies:
+1. In Code/visualization.config.json add a newly generated GUID to line 2 (different to package.json), change the name, and add these new dependencies to line 11:
 
      ```json
       "dependencies":{
@@ -41,7 +47,7 @@
       },
       ```
 
-1. In Code/Code.js edit the code within the definition of createVisualization to add a tabulator table to a div:
+1. In Code/Code.js edit createVisualization() by replacing lines 6-8 with this code to add a tabulator table to a div:
 
     ```js
     var createVisualization = function(config, css){
@@ -51,7 +57,9 @@
 
         var table = new Tabulator(testDiv, {
             height:250, // set height of table to enable virtual DOM
-            data: testData
+
+            data: testData,
+
             layout:"fitColumns", //fit columns to width of table (optional)
 
             columns:[ //Define Table Columns
@@ -79,19 +87,21 @@
         {id:2, name:"Mary May", gender:"F", class1:8, class2:6, class3:9},
         {id:3, name:"Christine Lobowski", gender:"F", class1:5, class2:3, class3:9},
         {id:4, name:"Brendon Philips", gender:"M", class1:9, class2:7, class3:8},
-        {id:5, name:"Margret Marmajuke", gender:"F", class1:5, class2:4, class3:9},
+
+        {id:5, name:"Margret Marmajuke", gender:"F", class1:5, class2:4, class3:9}
+    ]
     ```
 
-1. Test that the table appears correct in test-page.htm - add the same dependencies to \<head> as were added in visualization.config.json
+1. Test that the table appears correct in test-page.htm - add the same dependencies to \<head> as were added in visualization.config.json (one will replace the "stylesheet" link, the other will be a new script tag added to the html)
 
     ```html
     <link rel="stylesheet" type="text/css" href=Code/node_modules/tabulator-tables/dist/css/tabulator.min.css>
     <script type="text/javascript", src="Code/node_modules/tabulator-tables/dist/js/tabulator.js"></script>
     ```
 
-1. Right Click test-page.htm in the Explorer, then Open with Live Server.
+1. Run test-page.htm by pressing F5, or by clicking "Run>Start Debugging" in the header. The expected result is shown below.
 ![Test Page](TestPage.png)
-1. Once the test page works, change the data shape in visualization.datashape.gql to reflect the row data
+1. Once the test page works, change the data shape in visualization.datashape.gql to reflect the row data. This is what allows you to configure the data in MooD.
 
     ```gql
     type data { 
@@ -127,4 +137,5 @@
 1. From here you can use existing fields/data in your repository to link to each field in the table
 
     ![Configuring Information](ConfigureInfo.png)
+
 1. When making changes to the custom vis, increment the version number in visualization.config.json (`"version": "1.0.1"`) before running the .bat file again and dragging the new .zip into MooD.
