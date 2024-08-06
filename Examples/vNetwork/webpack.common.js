@@ -2,6 +2,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const VersionFile = require('webpack-version-file-plugin'); // Used to write package version number into visualization config
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlPlugin = require('html-plugin')
+const { DefinePlugin } = require('webpack')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const path = require('path');
 const outputPath = path.join(__dirname, 'dist');
@@ -230,7 +231,13 @@ const vueLoader = new VueLoaderPlugin()
 //   chunksSortMode: 'dependency'
 // })
 
-return [vueLoader, /*htmlPlugin,*/ vpcVersionFile, copyPlugins].concat(vcVersionFiles);
+const vueDefineOptions = new DefinePlugin({
+  __VUE_OPTIONS_API__: 'false',
+  __VUE_PROD_DEVTOOLS__: 'false',
+  __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
+})
+
+return [vueLoader, vueDefineOptions, /*htmlPlugin,*/ vpcVersionFile, copyPlugins].concat(vcVersionFiles);
 }
 
 function getResolvers() {
