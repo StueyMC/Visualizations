@@ -1,0 +1,25 @@
+{
+  "version": "1.0.77",
+  "id": "2c0db383-3ea5-4844-94f3-aed583828786",
+  "name": "MyCustomVis",
+  "supportedVersions": "1",
+  "moodVersion": "16.0.085",
+  "entry": {
+    "file": "Code.js",
+    "function": "createVisualization"
+  },
+  "dependencies":{
+    "style": "Code/node_modules/tabulator-tables/dist/css/tabulator.min.css",
+    "tabulator": "Code/node_modules/tabulator-tables/dist/js/tabulator.js"
+  },
+  "supportedBrowsers": "Chrome, Edge, FireFox",
+  "style": {
+    "URL": "code/Style.css"
+  },
+  "actions": {
+    "Cell Click": {
+      "description": "A cell in the table has been clicked.",
+      "title": "Cell"
+    }
+  }
+}
