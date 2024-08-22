@@ -1,0 +1,6 @@
+{
+  "type": "module",
+  "dependencies": {
+    "tabulator-tables": "^6.2.5"
+  }
+}

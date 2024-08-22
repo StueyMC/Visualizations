@@ -1,0 +1,8 @@
+{
+	"id":     "a3cf9fc3-4253-4f48-a736-a3e0d7be9e43",
+	"name":   "MyCustomVis",
+	"version":"1.0.0",
+	"moodVersion": "16.0.085",
+	"main":"/Code/Code.js",
+	"dependencies":{}
+}
