@@ -1,7 +1,41 @@
-const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 const daysShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-const monthsShort = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const monthsShort = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 const styleOptions = {
   midnight: {
     properties: {
@@ -137,41 +171,41 @@ function isDateValid(dateStr) {
   return !isNaN(new Date(dateStr));
 }
 
-function formatDate (cell, format) {
+function formatDate(cell, format) {
   if (isDateValid(cell.getValue())) {
-    const d = new Date(cell.getValue())
+    const d = new Date(cell.getValue());
     const fullYear = d.getFullYear().toString();
     const yearShort = fullYear.slice(-2);
     const fullMonth = months[d.getMonth()];
     const monthShort = monthsShort[d.getMonth()];
-    const month = (d.getMonth()+1).toString().padStart('2', 0);;
+    const month = (d.getMonth() + 1).toString().padStart("2", 0);
     const fullDay = days[d.getDay()];
     const dayShort = daysShort[d.getDay()];
-    const date = d.getDate().toString().padStart('2', 0);
-    const hours = d.getHours().toString().padStart('2', 0);
+    const date = d.getDate().toString().padStart("2", 0);
+    const hours = d.getHours().toString().padStart("2", 0);
     const hour = d.getHours().toString();
-    const minutes = d.getMinutes().toString().padStart('2', 0);
-    const seconds = d.getSeconds().toString().padStart('2', 0);
+    const minutes = d.getMinutes().toString().padStart("2", 0);
+    const seconds = d.getSeconds().toString().padStart("2", 0);
     const milliseconds = d.getMilliseconds().toString();
-    const terrestrialTime = hours >= 12 ? 'PM' : 'AM';
+    const terrestrialTime = hours >= 12 ? "PM" : "AM";
 
     const formattedDate = format
-      .replace('%ms', milliseconds)
-      .replace('%ss', seconds)
-      .replace('%mm', minutes)
-      .replace('%HH', hours)
-      .replace('%hh', hours)
-      .replace('%H', hour)
-      .replace('%h', hour)
-      .replace('%dddd', fullDay)
-      .replace('%ddd', dayShort)
-      .replace('%dd', date)
-      .replace('%MMMM', fullMonth)
-      .replace('%MMM', monthShort)
-      .replace('%MM', month)
-      .replace('%yyyy', fullYear)
-      .replace('%yy', yearShort)
-      .replace('%tt', terrestrialTime)
+      .replace("%ms", milliseconds)
+      .replace("%ss", seconds)
+      .replace("%mm", minutes)
+      .replace("%HH", hours)
+      .replace("%hh", hours)
+      .replace("%H", hour)
+      .replace("%h", hour)
+      .replace("%dddd", fullDay)
+      .replace("%ddd", dayShort)
+      .replace("%dd", date)
+      .replace("%MMMM", fullMonth)
+      .replace("%MMM", monthShort)
+      .replace("%MM", month)
+      .replace("%yyyy", fullYear)
+      .replace("%yy", yearShort)
+      .replace("%tt", terrestrialTime);
 
     return formattedDate;
   }
@@ -293,7 +327,11 @@ function createVisualization(config, css) {
           console.log(cell);
           config.functions.performAction("Cell Click", cell.getInitialValue, e);
         },
-        formatter: formatters[column.format] || ((column.format && column.format.includes('%')) ? (cell) => formatDate(cell, column.format) : column.format),
+        formatter:
+          formatters[column.format] ||
+          (column.format && column.format.includes("%")
+            ? (cell) => formatDate(cell, column.format)
+            : column.format),
       };
 
       columnDefinition.push(newColumn);
@@ -303,19 +341,25 @@ function createVisualization(config, css) {
 
   function createColumnDefinition(config, rows) {
     let columnDefinition = [];
-    if (typeof rows[0].columns === "object") {
+    if (rows[0].columns) {
       getColumns(config, rows[0].columns).forEach((column) => {
         columnDefinition.push(column);
       });
     }
-    if (typeof rows[0].columnGroups === "object") {
+    if (rows[0].columnGroups) {
       rows[0].columnGroups.forEach((columnGroup) => {
-        let newColumnGroup = {
-          title: columnGroup.title,
-          columns: getColumns(config, columnGroup.columns),
-          headerMenu: headerMenu(columnGroup),
-        };
-        columnDefinition.push(newColumnGroup);
+        if (columnGroup.columns) {
+          let newColumnGroup = {
+            title: columnGroup.title,
+            columns: getColumns(config, columnGroup.columns),
+            headerMenu: headerMenu(columnGroup),
+          };
+          columnDefinition.push(newColumnGroup);
+        } else {
+          console.warn(
+            "The '" + columnGroup.title + "' column group has no columns."
+          );
+        }
       });
     }
     return columnDefinition;
@@ -347,17 +391,19 @@ function transformJson(rows) {
 
   rows.forEach((row) => {
     let dataRow = {};
-    if (typeof row.columns === "object") {
+    if (row.columns) {
       let dataObject = setRow(row.columns);
       for (const property in dataObject) {
         dataRow[property] = dataObject[property];
       }
     }
-    if (typeof row.columnGroups === "object") {
+    if (row.columnGroups) {
       row.columnGroups.forEach((columnGroup) => {
-        let dataObject = setRow(columnGroup.columns);
-        for (const property in dataObject) {
-          dataRow[property] = dataObject[property];
+        if (columnGroup.columns) {
+          let dataObject = setRow(columnGroup.columns);
+          for (const property in dataObject) {
+            dataRow[property] = dataObject[property];
+          }
         }
       });
     }
