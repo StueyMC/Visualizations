@@ -1,0 +1,29 @@
+type Column{
+    title: String!
+    content: Any
+    format: String
+    editable: Boolean
+}
+
+type ColumnGroupInGroup{
+    title: String!
+    columns: [Column]
+}
+
+type ColumnGroup{
+    title: String!
+    columns: [Column]
+    columnGroupsInGroup: [ColumnGroupInGroup]
+}
+ 
+type data { 
+    rows: [row!]!
+    colorOption: String
+    groupRows: Boolean
+} 
+ 
+type row implements MooDElement { 
+    columns: [Column]
+    columnGroups: [ColumnGroup]
+    groupBy: Any
+}
