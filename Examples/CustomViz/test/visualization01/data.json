@@ -10,7 +10,9 @@
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
                                 {"title":"id", "content":"4", "format":"star", "Editable":true},
-                                {"title":"id2", "content":"4", "format":"star", "Editable":true}
+                                {"title":"date", "content":"2024-07-22T12:07:32Z", "format":"%dd-%MM-%yyyy", "Editable":true},
+                                {"title":"date2", "content":"2024-07-22T12:07:32Z", "format":"", "Editable":true},
+                                {"title":"date3", "content":"2024-07-22T12:07:32Z", "format":"datetime", "Editable":true}
                         ]}
                     ]}],
                     "groupBy":"Domestic"
