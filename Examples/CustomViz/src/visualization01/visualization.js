@@ -42,7 +42,7 @@ export function visualization(config) {
       //create menu item
       menu.push({
         label: label,
-        action: function (e) {
+        action: function () {
           let columnsToToggle = {};
           for (var i = 0; i < columnGroup.columns.length; i++) {
             if (i !== 0) {
@@ -57,7 +57,9 @@ export function visualization(config) {
             }
           });
 
-          if (iconCheckmarkBox.classList.contains("icon--checkmark-box-checked")) {
+          if (
+            iconCheckmarkBox.classList.contains("icon--checkmark-box-checked")
+          ) {
             iconCheckmarkBox.classList.remove("icon--checkmark-box-checked");
             iconCheckmarkTick.classList.remove("icon--checkmark-tick");
             iconCheckmarkBox.classList.add("icon--checkmark-box");
@@ -78,7 +80,7 @@ export function visualization(config) {
     return;
   }
 
-  function getColumns(config, columns) {
+  function getColumns(_config, columns) {
     let columnDefinition = [];
     columns.forEach((column) => {
       let newColumn = {
@@ -158,9 +160,6 @@ export function visualization(config) {
     data: transformJson(config.data.rows),
     layout: "fitColumns",
     movableColumns: true,
-    persistence: {
-      columns: true,
-    },
     resizableRows: true,
     headerSortClickElement: "icon",
 
@@ -175,11 +174,7 @@ export function visualization(config) {
 
     //configure clipboard to allow copy and paste of range format data
     clipboard: true,
-    clipboardCopyStyled: false,
-    clipboardCopyConfig: {
-      rowHeaders: true,
-      columnHeaders: true,
-    },
+    clipboardCopyStyled: true,
     clipboardCopyRowRange: "range",
     clipboardPasteParser: "range",
     clipboardPasteAction: "range",
@@ -201,7 +196,7 @@ export function visualization(config) {
     ...(config.data.groupRows
       ? {
           groupBy: customGroupFunction,
-          groupHeader: function (value, count, data, group) {
+          groupHeader: function (value, count) {
             return value + "<span>(" + count + " items)</span>";
           },
         }
