@@ -9,7 +9,8 @@
                             {"title":"acronym", "content":"DB", "format":null, "Editable":true}
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"DS029", "format":null, "Editable":true}
+                                {"title":"id", "content":"4", "format":"star", "Editable":true},
+                                {"title":"id2", "content":"4", "format":"star", "Editable":true}
                         ]}
                     ]}],
                     "groupBy":"Domestic"
@@ -23,7 +24,7 @@
                             {"title":"acronym", "content":"DB", "format":null, "Editable":true}
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"DS030", "format":null, "Editable":true}
+                                {"title":"id", "content":"0", "format":"star", "Editable":true}
                         ]}
                     ]}],
                     "groupBy":"Domestic"
@@ -37,10 +38,10 @@
                             {"title":"acronym", "content":"DB", "format":null, "Editable":true}
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"DS031", "format":null, "Editable":true}
+                                {"title":"id", "content":"1", "format":"star", "Editable":true}
                         ]}
                     ]}],
-                    "groupBy":"Domestic"
+                    "groupBy":"International"
                 },
                 {
                     "columns" : [
@@ -51,10 +52,10 @@
                             {"title":"acronym", "content":"DB", "format":null, "Editable":true}
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"DS032", "format":null, "Editable":true}
+                                {"title":"id", "content":"2", "format":"star", "Editable":true}
                         ]}
                     ]}],
-                    "groupBy":"Domestic"
+                    "groupBy":"International"
                 },
                 {
                     "columns" : [
@@ -65,7 +66,7 @@
                             {"title":"acronym", "content":"DB", "format":null, "Editable":true}
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"DS033", "format":null, "Editable":true}
+                                {"title":"id", "content":"5", "format":"star", "Editable":true}
                         ]}
                     ]}],
                     "groupBy":"Domestic"
@@ -79,10 +80,10 @@
                             {"title":"acronym", "content":"DI", "format":null, "Editable":true}
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"DS034", "format":null, "Editable":true}
+                                {"title":"id", "content":"4", "format":"star", "Editable":true}
                         ]}
                     ]}],
-                    "groupBy":"Domestic"
+                    "groupBy":"International"
                 },
                 {
                     "columns" : [
@@ -93,13 +94,14 @@
                             {"title":"acronym", "content":"DI", "format":null, "Editable":true}
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"DS034", "format":null, "Editable":true}
+                                {"title":"id", "content":"3", "format":"star", "Editable":true}
                         ]}
                     ]}],
-                    "groupBy":"Domestic"
+                    "groupBy":"International"
                 }
             ],
         "groupRows": true,
-        "colorOption" : null
+        "wrapText": true,
+        "colorOption": null
     }
 }

@@ -1,5 +1,8 @@
 import { TabulatorFull as Tabulator } from "tabulator-tables";
-import { setVisualizerStyle } from "../visualizerStyles/visualizerStyles.js";
+import {
+  setVisualizerStyle,
+  enableTextWrapping,
+} from "../visualizerStyles/visualizerStyles.js";
 import { getFormat, formatDate } from "../formatters/formatters.js";
 
 export function visualization(config) {
@@ -9,21 +12,31 @@ export function visualization(config) {
 
   setVisualizerStyle(config.data.colorOption, config.data.groupRows);
 
+  if (config.data.wrapText) {
+    enableTextWrapping();
+  }
+
   function headerMenu(columnGroup) {
-    var menu = [];
+    let menu = [];
 
     if (columnGroup.columns.length > 1) {
       //create checkbox element using font awesome icons
-      let icon = document.createElement("i");
-      icon.classList.add("ph--check-square-fill");
+      let iconContainer = document.createElement("i");
+      let iconCheckmarkBox = document.createElement("i");
+      let iconCheckmarkTick = document.createElement("i");
+      iconContainer.classList.add("icon--container");
+      iconCheckmarkBox.classList.add("icon--checkmark-box-checked");
+      iconCheckmarkTick.classList.add("icon--checkmark-tick");
 
       //build label
       let label = document.createElement("span");
       let title = document.createElement("span");
-
+      title.classList.add("icon--title");
       title.textContent = " Expanded";
 
-      label.appendChild(icon);
+      label.appendChild(iconContainer);
+      iconContainer.appendChild(iconCheckmarkBox);
+      iconCheckmarkBox.appendChild(iconCheckmarkTick);
       label.appendChild(title);
 
       //create menu item
@@ -36,7 +49,7 @@ export function visualization(config) {
               columnsToToggle[columnGroup.columns[i].title] = true;
             }
           }
-          
+
           //toggle current column visibility
           table.getColumns().forEach((column) => {
             if (columnsToToggle[column.getField()]) {
@@ -44,12 +57,16 @@ export function visualization(config) {
             }
           });
 
-          if (icon.classList.contains("ph--check-square-fill")) {
-            icon.classList.remove("ph--check-square-fill");
-            icon.classList.add("ph--square-bold");
+          if (iconCheckmarkBox.classList.contains("icon--checkmark-box-checked")) {
+            iconCheckmarkBox.classList.remove("icon--checkmark-box-checked");
+            iconCheckmarkTick.classList.remove("icon--checkmark-tick");
+            iconCheckmarkBox.classList.add("icon--checkmark-box");
+            iconCheckmarkTick.classList.add("icon--checkmark-tick-hidden");
           } else {
-            icon.classList.remove("ph--square-bold");
-            icon.classList.add("ph--check-square-fill");
+            iconCheckmarkBox.classList.remove("icon--checkmark-box");
+            iconCheckmarkTick.classList.remove("icon--checkmark-tick-hidden");
+            iconCheckmarkBox.classList.add("icon--checkmark-box-checked");
+            iconCheckmarkTick.classList.add("icon--checkmark-tick");
           }
 
           table.redraw();
@@ -76,7 +93,7 @@ export function visualization(config) {
           getFormat[column.format] ||
           (column.format && column.format.includes("%")
             ? (cell) => formatDate(cell, column.format)
-            : column.format)
+            : column.format),
       };
 
       columnDefinition.push(newColumn);
@@ -96,24 +113,24 @@ export function visualization(config) {
 
     if (rows[0].columnGroups) {
       rows[0].columnGroups.forEach((columnGroup) => {
-        let newColumns = []
+        let newColumns = [];
 
         if (columnGroup.columns) {
-            getColumns(config, columnGroup.columns).forEach((column) => {
-              newColumns.push(column);
-            });
+          getColumns(config, columnGroup.columns).forEach((column) => {
+            newColumns.push(column);
+          });
         }
 
         if (columnGroup.columnGroupsInGroup) {
           columnGroup.columnGroupsInGroup.forEach((columnGroupInGroup) => {
-             if (columnGroupInGroup.columns) {
-               let newColumnGroupInGroup = {
-                 title: columnGroupInGroup.title,
-                 columns: getColumns(config, columnGroupInGroup.columns),
-                 headerMenu: headerMenu(columnGroupInGroup),
-               };
-               newColumns.push(newColumnGroupInGroup)
-              }
+            if (columnGroupInGroup.columns) {
+              let newColumnGroupInGroup = {
+                title: columnGroupInGroup.title,
+                columns: getColumns(config, columnGroupInGroup.columns),
+                headerMenu: headerMenu(columnGroupInGroup),
+              };
+              newColumns.push(newColumnGroupInGroup);
+            }
           });
         }
 
@@ -123,7 +140,7 @@ export function visualization(config) {
           headerMenu: headerMenu(columnGroup),
         };
 
-        columnDefinition.push(newColumnGroup)
+        columnDefinition.push(newColumnGroup);
       });
     }
     return columnDefinition;
@@ -131,9 +148,9 @@ export function visualization(config) {
 
   function customGroupFunction(data) {
     if (data.groupBy) {
-      return data.groupBy
+      return data.groupBy;
     }
-    return "Other"
+    return "Other";
   }
 
   var table = new Tabulator(testDiv, {
@@ -141,6 +158,11 @@ export function visualization(config) {
     data: transformJson(config.data.rows),
     layout: "fitColumns",
     movableColumns: true,
+    persistence: {
+      columns: true,
+    },
+    resizableRows: true,
+    headerSortClickElement: "icon",
 
     //enable range selection
     selectableRange: 1,
@@ -171,20 +193,19 @@ export function visualization(config) {
       formatter: "rownum",
       cssClass: "range-header-col",
       editor: false,
-    },
-
-    //setup cells to work as a spreadsheet
-    columnDefaults: {
       headerSort: false,
     },
+
     columns: createColumnDefinition(config, config.data.rows),
 
-    ...(config.data.groupRows ? {
-      groupBy: customGroupFunction,
-      groupHeader:function(value, count, data, group){
-        return value + "<span>(" + count + " items)</span>";
-      },
-    } : {}),
+    ...(config.data.groupRows
+      ? {
+          groupBy: customGroupFunction,
+          groupHeader: function (value, count, data, group) {
+            return value + "<span>(" + count + " items)</span>";
+          },
+        }
+      : {}),
   });
 
   elem.appendChild(testDiv);
@@ -229,7 +250,7 @@ function transformJson(rows) {
         }
       });
     }
-    if(row.groupBy) {
+    if (row.groupBy) {
       dataRow["groupBy"] = row.groupBy;
     }
     newData.push(dataRow);
