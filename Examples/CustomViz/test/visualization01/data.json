@@ -2,108 +2,109 @@
     "rows" : [
                 {
                     "columns" : [
-                        {"title":"name", "content":"Bristol", "format":null, "Editable":true}
+                        {"title":"name", "content":"Bristol", "format":null, "editable":true}
                     ],
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
-                            {"title":"acronym", "content":"DB", "format":null, "Editable":true}
+                            {"title":"acronym", "content":"DB", "format":null, "editable":true}
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"4", "format":"star", "Editable":true},
-                                {"title":"date", "content":"2024-07-22T12:07:32Z", "format":"%dd-%MM-%yyyy", "Editable":true},
-                                {"title":"date2", "content":"2024-07-22T12:07:32Z", "format":"", "Editable":true},
-                                {"title":"date3", "content":"2024-07-22T12:07:32Z", "format":"datetime", "Editable":true}
+                                {"title":"id", "content":"4", "format":"star", "editable":true},
+                                {"title":"date", "content":"2024-07-22T12:07:32Z", "format":"%dd-%MM-%yyyy", "editable":true},
+                                {"title":"date2", "content":"2024-07-22T12:07:32Z", "format":"", "editable":true},
+                                {"title":"date3", "content":"2024-07-22T12:07:32Z", "format":"datetime", "editable":true}
+                        ]}
+                    ]}],
+                    "groupBy":"Domestic",
+                    "groupRows": true
+                },
+                {
+                    "columns" : [
+                        {"title":"name", "content":"Manchester United", "format":null, "editable":true}
+                    ],
+                    "columnGroups" : [
+                        {"title":"New Group 1", "columns": [
+                            {"title":"acronym", "content":"DB", "format":null, "editable":true}
+                        ], "columnGroupsInGroup": [
+                            {"title":"New Group 2", "columns": [
+                                {"title":"id", "content":"0", "format":"star", "editable":true}
                         ]}
                     ]}],
                     "groupBy":"Domestic"
                 },
                 {
                     "columns" : [
-                        {"title":"name", "content":"Manchester United", "format":null, "Editable":true}
+                        {"title":"name", "content":"Spain", "format":null, "editable":true}
                     ],
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
-                            {"title":"acronym", "content":"DB", "format":null, "Editable":true}
+                            {"title":"acronym", "content":"DB", "format":null, "editable":true}
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"0", "format":"star", "Editable":true}
+                                {"title":"id", "content":"1", "format":"star", "editable":true}
+                        ]}
+                    ]}],
+                    "groupBy":"International"
+                },
+                {
+                    "columns" : [
+                        {"title":"name", "content":"England", "format":null, "editable":true}
+                    ],
+                    "columnGroups" : [
+                        {"title":"New Group 1", "columns": [
+                            {"title":"acronym", "content":"DB", "format":null, "editable":true}
+                        ], "columnGroupsInGroup": [
+                            {"title":"New Group 2", "columns": [
+                                {"title":"id", "content":"2", "format":"star", "editable":true}
+                        ]}
+                    ]}],
+                    "groupBy":"International"
+                },
+                {
+                    "columns" : [
+                        {"title":"name", "content":"Manchester City", "format":null, "editable":true}
+                    ],
+                    "columnGroups" : [
+                        {"title":"New Group 1", "columns": [
+                            {"title":"acronym", "content":"DB", "format":null, "editable":true}
+                        ], "columnGroupsInGroup": [
+                            {"title":"New Group 2", "columns": [
+                                {"title":"id", "content":"5", "format":"star", "editable":true}
                         ]}
                     ]}],
                     "groupBy":"Domestic"
                 },
                 {
                     "columns" : [
-                        {"title":"name", "content":"Spain", "format":null, "Editable":true}
+                        {"title":"name", "content":"Germany", "format":null, "editable":true}
                     ],
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
-                            {"title":"acronym", "content":"DB", "format":null, "Editable":true}
+                            {"title":"acronym", "content":"DI", "format":null, "editable":true}
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"1", "format":"star", "Editable":true}
+                                {"title":"id", "content":"4", "format":"star", "editable":true}
                         ]}
                     ]}],
                     "groupBy":"International"
                 },
                 {
                     "columns" : [
-                        {"title":"name", "content":"England", "format":null, "Editable":true}
+                        {"title":"name", "content":"France", "format":null, "editable":true}
                     ],
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
-                            {"title":"acronym", "content":"DB", "format":null, "Editable":true}
+                            {"title":"acronym", "content":"DI", "format":null, "editable":true}
                         ], "columnGroupsInGroup": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"2", "format":"star", "Editable":true}
-                        ]}
-                    ]}],
-                    "groupBy":"International"
-                },
-                {
-                    "columns" : [
-                        {"title":"name", "content":"Manchester City", "format":null, "Editable":true}
-                    ],
-                    "columnGroups" : [
-                        {"title":"New Group 1", "columns": [
-                            {"title":"acronym", "content":"DB", "format":null, "Editable":true}
-                        ], "columnGroupsInGroup": [
-                            {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"5", "format":"star", "Editable":true}
-                        ]}
-                    ]}],
-                    "groupBy":"Domestic"
-                },
-                {
-                    "columns" : [
-                        {"title":"name", "content":"Germany", "format":null, "Editable":true}
-                    ],
-                    "columnGroups" : [
-                        {"title":"New Group 1", "columns": [
-                            {"title":"acronym", "content":"DI", "format":null, "Editable":true}
-                        ], "columnGroupsInGroup": [
-                            {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"4", "format":"star", "Editable":true}
-                        ]}
-                    ]}],
-                    "groupBy":"International"
-                },
-                {
-                    "columns" : [
-                        {"title":"name", "content":"France", "format":null, "Editable":true}
-                    ],
-                    "columnGroups" : [
-                        {"title":"New Group 1", "columns": [
-                            {"title":"acronym", "content":"DI", "format":null, "Editable":true}
-                        ], "columnGroupsInGroup": [
-                            {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"3", "format":"star", "Editable":true}
+                                {"title":"id", "content":"3", "format":"star", "editable":true}
                         ]}
                     ]}],
                     "groupBy":"International"
                 }
             ],
-        "groupRows": true,
-        "wrapText": true,
-        "colorOption": null
-    }
+    "wrapText": true,
+    "colorOption": null,
+    "headerFilter":false
+  }
 }

@@ -80,14 +80,14 @@ export function visualization(config) {
     return;
   }
 
-  function getColumns(_config, columns) {
+  function getColumns(config, columns) {
     let columnDefinition = [];
     columns.forEach((column) => {
       let newColumn = {
         title: column.title,
         field: column.title,
-        editor: column.Editable,
-        headerFilter: "input",
+        editor: column.editable,
+        headerFilter: (config.data.headerFilter ? "input" : null),
         // cellClick: function (e, cell) {
         //   config.functions.performAction("Cell Click", cell.getInitialValue, e);
         // },
@@ -193,7 +193,7 @@ export function visualization(config) {
 
     columns: createColumnDefinition(config, config.data.rows),
 
-    ...(config.data.groupRows
+    ...(config.data.rows[0].groupRows
       ? {
           groupBy: customGroupFunction,
           groupHeader: function (value, count) {
