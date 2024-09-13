@@ -2,7 +2,7 @@ type Column{
     title: String! @UI (
         default: "Column Name"
         name: "Column Name"
-        heading: "This is the column title that will be displayed in the header."
+        heading: "The column title that will be displayed in the header."
     )
 
     content: Any @UI (
