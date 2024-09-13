@@ -7,11 +7,11 @@
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
                             {"title":"acronym", "content":"DB", "format":null, "editable":true}
-                        ], "columnGroupsInGroup": [
+                        ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
                                 {"title":"id", "content":"4", "format":"star", "editable":true},
                                 {"title":"date", "content":"2024-07-22T12:07:32Z", "format":"%dd-%MM-%yyyy", "editable":true},
-                                {"title":"date2", "content":"2024-07-22T12:07:32Z", "format":"", "editable":true},
+                                {"title":"date2", "content":"2024-07-22T12:07:32Z", "format":null, "editable":true},
                                 {"title":"date3", "content":"2024-07-22T12:07:32Z", "format":"datetime", "editable":true}
                         ]}
                     ]}],
@@ -25,7 +25,7 @@
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
                             {"title":"acronym", "content":"DB", "format":null, "editable":true}
-                        ], "columnGroupsInGroup": [
+                        ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
                                 {"title":"id", "content":"0", "format":"star", "editable":true}
                         ]}
@@ -39,7 +39,7 @@
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
                             {"title":"acronym", "content":"DB", "format":null, "editable":true}
-                        ], "columnGroupsInGroup": [
+                        ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
                                 {"title":"id", "content":"1", "format":"star", "editable":true}
                         ]}
@@ -53,7 +53,7 @@
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
                             {"title":"acronym", "content":"DB", "format":null, "editable":true}
-                        ], "columnGroupsInGroup": [
+                        ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
                                 {"title":"id", "content":"2", "format":"star", "editable":true}
                         ]}
@@ -67,7 +67,7 @@
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
                             {"title":"acronym", "content":"DB", "format":null, "editable":true}
-                        ], "columnGroupsInGroup": [
+                        ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
                                 {"title":"id", "content":"5", "format":"star", "editable":true}
                         ]}
@@ -81,7 +81,7 @@
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
                             {"title":"acronym", "content":"DI", "format":null, "editable":true}
-                        ], "columnGroupsInGroup": [
+                        ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
                                 {"title":"id", "content":"4", "format":"star", "editable":true}
                         ]}
@@ -95,7 +95,7 @@
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
                             {"title":"acronym", "content":"DI", "format":null, "editable":true}
-                        ], "columnGroupsInGroup": [
+                        ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
                                 {"title":"id", "content":"3", "format":"star", "editable":true}
                         ]}
