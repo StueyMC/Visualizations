@@ -4,6 +4,7 @@ import {
   enableTextWrapping,
 } from "../visualizerStyles/visualizerStyles.js";
 import { getFormat, formatDate } from "../formatters/formatters.js";
+import { getEditor } from "../formatters/editors.js"
 
 export function visualization(config) {
   var elem = document.getElementById(config.element);
@@ -86,7 +87,7 @@ export function visualization(config) {
       let newColumn = {
         title: column.title,
         field: column.title,
-        editor: column.editable,
+        editor: (column.editable ? getEditor(column.format) || true : false),
         headerFilter: (config.data.headerFilter ? "input" : null),
         // cellClick: function (e, cell) {
         //   config.functions.performAction("Cell Click", cell.getInitialValue, e);
@@ -123,15 +124,15 @@ export function visualization(config) {
           });
         }
 
-        if (columnGroup.columnGroupsInGroup) {
-          columnGroup.columnGroupsInGroup.forEach((columnGroupInGroup) => {
-            if (columnGroupInGroup.columns) {
-              let newColumnGroupInGroup = {
-                title: columnGroupInGroup.title,
-                columns: getColumns(config, columnGroupInGroup.columns),
-                headerMenu: headerMenu(columnGroupInGroup),
+        if (columnGroup.nestedColumnGroups) {
+          columnGroup.nestedColumnGroups.forEach((nestedColumnGroup) => {
+            if (nestedColumnGroup.columns) {
+              let newNestedColumnGroup = {
+                title: nestedColumnGroup.title,
+                columns: getColumns(config, nestedColumnGroup.columns),
+                headerMenu: headerMenu(nestedColumnGroup),
               };
-              newColumns.push(newColumnGroupInGroup);
+              newColumns.push(newNestedColumnGroup);
             }
           });
         }
@@ -233,10 +234,10 @@ function transformJson(rows) {
             dataRow[property] = dataObject[property];
           }
         }
-        if (columnGroup.columnGroupsInGroup) {
-          columnGroup.columnGroupsInGroup.forEach((columnGroupInGroup) => {
-            if (columnGroupInGroup.columns) {
-              let dataObject = setRow(columnGroupInGroup.columns);
+        if (columnGroup.nestedColumnGroups) {
+          columnGroup.nestedColumnGroups.forEach((nestedColumnGroup) => {
+            if (nestedColumnGroup.columns) {
+              let dataObject = setRow(nestedColumnGroup.columns);
               for (const property in dataObject) {
                 dataRow[property] = dataObject[property];
               }

@@ -1,31 +1,98 @@
 type Column{
-    title: String! @UI (default: "Column Name" name: "Column Name" heading: "This is some heading text which guides the user.")
-    content: Any @UI (name: "Column Content")
-    format: String @UI (name: "Column Formatting" heading: "Apply formatting e.g. '%dd-%MM-%yyyy' to format a date & time into '12-09-2024'")
-    editable: Boolean @UI (default: False name: "Editable")
+    title: String! @UI (
+        default: "Column Name"
+        name: "Column Name"
+        heading: "This is the column title that will be displayed in the header."
+    )
+
+    content: Any @UI (
+        name: "Column Content"
+        heading: "The data content for this column."
+    )
+
+    format: String @UI (
+        name: "Column Formatting"
+        heading: "Specify how data in this column should be formatted, e.g. '%dd/%MM/%yyyy' for date formatting like '12/09/2024'."
+    )
+
+    editable: Boolean @UI (
+        default: false
+        name: "Editable"
+        heading: "Enable or disable inline editing for this column. When enabled, double-click to edit cells."
+    )
 }
 
-type ColumnGroupInGroup{
-    title: String!
-    columns: [Column]
+type NestedColumnGroup {
+    title: String! @UI (
+        name: "Group Title"
+        heading: "The title of this group."
+    )
+
+    columns: [Column] @UI (
+        name: "Columns in Group"
+        heading: "The columns that belong to this group."
+    )
 }
 
 type ColumnGroup{
-    title: String!
-    columns: [Column]
-    columnGroupsInGroup: [ColumnGroupInGroup]
+    title: String! @UI (
+        name: "Group Title"
+        heading: "The title of this group."
+    )
+
+    columns: [Column] @UI (
+        name: "Columns in Group"
+        heading: "The columns that belong to this group."
+    )
+
+    nestedColumnGroups: [NestedColumnGroup] @UI (
+        name: "Nested Column Groups"
+        heading: "The nested column groups within this group."
+    )
 }
  
 type data { 
-    rows: [row!]!
-    colorOption: String @UI (name: "Colour Option" heading: "Apply a pre-made theme to the data grid e.g. 'Modern'")
-    wrapText: Boolean @UI (default: False name: "Wrap Content" heading: "Wrap content in the data grid")
-    headerFilters: Boolean @UI (default: False name: "Header Filters" heading: "Enable header filters")
+    rows: [row!]! @UI (
+        name: "Row"
+        heading: "The rows of data that will be displayed in the data grid."
+    )
+
+    colorOption: String @UI (
+        name: "Color Option"
+        heading: "Choose a theme to apply to the data grid, e.g. 'Modern'."
+    )
+
+    wrapText: Boolean @UI (
+        default: False
+        name: "Wrap Content"
+        heading: "Enable to wrap long text in cells. If disabled, text will be truncated."
+    )
+
+    headerFilters: Boolean @UI (
+        default: False
+        name: "Header Filters"
+        heading: "Enable to show filters in the column headers."
+    )
 } 
  
 type row implements MooDElement { 
-    columns: [Column]
-    columnGroups: [ColumnGroup]
-    groupRows: Boolean @UI (default: False name: "Enable Row Grouping" heading: "Row Grouping")
-    groupBy: Any @UI (name: "Group Rows By")
+    columns: [Column] @UI (
+        name: "Columns"
+        heading: "The columns for this row."
+    )
+
+    columnGroups: [ColumnGroup] @UI (
+        name: "Column Groups"
+        heading: "The column groups for this row."
+    )
+
+    groupRows: Boolean @UI (
+        default: False
+        name: "Enable Row Grouping"
+        heading: "Enable to group rows based on a specific column or criteria."
+    )
+
+    groupBy: Any @UI (
+        name: "Group Rows By"
+    )
 }
