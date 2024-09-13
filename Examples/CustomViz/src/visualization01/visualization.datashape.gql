@@ -1,8 +1,8 @@
 type Column{
-    title: String!
-    content: Any
-    format: String
-    editable: Boolean
+    title: String! @UI (default: "Column Name" name: "Column Name" heading: "This is some heading text which guides the user.")
+    content: Any @UI (name: "Column Content")
+    format: String @UI (name: "Column Formatting" heading: "Apply formatting e.g. '%dd-%MM-%yyyy' to format a date & time into '12-09-2024'")
+    editable: Boolean @UI (default: False name: "Editable")
 }
 
 type ColumnGroupInGroup{
@@ -18,13 +18,14 @@ type ColumnGroup{
  
 type data { 
     rows: [row!]!
-    colorOption: String
-    groupRows: Boolean
-    wrapText: Boolean
+    colorOption: String @UI (name: "Colour Option" heading: "Apply a pre-made theme to the data grid e.g. 'Modern'")
+    wrapText: Boolean @UI (default: False name: "Wrap Content" heading: "Wrap content in the data grid")
+    headerFilters: Boolean @UI (default: False name: "Header Filters" heading: "Enable header filters")
 } 
  
 type row implements MooDElement { 
     columns: [Column]
     columnGroups: [ColumnGroup]
-    groupBy: Any
+    groupRows: Boolean @UI (default: False name: "Enable Row Grouping" heading: "Row Grouping")
+    groupBy: Any @UI (name: "Group Rows By")
 }
