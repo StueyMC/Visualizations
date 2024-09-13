@@ -89,7 +89,7 @@ type row implements MooDElement {
     groupRows: Boolean @UI (
         default: False
         name: "Enable Row Grouping"
-        heading: "Enable to group rows based on a specific column or criteria."
+        heading: "Group rows based on a specific column or criteria."
     )
 
     groupBy: Any @UI (
