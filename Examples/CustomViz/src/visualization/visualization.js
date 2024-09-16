@@ -1,20 +1,20 @@
 import { TabulatorFull as Tabulator } from "tabulator-tables";
 import {
-  setVisualizerStyle,
-  enableTextWrapping,
-} from "../visualizerStyles/visualizerStyles.js";
+  setVisualizationTheme,
+  setTextWrapping,
+} from "../visualizationThemes/visualizationThemes.js";
 import { getFormat, formatDate } from "../formatters/formatters.js";
-import { getEditor } from "../formatters/editors.js"
+import { getEditorType } from "../formatters/editors.js";
 
 export function visualization(config) {
-  var elem = document.getElementById(config.element);
+  const configData = config.data;
+  const mainElement = document.getElementById(config.element);
+  const tabulatorDiv = document.createElement("div");
 
-  var testDiv = document.createElement("div");
+  setVisualizationTheme(configData.themeOption, configData.groupRows);
 
-  setVisualizerStyle(config.data.colorOption, config.data.groupRows);
-
-  if (config.data.wrapText) {
-    enableTextWrapping();
+  if (configData.wrapText) {
+    setTextWrapping();
   }
 
   function headerMenu(columnGroup) {
@@ -22,12 +22,13 @@ export function visualization(config) {
 
     if (columnGroup.columns.length > 1) {
       //create checkbox element using font awesome icons
-      let iconContainer = document.createElement("i");
-      let iconCheckmarkBox = document.createElement("i");
-      let iconCheckmarkTick = document.createElement("i");
-      iconContainer.classList.add("icon--container");
-      iconCheckmarkBox.classList.add("icon--checkmark-box-checked");
-      iconCheckmarkTick.classList.add("icon--checkmark-tick");
+      let checkmarkContainer = document.createElement("i");
+      let checkmarkBoxIcon = document.createElement("i");
+      let checkmarkTickIcon = document.createElement("i");
+
+      checkmarkContainer.classList.add("icon--container");
+      checkmarkBoxIcon.classList.add("icon--checkmark-box-checked");
+      checkmarkTickIcon.classList.add("icon--checkmark-tick");
 
       //build label
       let label = document.createElement("span");
@@ -35,9 +36,9 @@ export function visualization(config) {
       title.classList.add("icon--title");
       title.textContent = " Expanded";
 
-      label.appendChild(iconContainer);
-      iconContainer.appendChild(iconCheckmarkBox);
-      iconCheckmarkBox.appendChild(iconCheckmarkTick);
+      label.appendChild(checkmarkContainer);
+      checkmarkContainer.appendChild(checkmarkBoxIcon);
+      checkmarkBoxIcon.appendChild(checkmarkTickIcon);
       label.appendChild(title);
 
       //create menu item
@@ -59,17 +60,17 @@ export function visualization(config) {
           });
 
           if (
-            iconCheckmarkBox.classList.contains("icon--checkmark-box-checked")
+            checkmarkBoxIcon.classList.contains("icon--checkmark-box-checked")
           ) {
-            iconCheckmarkBox.classList.remove("icon--checkmark-box-checked");
-            iconCheckmarkTick.classList.remove("icon--checkmark-tick");
-            iconCheckmarkBox.classList.add("icon--checkmark-box");
-            iconCheckmarkTick.classList.add("icon--checkmark-tick-hidden");
+            checkmarkBoxIcon.classList.remove("icon--checkmark-box-checked");
+            checkmarkTickIcon.classList.remove("icon--checkmark-tick");
+            checkmarkBoxIcon.classList.add("icon--checkmark-box");
+            checkmarkTickIcon.classList.add("icon--checkmark-tick-hidden");
           } else {
-            iconCheckmarkBox.classList.remove("icon--checkmark-box");
-            iconCheckmarkTick.classList.remove("icon--checkmark-tick-hidden");
-            iconCheckmarkBox.classList.add("icon--checkmark-box-checked");
-            iconCheckmarkTick.classList.add("icon--checkmark-tick");
+            checkmarkBoxIcon.classList.remove("icon--checkmark-box");
+            checkmarkTickIcon.classList.remove("icon--checkmark-tick-hidden");
+            checkmarkBoxIcon.classList.add("icon--checkmark-box-checked");
+            checkmarkTickIcon.classList.add("icon--checkmark-tick");
           }
 
           table.redraw();
@@ -81,14 +82,14 @@ export function visualization(config) {
     return;
   }
 
-  function getColumns(config, columns) {
+  function getColumns(_config, columns) {
     let columnDefinition = [];
     columns.forEach((column) => {
       let newColumn = {
         title: column.title,
         field: column.title,
-        editor: (column.editable ? getEditor(column.format) || true : false),
-        headerFilter: (config.data.headerFilter ? "input" : null),
+        editor: column.editable ? getEditorType(column.format) || true : false,
+        headerFilter: configData.headerFilters ? "input" : null,
         // cellClick: function (e, cell) {
         //   config.functions.performAction("Cell Click", cell.getInitialValue, e);
         // },
@@ -149,16 +150,13 @@ export function visualization(config) {
     return columnDefinition;
   }
 
-  function customGroupFunction(data) {
-    if (data.groupBy) {
-      return data.groupBy;
-    }
-    return "Other";
+  function getGroupHeader(data) {
+    return data.groupBy || "Other";
   }
 
-  var table = new Tabulator(testDiv, {
+  var table = new Tabulator(tabulatorDiv, {
     height: "350px",
-    data: transformJson(config.data.rows),
+    data: transformJson(configData.rows),
     layout: "fitColumns",
     movableColumns: true,
     resizableRows: true,
@@ -192,11 +190,11 @@ export function visualization(config) {
       headerSort: false,
     },
 
-    columns: createColumnDefinition(config, config.data.rows),
+    columns: createColumnDefinition(config, configData.rows),
 
-    ...(config.data.rows[0].groupRows
+    ...(configData.rows[0].groupRows
       ? {
-          groupBy: customGroupFunction,
+          groupBy: getGroupHeader,
           groupHeader: function (value, count) {
             return value + "<span>(" + count + " items)</span>";
           },
@@ -204,7 +202,7 @@ export function visualization(config) {
       : {}),
   });
 
-  elem.appendChild(testDiv);
+  mainElement.appendChild(tabulatorDiv);
 }
 
 function transformJson(rows) {

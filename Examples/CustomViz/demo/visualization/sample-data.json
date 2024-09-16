@@ -104,7 +104,7 @@
                 }
             ],
     "wrapText": true,
-    "colorOption": null,
-    "headerFilter":false
+    "themeOption": null,
+    "headerFilters":true
   }
 }

@@ -1,6 +1,6 @@
-import { visualization } from "../../src/visualization01/visualization";
+import { visualization } from "../../src/visualization/visualization";
 import MooDConfig from "./MooDConfig.json";
-import dataConfig from "./data.json";
+import dataConfig from "./sample-data.json";
 import styleConfig from "./style.json";
 import inputsConfig from "./inputs.json";
 

@@ -15,15 +15,15 @@ module.exports = merge(common, {
     ],
   },
   entry: fs
-    .readdirSync(path.join(__dirname, "test"))
-    .filter((d) => fs.lstatSync(path.join(__dirname, "test", d)).isDirectory())
+    .readdirSync(path.join(__dirname, "demo"))
+    .filter((d) => fs.lstatSync(path.join(__dirname, "demo", d)).isDirectory())
     .reduce(function (prev, current) {
-      prev[current] = path.join(__dirname, "test", current, "visualization.js");
+      prev[current] = path.join(__dirname, "demo", current, "demo-visualization.js");
       return prev;
     }, {}),
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./test/template.html",
+      template: "./demo/template.html",
     }),
   ],
   mode: "development",

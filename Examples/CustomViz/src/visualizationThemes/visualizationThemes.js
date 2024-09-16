@@ -1,4 +1,4 @@
-const styleOptions = {
+const themeOptions = {
   midnight: {
     properties: {
       /*Main Theme Variables*/
@@ -149,53 +149,56 @@ const styleOptions = {
   },
 };
 
-const textWrappingCSS = [
+const wrapTextCSS = [
   ".tabulator-row .tabulator-cell {white-space: normal !important; word-break: break-word}",
   ".tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title {white-space: normal !important; word-break: break-word}",
 ];
 
-export const setVisualizerStyle = (colorOption, groupRows) => {
-  if (colorOption && styleOptions[colorOption.toLowerCase()]) {
-    const root = document.querySelector(":root");
-    const myStyleSheet = document.styleSheets[0];
-    const styleOption = styleOptions[colorOption.toLowerCase()];
+export const setVisualizationTheme = (theme, groupRows) => {
+  const root = document.querySelector(":root");
 
-    for (let key in styleOption.rules) {
-      myStyleSheet.insertRule(
-        styleOption.rules[key],
-        myStyleSheet.cssRules.length
-      );
-    }
-
-    for (let key in styleOption.properties) {
-      root.style.setProperty(key, styleOption.properties[key]);
-    }
-
+  if (!theme) {
     if (groupRows) {
-      for (let key in styleOption.groupProperties) {
-        root.style.setProperty(key, styleOption.groupProperties[key]);
-      }
-    }
-  } else {
-    if (groupRows) {
-      const root = document.querySelector(":root");
-      const styleOption = {
-        groupProperties: {
-          "--rowBackgroundColor": "#fff",
-          "--rowAltBackgroundColor": "#fff",
-        },
+      const defaultGroupProperties = {
+        "--rowBackgroundColor": "#fff",
+        "--rowAltBackgroundColor": "#fff",
       };
 
-      for (let key in styleOption.groupProperties) {
-        root.style.setProperty(key, styleOption.groupProperties[key]);
-      }
+      Object.entries(defaultGroupProperties).forEach(([key, value]) => {
+        root.style.setProperty(key, value);
+      });
+    }
+    return;
+  }
+
+  const themeLower = theme.toLowerCase();
+  const themeOption = themeOptions[themeLower];
+
+  if (themeOption) {
+    const myStyleSheet = document.styleSheets[0];
+
+    Object.entries(themeOption.rules).forEach(([key, value]) => {
+      myStyleSheet.insertRule(
+        value,
+        myStyleSheet.cssRules.length
+      );
+    });
+
+    Object.entries(themeOption.properties).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
+    });
+
+    if (groupRows && themeOption.groupProperties) {
+      Object.entries(themeOption.groupProperties).forEach(([key, value]) => {
+        root.style.setProperty(key, value);
+      });
     }
   }
 };
 
-export const enableTextWrapping = () => {
+export const setTextWrapping = () => {
   const myStyleSheet = document.styleSheets[0];
-  textWrappingCSS.forEach((rule) => {
+  wrapTextCSS.forEach((rule) => {
     myStyleSheet.insertRule(rule, myStyleSheet.cssRules.length);
   });
 };
