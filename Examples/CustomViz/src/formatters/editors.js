@@ -1,22 +1,17 @@
-export const getEditor = (formatter) => {
-  if (!formatter) {
+const dateFormats = ["datetime", "date", "time"];
+
+export const getEditorType = (format) => {
+  if (!format) {
     return;
   }
-  if (formatter.includes("%")) {
+
+  if (format.includes("%")) {
     return "date";
-  } else {
-    switch (formatter) {
-      case "datetime":
-        return "date";
-
-      case "date":
-        return "date";
-
-      case "time":
-        return "date";
-
-      default:
-        return true;
-    }
   }
+
+  if (dateFormats.includes(format)) {
+    return "date";
+  }
+
+  return true;
 };

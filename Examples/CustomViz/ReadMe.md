@@ -1,66 +1,94 @@
-# How to use this template
+# MooD - Custom Visualization
 
-Note that the repository top level [README](../../README.md) has a much more detailed explanation of how to use the templates.
+## Description
 
-First you'll need to set up Visual Studio Code and Node, see [Development Environment](../../README.md#development-environment)
+A solution for MooD to provide an improved, accessible and user friendly DataGrid component so that anyone can consume and interact with Tabulator data from MooD on the web using keyboard functionality and/or Assistive Technology.
 
-Next open this file: ```WebpackReactVisualizationTemplate.code-workspace```
-
-Remember to run: ```npm install``` before doing anything else, this will install the relevant node modules.
-
-## The folder structure
-
+#### File Structure
 - root
   - Files which are used by Node
-  - The final visualizations.zip file
-  - package.json (containing a list of commands you can use with ```npm run```)
+  - The final `custom_viz.zip` file
+  - package.json (containing a list of commands you can use with `npm run`)
 - src
-  - visualization01
-    - This is where you can edit your custom visualization code
-- test
-  - A folder where you can add your automated test scaffolding (run using ```npm run test```)
+  - visualization
+    - __tests__
+      - A folder where you can add automated unit tests
+    - visualization.js
+      - This is where you can edit your custom visualizer code
+  - formatters
+    - editors.js
+      - This is where you can override the column's editor depending on the chosen formatter
+    - formatters.js
+      - This is where you can add or edit custom pre-built formatters
+  - visualizationThemes
+    - visualizationThemes.js
+      - This is where you can add or edit custom pre-built themes for the visualizer
+- demo
+  - A folder containing a demo of the visualization using fixed data that you can run on the web
 - dist
   - An automatically generated output folder
 - node_modules
   - Another automatically generated output folder
 
-## Getting started
+## Installation
 
-Look in the following files for visualization names / descriptions. I'm going to assume you want a single Custom Visualization inside this package.
+### Prerequisites
+
+Node version 20.17.0 or later.\
+
+### Suggested Development Tools
+
+VS Code v1.89.1 or later.\
+Prettier VS Code Extension v10.4.0 or later.\
+ESLint VS Code Extension v2.4.4 or later.
+
+### Getting Started
+
+1. Set up Visual Studio Code and Node, see [Development Environment](../../README.md#development-environment)
+2. Open this file: ```WebpackVisualization.code-workspace```
+3. Run `npm install` to install the relevant node modules
+
+### How To Use
 
 - src\package.json.no-guid.ejs
-- src\visualization01\package.json.no-guid.ejs
+- src\visualizer\package.json.no-guid.ejs
 
 > The purpose of these files is to automatically generate a unique ID for the package/visualization.
 
-Now run this command: ```npm run generate-guids```
+1. Run `npm run generate-guids`
 
-Which will produce these 2 files:
+This will produce these 2 files:
 
 - src\package.json.ejs
-- src\visualization01\package.json.ejs
+- src\visualizer\package.json.ejs
 
 > The purpose of these files is to automatically increment the version number every time you build
 
-Now you can run: ```npm run build```
+2. Run `npm run build`
 
 Which will produce:
 
 - src\package.json
-- src\visualization01\package.json
-- visualizations.zip
+- src\visualizer\package.json
+- custom_viz.zip
 
 > These are automatically generated files which you shouldn't manually edit.
 
-You should also choose a preview image by changing ```visualization.png```.
+You can now import the `custom_viz.zip` file in to MooD.
 
-## Editing your custom visualization
+To test the visualizer, run `npm run test .` to run all the automated unit tests.
 
-You can run: ```npm run start```
+### Demo Visualization
 
-This will open your browser showing test-page.html. You can now start modifying the visualization code.
+Run `npm run start` to run the demo-visualization on [http://localhost:8080/](http://localhost:8080/). This will open your browser showing template.html.
+
+The demo visualization page will reload when you make changes to the main visualization code.
+
 Interesting files:
 
 - visualization.js: This is where your main code lives.
-- test-page.js: Hooks the test page in to the main visualization code.
-- data.json: This file passes test data in to your test visualization page.
+- demo-visualization.js: Hooks the template page in to the main visualization code.
+- sample-data.json: This file passes fixed test data in to your demo visualization page.
+
+
+You should also choose a preview image by changing ```visualization.png```.

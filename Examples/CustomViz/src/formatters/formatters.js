@@ -1,4 +1,4 @@
-const days = [
+const daysOfWeek = [
   "Sunday",
   "Monday",
   "Tuesday",
@@ -7,8 +7,8 @@ const days = [
   "Friday",
   "Saturday",
 ];
-const daysShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const months = [
+const daysOfWeekShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const monthsOfYear = [
   "January",
   "February",
   "March",
@@ -22,7 +22,7 @@ const months = [
   "November",
   "December",
 ];
-const monthsShort = [
+const monthsOfYearShort = [
   "Jan",
   "Feb",
   "Mar",
@@ -38,71 +38,80 @@ const monthsShort = [
 ];
 
 const isDateValid = (dateStr) => {
-  return !isNaN(new Date(dateStr));
+  return !isNaN(Date.parse(dateStr));
 };
 
 export const formatDate = (cell, format) => {
-  if (isDateValid(cell.getValue())) {
-    const d = new Date(cell.getValue());
-    const fullYear = d.getFullYear().toString();
-    const yearShort = fullYear.slice(-2);
-    const fullMonth = months[d.getMonth()];
-    const monthShort = monthsShort[d.getMonth()];
-    const month = (d.getMonth() + 1).toString().padStart("2", 0);
-    const fullDay = days[d.getDay()];
-    const dayShort = daysShort[d.getDay()];
-    const date = d.getDate().toString().padStart("2", 0);
-    const hours = d.getHours().toString().padStart("2", 0);
-    const hour = d.getHours().toString();
-    const minutes = d.getMinutes().toString().padStart("2", 0);
-    const seconds = d.getSeconds().toString().padStart("2", 0);
-    const milliseconds = d.getMilliseconds().toString();
-    const terrestrialTime = hours >= 12 ? "PM" : "AM";
+  const cellValue = cell.getValue();
 
-    const formattedDate = format
-      .replace("%ms", milliseconds)
-      .replace("%ss", seconds)
-      .replace("%mm", minutes)
-      .replace("%HH", hours)
-      .replace("%hh", hours)
-      .replace("%H", hour)
-      .replace("%h", hour)
-      .replace("%dddd", fullDay)
-      .replace("%ddd", dayShort)
-      .replace("%dd", date)
-      .replace("%MMMM", fullMonth)
-      .replace("%MMM", monthShort)
-      .replace("%MM", month)
-      .replace("%yyyy", fullYear)
-      .replace("%yy", yearShort)
-      .replace("%tt", terrestrialTime);
-
-    return formattedDate;
+  if (!isDateValid(cellValue)) {
+    return "";
   }
+
+  const dateObj = new Date(cellValue);
+
+  const yearFull = dateObj.getFullYear().toString();
+  const yearTwoDigit = yearFull.slice(-2);
+  const monthIndex = dateObj.getMonth();
+  const dayIndex = dateObj.getDay();
+
+  const monthFullName = monthsOfYear[monthIndex];
+  const monthShortName = monthsOfYearShort[monthIndex];
+  const monthNumeric = (monthIndex + 1).toString().padStart("2", 0);
+
+  const dayFullName = daysOfWeek[dayIndex];
+  const dayShortName = daysOfWeekShort[dayIndex];
+  const dayOfMonth = dateObj.getDate().toString().padStart("2", 0);
+
+  const hoursPadded = dateObj.getHours().toString().padStart("2", 0); // Two-digit hour
+  const hours = dateObj.getHours().toString(); // Single-digit hour
+  const minutes = dateObj.getMinutes().toString().padStart("2", 0);
+  const seconds = dateObj.getSeconds().toString().padStart("2", 0);
+  const milliseconds = dateObj.getMilliseconds().toString();
+  const terrestrialTime = hours >= 12 ? "PM" : "AM";
+
+  return `${format
+    .replace("%ms", milliseconds)
+    .replace("%ss", seconds)
+    .replace("%mm", minutes)
+    .replace("%HH", hoursPadded)
+    .replace("%hh", hoursPadded)
+    .replace("%H", hours)
+    .replace("%h", hours)
+    .replace("%dddd", dayFullName)
+    .replace("%ddd", dayShortName)
+    .replace("%dd", dayOfMonth)
+    .replace("%MMMM", monthFullName)
+    .replace("%MMM", monthShortName)
+    .replace("%MM", monthNumeric)
+    .replace("%yyyy", yearFull)
+    .replace("%yy", yearTwoDigit)
+    .replace("%tt", terrestrialTime)}`;
 };
 
 export const getFormat = {
-  datetime: function (cell) {
-    if (isDateValid(cell.getValue())) {
-      const d = new Date(cell.getValue());
-      const dateString = d.toDateString() + ", " + d.toLocaleTimeString();
-      return dateString;
+  datetime(cell) {
+    const cellValue = cell.getValue();
+    if (isDateValid(cellValue)) {
+      const dateObj = new Date(cell.getValue());
+      return `${dateObj.toDateString()} ${dateObj.toLocaleTimeString()}`;
     }
+    return "";
   },
 
-  date: function (cell) {
-    if (isDateValid(cell.getValue())) {
-      const d = new Date(cell.getValue());
-      const dateString = d.toLocaleDateString();
-      return dateString;
+  date(cell) {
+    const cellValue = cell.getValue();
+    if (isDateValid(cellValue)) {
+      return new Date(cellValue).toLocaleDateString;
     }
+    return "";
   },
 
-  time: function (cell) {
-    if (isDateValid(cell.getValue())) {
-      const d = new Date(cell.getValue());
-      const dateString = d.toLocaleTimeString();
-      return dateString;
+  time(cell) {
+    const cellValue = cell.getValue();
+    if (isDateValid(cellValue)) {
+      return new Date(cellValue).toLocaleTimeString;
     }
+    return "";
   },
 };
