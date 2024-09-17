@@ -10,6 +10,11 @@ type Column{
         heading: "The data content for this column."
     )
 
+    width: Number @UI (
+        name: "Column Width"
+        heading: "The width of this column."
+    )
+
     format: String @UI (
         name: "Column Formatting"
         heading: "Specify how data in this column should be formatted, e.g. '%dd/%MM/%yyyy' for date formatting like '12/09/2024'."
@@ -19,6 +24,30 @@ type Column{
         default: false
         name: "Editable"
         heading: "Enable or disable inline editing for this column. When enabled, double-click to edit cells."
+    )
+
+    headerFilter: Boolean @UI (
+        default: false
+        name: "Header Filter"
+        heading: "Enable header filter for this column."
+    )
+
+    headerSort: Boolean @UI (
+        default: false
+        name: "Header Sort"
+        heading: "Show header filter for this column."
+    )
+
+    resizable: Boolean @UI (
+        default: false
+        name: "Resizable Column"
+        heading: "Enable column to be resizable."
+    )
+
+    frozen: Boolean @UI (
+        default: false
+        name: "Frozen Column"
+        heading: "Freeze the column in a fixed place."
     )
 }
 
@@ -66,12 +95,6 @@ type data {
         default: False
         name: "Wrap Content"
         heading: "Enable to wrap long text in cells. If disabled, text will be truncated."
-    )
-
-    headerFilters: Boolean @UI (
-        default: False
-        name: "Header Filters"
-        heading: "Enable to show filters in the column headers."
     )
 } 
  
