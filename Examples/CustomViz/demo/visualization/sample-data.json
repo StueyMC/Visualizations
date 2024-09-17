@@ -105,6 +105,8 @@
                 }
             ],
     "wrapText": true,
-    "themeOption": null
+    "themeOption": null,
+    "headerSorting": true,
+    "headerFiltering": true
   }
 }
