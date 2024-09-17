@@ -35,7 +35,7 @@ type Column{
     headerSort: Boolean @UI (
         default: false
         name: "Header Sort"
-        heading: "Show header filter for this column."
+        heading: "Enable header sorting for this column."
     )
 
     resizable: Boolean @UI (
