@@ -96,6 +96,18 @@ type data {
         name: "Wrap Content"
         heading: "Enable to wrap long text in cells. If disabled, text will be truncated."
     )
+
+    headerFiltering: Boolean @UI (
+        default: False
+        name: "Header Filtering"
+        heading: "Enable header filtering. Allows you to toggle header filtering for each column."
+    )
+
+    headerSorting: Boolean @UI (
+        default: True
+        name: "Header Sorting"
+        heading: "Enable header sorting. Enables you to sort columns in ascending or descending order."
+    )
 } 
  
 type row implements MooDElement { 

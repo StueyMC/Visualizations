@@ -90,10 +90,11 @@ export function visualization(config) {
         field: column.title,
         width: column.width,
         frozen: column.frozen,
-        headerSort: column.headerSort,
+        headerSort: configData.headerSorting ? column.headerSort : false,
         resizable: column.resizable,
         editor: column.editable ? getEditorType(column.format) || true : false,
-        headerFilter: column.headerFilter ? "input" : null,
+        headerFilter:
+          configData.headerFiltering && column.headerFilter ? "input" : null,
         // cellClick: function (e, cell) {
         //   config.functions.performAction("Cell Click", cell.getInitialValue, e);
         // },
