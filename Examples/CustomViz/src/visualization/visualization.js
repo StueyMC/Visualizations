@@ -88,8 +88,12 @@ export function visualization(config) {
       let newColumn = {
         title: column.title,
         field: column.title,
+        width: column.width,
+        frozen: column.frozen,
+        headerSort: column.headerSort,
+        resizable: column.resizable,
         editor: column.editable ? getEditorType(column.format) || true : false,
-        headerFilter: configData.headerFilters ? "input" : null,
+        headerFilter: column.headerFilter ? "input" : null,
         // cellClick: function (e, cell) {
         //   config.functions.performAction("Cell Click", cell.getInitialValue, e);
         // },
@@ -177,18 +181,6 @@ export function visualization(config) {
     clipboardCopyRowRange: "range",
     clipboardPasteParser: "range",
     clipboardPasteAction: "range",
-
-    rowHeader: {
-      title: "ID",
-      resizable: false,
-      frozen: true,
-      width: 40,
-      hozAlign: "center",
-      formatter: "rownum",
-      cssClass: "range-header-col",
-      editor: false,
-      headerSort: false,
-    },
 
     columns: createColumnDefinition(config, configData.rows),
 

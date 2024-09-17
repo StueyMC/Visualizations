@@ -2,17 +2,18 @@
     "rows" : [
                 {
                     "columns" : [
-                        {"title":"name", "content":"Bristol", "format":null, "editable":true}
+                        {"title":"ID", "content":"1", "format":"rownum", "editable":false, "headerFilter":false, "headerSort":false, "width":40, "frozen":true, "resizable":false},
+                        {"title":"name", "content":"Bristol", "format":null, "editable":true, "headerFilter":true, "headerSort":true, "width":null, "frozen":false, "resizable":true}
                     ],
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
-                            {"title":"acronym", "content":"DB", "format":null, "editable":true}
+                            {"title":"acronym", "content":"DB", "format":null, "editable":true, "headerFilter":false, "headerSort":true, "width":null, "frozen":false, "resizable":true}
                         ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"4", "format":"star", "editable":true},
-                                {"title":"date", "content":"2024-07-22T12:07:32Z", "format":"%dd-%MM-%yyyy", "editable":true},
-                                {"title":"date2", "content":"2024-07-22T12:07:32Z", "format":null, "editable":true},
-                                {"title":"date3", "content":"2024-07-22T12:07:32Z", "format":"datetime", "editable":true}
+                                {"title":"rating", "content":"4", "format":"star", "editable":true, "headerFilter":false, "headerSort":true, "width":null, "frozen":false, "resizable":true},
+                                {"title":"date", "content":"2024-07-22T12:07:32Z", "format":"%dd-%MM-%yyyy", "editable":true, "headerFilter":false, "headerSort":true, "width":null, "frozen":false, "resizable":true},
+                                {"title":"date2", "content":"2024-07-22T12:07:32Z", "format":null, "editable":true, "headerFilter":false, "headerSort":true, "width":null, "frozen":false, "resizable":true},
+                                {"title":"date3", "content":"2024-07-22T12:07:32Z", "format":"datetime", "editable":true, "headerFilter":false, "headerSort":true, "width":null, "frozen":false, "resizable":true}
                         ]}
                     ]}],
                     "groupBy":"Domestic",
@@ -27,7 +28,7 @@
                             {"title":"acronym", "content":"DB", "format":null, "editable":true}
                         ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"0", "format":"star", "editable":true}
+                                {"title":"rating", "content":"0", "format":"star", "editable":true}
                         ]}
                     ]}],
                     "groupBy":"Domestic"
@@ -41,7 +42,7 @@
                             {"title":"acronym", "content":"DB", "format":null, "editable":true}
                         ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"1", "format":"star", "editable":true}
+                                {"title":"rating", "content":"1", "format":"star", "editable":true}
                         ]}
                     ]}],
                     "groupBy":"International"
@@ -55,7 +56,7 @@
                             {"title":"acronym", "content":"DB", "format":null, "editable":true}
                         ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"2", "format":"star", "editable":true}
+                                {"title":"rating", "content":"2", "format":"star", "editable":true}
                         ]}
                     ]}],
                     "groupBy":"International"
@@ -69,7 +70,7 @@
                             {"title":"acronym", "content":"DB", "format":null, "editable":true}
                         ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"5", "format":"star", "editable":true}
+                                {"title":"rating", "content":"5", "format":"star", "editable":true}
                         ]}
                     ]}],
                     "groupBy":"Domestic"
@@ -83,7 +84,7 @@
                             {"title":"acronym", "content":"DI", "format":null, "editable":true}
                         ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"4", "format":"star", "editable":true}
+                                {"title":"rating", "content":"4", "format":"star", "editable":true}
                         ]}
                     ]}],
                     "groupBy":"International"
@@ -97,14 +98,13 @@
                             {"title":"acronym", "content":"DI", "format":null, "editable":true}
                         ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"id", "content":"3", "format":"star", "editable":true}
+                                {"title":"rating", "content":"3", "format":"star", "editable":true}
                         ]}
                     ]}],
                     "groupBy":"International"
                 }
             ],
     "wrapText": true,
-    "themeOption": null,
-    "headerFilters":true
+    "themeOption": null
   }
 }
