@@ -88,7 +88,7 @@ type data {
 
     themeOption: String @UI (
         name: "Theme Option"
-        heading: "Choose a theme to apply to the data grid, e.g. 'Modern'."
+        heading: "Choose a pre-built theme to apply to the data grid. 'Modern/Simple/Midnight'"
     )
 
     wrapText: Boolean @UI (
