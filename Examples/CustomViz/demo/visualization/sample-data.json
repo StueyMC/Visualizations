@@ -2,18 +2,18 @@
     "rows" : [
                 {
                     "columns" : [
-                        {"title":"ID", "content":"1", "format":"rownum", "editable":false, "headerFilter":false, "headerSort":false, "width":40, "frozen":true, "resizable":false},
-                        {"title":"name", "content":"Bristol", "format":null, "editable":true, "headerFilter":true, "headerSort":true, "width":null, "frozen":false, "resizable":true}
+                        {"title":"ID", "content":"1", "format":"rownum", "editable":false, "headerFilter":false, "headerSorter":false, "width":40, "frozen":true, "resizable":false},
+                        {"title":"name", "content":"Bristol", "format":null, "editable":true, "headerFilter":true, "headerSorter":true, "width":null, "frozen":false, "resizable":true}
                     ],
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
-                            {"title":"acronym", "content":"DB", "format":null, "editable":true, "headerFilter":false, "headerSort":true, "width":null, "frozen":false, "resizable":true}
+                            {"title":"acronym", "content":"DB", "format":null, "editable":true, "headerFilter":false, "headerSorter":true, "width":null, "frozen":false, "resizable":true}
                         ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
-                                {"title":"rating", "content":"4", "format":"star", "editable":true, "headerFilter":false, "headerSort":true, "width":null, "frozen":false, "resizable":true},
-                                {"title":"date", "content":"2024-07-22T12:07:32Z", "format":"%dd-%MM-%yyyy", "editable":true, "headerFilter":false, "headerSort":true, "width":null, "frozen":false, "resizable":true},
-                                {"title":"date2", "content":"2024-07-22T12:07:32Z", "format":null, "editable":true, "headerFilter":false, "headerSort":true, "width":null, "frozen":false, "resizable":true},
-                                {"title":"date3", "content":"2024-07-22T12:07:32Z", "format":"datetime", "editable":true, "headerFilter":false, "headerSort":true, "width":null, "frozen":false, "resizable":true}
+                                {"title":"rating", "content":"4", "format":"star", "editable":true, "headerFilter":false, "headerSorter":true, "width":null, "frozen":false, "resizable":true},
+                                {"title":"date", "content":"2024-07-22T12:07:32Z", "format":"%dd-%MM-%yyyy", "editable":true, "headerFilter":false, "headerSorter":true, "width":null, "frozen":false, "resizable":true},
+                                {"title":"date2", "content":"2024-07-22T12:07:32Z", "format":null, "editable":true, "headerFilter":false, "headerSorter":true, "width":null, "frozen":false, "resizable":true},
+                                {"title":"date3", "content":"2024-07-22T12:07:32Z", "format":"datetime", "editable":true, "headerFilter":false, "headerSorter":true, "width":null, "frozen":false, "resizable":true}
                         ]}
                     ]}],
                     "groupBy":"Domestic",

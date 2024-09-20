@@ -4,7 +4,7 @@
 
 A solution for MooD to provide an improved, accessible and user friendly DataGrid component so that anyone can consume and interact with Tabulator data from MooD on the web using keyboard functionality and/or Assistive Technology.
 
-#### File Structure
+## File Structure
 - root
   - Files which are used by Node
   - The final `custom_viz.zip` file
@@ -30,25 +30,25 @@ A solution for MooD to provide an improved, accessible and user friendly DataGri
 - node_modules
   - Another automatically generated output folder
 
-## Installation
+# Installation
 
-### Prerequisites
+## Prerequisites
 
 Node version 20.17.0 or later.\
 
-### Suggested Development Tools
+## Suggested Development Tools
 
 VS Code v1.89.1 or later.\
 Prettier VS Code Extension v10.4.0 or later.\
 ESLint VS Code Extension v2.4.4 or later.
 
-### Getting Started
+# Getting Started
 
 1. Set up Visual Studio Code and Node, see [Development Environment](../../README.md#development-environment)
 2. Open this file: ```WebpackVisualization.code-workspace```
 3. Run `npm install` to install the relevant node modules
 
-### How To Use
+# How To Use
 
 - src\package.json.no-guid.ejs
 - src\visualizer\package.json.no-guid.ejs
@@ -76,9 +76,9 @@ Which will produce:
 
 You can now import the `custom_viz.zip` file in to MooD.
 
-To test the visualizer, run `npm run test .` to run all the automated unit tests.
+You should also choose a preview image by changing ```visualization.png```.
 
-### Demo Visualization
+## Demo Visualization
 
 Run `npm run start` to run the demo-visualization on [http://localhost:8080/](http://localhost:8080/). This will open your browser showing template.html.
 
@@ -90,5 +90,26 @@ Interesting files:
 - demo-visualization.js: Hooks the template page in to the main visualization code.
 - sample-data.json: This file passes fixed test data in to your demo visualization page.
 
+# Test Strategy
 
-You should also choose a preview image by changing ```visualization.png```.
+## Testing that is currently implemented
+
+- Jest for unit testing
+
+## Coding Structure
+
+Tests are grouped in describe blocks based on either functionality that they share or a component they are testing.
+
+## How to run these tests
+
+### Unit Tests
+1. Run `npm run test .` to run all unit tests
+2. Run `npm run test -- --coverage .` for the coverage of all tests
+
+## Test Pass Rates
+
+> visualization, 2/2 tests pass (100% pass rate)
+
+## Average Line Coverage
+
+> visualization has an average line coverage of 00.00% of all files

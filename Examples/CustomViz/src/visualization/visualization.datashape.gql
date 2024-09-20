@@ -32,7 +32,7 @@ type Column{
         heading: "Enable header filter for this column."
     )
 
-    headerSort: Boolean @UI (
+    headerSorter: Boolean @UI (
         default: false
         name: "Header Sort"
         heading: "Enable header sorting for this column."
