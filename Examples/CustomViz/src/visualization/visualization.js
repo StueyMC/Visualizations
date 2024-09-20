@@ -90,7 +90,7 @@ export function visualization(config) {
         field: column.title,
         width: column.width,
         frozen: column.frozen,
-        headerSort: configData.headerSorting ? column.headerSort : false,
+        headerSort: configData.headerSorting ? column.headerSorter : false,
         resizable: column.resizable,
         editor: column.editable ? getEditorType(column.format) || true : false,
         headerFilter:
