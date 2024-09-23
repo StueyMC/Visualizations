@@ -11,7 +11,7 @@ export function visualization(config) {
   const mainElement = document.getElementById(config.element);
   const tabulatorDiv = document.createElement("div");
 
-  setVisualizationTheme(configData.themeOption, configData.groupRows);
+  setVisualizationTheme(configData.themeOption, configData.rows[0].groupRows);
 
   if (configData.wrapText) {
     setTextWrapping();
