@@ -95,7 +95,7 @@ type data {
 
     theme: String @UI (
         name: "Theme"
-        heading: "Apply a pre-made theme to the data grid." // check if can grab the tabulator css style from html
+        heading: "Apply a pre-made theme to the data grid."
     )
 
     textWrap: Boolean @UI (
@@ -123,16 +123,11 @@ type row implements MooDElement {
         heading: "The columns for this row."
     )
 
-    columnGroups: [ColumnGroup] @UI ( // change to subcolumns
-        name: "Column Groups"
+    groups: [Group] @UI (
+        name: "Groups"
         heading: "The column groups for this row."
     )
-
-    // removed groupRows (if groupBy is null, then should be disabled - 
-    // however, groupBy can also be null if row doesn't have an item assigned in pick list
-    // solution: if selected a pick list or value from repo in groupBy, assume enabled, else disabled. If null, place under Other.
-    // how can we detect if we've selected a pick list/value, we can only check the returned value from that pick list?
-    //)
+    
     groupRows: Boolean @UI (
         name: "Enable Row Grouping"
         heading: "Group rows based on a specific column or criteria."

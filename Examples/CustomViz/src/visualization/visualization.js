@@ -6,10 +6,10 @@ import {
 import { getFormat, formatDate } from "../formatters/formatters.js";
 import { getEditorType } from "../formatters/editors.js";
 
-function headerMenu(columnGroup) {
+function headerMenu(group) {
   let menu = [];
 
-  if (columnGroup.columns.length > 1) {
+  if (group.columns.length > 1) {
     //create checkbox element using font awesome icons
     let checkmarkContainer = document.createElement("i");
     let checkmarkBoxIcon = document.createElement("i");
@@ -35,9 +35,9 @@ function headerMenu(columnGroup) {
       label: label,
       action: function () {
         let columnsToToggle = {};
-        for (var i = 0; i < columnGroup.columns.length; i++) {
+        for (var i = 0; i < group.columns.length; i++) {
           if (i !== 0) {
-            columnsToToggle[columnGroup.columns[i].title] = true;
+            columnsToToggle[group.columns[i].title] = true;
           }
         }
 
@@ -117,36 +117,36 @@ export function createColumnDefinition(config, rows) {
     });
   }
 
-  if (rows[0].columnGroups) {
-    rows[0].columnGroups.forEach((columnGroup) => {
+  if (rows[0].groups) {
+    rows[0].groups.forEach((group) => {
       let newColumns = [];
 
-      if (columnGroup.columns) {
-        getColumns(config, columnGroup.columns).forEach((column) => {
+      if (group.columns) {
+        getColumns(config, group.columns).forEach((column) => {
           newColumns.push(column);
         });
       }
 
-      if (columnGroup.nestedColumnGroups) {
-        columnGroup.nestedColumnGroups.forEach((nestedColumnGroup) => {
-          if (nestedColumnGroup.columns) {
-            let newNestedColumnGroup = {
-              title: nestedColumnGroup.title,
-              columns: getColumns(config, nestedColumnGroup.columns),
-              headerMenu: headerMenu(nestedColumnGroup),
+      if (group.subGroups) {
+        group.subGroups.forEach((subGroup) => {
+          if (subGroup.columns) {
+            let newSubGroup = {
+              title: subGroup.title,
+              columns: getColumns(config, subGroup.columns),
+              headerMenu: headerMenu(subGroup),
             };
-            newColumns.push(newNestedColumnGroup);
+            newColumns.push(newSubGroup);
           }
         });
       }
 
-      let newColumnGroup = {
-        title: columnGroup.title,
+      let newGroup = {
+        title: group.title,
         columns: newColumns,
-        headerMenu: headerMenu(columnGroup),
+        headerMenu: headerMenu(group),
       };
 
-      columnDefinition.push(newColumnGroup);
+      columnDefinition.push(newGroup);
     });
   }
   return columnDefinition;
@@ -225,18 +225,18 @@ export function transformJson(rows) {
         dataRow[property] = dataObject[property];
       }
     }
-    if (row.columnGroups) {
-      row.columnGroups.forEach((columnGroup) => {
-        if (columnGroup.columns) {
-          let dataObject = setRow(columnGroup.columns);
+    if (row.groups) {
+      row.groups.forEach((group) => {
+        if (group.columns) {
+          let dataObject = setRow(group.columns);
           for (const property in dataObject) {
             dataRow[property] = dataObject[property];
           }
         }
-        if (columnGroup.nestedColumnGroups) {
-          columnGroup.nestedColumnGroups.forEach((nestedColumnGroup) => {
-            if (nestedColumnGroup.columns) {
-              let dataObject = setRow(nestedColumnGroup.columns);
+        if (group.subGroups) {
+          group.subGroups.forEach((subGroup) => {
+            if (subGroup.columns) {
+              let dataObject = setRow(subGroup.columns);
               for (const property in dataObject) {
                 dataRow[property] = dataObject[property];
               }
