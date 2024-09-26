@@ -1,17 +1,17 @@
-{"data" : {
+export const config = {"data" : {
     "rows" : [
                 {
                     "columns" : [
-                        {"title":"ID", "content":"1", "format":"rownum", "editable":false, "headerFilter":false, "columnSorter":false, "width":40, "frozen":true, "resizable":false, "alignment":"center"},
+                        {"title":"ID", "content":"1", "format":"rownum", "editable":false, "headerFilter":false, "columnSorter":false, "width":40, "frozen":true, "resizable":false},
                         {"title":"name", "content":"Bristol", "format":null, "editable":true, "headerFilter":true, "columnSorter":true, "width":null, "frozen":false, "resizable":true}
                     ],
                     "columnGroups" : [
                         {"title":"New Group 1", "columns": [
-                            {"title":"acronym", "content":"DB", "format":null, "editable":true, "headerFilter":false, "columnSorter":true, "width":null, "frozen":false, "resizable":true, "alignment":"center"}
+                            {"title":"acronym", "content":"DB", "format":null, "editable":true, "headerFilter":false, "columnSorter":true, "width":null, "frozen":false, "resizable":true}
                         ], "nestedColumnGroups": [
                             {"title":"New Group 2", "columns": [
                                 {"title":"rating", "content":"4", "format":"star", "editable":true, "headerFilter":false, "columnSorter":true, "width":null, "frozen":false, "resizable":true},
-                                {"title":"date", "content":"2024-07-22T12:07:32Z", "format":"%dd-%MM-%yyyy", "editable":true, "headerFilter":false, "columnSorter":true, "width":null, "frozen":false, "resizable":true, "alignment":"right"},
+                                {"title":"date", "content":"2024-07-22T12:07:32Z", "format":"%dd-%MM-%yyyy", "editable":true, "headerFilter":false, "columnSorter":true, "width":null, "frozen":false, "resizable":true},
                                 {"title":"date2", "content":"2024-07-22T12:07:32Z", "format":null, "editable":true, "headerFilter":false, "columnSorter":true, "width":null, "frozen":false, "resizable":true},
                                 {"title":"date3", "content":"2024-07-22T12:07:32Z", "format":"datetime", "editable":true, "headerFilter":false, "columnSorter":true, "width":null, "frozen":false, "resizable":true}
                         ]}
@@ -101,7 +101,7 @@
                                 {"title":"rating", "content":"3", "format":"star", "editable":true}
                         ]}
                     ]}],
-                    "groupBy":null
+                    "groupBy":"International"
                 }
             ],
     "textWrap": true,

@@ -161,7 +161,7 @@ const themeOptions = {
   },
 };
 
-const wrapTextCSS = [
+const textWrapCSS = [
   ".tabulator-row .tabulator-cell {white-space: normal !important; word-break: break-word}",
   ".tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title {white-space: normal !important; word-break: break-word}",
 ];
@@ -207,7 +207,7 @@ export const setVisualizationTheme = (theme, groupRows) => {
 
 export const setTextWrapping = () => {
   const myStyleSheet = document.styleSheets[0];
-  wrapTextCSS.forEach((rule) => {
+  textWrapCSS.forEach((rule) => {
     myStyleSheet.insertRule(rule, myStyleSheet.cssRules.length);
   });
 };
