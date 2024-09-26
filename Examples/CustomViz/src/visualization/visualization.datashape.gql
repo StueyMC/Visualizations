@@ -1,6 +1,6 @@
 type Column{
     title: String! @UI (
-        default: "Title"
+        default: "Column Title"
         name: "Name"
     )
 
@@ -10,12 +10,11 @@ type Column{
 
     width: Number @UI (
         name: "Width"
-        default: "100"
+        default: 100
     )
 
     format: String @UI (
         name: "Formatting"
-        heading: "Specify how data in this column should be formatted. User documentation will include formats to choose from."
     )
 
     alignment: String @UI (
@@ -51,7 +50,8 @@ type Column{
 
 type SubGroup {
     title: String! @UI (
-        name: "Title"
+        name: "Name"
+        default: "Sub Group Title"
         heading: "The title of this sub group."
     )
 
@@ -63,7 +63,8 @@ type SubGroup {
 
 type Group{
     title: String! @UI (
-        name: "Group Title"
+        name: "Name"
+        default: "Group Title"
         heading: "The title of this group."
     )
 
@@ -91,6 +92,7 @@ type data {
 
     resizable: String @UI (
         name: "Resizable"
+        heading: "Enable to resize the data grid on the web."
     )
 
     theme: String @UI (
@@ -107,7 +109,7 @@ type data {
     headerFiltering: Boolean @UI (
         default: False
         name: "Header Filtering"
-        heading: "Enable header filtering."
+        heading: "Show filters under headers."
     )
 
     columnSorting: Boolean @UI (
