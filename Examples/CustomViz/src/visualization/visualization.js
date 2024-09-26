@@ -6,153 +6,161 @@ import {
 import { getFormat, formatDate } from "../formatters/formatters.js";
 import { getEditorType } from "../formatters/editors.js";
 
+function headerMenu(columnGroup) {
+  let menu = [];
+
+  if (columnGroup.columns.length > 1) {
+    //create checkbox element using font awesome icons
+    let checkmarkContainer = document.createElement("i");
+    let checkmarkBoxIcon = document.createElement("i");
+    let checkmarkTickIcon = document.createElement("i");
+
+    checkmarkContainer.classList.add("icon--container");
+    checkmarkBoxIcon.classList.add("icon--checkmark-box-checked");
+    checkmarkTickIcon.classList.add("icon--checkmark-tick");
+
+    //build label
+    let label = document.createElement("span");
+    let title = document.createElement("span");
+    title.classList.add("icon--title");
+    title.textContent = " Expanded";
+
+    label.appendChild(checkmarkContainer);
+    checkmarkContainer.appendChild(checkmarkBoxIcon);
+    checkmarkBoxIcon.appendChild(checkmarkTickIcon);
+    label.appendChild(title);
+
+    //create menu item
+    menu.push({
+      label: label,
+      action: function () {
+        let columnsToToggle = {};
+        for (var i = 0; i < columnGroup.columns.length; i++) {
+          if (i !== 0) {
+            columnsToToggle[columnGroup.columns[i].title] = true;
+          }
+        }
+
+        //toggle current column visibility
+        table.getColumns().forEach((column) => {
+          if (columnsToToggle[column.getField()]) {
+            column.toggle();
+          }
+        });
+
+        if (
+          checkmarkBoxIcon.classList.contains("icon--checkmark-box-checked")
+        ) {
+          checkmarkBoxIcon.classList.remove("icon--checkmark-box-checked");
+          checkmarkTickIcon.classList.remove("icon--checkmark-tick");
+          checkmarkBoxIcon.classList.add("icon--checkmark-box");
+          checkmarkTickIcon.classList.add("icon--checkmark-tick-hidden");
+        } else {
+          checkmarkBoxIcon.classList.remove("icon--checkmark-box");
+          checkmarkTickIcon.classList.remove("icon--checkmark-tick-hidden");
+          checkmarkBoxIcon.classList.add("icon--checkmark-box-checked");
+          checkmarkTickIcon.classList.add("icon--checkmark-tick");
+        }
+
+        table.redraw();
+      },
+    });
+
+    return menu;
+  }
+  return;
+}
+
+function getAlignment(alignment) {
+  return alignment === "center" || alignment == "right" ? alignment : "left";
+}
+
+function getColumns(config, columns) {
+  let columnDefinition = [];
+  columns.forEach((column) => {
+    let newColumn = {
+      title: column.title,
+      field: column.title,
+      width: column.width,
+      headerHozAlign: getAlignment(column.alignment),
+      frozen: column.frozen,
+      headerSort: config.data.columnSorting ? column.columnSorter : false,
+      resizable: config.data.resizable && column.resizable,
+      editor:
+        config.data.editable && column.editable
+          ? getEditorType(column.format) || true
+          : false,
+      headerFilter:
+        config.data.headerFiltering && column.headerFilter ? "input" : null,
+      // cellClick: function (e, cell) {
+      //   config.functions.performAction("Cell Click", cell.getInitialValue, e);
+      // },
+      formatter:
+        getFormat[column.format] ||
+        (column.format && column.format.includes("%")
+          ? (cell) => formatDate(cell, column.format)
+          : column.format),
+    };
+
+    columnDefinition.push(newColumn);
+  });
+
+  return columnDefinition;
+}
+
+export function createColumnDefinition(config, rows) {
+  let columnDefinition = [];
+
+  if (rows[0].columns) {
+    getColumns(config, rows[0].columns).forEach((column) => {
+      columnDefinition.push(column);
+    });
+  }
+
+  if (rows[0].columnGroups) {
+    rows[0].columnGroups.forEach((columnGroup) => {
+      let newColumns = [];
+
+      if (columnGroup.columns) {
+        getColumns(config, columnGroup.columns).forEach((column) => {
+          newColumns.push(column);
+        });
+      }
+
+      if (columnGroup.nestedColumnGroups) {
+        columnGroup.nestedColumnGroups.forEach((nestedColumnGroup) => {
+          if (nestedColumnGroup.columns) {
+            let newNestedColumnGroup = {
+              title: nestedColumnGroup.title,
+              columns: getColumns(config, nestedColumnGroup.columns),
+              headerMenu: headerMenu(nestedColumnGroup),
+            };
+            newColumns.push(newNestedColumnGroup);
+          }
+        });
+      }
+
+      let newColumnGroup = {
+        title: columnGroup.title,
+        columns: newColumns,
+        headerMenu: headerMenu(columnGroup),
+      };
+
+      columnDefinition.push(newColumnGroup);
+    });
+  }
+  return columnDefinition;
+}
+
 export function visualization(config) {
   const configData = config.data;
   const mainElement = document.getElementById(config.element);
   const tabulatorDiv = document.createElement("div");
 
-  setVisualizationTheme(configData.themeOption, configData.rows[0].groupRows);
+  setVisualizationTheme(configData.theme, configData.rows[0].groupRows);
 
-  if (configData.wrapText) {
+  if (configData.textWrap) {
     setTextWrapping();
-  }
-
-  function headerMenu(columnGroup) {
-    let menu = [];
-
-    if (columnGroup.columns.length > 1) {
-      //create checkbox element using font awesome icons
-      let checkmarkContainer = document.createElement("i");
-      let checkmarkBoxIcon = document.createElement("i");
-      let checkmarkTickIcon = document.createElement("i");
-
-      checkmarkContainer.classList.add("icon--container");
-      checkmarkBoxIcon.classList.add("icon--checkmark-box-checked");
-      checkmarkTickIcon.classList.add("icon--checkmark-tick");
-
-      //build label
-      let label = document.createElement("span");
-      let title = document.createElement("span");
-      title.classList.add("icon--title");
-      title.textContent = " Expanded";
-
-      label.appendChild(checkmarkContainer);
-      checkmarkContainer.appendChild(checkmarkBoxIcon);
-      checkmarkBoxIcon.appendChild(checkmarkTickIcon);
-      label.appendChild(title);
-
-      //create menu item
-      menu.push({
-        label: label,
-        action: function () {
-          let columnsToToggle = {};
-          for (var i = 0; i < columnGroup.columns.length; i++) {
-            if (i !== 0) {
-              columnsToToggle[columnGroup.columns[i].title] = true;
-            }
-          }
-
-          //toggle current column visibility
-          table.getColumns().forEach((column) => {
-            if (columnsToToggle[column.getField()]) {
-              column.toggle();
-            }
-          });
-
-          if (
-            checkmarkBoxIcon.classList.contains("icon--checkmark-box-checked")
-          ) {
-            checkmarkBoxIcon.classList.remove("icon--checkmark-box-checked");
-            checkmarkTickIcon.classList.remove("icon--checkmark-tick");
-            checkmarkBoxIcon.classList.add("icon--checkmark-box");
-            checkmarkTickIcon.classList.add("icon--checkmark-tick-hidden");
-          } else {
-            checkmarkBoxIcon.classList.remove("icon--checkmark-box");
-            checkmarkTickIcon.classList.remove("icon--checkmark-tick-hidden");
-            checkmarkBoxIcon.classList.add("icon--checkmark-box-checked");
-            checkmarkTickIcon.classList.add("icon--checkmark-tick");
-          }
-
-          table.redraw();
-        },
-      });
-
-      return menu;
-    }
-    return;
-  }
-
-  function getColumns(_config, columns) {
-    let columnDefinition = [];
-    columns.forEach((column) => {
-      let newColumn = {
-        title: column.title,
-        field: column.title,
-        width: column.width,
-        frozen: column.frozen,
-        headerSort: configData.headerSorting ? column.headerSorter : false,
-        resizable: column.resizable,
-        editor: column.editable ? getEditorType(column.format) || true : false,
-        headerFilter:
-          configData.headerFiltering && column.headerFilter ? "input" : null,
-        // cellClick: function (e, cell) {
-        //   config.functions.performAction("Cell Click", cell.getInitialValue, e);
-        // },
-        formatter:
-          getFormat[column.format] ||
-          (column.format && column.format.includes("%")
-            ? (cell) => formatDate(cell, column.format)
-            : column.format),
-      };
-
-      columnDefinition.push(newColumn);
-    });
-
-    return columnDefinition;
-  }
-
-  function createColumnDefinition(config, rows) {
-    let columnDefinition = [];
-
-    if (rows[0].columns) {
-      getColumns(config, rows[0].columns).forEach((column) => {
-        columnDefinition.push(column);
-      });
-    }
-
-    if (rows[0].columnGroups) {
-      rows[0].columnGroups.forEach((columnGroup) => {
-        let newColumns = [];
-
-        if (columnGroup.columns) {
-          getColumns(config, columnGroup.columns).forEach((column) => {
-            newColumns.push(column);
-          });
-        }
-
-        if (columnGroup.nestedColumnGroups) {
-          columnGroup.nestedColumnGroups.forEach((nestedColumnGroup) => {
-            if (nestedColumnGroup.columns) {
-              let newNestedColumnGroup = {
-                title: nestedColumnGroup.title,
-                columns: getColumns(config, nestedColumnGroup.columns),
-                headerMenu: headerMenu(nestedColumnGroup),
-              };
-              newColumns.push(newNestedColumnGroup);
-            }
-          });
-        }
-
-        let newColumnGroup = {
-          title: columnGroup.title,
-          columns: newColumns,
-          headerMenu: headerMenu(columnGroup),
-        };
-
-        columnDefinition.push(newColumnGroup);
-      });
-    }
-    return columnDefinition;
   }
 
   function getGroupHeader(data) {
@@ -198,7 +206,7 @@ export function visualization(config) {
   mainElement.appendChild(tabulatorDiv);
 }
 
-function transformJson(rows) {
+export function transformJson(rows) {
   let newData = [];
 
   function setRow(columns) {

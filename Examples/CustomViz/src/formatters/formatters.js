@@ -93,8 +93,8 @@ export const getFormat = {
   datetime(cell) {
     const cellValue = cell.getValue();
     if (isDateValid(cellValue)) {
-      const dateObj = new Date(cell.getValue());
-      return `${dateObj.toDateString()} ${dateObj.toLocaleTimeString()}`;
+      const dateObj = new Date(cellValue);
+      return `${dateObj.toDateString()}, ${dateObj.toLocaleTimeString()}`;
     }
     return "";
   },
@@ -102,7 +102,8 @@ export const getFormat = {
   date(cell) {
     const cellValue = cell.getValue();
     if (isDateValid(cellValue)) {
-      return new Date(cellValue).toLocaleDateString;
+      const dateObj = new Date(cellValue);
+      return `${dateObj.toLocaleDateString()}`;
     }
     return "";
   },
@@ -110,7 +111,8 @@ export const getFormat = {
   time(cell) {
     const cellValue = cell.getValue();
     if (isDateValid(cellValue)) {
-      return new Date(cellValue).toLocaleTimeString;
+      const dateObj = new Date(cellValue);
+      return `${dateObj.toLocaleTimeString()}`;
     }
     return "";
   },
