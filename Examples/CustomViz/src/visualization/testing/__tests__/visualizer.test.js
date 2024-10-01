@@ -251,4 +251,28 @@ describe("Testing the MooD custom visualizer source code", () => {
 
     expect(formattedDate).toBe("");
   });
+
+  it("should return 'true' from the editor", () => {
+    const editor = getEditorType("rownum");
+
+    expect(editor).toBe(true);
+  });
+
+  it("should return 'date' from the editor if formatter includes '%'", () => {
+    const editor = getEditorType("%yyyy-%MM-%dd");
+
+    expect(editor).toBe("date");
+  });
+
+  it("should return 'date' from the editor if formatter is 'datetime'", () => {
+    const editor = getEditorType("datetime");
+
+    expect(editor).toBe("date");
+  });
+
+  it("should return nothing from the editor", () => {
+    const editor = getEditorType("");
+
+    expect(editor).toBe(undefined);
+  });
 });
