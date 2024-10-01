@@ -1344,22 +1344,11 @@ body.tabulator-print-fullscreen-hide>:not(.tabulator-print-fullscreen) {
   border-width: 1px 1px 1px 1px;
 }
   
-.icon--checkmark-box-checked {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 15px;
-  width: 15px;
+.checked {
   background-color: #1fdf1f;
-  border: solid black;
-  border-width: 1px 1px 1px 1px;
-}
-
-.icon--checkmark-tick-hidden {
-  display: none;
 }
   
-.icon--checkmark-tick {
+.ticked {
   display: inline-block;
   margin-left: 4px;
   margin-bottom: 2px;
@@ -1372,6 +1361,10 @@ body.tabulator-print-fullscreen-hide>:not(.tabulator-print-fullscreen) {
   transform: rotate(45deg);
 }
 
-.icon--title {
-	margin-left: 1.55em;
+.hidden {
+    display: none;
+}
+
+.header-button {
+    margin-left: 1.55em;
 }

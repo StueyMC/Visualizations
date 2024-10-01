@@ -6,71 +6,6 @@ import {
 import { getFormat, formatDate } from "../formatters/formatters.js";
 import { getEditorType } from "../formatters/editors.js";
 
-function headerMenu(group) {
-  let menu = [];
-
-  if (group.columns.length > 1) {
-    //create checkbox element using font awesome icons
-    let checkmarkContainer = document.createElement("i");
-    let checkmarkBoxIcon = document.createElement("i");
-    let checkmarkTickIcon = document.createElement("i");
-
-    checkmarkContainer.classList.add("icon--container");
-    checkmarkBoxIcon.classList.add("icon--checkmark-box-checked");
-    checkmarkTickIcon.classList.add("icon--checkmark-tick");
-
-    //build label
-    let label = document.createElement("span");
-    let title = document.createElement("span");
-    title.classList.add("icon--title");
-    title.textContent = " Expanded";
-
-    label.appendChild(checkmarkContainer);
-    checkmarkContainer.appendChild(checkmarkBoxIcon);
-    checkmarkBoxIcon.appendChild(checkmarkTickIcon);
-    label.appendChild(title);
-
-    //create menu item
-    menu.push({
-      label: label,
-      action: function () {
-        let columnsToToggle = {};
-        for (var i = 0; i < group.columns.length; i++) {
-          if (i !== 0) {
-            columnsToToggle[group.columns[i].title] = true;
-          }
-        }
-
-        //toggle current column visibility
-        table.getColumns().forEach((column) => {
-          if (columnsToToggle[column.getField()]) {
-            column.toggle();
-          }
-        });
-
-        if (
-          checkmarkBoxIcon.classList.contains("icon--checkmark-box-checked")
-        ) {
-          checkmarkBoxIcon.classList.remove("icon--checkmark-box-checked");
-          checkmarkTickIcon.classList.remove("icon--checkmark-tick");
-          checkmarkBoxIcon.classList.add("icon--checkmark-box");
-          checkmarkTickIcon.classList.add("icon--checkmark-tick-hidden");
-        } else {
-          checkmarkBoxIcon.classList.remove("icon--checkmark-box");
-          checkmarkTickIcon.classList.remove("icon--checkmark-tick-hidden");
-          checkmarkBoxIcon.classList.add("icon--checkmark-box-checked");
-          checkmarkTickIcon.classList.add("icon--checkmark-tick");
-        }
-
-        table.redraw();
-      },
-    });
-
-    return menu;
-  }
-  return;
-}
-
 function getAlignment(alignment) {
   return alignment === "center" || alignment == "right" ? alignment : "left";
 }
@@ -108,50 +43,6 @@ function getColumns(config, columns) {
   return columnDefinition;
 }
 
-export function createColumnDefinition(config, rows) {
-  let columnDefinition = [];
-
-  if (rows[0].columns) {
-    getColumns(config, rows[0].columns).forEach((column) => {
-      columnDefinition.push(column);
-    });
-  }
-
-  if (rows[0].groups) {
-    rows[0].groups.forEach((group) => {
-      let newColumns = [];
-
-      if (group.columns) {
-        getColumns(config, group.columns).forEach((column) => {
-          newColumns.push(column);
-        });
-      }
-
-      if (group.subGroups) {
-        group.subGroups.forEach((subGroup) => {
-          if (subGroup.columns) {
-            let newSubGroup = {
-              title: subGroup.title,
-              columns: getColumns(config, subGroup.columns),
-              headerMenu: headerMenu(subGroup),
-            };
-            newColumns.push(newSubGroup);
-          }
-        });
-      }
-
-      let newGroup = {
-        title: group.title,
-        columns: newColumns,
-        headerMenu: headerMenu(group),
-      };
-
-      columnDefinition.push(newGroup);
-    });
-  }
-  return columnDefinition;
-}
-
 export function visualization(config) {
   const configData = config.data;
   const mainElement = document.getElementById(config.element);
@@ -165,6 +56,116 @@ export function visualization(config) {
 
   function getGroupHeader(data) {
     return data.groupBy || "Other";
+  }
+
+  function headerMenu(group) {
+    let menu = [];
+
+    if (group.columns.length > 1) {
+      //create checkbox element using font awesome icons
+      let checkmarkContainer = document.createElement("i");
+      let checkmarkBoxIcon = document.createElement("i");
+      let checkmarkTickIcon = document.createElement("i");
+
+      checkmarkContainer.classList.add("icon--container");
+      checkmarkBoxIcon.classList.add("icon--checkmark-box", "checked");
+      checkmarkTickIcon.classList.add("ticked");
+
+      //build label
+      let label = document.createElement("span");
+      let collapseTitle = document.createElement("span");
+      let expandTitle = document.createElement("span");
+
+      expandTitle.classList.add("header-button", "hidden");
+      collapseTitle.classList.add("header-button");
+
+      expandTitle.textContent = " Expand";
+      collapseTitle.textContent = " Collapse";
+
+      function updateHeaderMenu() {
+        checkmarkBoxIcon.classList.toggle("checked");
+        checkmarkTickIcon.classList.toggle("ticked");
+        expandTitle.classList.toggle("hidden");
+        collapseTitle.classList.toggle("hidden");
+      }
+
+      label.appendChild(checkmarkContainer);
+      checkmarkContainer.appendChild(checkmarkBoxIcon);
+      checkmarkBoxIcon.appendChild(checkmarkTickIcon);
+      label.appendChild(collapseTitle);
+      label.appendChild(expandTitle);
+
+      //create menu item
+      menu.push({
+        label: label,
+        action: function () {
+          let columnsToToggle = {};
+          for (var i = 0; i < group.columns.length; i++) {
+            if (i !== 0) {
+              columnsToToggle[group.columns[i].title] = true;
+            }
+          }
+
+          //toggle current column visibility
+          table.getColumns().forEach((column) => {
+            if (columnsToToggle[column.getField()]) {
+              column.toggle();
+            }
+          });
+
+          updateHeaderMenu()
+
+          table.redraw();
+        },
+      });
+
+      return menu;
+    }
+    return;
+  }
+
+  function createColumnDefinition(config, rows) {
+    let columnDefinition = [];
+
+    if (rows[0].columns) {
+      getColumns(config, rows[0].columns).forEach((column) => {
+        columnDefinition.push(column);
+      });
+    }
+
+    if (rows[0].groups) {
+      rows[0].groups.forEach((group) => {
+        let newColumns = [];
+
+        if (group.columns) {
+          getColumns(config, group.columns).forEach((column) => {
+            newColumns.push(column);
+          });
+        }
+
+        if (group.subGroups) {
+          group.subGroups.forEach((subGroup) => {
+            if (subGroup.columns) {
+              let newSubGroup = {
+                title: subGroup.title,
+                columns: getColumns(config, subGroup.columns),
+                headerMenu: headerMenu(subGroup),
+              };
+              newColumns.push(newSubGroup);
+            }
+          });
+        }
+
+        let newGroup = {
+          title: group.title,
+          columns: newColumns,
+          headerMenu: headerMenu(group),
+        };
+
+        columnDefinition.push(newGroup);
+      });
+    }
+    return columnDefinition;
   }
 
   var table = new Tabulator(tabulatorDiv, {
