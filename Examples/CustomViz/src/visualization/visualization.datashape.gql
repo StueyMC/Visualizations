@@ -85,12 +85,12 @@ type data {
         heading: "The rows of data that will be displayed in the data grid."
     )
 
-    editable: String @UI (
+    editable: Boolean @UI (
         name: "Editable"
         heading: "Enable in-line editing."
     )
 
-    resizable: String @UI (
+    resizable: Boolean @UI (
         name: "Resizable"
         heading: "Enable to resize the data grid on the web."
     )
@@ -138,4 +138,6 @@ type row implements MooDElement {
     groupBy: Any @UI (
         name: "Group Rows By"
     )
+
+    id: ID
 }

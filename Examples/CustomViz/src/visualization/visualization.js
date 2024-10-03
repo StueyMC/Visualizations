@@ -27,9 +27,15 @@ function getColumns(config, columns) {
           : false,
       headerFilter:
         config.data.headerFiltering && column.headerFilter ? "input" : null,
-      // cellClick: function (e, cell) {
-      //   config.functions.performAction("Cell Click", cell.getInitialValue, e);
-      // },
+      cellClick: function (event, cell) {
+        const row = cell.getRow();
+        const rowPosition = row.getPosition() - 1;
+        config.functions.performAction(
+          "Cell Click",
+          config.data.rows[rowPosition].id,
+          event
+        );
+      },
       formatter:
         getFormat[column.format] ||
         (column.format && column.format.includes("%")
@@ -47,110 +53,6 @@ function getGroupHeader(data) {
   return data.groupBy || "Other";
 }
 
-function headerMenu(group, table) {
-  let menu = [];
-
-  if (group.columns.length > 1) {
-    let checkmarkContainer = document.createElement("i");
-    let checkmarkBoxIcon = document.createElement("i");
-    let checkmarkTickIcon = document.createElement("i");
-
-    checkmarkContainer.classList.add("icon--container");
-    checkmarkBoxIcon.classList.add("icon--checkmark-box", "checked");
-    checkmarkTickIcon.classList.add("ticked");
-
-    let label = document.createElement("span");
-    let collapseTitle = document.createElement("span");
-    let expandTitle = document.createElement("span");
-
-    expandTitle.classList.add("header-button", "hidden");
-    collapseTitle.classList.add("header-button");
-
-    expandTitle.textContent = " Expand";
-    collapseTitle.textContent = " Collapse";
-
-    function updateHeaderMenu() {
-      checkmarkBoxIcon.classList.toggle("checked");
-      checkmarkTickIcon.classList.toggle("ticked");
-      expandTitle.classList.toggle("hidden");
-      collapseTitle.classList.toggle("hidden");
-    }
-
-    label.appendChild(checkmarkContainer);
-    checkmarkContainer.appendChild(checkmarkBoxIcon);
-    checkmarkBoxIcon.appendChild(checkmarkTickIcon);
-    label.appendChild(collapseTitle);
-    label.appendChild(expandTitle);
-
-    //create menu item
-    menu.push({
-      label: label,
-      action: function () {
-        let columnsToToggle = {};
-        for (var i = 0; i < group.columns.length; i++) {
-          if (i !== 0) {
-            columnsToToggle[group.columns[i].title] = true;
-          }
-        }
-
-        //toggle current column visibility
-        table.getColumns().forEach((column) => {
-          if (columnsToToggle[column.getField()]) {
-            column.toggle();
-          }
-        });
-
-        updateHeaderMenu();
-
-        table.redraw();
-      },
-    });
-  }
-
-  return menu.length ? menu : null;
-}
-
-export function createColumnDefinition(config, rows, table) {
-  let columnDefinition = [];
-
-  if (rows[0].columns) {
-    columnDefinition.push(...getColumns(config, rows[0].columns));
-  }
-
-  if (rows[0].groups) {
-    rows[0].groups.forEach((group) => {
-      let newColumns = [];
-
-      if (group.columns) {
-        newColumns.push(...getColumns(config, group.columns));
-      }
-
-      if (group.subGroups) {
-        group.subGroups.forEach((subGroup) => {
-          if (subGroup.columns) {
-            let newSubGroup = {
-              title: subGroup.title,
-              columns: getColumns(config, subGroup.columns),
-              headerMenu: headerMenu(subGroup, table),
-            };
-            newColumns.push(newSubGroup);
-          }
-        });
-      }
-
-      let newGroup = {
-        title: group.title,
-        columns: newColumns,
-        headerMenu: headerMenu(group, table),
-      };
-
-      columnDefinition.push(newGroup);
-    });
-  }
-
-  return columnDefinition;
-}
-
 export function visualization(config) {
   const configData = config.data;
   const mainElement = document.getElementById(config.element);
@@ -160,6 +62,136 @@ export function visualization(config) {
 
   if (configData.textWrap) {
     setTextWrapping();
+  }
+
+  function headerMenu(group) {
+    let menu = [];
+
+    if (
+      (group.columns ? group.columns.length : 0) +
+        (group.subGroups ? group.subGroups.length : 0) >
+      1
+    ) {
+      let label = document.createElement("span");
+      let collapseTitle = document.createElement("span");
+      let expandTitle = document.createElement("span");
+
+      expandTitle.classList.add("hidden");
+
+      expandTitle.textContent = "Expand";
+      collapseTitle.textContent = "Collapse";
+
+      function updateHeaderMenu() {
+        expandTitle.classList.toggle("hidden");
+        collapseTitle.classList.toggle("hidden");
+      }
+
+      label.appendChild(collapseTitle);
+      label.appendChild(expandTitle);
+
+      menu.push({
+        label: label,
+        action: function () {
+          const columnsToToggle = new Map();
+          const subGroupsToToggle = new Map();
+
+          let isFirstIndexIgnored = false;
+
+          if (!group || (!group.columns && !group.subGroups)) return;
+
+          const getColumnsToToggle = () => {
+            group.columns?.forEach(({ title }, index) => {
+              if (index === 0) {
+                isFirstIndexIgnored = true;
+                return;
+              }
+              columnsToToggle.set(title, true);
+            });
+
+            group.subGroups?.forEach(({ title }, index) => {
+              if (!isFirstIndexIgnored && index === 0) {
+                isFirstIndexIgnored = true;
+                return;
+              }
+              subGroupsToToggle.set(title, true);
+            });
+          };
+
+          const toggleColumns = (columns) => {
+            columns.forEach((column) => {
+              if (columnsToToggle.get(column.getField())) {
+                column.toggle();
+              }
+            });
+          };
+
+          const toggleParentColumns = (columnDefinitions) => {
+            columnDefinitions.forEach((group) => {
+              group.columns?.forEach(({ title, columns }) => {
+                if (subGroupsToToggle.get(title) && columns) {
+                  const initialColumnTitle = columns[0].title;
+                  const initialColumn = table.getColumns().find(column => column.getField() === initialColumnTitle)
+
+                  if (initialColumn) {
+                    initialColumn.getParentColumn().toggle();
+                  }
+                }
+              });
+            });
+          };
+
+          getColumnsToToggle();
+          toggleColumns(table.getColumns());
+          toggleParentColumns(table.getColumnDefinitions());
+          
+          updateHeaderMenu();
+          table.redraw();
+        },
+      });
+    }
+
+    return menu.length ? menu : null;
+  }
+
+  function createColumnDefinition(config, rows) {
+    let columnDefinition = [];
+
+    if (rows[0].columns) {
+      columnDefinition.push(...getColumns(config, rows[0].columns));
+    }
+
+    if (rows[0].groups) {
+      rows[0].groups.forEach((group) => {
+        let newColumns = [];
+
+        if (group.columns) {
+          newColumns.push(...getColumns(config, group.columns));
+        }
+
+        if (group.subGroups) {
+          group.subGroups.forEach((subGroup) => {
+            if (subGroup.columns) {
+              let newSubGroup = {
+                title: subGroup.title,
+                columns: getColumns(config, subGroup.columns),
+                headerMenu: headerMenu(subGroup),
+              };
+              newColumns.push(newSubGroup);
+            }
+          });
+        }
+
+        let newGroup = {
+          title: group.title,
+          columns: newColumns,
+          headerMenu: headerMenu(group),
+        };
+
+        columnDefinition.push(newGroup);
+      });
+    }
+
+    return columnDefinition;
   }
 
   var table = new Tabulator(tabulatorDiv, {

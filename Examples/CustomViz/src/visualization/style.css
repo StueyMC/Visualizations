@@ -1321,50 +1321,6 @@ body.tabulator-print-fullscreen-hide>:not(.tabulator-print-fullscreen) {
   width: 7px
 }
 
-/* Display a check icon */
-.icon--container {
-  display: block;
-  position: relative;
-  cursor: pointer;
-  font-size: 15px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-  
-.icon--checkmark-box {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 15px;
-  width: 15px;
-  background-color: #eee; 
-  border: solid black;
-  border-width: 1px 1px 1px 1px;
-}
-  
-.checked {
-  background-color: #1fdf1f;
-}
-  
-.ticked {
-  display: inline-block;
-  margin-left: 4px;
-  margin-bottom: 2px;
-  width: 4px;
-  height: 8px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
 .hidden {
     display: none;
-}
-
-.header-button {
-    margin-left: 1.55em;
 }
