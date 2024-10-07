@@ -13,9 +13,10 @@ const themeOptions = {
       "--header-margin": "4px" /* padding round header */,
 
       "--header-col-background-color": "#333",
-      "--header-col-hover-background-color": "999",
-      "--header-col-range-selected-background-color": "ccc",
-      "--header-col-range-selected-color": "fff",
+      "--header-col-hover-background-color": "#999",
+      "--header-col-hover-text-color": "#fff",
+      "--header-col-range-selected-background-color": "#ccc",
+      "--header-col-range-selected-color": "#fff",
 
       "--header-sort-icon-active": "#666",
       "--header-sort-icon-inactive": "#bbb",
@@ -61,22 +62,21 @@ const themeOptions = {
       "--header-background-color": "#fff",
       "--header-text-color": "#333",
       "--header-border-color": "#ddd",
-      "--header-separator-color": "#999" /* header bottom separator color */,
-      "--header-margin": "4px" /* padding round header */,
+      "--header-separator-color": "#999",
+      "--header-margin": "4px",
 
       "--header-col-background-color": "#fff",
-      "--header-col-hover-background-color": "d6d6d6",
-      "--header-col-range-selected-background-color": "3876ca",
-      "--header-col-range-selected-color": "fff",
+      "--header-col-hover-background-color": "#d6d6d6",
+      "--header-col-range-selected-background-color": "#3876ca",
+      "--header-col-range-selected-color": "#fff",
 
       "--header-sort-icon-active": "#666",
       "--header-sort-icon-inactive": "#bbb",
 
       /* Row Theming */
       "--row-border-color": "#ddd",
-      "--row-hover-background": "#bbb" /* row background color on hover */,
-      "--row-selected-background":
-        "#9ABCEA" /* row background color when selected */,
+      "--row-hover-background": "#bbb",
+      "--row-selected-background": "#9ABCEA",
 
       "--row-even-background-color": "#fff",
       "--row-even-text-color": "#000",
@@ -94,8 +94,8 @@ const themeOptions = {
       "--footer-page-color": "hsla(0, 0%, 100%, .2)",
       "--footer-active-page-color": "#d00",
 
-      "--edit-box-color": "#1D68CD" /* border color for edit boxes */,
-      "--error-color": "#dd0000" /* error indication */,
+      "--edit-box-color": "#1D68CD",
+      "--error-color": "#dd0000",
     },
     rules: [],
     groupProperties: [],
@@ -111,22 +111,22 @@ const themeOptions = {
       "--header-background-color": "#fff",
       "--header-text-color": "#1254b7",
       "--header-border-color": "#fff",
-      "--header-separator-color": "#2544b7" /* header bottom separator color */,
-      "--header-margin": "4px" /* padding round header */,
+      "--header-separator-color": "#2544b7",
+      "--header-margin": "4px",
 
       "--header-col-background-color": "#fff",
-      "--header-col-hover-background-color": "d6d6d6",
-      "--header-col-range-selected-background-color": "3876ca",
-      "--header-col-range-selected-color": "fff",
+      "--header-col-hover-background-color": "#ccc",
+      "--header-col-hover-text-color": "#0034a2",
+      "--header-col-range-selected-background-color": "#3876ca",
+      "--header-col-range-selected-color": "#fff",
 
       "--header-sort-icon-active": "#666",
       "--header-sort-icon-inactive": "#bbb",
 
       /* Row Theming */
       "--row-border-color": "#fff",
-      "--row-hover-background": "#bbb" /* row background color on hover */,
-      "--row-selected-background":
-        "#9ABCEA" /* row background color when selected */,
+      "--row-hover-background": "#ccc",
+      "--row-selected-background": "#9ABCEA",
 
       "--row-even-background-color": "#fcfcfc",
       "--row-even-text-color": "#000",
@@ -144,15 +144,15 @@ const themeOptions = {
       "--footer-page-color": "hsla(0, 0%, 100%, .2)",
       "--footer-active-page-color": "#d00",
 
-      "--edit-box-color": "#1D68CD" /* border color for edit boxes */,
-      "--error-color": "#dd0000" /* error indication */,
+      "--edit-box-color": "#1D68CD",
+      "--error-color": "#dd0000",
     },
     rules: [
       ".tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-left {border-left: 10px solid #3759d7}",
       ".tabulator .tabulator-tableholder .tabulator-table .tabulator-row .tabulator-cell {padding: 6px 4px;}",
       ".tabulator .tabulator-tableholder .tabulator-table .tabulator-row {margin-bottom: 2px; border: 1px solid #fff}",
       ".tabulator .tabulator-header .tabulator-col .tabulator-col-content {padding-right: 25px}",
-      ".tabulator .tabulator-header {border-bottom: 3px solid var(--headerSeparatorColor, #999);}",
+      ".tabulator .tabulator-header {border-bottom: 3px solid var(--header-separator-color, #999);}",
     ],
     groupProperties: {
       "--row-even-background-color": "#fff",
@@ -166,40 +166,42 @@ const textWrapCSS = [
   ".tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title {white-space: normal !important; word-break: break-word}",
 ];
 
+const insertRuleIntoStyleSheet = (sheet, rule) => {
+  if (sheet && sheet.insertRule) {
+    sheet.insertRule(rule, sheet.cssRules.length);
+  }
+};
+
+const setCSSVariable = (variableName, value) => {
+  const root = document.documentElement;
+  root.style.setProperty(variableName, value);
+};
+
 export const setVisualizationTheme = (theme, groupRows) => {
-  const root = document.querySelector(":root");
+  const sheet = document.styleSheets[0]
+  const themeLower = theme ? theme.toLowerCase() : undefined;
+  const themeOption = themeLower && themeOptions[themeLower];
 
-  if (!theme) {
+  if (!themeOption) {
     if (groupRows) {
-      const defaultGroupProperties = {
-        "--rowBackgroundColor": "#fff",
-        "--rowAltBackgroundColor": "#fff",
-      };
-
-      Object.entries(defaultGroupProperties).forEach(([key, value]) => {
-        root.style.setProperty(key, value);
-      });
+      setCSSVariable("--row-odd-background-color", "#fff");
+      setCSSVariable("--row-even-background-color", "#fff");
     }
     return;
   }
 
-  const themeLower = theme.toLowerCase();
-  const themeOption = themeOptions[themeLower];
-
   if (themeOption) {
-    const myStyleSheet = document.styleSheets[0];
-
-    Object.entries(themeOption.rules).forEach(([key, value]) => {
-      myStyleSheet.insertRule(value, myStyleSheet.cssRules.length);
+    Object.entries(themeOption.rules).forEach(([_key, value]) => {
+      insertRuleIntoStyleSheet(sheet, value);
     });
 
     Object.entries(themeOption.properties).forEach(([key, value]) => {
-      root.style.setProperty(key, value);
+      setCSSVariable(key, value);
     });
 
     if (groupRows && themeOption.groupProperties) {
       Object.entries(themeOption.groupProperties).forEach(([key, value]) => {
-        root.style.setProperty(key, value);
+        setCSSVariable(key, value);
       });
     }
   }
