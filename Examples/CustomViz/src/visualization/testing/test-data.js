@@ -104,6 +104,8 @@ export const config = {"data" : {
                     "groupBy":"International"
                 }
             ],
+    "editable": true,
+    "navigable": false,
     "textWrap": true,
     "theme": "modern",
     "columnSorting": true,

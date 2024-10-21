@@ -85,6 +85,11 @@ type data {
         heading: "The rows of data that will be displayed in the data grid."
     )
 
+    navigable: Boolean @UI (
+        name: "Navigable"
+        heading: "Enable navigation to elements."
+    )
+
     editable: Boolean @UI (
         name: "Editable"
         heading: "Enable in-line editing."

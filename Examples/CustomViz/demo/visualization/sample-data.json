@@ -104,9 +104,12 @@
                     "groupBy":null
                 }
             ],
-    "textWrap": true,
+    "editable": false,
+    "navigable": false,
+    "resizable": true,
     "theme": "modern",
-    "columnSorting": true,
-    "headerFiltering": true
+    "textWrap": false,
+    "headerFiltering": true,
+    "columnSorting": true
   }
 }
