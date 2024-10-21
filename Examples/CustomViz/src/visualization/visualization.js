@@ -12,6 +12,41 @@ function getAlignment(alignment) {
 
 function getColumns(config, columns) {
   let columnDefinition = [];
+
+  const cellContextMenu = [
+    {
+      label: "Copy Cell",
+      action: function (_event, cell) {
+        const cellValue = cell.getValue();
+        navigator.clipboard.writeText(cellValue);
+      },
+    },
+  ];
+
+  if (config.data.editable) {
+    cellContextMenu.push({
+      label: "Edit Cell",
+      action: function (e, cell) {
+        cell.edit();
+      },
+    });
+  }
+
+  if (config.data.navigable) {
+    cellContextMenu.push({
+      label: "Navigate to Element",
+      action: function (event, cell) {
+        const row = cell.getRow();
+        const rowPosition = row.getPosition() - 1;
+        config.functions.performAction(
+          "Navigate",
+          config.data.rows[rowPosition].id,
+          event
+        );
+      },
+    });
+  }
+
   columns.forEach((column) => {
     let newColumn = {
       title: column.title,
@@ -27,20 +62,21 @@ function getColumns(config, columns) {
           : false,
       headerFilter:
         config.data.headerFiltering && column.headerFilter ? "input" : null,
-      cellClick: function (event, cell) {
-        const row = cell.getRow();
-        const rowPosition = row.getPosition() - 1;
-        config.functions.performAction(
-          "Cell Click",
-          config.data.rows[rowPosition].id,
-          event
-        );
-      },
+      // cellClick: function (event, cell) {
+      //   const row = cell.getRow();
+      //   const rowPosition = row.getPosition() - 1;
+      //   config.functions.performAction(
+      //     "Navigate",
+      //     config.data.rows[rowPosition].id,
+      //     event
+      //   );
+      // },
       formatter:
         getFormat[column.format] ||
         (column.format && column.format.includes("%")
           ? (cell) => formatDate(cell, column.format)
           : column.format),
+      clickMenu: cellContextMenu,
     };
 
     columnDefinition.push(newColumn);
@@ -130,7 +166,9 @@ export function visualization(config) {
               group.columns?.forEach(({ title, columns }) => {
                 if (subGroupsToToggle.get(title) && columns) {
                   const initialColumnTitle = columns[0].title;
-                  const initialColumn = table.getColumns().find(column => column.getField() === initialColumnTitle)
+                  const initialColumn = table
+                    .getColumns()
+                    .find((column) => column.getField() === initialColumnTitle);
 
                   if (initialColumn) {
                     initialColumn.getParentColumn().toggle();
@@ -143,7 +181,7 @@ export function visualization(config) {
           getColumnsToToggle();
           toggleColumns(table.getColumns());
           toggleParentColumns(table.getColumnDefinitions());
-          
+
           updateHeaderMenu();
           table.redraw();
         },
