@@ -11,6 +11,7 @@ type Column{
     width: Number @UI (
         name: "Width"
         default: 100
+        heading: "Styles"
     )
 
     format: String @UI (
