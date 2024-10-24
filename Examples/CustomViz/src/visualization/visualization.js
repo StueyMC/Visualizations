@@ -17,8 +17,18 @@ function getColumns(config, columns) {
     {
       label: "Copy Cell",
       action: function (_event, cell) {
-        const cellValue = cell.getValue();
-        navigator.clipboard.writeText(cellValue);
+        console.log(cell);
+        const cellElement = cell.getElement();
+        const formattedValue =
+          cellElement.innerText.trim() || cell.getValue() || "";
+        navigator.clipboard
+          .writeText(formattedValue)
+          .then(() => {
+            console.log("Copied to clipboard: ", formattedValue);
+          })
+          .catch((err) => {
+            console.error("Failed to copy: ", err);
+          });
       },
     },
   ];
@@ -62,21 +72,12 @@ function getColumns(config, columns) {
           : false,
       headerFilter:
         config.data.headerFiltering && column.headerFilter ? "input" : null,
-      // cellClick: function (event, cell) {
-      //   const row = cell.getRow();
-      //   const rowPosition = row.getPosition() - 1;
-      //   config.functions.performAction(
-      //     "Navigate",
-      //     config.data.rows[rowPosition].id,
-      //     event
-      //   );
-      // },
       formatter:
         getFormat[column.format] ||
         (column.format && column.format.includes("%")
           ? (cell) => formatDate(cell, column.format)
           : column.format),
-      clickMenu: cellContextMenu,
+      clickMenu: cellContextMenu
     };
 
     columnDefinition.push(newColumn);
@@ -246,17 +247,28 @@ export function visualization(config) {
     selectableRangeRows: true,
     selectableRangeClearCells: true,
 
-    //change edit trigger mode to make cell navigation smoother
-    editTriggerEvent: "dblclick",
-
     //configure clipboard to allow copy and paste of range format data
     clipboard: true,
-    clipboardCopyStyled: true,
     clipboardCopyRowRange: "range",
     clipboardPasteParser: "range",
     clipboardPasteAction: "range",
+    clipboardCopyConfig: {
+      columnHeaders: false,
+      columnGroups: false,
+      rowHeaders: false,
+      rowGroups: false,
+      formatCells: true,
+    },
 
     columns: createColumnDefinition(config, configData.rows, table),
+
+    clipboardCopyFormatter: function (type, output) {
+      if (type === "plain") {
+        console.log(output)
+      }
+
+      return output;
+    },
 
     ...(configData.rows[0].groupRows
       ? {
