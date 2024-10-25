@@ -17,7 +17,6 @@ function getColumns(config, columns) {
     {
       label: "Copy Cell",
       action: function (_event, cell) {
-        console.log(cell);
         const cellElement = cell.getElement();
         const formattedValue =
           cellElement.innerText.trim() || cell.getValue() || "";
@@ -49,7 +48,7 @@ function getColumns(config, columns) {
         const row = cell.getRow();
         const rowPosition = row.getPosition() - 1;
         config.functions.performAction(
-          "Navigate",
+          "Cell Click",
           config.data.rows[rowPosition].id,
           event
         );
@@ -240,6 +239,15 @@ export function visualization(config) {
     movableColumns: true,
     resizableRows: true,
     headerSortClickElement: "icon",
+    // clipboardCopyFormatter: function(type, output) {
+    //   if (type === "html") {
+    //     const tempElement = document.createElement("div");
+    //     tempElement.innerHTML = output;
+    //     const plain = Array.from(tempElement.querySelectorAll('td')).map(td => td.innerText).join(' ');
+    //     return plain;
+    //   }
+    //   return output;
+    // },
 
     //enable range selection
     selectableRange: 1,
@@ -257,18 +265,9 @@ export function visualization(config) {
       columnGroups: false,
       rowHeaders: false,
       rowGroups: false,
-      formatCells: true,
     },
 
     columns: createColumnDefinition(config, configData.rows, table),
-
-    clipboardCopyFormatter: function (type, output) {
-      if (type === "plain") {
-        console.log(output)
-      }
-
-      return output;
-    },
 
     ...(configData.rows[0].groupRows
       ? {
@@ -279,6 +278,39 @@ export function visualization(config) {
         }
       : {}),
   });
+
+  table.on("clipboardCopied", function(plain, html) {
+    let copyDataArray = []
+    let copyData = ''
+
+    if (html) {
+      const tempElement = document.createElement("div");
+      tempElement.innerHTML = html;
+      
+      const htmlValues = Array.from(tempElement.querySelectorAll('td')).map(td => td.innerText.trim())
+
+      const plainValues = plain.trim().split(/[\n\t]+/)
+      
+      htmlValues.forEach((value, index) => {
+        if (value === '') {
+          htmlValues[index] = plainValues[index] || '';
+        }
+      })
+
+      copyDataArray.push(...htmlValues) // what does ... do?
+      copyData = copyDataArray.join(' ')
+    } else if (plain && plain.trim() !== '') {
+      copyData = plain.trim()
+    }
+
+    navigator.clipboard.writeText(copyData)
+    .then(() => {
+      console.log("Copied to clipboard: ", copyData);
+    })
+    .catch((err) => {
+      console.error("Failed to copy: ", err);
+    });
+  })
 
   mainElement.appendChild(tabulatorDiv);
 }
