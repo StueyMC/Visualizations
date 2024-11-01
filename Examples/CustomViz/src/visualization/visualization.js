@@ -297,7 +297,7 @@ export function visualization(config) {
         }
       })
 
-      copyDataArray.push(...htmlValues) // what does ... do?
+      copyDataArray.push(...htmlValues)
       copyData = copyDataArray.join(' ')
     } else if (plain && plain.trim() !== '') {
       copyData = plain.trim()
