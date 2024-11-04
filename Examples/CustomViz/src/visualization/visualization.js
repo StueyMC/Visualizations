@@ -10,6 +10,20 @@ function getAlignment(alignment) {
   return alignment === "center" || alignment == "right" ? alignment : "left";
 }
 
+function formatAccessor(value, _data, _type, _params, column) {
+  const formatter = column.getDefinition()?.formatter;
+
+  if (value && typeof formatter === 'function') {
+    try {
+      return formatter(value);
+    } catch (error) {
+      console.warn("Formatter error:", error)
+    }
+  }
+
+  return value;
+}
+
 function getColumns(config, columns) {
   let columnDefinition = [];
 
@@ -76,7 +90,8 @@ function getColumns(config, columns) {
         (column.format && column.format.includes("%")
           ? (cell) => formatDate(cell, column.format)
           : column.format),
-      clickMenu: cellContextMenu
+      clickMenu: cellContextMenu,
+      accessorClipboard: formatAccessor,
     };
 
     columnDefinition.push(newColumn);
@@ -239,15 +254,6 @@ export function visualization(config) {
     movableColumns: true,
     resizableRows: true,
     headerSortClickElement: "icon",
-    // clipboardCopyFormatter: function(type, output) {
-    //   if (type === "html") {
-    //     const tempElement = document.createElement("div");
-    //     tempElement.innerHTML = output;
-    //     const plain = Array.from(tempElement.querySelectorAll('td')).map(td => td.innerText).join(' ');
-    //     return plain;
-    //   }
-    //   return output;
-    // },
 
     //enable range selection
     selectableRange: 1,
@@ -279,38 +285,41 @@ export function visualization(config) {
       : {}),
   });
 
-  table.on("clipboardCopied", function(plain, html) {
-    let copyDataArray = []
-    let copyData = ''
+  // table.on("clipboardCopied", function(plain, html) {
+  //   let copyDataArray = []
+  //   let copyData = ''
 
-    if (html) {
-      const tempElement = document.createElement("div");
-      tempElement.innerHTML = html;
-      
-      const htmlValues = Array.from(tempElement.querySelectorAll('td')).map(td => td.innerText.trim())
+  //   if (html) {
+  //     const tempElement = document.createElement("div");
+  //     tempElement.innerHTML = html;
 
-      const plainValues = plain.trim().split(/[\n\t]+/)
-      
-      htmlValues.forEach((value, index) => {
-        if (value === '') {
-          htmlValues[index] = plainValues[index] || '';
-        }
-      })
+  //     console.log(html)
+  //     const htmlValues = Array.from(tempElement.querySelectorAll('td')).map(td => td.innerText.trim())
 
-      copyDataArray.push(...htmlValues)
-      copyData = copyDataArray.join(' ')
-    } else if (plain && plain.trim() !== '') {
-      copyData = plain.trim()
-    }
+  //     // Need to test this (Tab/newline)
+  //     const plainValues = plain.trim().split(/[\n\t]+/)
 
-    navigator.clipboard.writeText(copyData)
-    .then(() => {
-      console.log("Copied to clipboard: ", copyData);
-    })
-    .catch((err) => {
-      console.error("Failed to copy: ", err);
-    });
-  })
+  //     // Tabulator Behaviour - Some cells may return undefined for the HTML such as the built-in Star formatter, but returns an integer from plain. This will overwrite any undefined values with plain or an empty string.
+  //     htmlValues.forEach((value, index) => {
+  //       if (value === '') {
+  //         htmlValues[index] = plainValues[index] || '';
+  //       }
+  //     })
+
+  //     copyDataArray.push(...htmlValues)
+  //     copyData = copyDataArray.join(' ')
+  //   } else if (plain && plain.trim() !== '') {
+  //     copyData = plain.trim()
+  //   }
+
+  //   navigator.clipboard.writeText(copyData)
+  //   .then(() => {
+  //     console.log("Copied to clipboard: ", copyData);
+  //   })
+  //   .catch((err) => {
+  //     console.error("Failed to copy: ", err);
+  //   });
+  // })
 
   mainElement.appendChild(tabulatorDiv);
 }
