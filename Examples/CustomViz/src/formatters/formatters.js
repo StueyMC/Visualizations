@@ -42,7 +42,7 @@ const isDateValid = (dateStr) => {
 };
 
 export const formatDate = (cell, format) => {
-  const cellValue = cell.getValue?.() || cell;
+  const cellValue = cell?.getValue?.() || cell;
 
   if (!isDateValid(cellValue)) {
     return "";
@@ -91,7 +91,7 @@ export const formatDate = (cell, format) => {
 
 export const getFormat = {
   datetime(cell) {
-    const cellValue = cell.getValue?.() || cell;
+    const cellValue = cell?.getValue?.() || cell;
     if (isDateValid(cellValue)) {
       const dateObj = new Date(cellValue);
       return `${dateObj.toDateString()}, ${dateObj.toLocaleTimeString()}`;
@@ -100,7 +100,7 @@ export const getFormat = {
   },
 
   date(cell) {
-    const cellValue = cell.getValue?.() || cell;
+    const cellValue = cell?.getValue?.() || cell;
     if (isDateValid(cellValue)) {
       const dateObj = new Date(cellValue);
       return `${dateObj.toLocaleDateString()}`;
@@ -109,7 +109,7 @@ export const getFormat = {
   },
 
   time(cell) {
-    const cellValue = cell.getValue?.() || cell;
+    const cellValue = cell?.getValue?.() || cell;
     if (isDateValid(cellValue)) {
       const dateObj = new Date(cellValue);
       return `${dateObj.toLocaleTimeString()}`;

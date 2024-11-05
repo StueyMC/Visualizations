@@ -13,7 +13,7 @@ function getAlignment(alignment) {
 function formatAccessor(value, _data, _type, _params, column) {
   const formatter = column.getDefinition()?.formatter;
 
-  if (value && typeof formatter === 'function') {
+  if (typeof formatter === 'function') {
     try {
       return formatter(value);
     } catch (error) {
@@ -27,24 +27,7 @@ function formatAccessor(value, _data, _type, _params, column) {
 function getColumns(config, columns) {
   let columnDefinition = [];
 
-  const cellContextMenu = [
-    {
-      label: "Copy Cell",
-      action: function (_event, cell) {
-        const cellElement = cell.getElement();
-        const formattedValue =
-          cellElement.innerText.trim() || cell.getValue() || "";
-        navigator.clipboard
-          .writeText(formattedValue)
-          .then(() => {
-            console.log("Copied to clipboard: ", formattedValue);
-          })
-          .catch((err) => {
-            console.error("Failed to copy: ", err);
-          });
-      },
-    },
-  ];
+  const cellContextMenu = [];
 
   if (config.data.editable) {
     cellContextMenu.push({
@@ -284,42 +267,6 @@ export function visualization(config) {
         }
       : {}),
   });
-
-  // table.on("clipboardCopied", function(plain, html) {
-  //   let copyDataArray = []
-  //   let copyData = ''
-
-  //   if (html) {
-  //     const tempElement = document.createElement("div");
-  //     tempElement.innerHTML = html;
-
-  //     console.log(html)
-  //     const htmlValues = Array.from(tempElement.querySelectorAll('td')).map(td => td.innerText.trim())
-
-  //     // Need to test this (Tab/newline)
-  //     const plainValues = plain.trim().split(/[\n\t]+/)
-
-  //     // Tabulator Behaviour - Some cells may return undefined for the HTML such as the built-in Star formatter, but returns an integer from plain. This will overwrite any undefined values with plain or an empty string.
-  //     htmlValues.forEach((value, index) => {
-  //       if (value === '') {
-  //         htmlValues[index] = plainValues[index] || '';
-  //       }
-  //     })
-
-  //     copyDataArray.push(...htmlValues)
-  //     copyData = copyDataArray.join(' ')
-  //   } else if (plain && plain.trim() !== '') {
-  //     copyData = plain.trim()
-  //   }
-
-  //   navigator.clipboard.writeText(copyData)
-  //   .then(() => {
-  //     console.log("Copied to clipboard: ", copyData);
-  //   })
-  //   .catch((err) => {
-  //     console.error("Failed to copy: ", err);
-  //   });
-  // })
 
   mainElement.appendChild(tabulatorDiv);
 }
