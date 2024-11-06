@@ -1,4 +1,4 @@
-type Column{
+type Column {
     title: String! @UI (
         default: "Column Title"
         name: "Name"

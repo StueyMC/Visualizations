@@ -104,7 +104,7 @@
                     "groupBy":null
                 }
             ],
-    "editable": false,
+    "editable": true,
     "navigable": false,
     "resizable": true,
     "theme": "modern",
