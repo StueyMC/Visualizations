@@ -7,7 +7,7 @@ import { getFormat, formatDate } from "../formatters/formatters.js";
 import { getEditorType } from "../formatters/editors.js";
 
 function getAlignment(alignment) {
-  return alignment === "center" || alignment == "right" ? alignment : "left";
+  return alignment === "center" || alignment === "right" ? alignment : "left";
 }
 
 function formatAccessor(value, _data, _type, _params, column) {
@@ -73,7 +73,7 @@ function getColumns(config, columns) {
         (column.format && column.format.includes("%")
           ? (cell) => formatDate(cell, column.format)
           : column.format),
-      clickMenu: cellContextMenu,
+      contextMenu: cellContextMenu,
       accessorClipboard: formatAccessor,
     };
 
@@ -237,6 +237,7 @@ export function visualization(config) {
     movableColumns: true,
     resizableRows: true,
     headerSortClickElement: "icon",
+    editTriggerEvent:"dblclick",
 
     //enable range selection
     selectableRange: 1,
