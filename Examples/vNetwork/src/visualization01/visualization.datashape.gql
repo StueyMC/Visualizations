@@ -1,31 +1,32 @@
 type data {
-	nodes: [Node]!
-	edges: [Edge]!
+  nodes: [Node]!
+  edges: [Edge]!
   paths: [Path]
 }
 
 type Node implements MooDElement {
-	id: ID!
-	name: String! @UI(name:"Name" default: "name")
-	x: Int @UI(name:"X Coordinate")
-	y: Int @UI(name:"Y Coordinate")
+  id: ID!
+  name: String! @UI(name: "Name", default: "name")
+  x: Int @UI(name: "X Coordinate")
+  y: Int @UI(name: "Y Coordinate")
+  icon: String @UI(name: "Icon Name")
 }
 
 type Edge implements MooDElement {
-	id: ID!
-	name: String! @UI(name:"Name" default: "name")
-	source: EndPoint!
-	target: EndPoint!
+  id: ID!
+  name: String! @UI(name: "Name", default: "name")
+  source: EndPoint!
+  target: EndPoint!
 }
 
 type Path implements MooDElement {
-	id: ID!
-	name: String! @UI(name:"Name" default: "name")
-	path: EndPoint!
-	edge: EndPoint!
+  id: ID!
+  name: String! @UI(name: "Name", default: "name")
+  path: EndPoint!
+  edge: EndPoint!
 }
 
 type EndPoint implements MooDElement {
-	id: ID!
-	name: String! @UI(name:"Name" default: "name")
+  id: ID!
+  name: String! @UI(name: "Name", default: "name")
 }

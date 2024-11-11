@@ -111,6 +111,7 @@ Note: __No styling currently defined__
 The properties are:
 
 * __showArrows__: Indicates if an arrow marker should be drawn at the target end of the link (true) or not (false). __Default false__
+* __scaleObjects__: Ensure the objects scale on zoom. __Default false__
 
 [Table of Contents](#table-of-contents)
 
@@ -149,6 +150,7 @@ The visualization has one event. This can be configured to trigger actions in Mo
     * __Name__: Name of the node
     * __X Coordinate__: X Coordinate of position of node. __Currently ignored, position determined by force directed algorithm__
     * __Y Coordinate__: Y Coordinate of position of node. __Currently ignored, position determined by force directed algorithm__
+    * __Icon__: Material icon name to use for this node.
 1. __Edges__ - Zero or more relationships; the list of edges (links) between nodes
     * __Source__: The source node of the edge
         * __Name__: The name of the source node
