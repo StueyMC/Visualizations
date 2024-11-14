@@ -2,7 +2,6 @@
     "rows" : [
                 {
                     "columns" : [
-                        {"title":"ID", "content":"1", "format":"rownum", "editable":false, "headerFilter":false, "columnSorter":false, "width":40, "frozen":true, "resizable":false, "alignment":"center"},
                         {"title":"name", "content":"Bristol", "format":null, "editable":true, "headerFilter":true, "columnSorter":true, "width":null, "frozen":false, "resizable":true}
                     ],
                     "groups" : [

@@ -26,32 +26,32 @@ function formatAccessor(value, _data, _type, _params, column) {
 
 // Context Menu
 let contextMenu = null;
-let cleanupFunction = null;
 let menuItems = [];
 let menuItemClickHandlers = [];
 let focusedItemIndex = 0;
-let cleaningUp = false
+let cleaningUp = false;
+let navigateToElement = null;
 
 function cleanup() {
-  if (cleaningUp || !contextMenu) {return}
-  cleaningUp = true
+  if (cleaningUp || !contextMenu) {
+    return;
+  }
+  cleaningUp = true;
 
   focusedItemIndex = 0;
 
-  contextMenu.removeEventListener("click", handleKeydown);
+  contextMenu.removeEventListener("keydown", handleKeydown);
   document.body.removeEventListener("click", cleanupFunction);
-  //contextMenu.removeEventListener('focusout', cleanupFunction);
-  contextMenu.removeEventListener('blur', handleBlur);
-  cleanupFunction = null;
+  document.removeEventListener("contextmenu", contextListener);
 
   menuItemClickHandlers.forEach((handler) => {
-    document.removeEventListener('click', handler)
+    document.removeEventListener("click", handler);
   });
   menuItemClickHandlers = [];
 
   contextMenu.remove();
   contextMenu = null;
-  cleaningUp = false
+  cleaningUp = false;
 }
 
 function customContextMenu(e, cell) {
@@ -62,31 +62,33 @@ function customContextMenu(e, cell) {
   const cellElement = cell.getElement();
   contextMenu = document.createElement("div");
   contextMenu.classList.add("custom-context-menu");
-  contextMenu.setAttribute('role', 'menu');
-  contextMenu.setAttribute('tabindex', '-1');
+  contextMenu.setAttribute("role", "menu");
+  contextMenu.setAttribute("tabindex", "-1");
 
   menuItems.forEach((item, index) => {
-    const menuItem = document.createElement('div');
-    menuItem.className = 'context-menu-item';
+    const menuItem = document.createElement("div");
+    menuItem.className = "context-menu-item";
     menuItem.textContent = item.text;
-    menuItem.setAttribute('data-action', item.action);
-    menuItem.setAttribute('tabindex', index === 0 ? '0' : '-1');
+    menuItem.setAttribute("data-action", item.action);
+    menuItem.setAttribute("role", "menuitem");
+    menuItem.setAttribute("tabindex", index === 0 ? "0" : "-1");
 
-    const clickHandler = () => {
+    const clickHandler = (e) => {
       if (contextMenu) {
-        if (item.action === "navigate") {
-          console.log("Executing action: navigate");
+        if (item.action === "navigate" && navigateToElement) {
+          navigateToElement(e, cell);
         } else if (item.action === "edit") {
-          console.log("Executing action: edit");
+          cell.edit();
         }
-    
+
         cleanup();
       }
-    }
-    menuItem.addEventListener('click', clickHandler);
+    };
+
+    menuItem.addEventListener("click", clickHandler);
     menuItemClickHandlers.push(clickHandler);
     contextMenu.appendChild(menuItem);
-  })
+  });
 
   const cellRect = cellElement.getBoundingClientRect();
   contextMenu.style.position = "absolute";
@@ -94,65 +96,79 @@ function customContextMenu(e, cell) {
   contextMenu.style.top = `${cellRect.bottom}px`;
 
   document.body.appendChild(contextMenu);
-  //contextMenu.focus();
 
   const activeItem = document.querySelector('.context-menu-item[tabindex="0"]');
   if (activeItem) {
     activeItem.focus();
   }
 
-  cleanupFunction = () => {
-    console.log('cleanup function called')
-    cleanup();
-  }
-
-  // Cleanup if focus is lost
-  document.body.addEventListener('click', cleanupFunction)
-  //contextMenu.addEventListener('focusout', cleanupFunction) // Efficiently handles outside click (Closes the menu when selecting a menuItem using arrowKeys)
+  document.body.addEventListener("click", cleanupFunction);
+  document.addEventListener("contextmenu", contextListener);
 
   // Handle key presses
-  contextMenu.addEventListener('keydown', handleKeydown)
-  contextMenu.addEventListener('blur', handleBlur); // Efficiently handles outside click if contextMenu is focused (Doesn't work if focusing on a menuItem)
+  contextMenu.addEventListener("keydown", handleKeydown);
 }
 
-function handleBlur(event) {
-  console.log('blur detection')
-  if (!contextMenu.contains(event.relatedTarget)) {
-    cleanup();
+function cleanupFunction(e) {
+  var button = e.which || e.button; // Firefox - Right click check
+  if (button && button !== 1) {
+    return;
   }
+  cleanup();
+}
+
+function contextListener(e) {
+  let element = e.srcElement || e.target;
+  if (
+    element.classList.contains("tabulator-cell") ||
+    element.classList.contains("context-menu-item")
+  ) {
+    return;
+  }
+  cleanup();
 }
 
 function handleKeydown(event) {
-  const menuItems = contextMenu.querySelectorAll('.context-menu-item');
+  // Ignore IME composition
+  if (event.isComposing || event.keyCode === 229) {
+    return;
+  }
 
-  switch (event.key) {
-    case 'ArrowUp':
-      event.preventDefault();
-      focusedItemIndex = (focusedItemIndex - 1 + menuItems.length) % menuItems.length;
-      updateFocusedItem(menuItems, focusedItemIndex);
-      break;
+  const menuItems = contextMenu.querySelectorAll(".context-menu-item");
 
-    case 'ArrowDown':
-      event.preventDefault();
-      focusedItemIndex = (focusedItemIndex + 1) % menuItems.length;
-      updateFocusedItem(menuItems, focusedItemIndex);
-      break;
-
-    case 'Enter':
+  switch (event.keyCode) {
+    // Enter key
+    case 13:
       event.preventDefault();
       menuItems[focusedItemIndex].click();
       break;
 
-    case 'Escape':
+    // Close menu with ESC key
+    case 27:
       event.preventDefault();
       cleanup();
+      break;
+
+    // ArrowUp key
+    case 38:
+      event.preventDefault();
+      focusedItemIndex =
+        (focusedItemIndex - 1 + menuItems.length) % menuItems.length;
+      updateFocusedItem(menuItems, focusedItemIndex);
+      break;
+
+    // ArrowDown key
+    case 40:
+      event.preventDefault();
+      focusedItemIndex = (focusedItemIndex + 1) % menuItems.length;
+      updateFocusedItem(menuItems, focusedItemIndex);
       break;
   }
 }
 
 function updateFocusedItem(menuItems, index) {
   menuItems.forEach((item, i) => {
-    item.tabIndex = i === index ? '0' : '-1';
+    item.tabIndex = i === index ? "0" : "-1";
   });
   menuItems[index].focus();
 }
@@ -160,16 +176,7 @@ function updateFocusedItem(menuItems, index) {
 function getColumns(config, columns) {
   let columnDefinition = [];
 
-  const cellContextMenu = [];
-
-  if (config.data.editable) {
-    cellContextMenu.push({
-      label: "Edit Cell",
-      action: function (e, cell) {
-        cell.edit();
-      },
-    });
-  }
+  let cellContextMenu = [];
 
   if (config.data.navigable) {
     cellContextMenu.push({
@@ -206,7 +213,7 @@ function getColumns(config, columns) {
         (column.format && column.format.includes("%")
           ? (cell) => formatDate(cell, column.format)
           : column.format),
-      contextMenu: customContextMenu,
+      contextMenu: cellContextMenu, //customContextMenu,
       accessorClipboard: formatAccessor,
     };
 
@@ -221,6 +228,7 @@ function getGroupHeader(data) {
 }
 
 export function visualization(config) {
+  const configStyle = config.style;
   const configData = config.data;
   const mainElement = document.getElementById(config.element);
   const tabulatorDiv = document.createElement("div");
@@ -232,15 +240,23 @@ export function visualization(config) {
   }
 
   if (configData.navigable) {
-    menuItems.push({ text: "Navigate to Element", action: "navigate"});
+    menuItems.push({ text: "Navigate to Element", action: "navigate" });
+
+    navigateToElement = (event, cell) => {
+      const row = cell.getRow();
+      const rowPosition = row.getPosition() - 1;
+      console.log(config.data.rows[rowPosition].id);
+      config.functions.performAction(
+        "Cell Click",
+        config.data.rows[rowPosition].id,
+        event
+      );
+    };
   }
 
   if (configData.editable) {
-    menuItems.push({ text: "Edit Cell", action: "edit"});
+    menuItems.push({ text: "Edit Cell", action: "edit" });
   }
-
-  menuItems.push({ text: "Delete Cell", action: "delete"});
-  menuItems.push({ text: "Copy Cell", action: "copy"});
 
   function headerMenu(group) {
     let menu = [];
@@ -374,7 +390,7 @@ export function visualization(config) {
     return columnDefinition;
   }
 
-  var table = new Tabulator(tabulatorDiv, {
+  const tableConfig = {
     height: "350px",
     data: transformJson(configData.rows),
     layout: "fitColumns",
@@ -411,7 +427,23 @@ export function visualization(config) {
           },
         }
       : {}),
-  });
+  };
+
+  if (configStyle.initialRow?.enabled === true) {
+    tableConfig.rowHeader = {
+      title: configStyle.initialRow.title ?? "ID",
+      resizable: false,
+      frozen: configStyle.initialRow.frozen === true,
+      width: 40,
+      hozAlign: "center",
+      formatter: "rownum",
+      cssClass: "range-header-col",
+      editor: false,
+      headerSort: false,
+    };
+  }
+
+  var table = new Tabulator(tabulatorDiv, tableConfig);
 
   mainElement.appendChild(tabulatorDiv);
 }
