@@ -112,6 +112,7 @@ The properties are:
 
 * __showArrows__: Indicates if an arrow marker should be drawn at the target end of the link (true) or not (false). __Default false__
 * __scaleObjects__: Ensure the objects scale on zoom. __Default false__
+* __pathEnd__: Set if the path ends at the edge of the node or at the center of the node using "edgeOfNode" or "centerOfNode".
 
 [Table of Contents](#table-of-contents)
 
@@ -159,6 +160,7 @@ The visualization has one event. This can be configured to trigger actions in Mo
 1. __Paths__ - Zero or more relationships; the list of edges (links) to Paths
     * __Path__: The Path element
         * __Name__: The name of the Path element
+        * __Animated__: Should the path be animated? True/False
     * __Edge__: The edge relationship
         * __Name__: The name of the edge relationship
 

@@ -4,5 +4,6 @@ declare namespace Vis {
     DevelopmentMode: boolean
     showArrows: boolean
     scaleObjects: boolean
+    pathEnd: string
   }
 }
