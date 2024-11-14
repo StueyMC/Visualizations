@@ -3,5 +3,6 @@ declare namespace Vis {
     [key: string | number | symbol]: JSONValue | undefined
     DevelopmentMode: boolean
     showArrows: boolean
+    scaleObjects: boolean
   }
 }
