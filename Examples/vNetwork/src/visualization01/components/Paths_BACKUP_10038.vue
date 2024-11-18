@@ -223,10 +223,13 @@ function getConfig(): Config {
   if (style?.scaleObjects) {
     config.view.scalingObjects = true
   }
+<<<<<<< HEAD
 
   if (style?.pathEnd) {
     config.path.end = style?.pathEnd
   }
+=======
+>>>>>>> 6792980 (WIP)
   
   return config
 }

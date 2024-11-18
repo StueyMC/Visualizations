@@ -80,14 +80,14 @@ const configs = vNG.defineConfigs(getConfig())
 if (data) {
   data.nodes?.forEach((node) => {
     if (node.id) {
-      nodes[node.id] = {...node}
+      nodes[node.id] = {name: node.name, icon: node.icon}
 
       if (node.x !== undefined && node.y !== undefined) {
-        layouts.nodes[node.id] = {x: node.x, y: node.y}
+        // layouts.nodes[node.id] = {x: node.x, y: node.y}
       }
     }
   })
-  
+
   data.edges?.forEach((edge) => {
     if (edge.id && edge.source?.id && edge.target?.id) {
       edges[edge.id] = {source: edge.source.id, target: edge.target.id}
@@ -97,12 +97,12 @@ if (data) {
   data?.paths?.forEach((pathLink) => {
     if (pathLink.path && pathLink?.path.id && pathLink.edge && pathLink.edge.id) {
       if (!paths[pathLink.path.id]) {
-        paths[pathLink.path.id] = { edges: [], animated: pathLink.path?.animated || false }
+        paths[pathLink.path.id] = {edges: []}
       }
       paths[pathLink.path.id].edges.push(pathLink.edge.id)
     }
   })
-  
+
   try {
     const report = orderPathEdges(paths, edges)
     if (report.length > 0) {
@@ -131,7 +131,7 @@ function getConfig(): Config {
   const config: Config = {
     view: {
       // builtInLayerOrder: ["edges", "paths"],
-      autoPanAndZoomOnLoad: "center-zero", //"fit-content", // false | "center-zero" | "center-content" |
+      autoPanAndZoomOnLoad: "center-content", //"fit-content", // false | "center-zero" | "center-content" |
       // fitContentMargin: 0,
       minZoomLevel: 0.5,
       maxZoomLevel: 5,
@@ -164,22 +164,16 @@ function getConfig(): Config {
     },
     node: {
       normal: {
-        type: (node: vNG.Node) => node.normal?.shape,
-        radius: (node: vNG.Node) => node.normal?.radius,
-        width: (node: vNG.Node) => node.normal?.width,
-        height: (node: vNG.Node) => node.normal?.height,
-        color: (node: vNG.Node) => node.normal?.color,
-        label: (node: vNG.Node) => node.normal?.label,
-        strokeWidth: 1,
-        strokeColor: "#000000",
-        strokeDasharray: "0",
+        type: "circle",
+        // radius: 20,
+        color: "#99ccff",
       },
       hover: {
-        color: (node: vNG.Node) => node.hover?.color,
+        color: "#88bbff",
       },
       label: {
-        visible: (node: vNG.Node) => node.label,
-        fontSize: 12,
+        visible: true,
+        fontSize: 8,
       }
     },
     edge: {
@@ -198,13 +192,9 @@ function getConfig(): Config {
       clickable: true,
       hoverable: true,
       curveInNode: true,
-      end: "edgeOfNode",
       normal: {
-        width: 4,
-        color: "#FF6961",
-        dasharray: "10 16",
-        animate: (p: Vis.Data.AugmentedEndpoint) => p?.animated,
-        animationSpeed: "40"
+        width: 8,
+        // color: "#6699cc"
       },
       hover: {
         width: 10,
@@ -224,10 +214,6 @@ function getConfig(): Config {
     config.view.scalingObjects = true
   }
 
-  if (style?.pathEnd) {
-    config.path.end = style?.pathEnd
-  }
-  
   return config
 }
 </script>
@@ -239,5 +225,46 @@ function getConfig(): Config {
     :paths="paths"
     :layouts="layouts"
     :configs="configs"
-    :event-handlers="eventHandlers" />
+    :event-handlers="eventHandlers"
+  >
+    <defs>
+      <!-- Cannot use <style> directly due to restrictions of Vue. -->
+      <component is="style">
+        @font-face { font-family: 'Material Icons'; font-style: normal;
+        font-weight: 400; src:
+        url(https://fonts.gstatic.com/s/materialicons/v97/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2)
+        format('woff2'); }
+      </component>
+    </defs>
+
+    <!-- Replace the node component -->
+    <template
+      #override-node="{
+        nodeId,
+        scale,
+        config,
+        ...slotProps
+      }: {
+        nodeId: any,
+        scale: any,
+        config: any,
+      }"
+    >
+      <circle
+        :r="config.radius * scale"
+        :fill="config.color"
+        v-bind="slotProps"
+      />
+      <!-- Use v-html to interpret escape sequences for icon characters. -->
+      <text
+        font-family="Material Icons"
+        :font-size="22 * scale"
+        fill="#ffffff"
+        text-anchor="middle"
+        dominant-baseline="central"
+        style="pointer-events: none"
+        v-html="nodes[nodeId]?.icon"
+      />
+    </template>
+  </v-network-graph>
 </template>

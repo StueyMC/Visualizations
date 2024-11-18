@@ -8,7 +8,7 @@ import MooDConfiguration from "./MooDConfig.json";
 // import dataConfig from "./data-two-sink-node-path.json";
 // import dataConfig from "./data-no-source-or-sink-node-path.json"
 // import dataConfig from "./data-disjointed-path.json"
-import dataConfig from "./data-nodes-with-icons.json"
+import dataConfig from "./data-nodes-with-styles.json"
 
 import styleConfig from "./style.json";
 import inputsConfig from "./inputs.json";

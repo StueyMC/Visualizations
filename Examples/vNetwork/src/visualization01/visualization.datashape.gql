@@ -4,12 +4,26 @@ type data {
   paths: [Path]
 }
 
+type NodeStyle implements MooDElement {
+  id: ID!
+  name: String! @UI(name: "Name", default: "name")
+  shape: String! @UI(name: "Shape")
+  radius: Number @UI(name: "Radius")
+  width: Number @UI(name: "Width")
+  height: Number @UI(name: "Height")
+  color: String @UI(name: "Colour")
+}
+
 type Node implements MooDElement {
   id: ID!
   name: String! @UI(name: "Name", default: "name")
   x: Int @UI(name: "X Coordinate")
   y: Int @UI(name: "Y Coordinate")
   icon: String @UI(name: "Icon Name")
+  normal: NodeStyle
+  hover: NodeStyle
+  selected: NodeStyle
+  label: Boolean  @UI(name: "Show Label", default: false)
 }
 
 type Edge implements MooDElement {
