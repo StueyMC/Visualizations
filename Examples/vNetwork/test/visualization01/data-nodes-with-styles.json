@@ -1,0 +1,44 @@
+{
+  "data": {
+    "nodes": [
+      { "id": "node1", "name": "Node 1", "x": 0, "y": 0, "normal": {"shape": "circle", "radius": 16, "color": "#99ccff", "label": true}, "hover": { "color": "orange" }, "selected": {}, "icon": "&#xe2bd"},
+      { "id": "node2", "name": "Node 2", "x": 0, "y": 60, "normal": {"shape": "rect", "width": 64, "height": 64, "color": "#39ccff", "label": false}, "hover": {}, "selected": {}, "icon": "&#xf0e2" },
+      { "id": "node3", "name": "Node 3", "x": 0, "y": 0, "icon": "&#xea75", "normal": {"shape": "circle", "radius": 32, "color": "hotpink"}, "hover": {}, "selected": {}, "label": true },
+      { "id": "node4", "name": "Node 4", "x": 250, "y": 60, "icon": "&#xe328", "normal": {"shape": "rect", "width": 64, "height": 64, "color": "yellow", "label": false}, "hover": {}, "selected": {} },
+      { "id": "node5", "name": "Node 5", "x": 350, "y": 10, "icon": "&#xe320", "normal": {"shape": "circle", "radius": 16, "color": "#33aabb", "label": false}, "hover": {}, "selected": {} },
+      { "id": "node6", "name": "Node 6", "x": 350, "y": 110, "icon": "flight", "normal": {"shape": "rect", "width": 64, "height": 64, "color": "#b54e3a", "label": false}, "hover": {}, "selected": {} },
+      { "id": "node7", "name": "Node 7", "x": 200, "y": 10, "icon": "", "normal": {"shape": "rect", "width": 32, "height": 32, "color": "#7b27ab", "label": false}, "hover": {}, "selected": {} }, 
+      { "id": "node8", "name": "Node 8", "x": 235, "y": 60, "icon": "flight", "normal": {"shape": "rect", "width": 64, "height": 64, "color": "red", "label": false}, "hover": {}, "selected": {}},
+      { "id": "node9", "name": "Node 9", "x": 120, "y": 110, "icon": "mood", "normal": {"shape": "circle", "radius": 16, "color": "red", "label": false}, "hover": {"color": "purple"}, "selected": {}},
+      { "id": "node10", "name": "Node 10", "x": 450, "y": 200, "normal": {"shape": "rect", "width": 64, "height": 64, "color": "blue", "label": false}, "hover": {}, "selected": {}},
+      { "id": "node11", "name": "Node 11", "x": 500, "y": 260, "icon": "flight_land", "normal": {"shape": "rect", "width": 64, "height": 64, "color": "#a2e8d5", "label": false}, "hover": {}, "selected": {}},
+      { "id": "node12", "name": "Node 12", "x": 570, "y": 350, "icon": "visibility", "normal": {"shape": "circle", "radius": 16, "color": "green", "label": false}, "hover": {}, "selected": {}} 
+    ], 
+      "edges": [
+        { "id": "edge01", "name": "Edge 01", "source": { "id": "node1", "name": "Node 1" }, "target": { "id": "node2", "name": "Node 2" } },
+        { "id": "edge02", "name": "Edge 02", "source": { "id": "node2", "name": "Node 2" }, "target": { "id": "node3", "name": "Node 3" } },
+        { "id": "edge03", "name": "Edge 03", "source": { "id": "node3", "name": "Node 3" }, "target": { "id": "node4", "name": "Node 4" } },
+        { "id": "edge05", "name": "Edge 05", "source": { "id": "node4", "name": "Node 4" }, "target": { "id": "node5", "name": "Node 5" } },
+        { "id": "edge06", "name": "Edge 06", "source": { "id": "node4", "name": "Node 4" }, "target": { "id": "node6", "name": "Node 6" } },
+        { "id": "edge07", "name": "Edge 07", "source": { "id": "node5", "name": "Node 5" }, "target": { "id": "node7", "name": "Node 7" } },
+        { "id": "edge08", "name": "Edge 08", "source": { "id": "node8", "name": "Node 8" }, "target": { "id": "node7", "name": "Node 7" } },
+        { "id": "edge09", "name": "Edge 09", "source": { "id": "node6", "name": "Node 6" }, "target": { "id": "node9", "name": "Node 9" } }, 
+        { "id": "edge10", "name": "Edge 10", "source": { "id": "node6", "name": "Node 6" }, "target": { "id": "node10", "name": "Node 10" } }, 
+        { "id": "edge11", "name": "Edge 11", "source": { "id": "node7", "name": "Node 7" }, "target": { "id": "node7", "name": "Node 7" } }, 
+        { "id": "edge12", "name": "Edge 12", "source": { "id": "node5", "name": "Node 5" }, "target": { "id": "node5", "name": "Node 5" } }, 
+        { "id": "edge13", "name": "Edge 13", "source": { "id": "node5", "name": "Node 5" }, "target": { "id": "node11", "name": "Node 11" } }, 
+        { "id": "edge14", "name": "Edge 14", "source": { "id": "node11", "name": "Node 11" }, "target": { "id": "node12", "name": "Node 12" } } 
+    ],
+    "paths": [
+      {
+        "id": "path1.1", "name": "path1.1", "path":{"id":"path1", "name":"Path 1", "animated":true},"edge":{"id":"edge01", "name":"edge01"}
+      },
+      {
+        "id": "path2.4", "name": "path2.4", "path":{"id":"path2", "name":"Path 2", "animated":true},"edge":{"id":"edge03", "name":"edge03"}
+      },
+      {
+        "id": "path4.5", "name": "path4.5", "path":{"id":"path3", "name":"Path 3", "animated":false},"edge":{"id":"edge05", "name":"edge05"}
+      }
+    ]
+  }
+}

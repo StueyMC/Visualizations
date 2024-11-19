@@ -97,12 +97,12 @@ if (data) {
   data?.paths?.forEach((pathLink) => {
     if (pathLink.path && pathLink?.path.id && pathLink.edge && pathLink.edge.id) {
       if (!paths[pathLink.path.id]) {
-        paths[pathLink.path.id] = { edges: [], animated: pathLink.path?.animated || false }
+        paths[pathLink.path.id] = {edges: []}
       }
       paths[pathLink.path.id].edges.push(pathLink.edge.id)
     }
   })
-  
+
   try {
     const report = orderPathEdges(paths, edges)
     if (report.length > 0) {
@@ -198,13 +198,9 @@ function getConfig(): Config {
       clickable: true,
       hoverable: true,
       curveInNode: true,
-      end: "edgeOfNode",
       normal: {
-        width: 4,
-        color: "#FF6961",
-        dasharray: "10 16",
-        animate: (p: Vis.Data.AugmentedEndpoint) => p?.animated,
-        animationSpeed: "40"
+        width: 8,
+        // color: "#6699cc"
       },
       hover: {
         width: 10,
@@ -222,10 +218,6 @@ function getConfig(): Config {
 
   if (style?.scaleObjects) {
     config.view.scalingObjects = true
-  }
-
-  if (style?.pathEnd) {
-    config.path.end = style?.pathEnd
   }
   
   return config

@@ -9,12 +9,27 @@ declare namespace Vis {
 declare namespace Vis.Data {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface NodeStyle extends MooDElement {
+    id: ID
+    name: string
+    shape: string
+    radius?: number
+    width?: number
+    height?: number
+    color?: string
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Node extends MooDElement {
     id: ID
     name: string
     x?: number
     y?: number
     icon?: string
+    normal?: Vis.Data.NodeStyle
+    hover?: Vis.Data.NodeStyle
+    selected?: Vis.Data.NodeStyle
+    label?: boolean
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
