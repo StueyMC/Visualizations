@@ -24,6 +24,9 @@ function formatAccessor(value, _data, _type, _params, column) {
   return value;
 }
 
+// Navigation to Elements Identifier
+const elementIds = {};
+
 // Context Menu
 let contextMenu = null;
 let menuItems = [];
@@ -176,23 +179,6 @@ function updateFocusedItem(menuItems, index) {
 function getColumns(config, columns) {
   let columnDefinition = [];
 
-  let cellContextMenu = [];
-
-  if (config.data.navigable) {
-    cellContextMenu.push({
-      label: "Navigate to Element",
-      action: function (event, cell) {
-        const row = cell.getRow();
-        const rowPosition = row.getPosition() - 1;
-        config.functions.performAction(
-          "Cell Click",
-          config.data.rows[rowPosition].id,
-          event
-        );
-      },
-    });
-  }
-
   columns.forEach((column) => {
     let newColumn = {
       title: column.title,
@@ -213,7 +199,7 @@ function getColumns(config, columns) {
         (column.format && column.format.includes("%")
           ? (cell) => formatDate(cell, column.format)
           : column.format),
-      contextMenu: cellContextMenu, //customContextMenu,
+      contextMenu: customContextMenu,
       accessorClipboard: formatAccessor,
     };
 
@@ -228,8 +214,10 @@ function getGroupHeader(data) {
 }
 
 export function visualization(config) {
+  console.log("debug");
   const configStyle = config.style;
   const configData = config.data;
+  const initialRowEnabled = configStyle.initialRow?.enabled === true || false;
   const mainElement = document.getElementById(config.element);
   const tabulatorDiv = document.createElement("div");
 
@@ -244,13 +232,13 @@ export function visualization(config) {
 
     navigateToElement = (event, cell) => {
       const row = cell.getRow();
-      const rowPosition = row.getPosition() - 1;
-      console.log(config.data.rows[rowPosition].id);
-      config.functions.performAction(
-        "Cell Click",
-        config.data.rows[rowPosition].id,
-        event
-      );
+      const key = row && row.getData()?.rowKey;
+      if (key) {
+        const elementId = elementIds[key]
+        if (elementId) {
+          config.functions.performAction("Cell Click", elementId, event);
+        }
+      }
     };
   }
 
@@ -272,6 +260,7 @@ export function visualization(config) {
 
       expandTitle.classList.add("hidden");
 
+      // Can't change the displayed text content; using two elements and CSS instead
       expandTitle.textContent = "Expand";
       collapseTitle.textContent = "Collapse";
 
@@ -322,6 +311,7 @@ export function visualization(config) {
           const toggleParentColumns = (columnDefinitions) => {
             columnDefinitions.forEach((group) => {
               group.columns?.forEach(({ title, columns }) => {
+                // Vulnerable to same title problems, need to fix.
                 if (subGroupsToToggle.get(title) && columns) {
                   const initialColumnTitle = columns[0].title;
                   const initialColumn = table
@@ -402,7 +392,7 @@ export function visualization(config) {
     //enable range selection
     selectableRange: 1,
     selectableRangeColumns: true,
-    selectableRangeRows: true,
+    selectableRangeRows: initialRowEnabled,
     selectableRangeClearCells: true,
 
     //configure clipboard to allow copy and paste of range format data
@@ -417,6 +407,20 @@ export function visualization(config) {
       rowGroups: false,
     },
 
+    // rowFormatter: function(row){
+    //   console.log(row);
+    //   console.log(elementIds);
+    //   // row.elementId = true
+    //   //row.getElement().setAttribute('row-element-id', row.id);
+
+    //   // could add an object that stores [row-id = row-element-id]
+
+    //   // row-id stored in row data (reserved keyword - can add to display but not to be modified)
+    //   //elementIds[row-id] = row-element-id
+
+    //   //elementId = elementIds[getData().row-id]
+    // },
+
     columns: createColumnDefinition(config, configData.rows, table),
 
     ...(configData.rows[0].groupRows
@@ -429,7 +433,7 @@ export function visualization(config) {
       : {}),
   };
 
-  if (configStyle.initialRow?.enabled === true) {
+  if (initialRowEnabled) {
     tableConfig.rowHeader = {
       title: configStyle.initialRow.title ?? "ID",
       resizable: false,
@@ -454,6 +458,7 @@ export function transformJson(rows) {
   function setRow(columns) {
     let newDataRow = {};
     columns.forEach((column) => {
+      // Vulnerable to columns with same title. Need to fix.
       newDataRow[column.title] = column.content;
     });
     return newDataRow;
@@ -461,6 +466,7 @@ export function transformJson(rows) {
 
   rows.forEach((row) => {
     let dataRow = {};
+
     if (row.columns) {
       let dataObject = setRow(row.columns);
       Object.assign(dataRow, dataObject);
@@ -483,6 +489,11 @@ export function transformJson(rows) {
     }
     if (row.groupBy) {
       dataRow["groupBy"] = row.groupBy;
+    }
+    if (row.id) {
+      const rowKey = Object.keys(elementIds).length + 1;
+      dataRow["rowKey"] = rowKey
+      elementIds[rowKey] = row.id;
     }
     newData.push(dataRow);
   });
