@@ -22,11 +22,17 @@ type Edge implements MooDElement {
 type Path implements MooDElement {
   id: ID!
   name: String! @UI(name: "Name", default: "name")
-  path: EndPoint!
+  path: AugmentedEndpoint!
   edge: EndPoint!
 }
 
 type EndPoint implements MooDElement {
   id: ID!
   name: String! @UI(name: "Name", default: "name")
+}
+
+type AugmentedEndpoint implements MooDElement {
+  id: ID!
+  name: String! @UI(name: "Name", default: "name")
+  animated: Boolean @UI(name: "Animated", default: false)
 }

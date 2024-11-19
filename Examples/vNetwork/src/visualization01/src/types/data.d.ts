@@ -29,7 +29,7 @@ declare namespace Vis.Data {
   interface Path extends MooDElement {
     id: ID
     name: string
-    path: Vis.Data.EndPoint
+    path: Vis.Data.AugmentedEndpoint
     edge: Vis.Data.EndPoint
   }
 
@@ -37,5 +37,12 @@ declare namespace Vis.Data {
   interface EndPoint extends MooDElement {
     id: ID
     name: string
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface AugmentedEndpoint extends MooDElement {
+    id: ID
+    name: string
+    animated?: boolean
   }
 }

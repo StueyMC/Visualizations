@@ -3,6 +3,7 @@
   "style": {
     "DevelopmentMode": true,
     "showArrows": false,
-    "scaleObjects": true
+    "scaleObjects": true,
+    "pathEnd": "edgeOfNode"
   }
 }
