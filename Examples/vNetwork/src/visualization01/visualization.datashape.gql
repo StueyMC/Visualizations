@@ -23,7 +23,7 @@ type Node implements MooDElement {
   normal: NodeStyle
   hover: NodeStyle
   selected: NodeStyle
-  label: Boolean  @UI(name: "Show Label", default: false)
+  showLabel: Boolean  @UI(name: "Show Label", default: false)
 }
 
 type Edge implements MooDElement {

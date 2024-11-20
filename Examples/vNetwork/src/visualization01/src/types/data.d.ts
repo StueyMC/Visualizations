@@ -29,7 +29,7 @@ declare namespace Vis.Data {
     normal?: Vis.Data.NodeStyle
     hover?: Vis.Data.NodeStyle
     selected?: Vis.Data.NodeStyle
-    label?: boolean
+    showLabel?: boolean
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

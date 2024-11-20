@@ -7,14 +7,9 @@ import {
 } from "@helpers/config"
 import { ActionsEnum } from "../src/types/actions"
 import { OutputsEnum } from "../src/types/outputs"
-import { orderPathEdges } from "../graph"
+import { createForceLayoutHandler, orderPathEdges } from "../graph"
 
 import * as vNG from "v-network-graph"
-import {
-  ForceLayout,
-  ForceNodeDatum,
-  ForceEdgeDatum,
-} from "v-network-graph/lib/force-layout"
 
 interface Config {
   [name: string]: any
@@ -134,42 +129,15 @@ function getConfig(): Config {
       autoPanAndZoomOnLoad: "center-zero", //"fit-content", // false | "center-zero" | "center-content" |
       // fitContentMargin: 0,
       minZoomLevel: 0.5,
-      maxZoomLevel: 5,
-      layoutHandler: new ForceLayout({
-        positionFixedByDrag: false,
-        positionFixedByClickWithAltKey: true,
-        createSimulation: (d3, nodes, edges) => {
-          // d3-force parameters
-          const forceLink = d3
-            .forceLink<ForceNodeDatum, ForceEdgeDatum>(edges)
-            .id((d) => d.id);
-          return d3
-            .forceSimulation(nodes)
-            .force("edge", forceLink.distance(40).strength(0.5))
-            .force("charge", d3.forceManyBody().strength(-800))
-            .force("center", d3.forceCenter().strength(0.05))
-            .alphaMin(0.001);
-
-          // * The following are the default parameters for the simulation.
-          // const forceLink = d3.forceLink<ForceNodeDatum, ForceEdgeDatum>(edges).id(d => d.id)
-          // return d3
-          //   .forceSimulation(nodes)
-          //   .force("edge", forceLink.distance(100))
-          //   .force("charge", d3.forceManyBody())
-          //   .force("collide", d3.forceCollide(50).strength(0.2))
-          //   .force("center", d3.forceCenter().strength(0.05))
-          //   .alphaMin(0.001)
-        }
-      })
+      maxZoomLevel: 5
     },
     node: {
       normal: {
-        type: (node: vNG.Node) => node.normal?.shape,
-        radius: (node: vNG.Node) => node.normal?.radius,
-        width: (node: vNG.Node) => node.normal?.width,
-        height: (node: vNG.Node) => node.normal?.height,
-        color: (node: vNG.Node) => node.normal?.color,
-        label: (node: vNG.Node) => node.normal?.label,
+        type: (node: vNG.Node) => node.normal?.shape || "rect",
+        radius: (node: vNG.Node) => node.normal?.radius || 32,
+        width: (node: vNG.Node) => node.normal?.width || 64,
+        height: (node: vNG.Node) => node.normal?.height || 64,
+        color: (node: vNG.Node) => node.normal?.color || "skyblue",
         strokeWidth: 1,
         strokeColor: "#000000",
         strokeDasharray: "0",
@@ -178,7 +146,7 @@ function getConfig(): Config {
         color: (node: vNG.Node) => node.hover?.color,
       },
       label: {
-        visible: (node: vNG.Node) => node.label,
+        visible: (node: vNG.Node) => node.showLabel || true,
         fontSize: 12,
       }
     },
@@ -203,7 +171,7 @@ function getConfig(): Config {
         width: 4,
         color: "#FF6961",
         dasharray: "10 16",
-        animate: (p: Vis.Data.AugmentedEndpoint) => p?.animated,
+        animate: (p: Vis.Data.AugmentedEndpoint) => p?.animated || false,
         animationSpeed: "40"
       },
       hover: {
@@ -226,6 +194,10 @@ function getConfig(): Config {
 
   if (style?.pathEnd) {
     config.path.end = style?.pathEnd
+  }
+
+  if (style?.useForceLayout) {
+    config.view.layoutHandler = createForceLayoutHandler()
   }
   
   return config

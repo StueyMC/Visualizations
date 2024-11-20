@@ -113,6 +113,7 @@ The properties are:
 * __showArrows__: Indicates if an arrow marker should be drawn at the target end of the link (true) or not (false). __Default false__
 * __scaleObjects__: Ensure the objects scale on zoom. __Default false__
 * __pathEnd__: Set if the path ends at the edge of the node or at the center of the node using "edgeOfNode" or "centerOfNode".
+* __useForceLayout__: Indicates if we should use force directed algorithm or X,Y co-ordinates for node positioning. __Default false__
 
 [Table of Contents](#table-of-contents)
 
@@ -149,9 +150,16 @@ The visualization has one event. This can be configured to trigger actions in Mo
 
 1. __Nodes__ – Zero or more elements; the list of nodes to visualise
     * __Name__: Name of the node
-    * __X Coordinate__: X Coordinate of position of node. __Currently ignored, position determined by force directed algorithm__
-    * __Y Coordinate__: Y Coordinate of position of node. __Currently ignored, position determined by force directed algorithm__
+    * __X Coordinate__: X Coordinate of position of node. __Ignored if using force directed algorithm__
+    * __Y Coordinate__: Y Coordinate of position of node. __Ignored if using force directed algorithm__
     * __Icon__: Material icon name to use for this node.
+    * __Normal__: Styles to use when node is in normal state.
+        * __Shape__: Determine shape of node (can only be 'rect' or 'circle')
+        * __Radius__: Determines radius of node (ignored if shape is 'rect')
+        * __Width__: Determines width of node (ignored if shape is 'circle')
+        * __Height__: Determines height of node (ignores if shape is 'circle')
+        * __Color__: Determines color of node (can be hex codes or names, e.g. #FF0000 or 'red')
+        * __ShowLabel__: Determines if we show the node label or not true/false
 1. __Edges__ - Zero or more relationships; the list of edges (links) between nodes
     * __Source__: The source node of the edge
         * __Name__: The name of the source node

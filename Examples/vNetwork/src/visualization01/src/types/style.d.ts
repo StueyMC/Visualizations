@@ -5,5 +5,6 @@ declare namespace Vis {
     showArrows: boolean
     scaleObjects: boolean
     pathEnd: string
+    useForceLayout: boolean
   }
 }
