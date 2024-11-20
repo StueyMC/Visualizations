@@ -88,11 +88,11 @@ glob("src/**/*.datashape.gql", function (er, files) {
         //Conversion for data types is a little more complicated so extracted to own function
         if (!initialDataParsed)
           return initialDataConversion.push(
-            handleDataTypeConversion(line, initialDataParsed)
+            handleDataTypeConversion(line)
           );
 
         return outputFileLines.push(
-          handleDataTypeConversion(line, initialDataParsed)
+          handleDataTypeConversion(line)
         );
       })
       .on("close", function () {

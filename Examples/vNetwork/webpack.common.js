@@ -209,17 +209,17 @@ function getPlugins() {
 //
     VisualizationDirectories
         .filter(d => d.containsEJS() === true)
-        .map(d => d.configFiles().forEach(f => copyPatterns.push(getCopyPluginOption(d.directoryName, f))))
+        .forEach(d => d.configFiles().forEach(f => copyPatterns.push(getCopyPluginOption(d.directoryName, f))))
 //
 // CopyPlugin for each visualization image file
 //
     VisualizationDirectories
-        .map(d => d.imageFiles().forEach(f => copyPatterns.push(getCopyPluginOption(d.directoryName, f))))
+        .forEach(d => d.imageFiles().forEach(f => copyPatterns.push(getCopyPluginOption(d.directoryName, f))))
 //
 // CopyPlugin for each CSS file
 //
     VisualizationDirectories
-        .map(d => d.cssFiles().forEach(f => copyPatterns.push(getCopyPluginOption(d.directoryName, f))))
+        .forEach(d => d.cssFiles().forEach(f => copyPatterns.push(getCopyPluginOption(d.directoryName, f))))
 
 let copyPlugins = Object(new CopyPlugin({
     patterns: copyPatterns
