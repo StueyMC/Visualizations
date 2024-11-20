@@ -4,6 +4,7 @@
     "DevelopmentMode": true,
     "showArrows": false,
     "scaleObjects": true,
-    "pathEnd": "edgeOfNode"
+    "pathEnd": "edgeOfNode",
+    "useForceLayout": true
   }
 }
