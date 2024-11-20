@@ -1,6 +1,7 @@
 import * as vNG from 'v-network-graph'
 import { Path } from './path'
 import { ForceEdgeDatum, ForceLayout, ForceNodeDatum } from 'v-network-graph/lib/force-layout'
+import { LayoutHandler } from 'v-network-graph'
 
 /**
  * Place the edges within each path in the correct order
@@ -37,7 +38,7 @@ export function orderPathEdges (paths: vNG.Paths, edges: vNG.Edges): string[] {
  * Create the force determined layout handler
  * @returns The ForceLayout object to attach to the view config
  */
-export function createForceLayoutHandler (): ForceLayout {
+export function createForceLayoutHandler (): LayoutHandler {
   return new ForceLayout({
     positionFixedByDrag: false,
     positionFixedByClickWithAltKey: true,
