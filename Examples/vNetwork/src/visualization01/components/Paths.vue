@@ -133,11 +133,12 @@ function getConfig(): Config {
     },
     node: {
       normal: {
-        type: (node: vNG.Node) => node.normal?.shape || "rect",
+        type: (node: vNG.Node) => node.normal?.shape || 'rect',
         radius: (node: vNG.Node) => node.normal?.radius || 32,
         width: (node: vNG.Node) => node.normal?.width || 64,
-        height: (node: vNG.Node) => node.normal?.height || 64,
-        color: (node: vNG.Node) => node.normal?.color || "skyblue",
+        height: (node: vNG.Node) => node.normal?.height || 32,
+        color: (node: vNG.Node) => node.normal?.color || "#4287f5",
+        label: (node: vNG.Node) => node.normal?.label || true,
         strokeWidth: 1,
         strokeColor: "#000000",
         strokeDasharray: "0",
@@ -153,11 +154,11 @@ function getConfig(): Config {
     edge: {
       gap: 12,
       normal: {
-        color: "#6699cc",
+        color: "#C70039",
         linecap: "round"
       },
       hover: {
-        color: "#6699cc",
+        color: "#C70039",
         width: 6
       }
     },
@@ -166,7 +167,6 @@ function getConfig(): Config {
       clickable: true,
       hoverable: true,
       curveInNode: true,
-      end: "edgeOfNode",
       normal: {
         width: 4,
         color: "#FF6961",
