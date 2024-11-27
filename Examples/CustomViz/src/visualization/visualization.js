@@ -27,6 +27,12 @@ function formatAccessor(value, _data, _type, _params, column) {
 // Navigation to Elements Identifier
 const elementIds = {};
 
+// Reserved column names - Prevent conflicts
+const RESERVED_COLUMN_NAMES = [
+  "groupBy",
+  "rowKey" // Could allow this so you could display the element ID within the data grid, however, rowKey's data can then be overwritten
+]
+
 // Context Menu
 let contextMenu = null;
 let menuItems = [];
@@ -178,8 +184,14 @@ function updateFocusedItem(menuItems, index) {
 
 function getColumns(config, columns) {
   let columnDefinition = [];
+  let usedColumnTitles = new Set();
 
   columns.forEach((column) => {
+    if (RESERVED_COLUMN_NAMES.includes(column.title) || usedColumnTitles.has(column.title)) {
+      console.warn(`Skipping Column Definition Setup: Column "${column.title}" is either a reserved name or a duplicate`)
+      return;
+    }
+
     let newColumn = {
       title: column.title,
       field: column.title,
@@ -204,6 +216,7 @@ function getColumns(config, columns) {
     };
 
     columnDefinition.push(newColumn);
+    usedColumnTitles.add(column.title);
   });
 
   return columnDefinition;
@@ -234,7 +247,7 @@ export function visualization(config) {
       const row = cell.getRow();
       const key = row && row.getData()?.rowKey;
       if (key) {
-        const elementId = elementIds[key]
+        const elementId = elementIds[key];
         if (elementId) {
           config.functions.performAction("Cell Click", elementId, event);
         }
@@ -311,6 +324,7 @@ export function visualization(config) {
           const toggleParentColumns = (columnDefinitions) => {
             columnDefinitions.forEach((group) => {
               group.columns?.forEach(({ title, columns }) => {
+                // Better to use CSS 'Hidden' for each column?
                 // Vulnerable to same title problems, need to fix.
                 if (subGroupsToToggle.get(title) && columns) {
                   const initialColumnTitle = columns[0].title;
@@ -407,20 +421,6 @@ export function visualization(config) {
       rowGroups: false,
     },
 
-    // rowFormatter: function(row){
-    //   console.log(row);
-    //   console.log(elementIds);
-    //   // row.elementId = true
-    //   //row.getElement().setAttribute('row-element-id', row.id);
-
-    //   // could add an object that stores [row-id = row-element-id]
-
-    //   // row-id stored in row data (reserved keyword - can add to display but not to be modified)
-    //   //elementIds[row-id] = row-element-id
-
-    //   //elementId = elementIds[getData().row-id]
-    // },
-
     columns: createColumnDefinition(config, configData.rows, table),
 
     ...(configData.rows[0].groupRows
@@ -456,12 +456,23 @@ export function transformJson(rows) {
   let newData = [];
 
   function setRow(columns) {
-    let newDataRow = {};
+    let dataRow = {};
+    let usedColumnTitles = new Set();
+
     columns.forEach((column) => {
-      // Vulnerable to columns with same title. Need to fix.
-      newDataRow[column.title] = column.content;
+      // Skip if the column's name is already in-use.
+      if (RESERVED_COLUMN_NAMES.includes(column.title) || usedColumnTitles.has(column.title)) {
+        console.warn(`Skipped Row Setup: Column "${column.title}" is either a reserved name or a duplicate`)
+        return;
+      }
+
+      dataRow[column.title] = column.content;
+      usedColumnTitles.add(column.title); 
     });
-    return newDataRow;
+
+    //usedColumnTitles.clear() -- Code Review: Would it be necessary to clear the set, for memory?
+    
+    return dataRow;
   }
 
   rows.forEach((row) => {
@@ -471,12 +482,14 @@ export function transformJson(rows) {
       let dataObject = setRow(row.columns);
       Object.assign(dataRow, dataObject);
     }
+
     if (row.groups) {
       row.groups.forEach((group) => {
         if (group.columns) {
           let dataObject = setRow(group.columns);
           Object.assign(dataRow, dataObject);
         }
+
         if (group.subGroups) {
           group.subGroups.forEach((subGroup) => {
             if (subGroup.columns) {
@@ -487,14 +500,17 @@ export function transformJson(rows) {
         }
       });
     }
+
     if (row.groupBy) {
       dataRow["groupBy"] = row.groupBy;
     }
+
     if (row.id) {
       const rowKey = Object.keys(elementIds).length + 1;
-      dataRow["rowKey"] = rowKey
+      dataRow["rowKey"] = rowKey;
       elementIds[rowKey] = row.id;
     }
+
     newData.push(dataRow);
   });
 
