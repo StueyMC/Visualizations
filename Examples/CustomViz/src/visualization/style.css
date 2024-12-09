@@ -1350,3 +1350,21 @@ body.tabulator-print-fullscreen-hide>:not(.tabulator-print-fullscreen) {
     cursor: pointer;
     color: #333;
 }
+
+.collapsed-text {
+    color: gray;
+    font-size: 0.9em;
+    display: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-icon {
+    cursor: pointer;
+    font-size: 24px; /* Adjust the size of the icon */
+    color: #007bff;
+    padding: 5px;
+}

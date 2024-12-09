@@ -4,14 +4,17 @@ export const getEditorType = (format) => {
   if (!format) {
     return;
   }
+  if (format === 'star') {
+    return true;
+  }
 
-  if (format.includes("%")) {
-    return "date";
+  if (format.includes('%')) {
+    return 'date';
   }
 
   if (dateFormats.includes(format)) {
-    return "date";
+    return 'date';
   }
 
-  return true;
+  return 'input';
 };
