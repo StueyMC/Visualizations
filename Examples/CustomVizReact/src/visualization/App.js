@@ -5,7 +5,12 @@ import {
 } from "../visualizationThemes/visualizationThemes.js";
 import { getFormat, formatDate } from "../formatters/formatters.js";
 import { getEditorType } from "../formatters/editors.js";
-import { BsCaretRightFill, BsCaretDownFill } from "react-icons/bs";
+import {
+  BsCaretRightFill,
+  BsCaretDownFill,
+  BsSortDown,
+  BsSortUp,
+} from "react-icons/bs";
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -319,8 +324,8 @@ const HeaderContent = ({ initialValue, group, table }) => {
   return (
     <span className="flex items-center gap-2">
       {initialValue}
-      <div className="dropdown ui">
-        <div className="cursor-pointer" onClick={handleClick}>
+      <div className="dropdown">
+        <div className="menu-icon cursor-pointer" onClick={handleClick}>
           {isCollapsed ? <BsCaretRightFill /> : <BsCaretDownFill />}
         </div>
       </div>
@@ -507,7 +512,6 @@ function App({ config }) {
       const tableConfig = {
         height: "350px",
         data: transformJson(configData.rows),
-        columnHeaderVertAlign: "bottom",
         layout: "fitColumns",
         layoutMode: "fitData",
         responsiveLayout: true,
@@ -515,7 +519,39 @@ function App({ config }) {
         resizableRows: true,
         headerSortClickElement: "icon",
         editTriggerEvent: "dblclick",
-        //autoResize:false, uncomment only if the table is already automatically adjusted after rendering.
+        headerSortElement: function (column, dir) {
+          //column - column component for current column
+          //dir - current sort direction ("asc", "desc", "none")
+
+          const container = document.createElement("div");
+
+          const root = createRoot(container);
+
+          switch (dir) {
+            case "asc":
+              root.render(
+                <span>
+                  <BsSortUp />
+                </span>
+              );
+              break;
+            case "desc":
+              root.render(
+                <span>
+                  <BsSortDown />
+                </span>
+              );
+              break;
+            default:
+              root.render(
+                <span>
+                  <BsSortUp />
+                </span>
+              );
+          }
+
+          return container;
+        },
 
         //enable range selection
         selectableRange: 1,
