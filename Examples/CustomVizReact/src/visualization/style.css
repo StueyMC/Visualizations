@@ -1363,8 +1363,6 @@ body.tabulator-print-fullscreen-hide>:not(.tabulator-print-fullscreen) {
 }
 
 .menu-icon {
-    cursor: pointer;
-    font-size: 24px; /* Adjust the size of the icon */
-    color: #007bff;
-    padding: 5px;
+    color: #999;
+    padding-left: 10px;
 }
