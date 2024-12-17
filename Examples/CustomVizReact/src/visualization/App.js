@@ -32,8 +32,11 @@ function formatAccessor(value, _data, _type, _params, column) {
   return value;
 }
 
+// Collapsible columns
+const collapsedGroups = {};
+
 // Navigation to Elements Identifier
-let adjustColumns = null;
+const elementIds = {};
 
 // Reserved column names - Prevent conflicts
 const RESERVED_COLUMN_NAMES = [
@@ -49,8 +52,6 @@ const ContextMenuConfig = {
   CLEANING: false,
   NAVIGATE_TO_ELEM: null,
 };
-
-const elementIds = {};
 
 function cleanup() {
   if (ContextMenuConfig.CLEANING || !ContextMenuConfig.CONTEXTMENU) {
@@ -312,25 +313,99 @@ const transformJson = (rows) => {
   return JSON.parse(JSON.stringify(newData));
 };
 
+const getDescendants = (group, ignoreFirstIndex) => {
+  let columns = [];
+
+  let isFirstIndexIgnored = ignoreFirstIndex || false;
+
+  if (group.columns) {
+    group.columns.forEach((column) => {
+      if (!isFirstIndexIgnored) {
+        isFirstIndexIgnored = true;
+        return;
+      }
+
+      columns.push(column.title);
+    });
+  }
+
+  if (group.subGroups) {
+    group.subGroups.forEach((subGroup) => {
+      columns = [...columns, ...getDescendants(subGroup, isFirstIndexIgnored)];
+    });
+  }
+
+  return columns;
+};
+
 const HeaderContent = ({ initialValue, group, table }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [_isCollapsed, setIsCollapsed] = useState({});
+  const groupId = group.title;
+
+  const adjustColumns = (targetGroup, isCollapsed, parentCollapsed = false) => {
+    const groupColumns = getDescendants(targetGroup);
+
+    if (parentCollapsed) {
+      // Keep child columns hidden
+      groupColumns.forEach((field) => {
+        table.hideColumn(field);
+      });
+      return;
+    }
+
+    groupColumns.forEach((field) => {
+      if (isCollapsed) {
+        table.hideColumn(field);
+      } else {
+        // Only show if parent group is not collapsed
+        table.showColumn(field);
+      }
+    });
+
+    if (targetGroup.subGroups) {
+      targetGroup.subGroups.forEach((subGroup) => {
+        if (subGroup.columns) {
+          const subGroupId = subGroup.title;
+          console.log(collapsedGroups);
+          adjustColumns(
+            subGroup,
+            collapsedGroups[subGroupId] || false,
+            isCollapsed || parentCollapsed
+          );
+        }
+      });
+    }
+  };
 
   const handleClick = () => {
-    setIsCollapsed(!isCollapsed);
-    adjustColumns(group);
+    const newCollapsedState = !collapsedGroups[groupId];
+
+    setIsCollapsed(newCollapsedState);
+    collapsedGroups[groupId] = newCollapsedState;
+
+    adjustColumns(group, newCollapsedState);
     table.redraw();
   };
 
-  return (
-    <span className="flex items-center gap-2">
-      {initialValue}
-      <div className="dropdown">
-        <div className="menu-icon cursor-pointer" onClick={handleClick}>
-          {isCollapsed ? <BsCaretRightFill /> : <BsCaretDownFill />}
+    return (
+      <span className="flex items-center gap-2">
+        {initialValue}
+        <div className="dropdown">
+          <div className="menu-icon cursor-pointer" onClick={handleClick}>
+          {collapsedGroups[groupId] ? <BsCaretRightFill /> : <BsCaretDownFill />}
+          </div>
         </div>
-      </div>
-    </span>
-  );
+      </span>
+    );
+
+//   return (
+//     <span className="flex items-center space-x-2">
+//       <button onClick={handleClick} className="dropdown">
+//         {collapsedGroups[groupId] ? <BsCaretRightFill /> : <BsCaretDownFill />}
+//       </button>
+//       <span>{` ${initialValue}`}</span>
+//     </span>
+//   );
 };
 
 function App({ config }) {
@@ -343,7 +418,7 @@ function App({ config }) {
         return;
       }
 
-      console.log("debug");
+      console.log("debug"); // Kept to avoid trouble finding this file in Inspect Element Sources
       const configStyle = config.style;
       const configData = config.data;
       const initialRowEnabled =
@@ -379,62 +454,6 @@ function App({ config }) {
           action: "edit",
         });
       }
-
-      adjustColumns = (group) => {
-        const columnsToToggle = new Map();
-        const subGroupsToToggle = new Map();
-
-        let isFirstIndexIgnored = false;
-
-        const getColumnsToToggle = () => {
-          group.columns?.forEach(({ title }, index) => {
-            if (index === 0) {
-              isFirstIndexIgnored = true;
-              return;
-            }
-            columnsToToggle.set(title, true);
-          });
-
-          group.subGroups?.forEach(({ title }, index) => {
-            if (!isFirstIndexIgnored && index === 0) {
-              isFirstIndexIgnored = true;
-              return;
-            }
-            subGroupsToToggle.set(title, true);
-          });
-        };
-
-        const toggleColumns = (columns) => {
-          columns.forEach((column) => {
-            if (columnsToToggle.get(column.getField())) {
-              column.toggle();
-            }
-          });
-        };
-
-        const toggleParentColumns = (columnDefinitions) => {
-          columnDefinitions.forEach((group) => {
-            group.columns?.forEach(({ title, columns }) => {
-              // Better to use CSS 'Hidden' for each column?
-              // Vulnerable to same title problems.
-              if (subGroupsToToggle.get(title) && columns) {
-                const initialColumnTitle = columns[0].title;
-                const initialColumn = tableRef.current
-                  .getColumns()
-                  .find((column) => column.getField() === initialColumnTitle);
-
-                if (initialColumn) {
-                  initialColumn.getParentColumn().toggle();
-                }
-              }
-            });
-          });
-        };
-
-        getColumnsToToggle();
-        toggleColumns(tableRef.current.getColumns());
-        toggleParentColumns(tableRef.current.getColumnDefinitions());
-      };
 
       function createColumnDefinition(config, rows) {
         let columnDefinition = [];
@@ -509,8 +528,7 @@ function App({ config }) {
         return columnDefinition;
       }
 
-      const tableConfig = {
-        height: "350px",
+      const tableConfig = { // automatic resize so there isn't a scrollbar at the bottom
         data: transformJson(configData.rows),
         layout: "fitColumns",
         layoutMode: "fitData",
@@ -519,10 +537,7 @@ function App({ config }) {
         resizableRows: true,
         headerSortClickElement: "icon",
         editTriggerEvent: "dblclick",
-        headerSortElement: function (column, dir) {
-          //column - column component for current column
-          //dir - current sort direction ("asc", "desc", "none")
-
+        headerSortElement: function (_column, dir) {
           const container = document.createElement("div");
 
           const root = createRoot(container);
@@ -605,7 +620,8 @@ function App({ config }) {
       table.on("dataProcessed", function () {
         setTimeout(() => {
           tableRef.current.redraw();
-          tableRef.current.setHeight("350px");
+          tableRef.current.setHeight("750px");
+          //tableRef.current.setWidth("750px");
         }, 100);
       });
 
