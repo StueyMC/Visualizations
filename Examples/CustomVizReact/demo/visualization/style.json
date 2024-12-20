@@ -12,6 +12,9 @@
         "title": "ID",
         "frozen": true
     },
+    "tableConfig": {
+        "width": 1250
+    },
     "line" : {
         "type": "monotone",
         "strokeColour" : "#8884d8"

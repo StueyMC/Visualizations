@@ -38,6 +38,16 @@ const collapsedGroups = {};
 // Navigation to Elements Identifier
 const elementIds = {};
 
+// Width Sizing
+const WIDTH_CONFIG = {
+  tableSettings: {
+    maxWidth: 800
+  },
+  columnSettings: {
+    defaultWidth: 200
+  }
+}
+
 // Reserved column names - Prevent conflicts
 const RESERVED_COLUMN_NAMES = [
   "groupBy",
@@ -194,6 +204,40 @@ const updateFocusedItem = (menuItems, index) => {
   menuItems[index].focus();
 };
 
+const handleTableWidth = (tabulatorDivRef, customWidth, tableElement) => {
+  if (!tabulatorDivRef.current || !tableElement) return;
+
+  const columns = tableElement.getColumns();
+  
+  const totalColumnsWidth = columns.reduce((sum, col) => {
+    return sum + (col.getWidth() || 100);
+  }, 0);
+
+  const pxToNumber = (pxString) => {
+    if (typeof pxString === 'number') return pxString;
+    return parseInt(pxString.replace('px', '')) || 0;
+  }
+
+  let finalWidth;
+
+  if (customWidth) {
+    finalWidth = pxToNumber(customWidth);
+  } else {
+    finalWidth = totalColumnsWidth;
+  }
+
+  const maxWidth = WIDTH_CONFIG.tableSettings.maxWidth
+  if (maxWidth && finalWidth > maxWidth && !customWidth) {
+    finalWidth = maxWidth;
+  }
+
+  tabulatorDivRef.current.style.width = `${finalWidth}px`;
+
+  // max width size before scrollbar appears
+  // width to be adjusted to columns (fit to columns - but don't stretch) - if exceeds max width, force it to max width
+  // custom width to overwrite default / max width
+}
+
 const getColumns = (config, columns) => {
   let columnDefinition = [];
   let usedColumnTitles = new Set();
@@ -212,7 +256,7 @@ const getColumns = (config, columns) => {
     let newColumn = {
       title: column.title,
       field: column.title,
-      width: column.width,
+      width: column.width || WIDTH_CONFIG.columnSettings.defaultWidth,
       headerHozAlign: getAlignment(column.alignment),
       frozen: column.frozen,
       headerSort: config.data.columnSorting ? column.columnSorter : false,
@@ -387,25 +431,20 @@ const HeaderContent = ({ initialValue, group, table }) => {
     table.redraw();
   };
 
-    return (
-      <span className="flex items-center gap-2">
-        {initialValue}
-        <div className="dropdown">
-          <div className="menu-icon cursor-pointer" onClick={handleClick}>
-          {collapsedGroups[groupId] ? <BsCaretRightFill /> : <BsCaretDownFill />}
-          </div>
+  return (
+    <span className="flex items-center gap-2">
+      {initialValue}
+      <div className="dropdown">
+        <div className="menu-icon cursor-pointer" onClick={handleClick}>
+          {collapsedGroups[groupId] ? (
+            <BsCaretRightFill />
+          ) : (
+            <BsCaretDownFill />
+          )}
         </div>
-      </span>
-    );
-
-//   return (
-//     <span className="flex items-center space-x-2">
-//       <button onClick={handleClick} className="dropdown">
-//         {collapsedGroups[groupId] ? <BsCaretRightFill /> : <BsCaretDownFill />}
-//       </button>
-//       <span>{` ${initialValue}`}</span>
-//     </span>
-//   );
+      </div>
+    </span>
+  );
 };
 
 function App({ config }) {
@@ -423,6 +462,7 @@ function App({ config }) {
       const configData = config.data;
       const initialRowEnabled =
         configStyle.initialRow?.enabled === true || false;
+      const customTableWidth = configStyle.tableConfig.width;
 
       setVisualizationTheme(configData.theme, configData.rows[0].groupRows);
 
@@ -528,11 +568,11 @@ function App({ config }) {
         return columnDefinition;
       }
 
-      const tableConfig = { // automatic resize so there isn't a scrollbar at the bottom
+      const tableConfig = {
+        // automatic resize so there isn't a scrollbar at the bottom
         data: transformJson(configData.rows),
-        layout: "fitColumns",
-        layoutMode: "fitData",
-        responsiveLayout: true,
+        layout: "fitDataTable",
+        responsiveLayout: false,
         movableColumns: true,
         resizableRows: true,
         headerSortClickElement: "icon",
@@ -619,9 +659,9 @@ function App({ config }) {
       const table = new Tabulator(tabulatorDivRef.current, tableConfig);
       table.on("dataProcessed", function () {
         setTimeout(() => {
+          tabulatorDivRef.current.style.height = "700px";
+          handleTableWidth(tabulatorDivRef, customTableWidth, table)
           tableRef.current.redraw();
-          tableRef.current.setHeight("750px");
-          //tableRef.current.setWidth("750px");
         }, 100);
       });
 
