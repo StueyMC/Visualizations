@@ -462,7 +462,6 @@ function App({ config }) {
       const configData = config.data;
       const initialRowEnabled =
         configStyle.initialRow?.enabled === true || false;
-      const customTableWidth = configStyle.tableConfig.width;
 
       setVisualizationTheme(configData.theme, configData.rows[0].groupRows);
 
@@ -574,7 +573,7 @@ function App({ config }) {
         layout: "fitDataTable",
         responsiveLayout: false,
         movableColumns: true,
-        resizableRows: true,
+        resizableRows: configData.resizable,
         headerSortClickElement: "icon",
         editTriggerEvent: "dblclick",
         headerSortElement: function (_column, dir) {
@@ -657,10 +656,10 @@ function App({ config }) {
       }
 
       const table = new Tabulator(tabulatorDivRef.current, tableConfig);
+      tabulatorDivRef.current.style.height = config.height;
+      handleTableWidth(tabulatorDivRef, config.width, table);
       table.on("dataProcessed", function () {
         setTimeout(() => {
-          tabulatorDivRef.current.style.height = "700px";
-          handleTableWidth(tabulatorDivRef, customTableWidth, table)
           tableRef.current.redraw();
         }, 100);
       });
