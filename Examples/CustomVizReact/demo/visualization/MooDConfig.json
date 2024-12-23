@@ -1,7 +1,6 @@
 {
-    "width": "800px",
-    "height": "600px",
-    "element": "mood-visualization",
-    "animation": true
+  "width": "1250px",
+  "height": "150px",
+  "element": "mood-visualization",
+  "animation": true
 }
-
