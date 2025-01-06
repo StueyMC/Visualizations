@@ -41,15 +41,16 @@ const elementIds = {};
 // Width Sizing
 const WIDTH_CONFIG = {
   tableSettings: {
-    maxWidth: 800
+    maxWidth: 800,
   },
   columnSettings: {
-    defaultWidth: 200
-  }
-}
+    defaultWidth: 200,
+  },
+};
 
 // Reserved column names - Prevent conflicts
 const RESERVED_COLUMN_NAMES = [
+  "NO DATA",
   "groupBy",
   "rowKey", // Could allow this so you could display the element ID within the data grid, however, rowKey's data can then be overwritten
 ];
@@ -62,6 +63,15 @@ const ContextMenuConfig = {
   CLEANING: false,
   NAVIGATE_TO_ELEM: null,
 };
+
+const NO_COLUMN_DATA = [
+  {
+    title: "NO DATA",
+    field: "NO DATA",
+    width: WIDTH_CONFIG.columnSettings.defaultWidth,
+    headerSort: false
+  }
+]
 
 function cleanup() {
   if (ContextMenuConfig.CLEANING || !ContextMenuConfig.CONTEXTMENU) {
@@ -208,15 +218,15 @@ const handleTableWidth = (tabulatorDivRef, customWidth, tableElement) => {
   if (!tabulatorDivRef.current || !tableElement) return;
 
   const columns = tableElement.getColumns();
-  
+
   const totalColumnsWidth = columns.reduce((sum, col) => {
     return sum + (col.getWidth() || 100);
   }, 0);
 
   const pxToNumber = (pxString) => {
-    if (typeof pxString === 'number') return pxString;
-    return parseInt(pxString.replace('px', '')) || 0;
-  }
+    if (typeof pxString === "number") return pxString;
+    return parseInt(pxString.replace("px", "")) || 0;
+  };
 
   let finalWidth;
 
@@ -226,21 +236,17 @@ const handleTableWidth = (tabulatorDivRef, customWidth, tableElement) => {
     finalWidth = totalColumnsWidth;
   }
 
-  const maxWidth = WIDTH_CONFIG.tableSettings.maxWidth
+  const maxWidth = WIDTH_CONFIG.tableSettings.maxWidth;
   if (maxWidth && finalWidth > maxWidth && !customWidth) {
     finalWidth = maxWidth;
   }
 
   tabulatorDivRef.current.style.width = `${finalWidth}px`;
+};
 
-  // max width size before scrollbar appears
-  // width to be adjusted to columns (fit to columns - but don't stretch) - if exceeds max width, force it to max width
-  // custom width to overwrite default / max width
-}
-
+const usedColumnTitles = new Set();
 const getColumns = (config, columns) => {
   let columnDefinition = [];
-  let usedColumnTitles = new Set();
 
   columns.forEach((column) => {
     if (
@@ -517,7 +523,7 @@ function App({ config }) {
                     columns: getColumns(config, subGroup.columns),
                     titleFormatter: function (cell) {
                       if (subGroup?.columns?.length <= 1) {
-                        return;
+                        return subGroup.title;
                       }
 
                       const container = document.createElement("div");
@@ -538,12 +544,15 @@ function App({ config }) {
               });
             }
 
+            console.log(group.title)
+            console.log(newColumns.length <= 0 && [] || newColumns)
+
             let newGroup = {
               title: group.title,
-              columns: newColumns,
+              columns: (newColumns.length <= 0 && NO_COLUMN_DATA || newColumns),
               titleFormatter: function (cell) {
                 if (newColumns?.length <= 1) {
-                  return;
+                  return group.title;
                 }
 
                 const container = document.createElement("div");
