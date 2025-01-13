@@ -69,9 +69,54 @@ const NO_COLUMN_DATA = [
     title: "NO DATA",
     field: "NO DATA",
     width: WIDTH_CONFIG.columnSettings.defaultWidth,
-    headerSort: false
+    headerSort: false,
+  },
+];
+
+class ColumnTracker {
+  constructor() {
+    this.mainColumns = new Map();
+    this.groupColumns = new Map();
+    this.subGroupColumns = new Map();
   }
-]
+
+  getUniqueTitle(title, level, groupTitle = "", subGroupTitle = "") {
+    let targetMap;
+    let prefix = "";
+
+    switch (level) {
+      case "main":
+        targetMap = this.mainColumns;
+        break;
+      case "group":
+        targetMap = this.groupColumns;
+        prefix = groupTitle ? `${groupTitle}_` : "";
+        break;
+      case "subgroup":
+        targetMap = this.subGroupColumns;
+        prefix = `${groupTitle}_${subGroupTitle}_`;
+        break;
+      default:
+        throw new Error("Invalid level specified");
+    }
+
+    const fullTitle = prefix + title;
+    const count = targetMap.get(fullTitle) || 0;
+    targetMap.set(fullTitle, count + 1);
+
+    if (RESERVED_COLUMN_NAMES.includes(title) || count > 0) {
+      console.warn(`'${title}' is a ${RESERVED_COLUMN_NAMES.includes(title) ? "Reserved" : "Duplicate" } Title | Generated a new ID: '${title}' -> '${fullTitle}_${count}'`)
+      return `${fullTitle}_${count}`;
+    }
+    return fullTitle;
+  }
+
+  clearMapping() {
+    this.mainColumns.clear();
+    this.groupColumns.clear();
+    this.subGroupColumns.clear();
+  }
+}
 
 function cleanup() {
   if (ContextMenuConfig.CLEANING || !ContextMenuConfig.CONTEXTMENU) {
@@ -244,123 +289,64 @@ const handleTableWidth = (tabulatorDivRef, customWidth, tableElement) => {
   tabulatorDivRef.current.style.width = `${finalWidth}px`;
 };
 
-const usedColumnTitles = new Set();
-const getColumns = (config, columns) => {
-  let columnDefinition = [];
-
-  columns.forEach((column) => {
-    if (
-      RESERVED_COLUMN_NAMES.includes(column.title) ||
-      usedColumnTitles.has(column.title)
-    ) {
-      console.warn(
-        `Skipping Column Definition Setup: Column "${column.title}" is either a reserved name or a duplicate`
-      );
-      return;
-    }
-
-    let newColumn = {
-      title: column.title,
-      field: column.title,
-      width: column.width || WIDTH_CONFIG.columnSettings.defaultWidth,
-      headerHozAlign: getAlignment(column.alignment),
-      frozen: column.frozen,
-      headerSort: config.data.columnSorting ? column.columnSorter : false,
-      resizable: config.data.resizable && column.resizable,
-      editor:
-        config.data.editable && column.editable
-          ? getEditorType(column.format) || true
-          : false,
-      headerFilter:
-        config.data.headerFiltering && column.headerFilter ? "input" : null,
-      formatter:
-        getFormat[column.format] ||
-        (column.format && column.format.includes("%")
-          ? (cell) => formatDate(cell, column.format)
-          : column.format),
-      contextMenu: customContextMenu,
-      accessorClipboard: formatAccessor,
-    };
-
-    columnDefinition.push(newColumn);
-    usedColumnTitles.add(column.title);
-  });
-
-  return columnDefinition;
-};
-
 const getGroupHeader = (data) => {
   return data.groupBy || "Other";
 };
 
-const transformJson = (rows) => {
-  let newData = [];
+const transformJson = (data) => {
+  const columnTracker = new ColumnTracker();
+  const tabulatorData = [];
 
-  function setRow(columns) {
-    let dataRow = {};
-    let usedColumnTitles = new Set();
-
-    columns.forEach((column) => {
-      // Skip if the column's name is already in-use.
-      if (
-        RESERVED_COLUMN_NAMES.includes(column.title) ||
-        usedColumnTitles.has(column.title)
-      ) {
-        console.warn(
-          `Skipped Row Setup: Column "${column.title}" is either a reserved name or a duplicate`
-        );
-        return;
-      }
-
-      dataRow[column.title] = column.content;
-      usedColumnTitles.add(column.title);
-    });
-
-    //usedColumnTitles.clear() -- Code Review: Would it be necessary to clear the set, for memory?
-
-    return dataRow;
-  }
-
-  rows.forEach((row) => {
-    let dataRow = {};
+  data.rows.forEach((row) => {
+    const flatRow = {
+      rowId: row.id,
+    };
 
     if (row.columns) {
-      let dataObject = setRow(row.columns);
-      Object.assign(dataRow, dataObject);
+      row.columns.forEach((column) => {
+        const columnKey = columnTracker.getUniqueTitle(column.title, "main");
+        flatRow[columnKey] = column.content;
+      });
+      columnTracker.clearMapping();
     }
 
     if (row.groups) {
       row.groups.forEach((group) => {
         if (group.columns) {
-          let dataObject = setRow(group.columns);
-          Object.assign(dataRow, dataObject);
+          group.columns.forEach((column) => {
+            const columnKey = columnTracker.getUniqueTitle(
+              column.title,
+              "group",
+              group.title
+            );
+            flatRow[columnKey] = column.content;
+          });
+          columnTracker.clearMapping();
         }
 
         if (group.subGroups) {
           group.subGroups.forEach((subGroup) => {
             if (subGroup.columns) {
-              let dataObject = setRow(subGroup.columns);
-              Object.assign(dataRow, dataObject);
+              subGroup.columns.forEach((column) => {
+                const columnKey = columnTracker.getUniqueTitle(
+                  column.title,
+                  "subgroup",
+                  group.title,
+                  subGroup.title
+                );
+                flatRow[columnKey] = column.content;
+              });
+              columnTracker.clearMapping();
             }
           });
         }
       });
     }
 
-    if (row.groupBy) {
-      dataRow["groupBy"] = row.groupBy;
-    }
-
-    if (row.id) {
-      const rowKey = Object.keys(elementIds).length + 1;
-      dataRow["rowKey"] = rowKey;
-      elementIds[rowKey] = row.id;
-    }
-
-    newData.push(dataRow);
+    tabulatorData.push(flatRow);
   });
 
-  return JSON.parse(JSON.stringify(newData));
+  return tabulatorData;
 };
 
 const getDescendants = (group, ignoreFirstIndex) => {
@@ -390,7 +376,7 @@ const getDescendants = (group, ignoreFirstIndex) => {
 
 const HeaderContent = ({ initialValue, group, table }) => {
   const [_isCollapsed, setIsCollapsed] = useState({});
-  const groupId = group.title;
+  const groupId = group.field;
 
   const adjustColumns = (targetGroup, isCollapsed, parentCollapsed = false) => {
     const groupColumns = getDescendants(targetGroup);
@@ -500,85 +486,199 @@ function App({ config }) {
         });
       }
 
-      function createColumnDefinition(config, rows) {
-        let columnDefinition = [];
+      function createColumnDefinition(data) {
+        const columnTracker = new ColumnTracker();
+        const columns = [];
 
-        if (rows[0].columns) {
-          columnDefinition.push(...getColumns(config, rows[0].columns));
-        }
+        const addColumn = (columnConfig) => {
+          columns.push(columnConfig);
+        };
 
-        if (rows[0].groups) {
-          rows[0].groups.forEach((group) => {
-            let newColumns = [];
+        if (data.rows && data.rows[0]) {
+          const firstRow = data.rows[0];
 
-            if (group.columns) {
-              newColumns.push(...getColumns(config, group.columns));
-            }
-
-            if (group.subGroups) {
-              group.subGroups.forEach((subGroup) => {
-                if (subGroup.columns) {
-                  let newSubGroup = {
-                    title: subGroup.title,
-                    columns: getColumns(config, subGroup.columns),
-                    titleFormatter: function (cell) {
-                      if (subGroup?.columns?.length <= 1) {
-                        return subGroup.title;
-                      }
-
-                      const container = document.createElement("div");
-                      const root = createRoot(container);
-                      root.render(
-                        <HeaderContent
-                          initialValue={cell.getValue()}
-                          group={subGroup}
-                          table={tableRef.current}
-                        />
-                      );
-
-                      return container;
-                    },
-                  };
-                  newColumns.push(newSubGroup);
-                }
+          if (firstRow.columns) {
+            firstRow.columns.forEach((column) => {
+              const field = columnTracker.getUniqueTitle(column.title, "main");
+              addColumn({
+                title: column.title,
+                field: field,
+                width: column.width || WIDTH_CONFIG.columnSettings.defaultWidth,
+                headerHozAlign: getAlignment(column.alignment),
+                frozen: column.frozen,
+                headerSort: data.columnSorting
+                  ? column.columnSorter
+                  : false,
+                resizable: data.resizable && column.resizable,
+                editor:
+                  data.editable && column.editable
+                    ? getEditorType(column.format) || true
+                    : false,
+                headerFilter:
+                  data.headerFiltering && column.headerFilter
+                    ? "input"
+                    : null,
+                formatter:
+                  getFormat[column.format] ||
+                  (column.format && column.format.includes("%")
+                    ? (cell) => formatDate(cell, column.format)
+                    : column.format),
+                contextMenu: customContextMenu,
+                accessorClipboard: formatAccessor,
               });
-            }
+            });
+          }
 
-            console.log(group.title)
-            console.log(newColumns.length <= 0 && [] || newColumns)
+          if (firstRow.groups) {
+            firstRow.groups.forEach((group) => {
+              let newColumns = [];
 
-            let newGroup = {
-              title: group.title,
-              columns: (newColumns.length <= 0 && NO_COLUMN_DATA || newColumns),
-              titleFormatter: function (cell) {
-                if (newColumns?.length <= 1) {
-                  return group.title;
-                }
+              if (group.columns) {
+                group.columns.forEach((column) => {
+                  const field = columnTracker.getUniqueTitle(
+                    column.title,
+                    "group",
+                    group.title
+                  );
 
-                const container = document.createElement("div");
-                const root = createRoot(container);
-                root.render(
-                  <HeaderContent
-                    initialValue={cell.getValue()}
-                    group={group}
-                    table={tableRef.current}
-                  />
-                );
+                  const displayTitle = data.showDetailedTitles && `${group.title}: ${column.title}`;
 
-                return container;
-              },
-            };
+                  newColumns.push({
+                    title: displayTitle || column.title,
+                    field: field,
+                    width:
+                      column.width || WIDTH_CONFIG.columnSettings.defaultWidth,
+                    headerHozAlign: getAlignment(column.alignment),
+                    frozen: column.frozen,
+                    headerSort: data.columnSorting
+                      ? column.columnSorter
+                      : false,
+                    resizable: data.resizable && column.resizable,
+                    editor:
+                      data.editable && column.editable
+                        ? getEditorType(column.format) || true
+                        : false,
+                    headerFilter:
+                      data.headerFiltering && column.headerFilter
+                        ? "input"
+                        : null,
+                    formatter:
+                      getFormat[column.format] ||
+                      (column.format && column.format.includes("%")
+                        ? (cell) => formatDate(cell, column.format)
+                        : column.format),
+                    contextMenu: customContextMenu,
+                    accessorClipboard: formatAccessor,
+                  });
+                });
+              }
 
-            columnDefinition.push(newGroup);
-          });
+              if (group.subGroups) {
+                group.subGroups.forEach((subGroup) => {
+                  if (subGroup.columns) {
+                    group.subGroups.forEach((subGroup) => {
+                      if (subGroup.columns) {
+                        let subGroupColumns = [];
+                        subGroup.columns.forEach((column) => {
+                          const field = columnTracker.getUniqueTitle(
+                            column.title,
+                            "subgroup",
+                            group.title,
+                            subGroup.title
+                          );
+
+                          const displayTitle = data.showDetailedTitles && `${subGroup.title}: ${column.title}`;
+
+                          subGroupColumns.push({
+                            title: displayTitle || column.title,
+                            field: field,
+                            width:
+                              column.width ||
+                              WIDTH_CONFIG.columnSettings.defaultWidth,
+                            headerHozAlign: getAlignment(column.alignment),
+                            frozen: column.frozen,
+                            headerSort: data.columnSorting
+                              ? column.columnSorter
+                              : false,
+                            resizable:
+                              data.resizable && column.resizable,
+                            editor:
+                              data.editable && column.editable
+                                ? getEditorType(column.format) || true
+                                : false,
+                            headerFilter:
+                              data.headerFiltering && column.headerFilter
+                                ? "input"
+                                : null,
+                            formatter:
+                              getFormat[column.format] ||
+                              (column.format && column.format.includes("%")
+                                ? (cell) => formatDate(cell, column.format)
+                                : column.format),
+                            contextMenu: customContextMenu,
+                            accessorClipboard: formatAccessor,
+                          });
+                        });
+                        newColumns.push({
+                          title: subGroup.title,
+                          columns:
+                            (subGroupColumns.length <= 0 && NO_COLUMN_DATA) ||
+                            subGroupColumns,
+                          titleFormatter: function (cell) {
+                            if (subGroupColumns?.length <= 1) {
+                              return group.title;
+                            }
+
+                            const container = document.createElement("div");
+                            const root = createRoot(container);
+                            root.render(
+                              <HeaderContent
+                                initialValue={cell.getValue()}
+                                group={subGroup}
+                                table={tableRef.current}
+                              />
+                            );
+
+                            return container;
+                          },
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+
+              addColumn({
+                title: group.title,
+                columns:
+                  (newColumns.length <= 0 && NO_COLUMN_DATA) || newColumns,
+                titleFormatter: function (cell) {
+                  if (newColumns?.length <= 1) {
+                    return group.title;
+                  }
+
+                  const container = document.createElement("div");
+                  const root = createRoot(container);
+                  root.render(
+                    <HeaderContent
+                      initialValue={cell.getValue()}
+                      group={group}
+                      table={tableRef.current}
+                    />
+                  );
+
+                  return container;
+                },
+              });
+            });
+          }
         }
 
-        return columnDefinition;
+        return columns;
       }
 
       const tableConfig = {
-        // automatic resize so there isn't a scrollbar at the bottom
-        data: transformJson(configData.rows),
+        data: transformJson(configData),
         layout: "fitDataTable",
         responsiveLayout: false,
         movableColumns: true,
@@ -634,11 +734,7 @@ function App({ config }) {
           rowGroups: false,
         },
 
-        columns: createColumnDefinition(
-          config,
-          configData.rows,
-          tabulatorDivRef.current
-        ),
+        columns: createColumnDefinition(configData),
 
         ...(configData.rows[0].groupRows
           ? {
