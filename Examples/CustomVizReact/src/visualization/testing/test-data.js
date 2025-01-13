@@ -109,6 +109,7 @@ export const config = {"data" : {
     "textWrap": true,
     "theme": "modern",
     "columnSorting": true,
-    "headerFiltering": true
+    "headerFiltering": true,
+    "showDetailedTitles": true
   }
 }

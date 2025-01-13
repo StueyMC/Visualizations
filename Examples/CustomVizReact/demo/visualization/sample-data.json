@@ -13,6 +13,17 @@
             "width": null,
             "frozen": false,
             "resizable": true
+          },
+          {
+            "title": "name",
+            "content": "Texas",
+            "format": null,
+            "editable": true,
+            "headerFilter": true,
+            "columnSorter": true,
+            "width": null,
+            "frozen": false,
+            "resizable": true
           }
         ],
         "groups": [
@@ -318,6 +329,7 @@
     "theme": null,
     "textWrap": false,
     "headerFiltering": true,
-    "columnSorting": true
+    "columnSorting": true,
+    "showDetailedTitles": false
   }
 }
