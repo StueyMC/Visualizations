@@ -90,25 +90,22 @@ class ColumnTracker {
         break;
       case "group":
         targetMap = this.groupColumns;
-        prefix = groupTitle ? `${groupTitle}_` : "";
         break;
       case "subgroup":
         targetMap = this.subGroupColumns;
-        prefix = `${groupTitle}_${subGroupTitle}_`;
         break;
       default:
         throw new Error("Invalid level specified");
     }
 
-    const fullTitle = prefix + title;
-    const count = targetMap.get(fullTitle) || 0;
-    targetMap.set(fullTitle, count + 1);
+    const count = targetMap.get(title) || 0;
+    targetMap.set(title, count + 1);
 
     if (RESERVED_COLUMN_NAMES.includes(title) || count > 0) {
-      console.warn(`'${title}' is a ${RESERVED_COLUMN_NAMES.includes(title) ? "Reserved" : "Duplicate" } Title | Generated a new ID: '${title}' -> '${fullTitle}_${count}'`)
-      return `${fullTitle}_${count}`;
+      console.warn(`'${title}' is a ${RESERVED_COLUMN_NAMES.includes(title) ? "Reserved" : "Duplicate" } Title | Generated a new ID: '${title}' -> '${title}_${count}'`)
+      return `${title}_${count}`;
     }
-    return fullTitle;
+    return title;
   }
 
   clearMapping() {
@@ -376,7 +373,9 @@ const getDescendants = (group, ignoreFirstIndex) => {
 
 const HeaderContent = ({ initialValue, group, table }) => {
   const [_isCollapsed, setIsCollapsed] = useState({});
-  const groupId = group.field;
+  const groupId = group.title;
+  // duplicate group titles? - can't use same group/subgroup name for other groups - can use same column names and reserved names.
+  // As there is no unique identifier for groups.
 
   const adjustColumns = (targetGroup, isCollapsed, parentCollapsed = false) => {
     const groupColumns = getDescendants(targetGroup);
@@ -402,7 +401,6 @@ const HeaderContent = ({ initialValue, group, table }) => {
       targetGroup.subGroups.forEach((subGroup) => {
         if (subGroup.columns) {
           const subGroupId = subGroup.title;
-          console.log(collapsedGroups);
           adjustColumns(
             subGroup,
             collapsedGroups[subGroupId] || false,

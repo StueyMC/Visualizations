@@ -95,6 +95,17 @@
                 ]
               }
             ]
+          },
+          {
+            "title": "New Group 1",
+            "columns": [
+              {
+                "title": "test3",
+                "content": "DI",
+                "format": null,
+                "editable": true
+              }
+            ]
           }
         ],
         "groupBy": "Domestic",
