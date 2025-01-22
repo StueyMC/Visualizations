@@ -78,11 +78,11 @@ class ColumnTracker {
     this.mainColumns = new Map();
     this.groupColumns = new Map();
     this.subGroupColumns = new Map();
+    this.groupTitles = new Map();
   }
 
-  getUniqueTitle(title, level, groupTitle = "", subGroupTitle = "") {
+  getUniqueTitle(title, level) {
     let targetMap;
-    let prefix = "";
 
     switch (level) {
       case "main":
@@ -102,7 +102,26 @@ class ColumnTracker {
     targetMap.set(title, count + 1);
 
     if (RESERVED_COLUMN_NAMES.includes(title) || count > 0) {
-      console.warn(`'${title}' is a ${RESERVED_COLUMN_NAMES.includes(title) ? "Reserved" : "Duplicate" } Title | Generated a new ID: '${title}' -> '${title}_${count}'`)
+      console.warn(
+        `'${title}' is a ${
+          RESERVED_COLUMN_NAMES.includes(title) ? "Reserved" : "Duplicate"
+        } Title | Generated a new ID: '${title}' -> '${title}_${count}'`
+      );
+      return `${title}_${count}`;
+    }
+    return title;
+  }
+
+  getUniqueGroupTitle(title) {
+    let targetMap = this.groupTitles;
+
+    const count = targetMap.get(title) || 0;
+    targetMap.set(title, count + 1);
+
+    if (count > 0) {
+      console.warn(
+        `${title} is a duplicate group title, new title: ${title}_${count}`
+      );
       return `${title}_${count}`;
     }
     return title;
@@ -313,8 +332,7 @@ const transformJson = (data) => {
           group.columns.forEach((column) => {
             const columnKey = columnTracker.getUniqueTitle(
               column.title,
-              "group",
-              group.title
+              "group"
             );
             flatRow[columnKey] = column.content;
           });
@@ -327,9 +345,7 @@ const transformJson = (data) => {
               subGroup.columns.forEach((column) => {
                 const columnKey = columnTracker.getUniqueTitle(
                   column.title,
-                  "subgroup",
-                  group.title,
-                  subGroup.title
+                  "subgroup"
                 );
                 flatRow[columnKey] = column.content;
               });
@@ -358,7 +374,7 @@ const getDescendants = (group, ignoreFirstIndex) => {
         return;
       }
 
-      columns.push(column.title);
+      columns.push(column.uniqueId);
     });
   }
 
@@ -373,9 +389,7 @@ const getDescendants = (group, ignoreFirstIndex) => {
 
 const HeaderContent = ({ initialValue, group, table }) => {
   const [_isCollapsed, setIsCollapsed] = useState({});
-  const groupId = group.title;
-  // duplicate group titles? - can't use same group/subgroup name for other groups - can use same column names and reserved names.
-  // As there is no unique identifier for groups.
+  const groupId = group.uniqueId
 
   const adjustColumns = (targetGroup, isCollapsed, parentCollapsed = false) => {
     const groupColumns = getDescendants(targetGroup);
@@ -400,7 +414,7 @@ const HeaderContent = ({ initialValue, group, table }) => {
     if (targetGroup.subGroups) {
       targetGroup.subGroups.forEach((subGroup) => {
         if (subGroup.columns) {
-          const subGroupId = subGroup.title;
+          const subGroupId = subGroup.uniqueId;
           adjustColumns(
             subGroup,
             collapsedGroups[subGroupId] || false,
@@ -498,24 +512,21 @@ function App({ config }) {
           if (firstRow.columns) {
             firstRow.columns.forEach((column) => {
               const field = columnTracker.getUniqueTitle(column.title, "main");
+              column.uniqueId = field;
               addColumn({
                 title: column.title,
                 field: field,
                 width: column.width || WIDTH_CONFIG.columnSettings.defaultWidth,
                 headerHozAlign: getAlignment(column.alignment),
                 frozen: column.frozen,
-                headerSort: data.columnSorting
-                  ? column.columnSorter
-                  : false,
+                headerSort: data.columnSorting ? column.columnSorter : false,
                 resizable: data.resizable && column.resizable,
                 editor:
                   data.editable && column.editable
                     ? getEditorType(column.format) || true
                     : false,
                 headerFilter:
-                  data.headerFiltering && column.headerFilter
-                    ? "input"
-                    : null,
+                  data.headerFiltering && column.headerFilter ? "input" : null,
                 formatter:
                   getFormat[column.format] ||
                   (column.format && column.format.includes("%")
@@ -530,16 +541,21 @@ function App({ config }) {
           if (firstRow.groups) {
             firstRow.groups.forEach((group) => {
               let newColumns = [];
+              const groupTitle = columnTracker.getUniqueGroupTitle(group.title);
+              group.uniqueId = groupTitle;
 
               if (group.columns) {
                 group.columns.forEach((column) => {
                   const field = columnTracker.getUniqueTitle(
                     column.title,
-                    "group",
-                    group.title
+                    "group"
                   );
 
-                  const displayTitle = data.showDetailedTitles && `${group.title}: ${column.title}`;
+                  const displayTitle =
+                    data.showDetailedTitles &&
+                    `${groupTitle}: ${column.title}`;
+
+                    column.uniqueId = field;
 
                   newColumns.push({
                     title: displayTitle || column.title,
@@ -577,15 +593,22 @@ function App({ config }) {
                     group.subGroups.forEach((subGroup) => {
                       if (subGroup.columns) {
                         let subGroupColumns = [];
+                        const subGroupTitle = columnTracker.getUniqueGroupTitle(
+                          subGroup.title
+                        );
+                        subGroup.uniqueId = subGroupTitle;
+
                         subGroup.columns.forEach((column) => {
                           const field = columnTracker.getUniqueTitle(
                             column.title,
-                            "subgroup",
-                            group.title,
-                            subGroup.title
+                            "subgroup"
                           );
 
-                          const displayTitle = data.showDetailedTitles && `${subGroup.title}: ${column.title}`;
+                          const displayTitle =
+                            data.showDetailedTitles &&
+                            `${subGroupTitle}: ${column.title}`;
+
+                            column.uniqueId = field;
 
                           subGroupColumns.push({
                             title: displayTitle || column.title,
@@ -598,8 +621,7 @@ function App({ config }) {
                             headerSort: data.columnSorting
                               ? column.columnSorter
                               : false,
-                            resizable:
-                              data.resizable && column.resizable,
+                            resizable: data.resizable && column.resizable,
                             editor:
                               data.editable && column.editable
                                 ? getEditorType(column.format) || true
@@ -617,14 +639,15 @@ function App({ config }) {
                             accessorClipboard: formatAccessor,
                           });
                         });
+
                         newColumns.push({
-                          title: subGroup.title,
+                          title: subGroupTitle,
                           columns:
                             (subGroupColumns.length <= 0 && NO_COLUMN_DATA) ||
                             subGroupColumns,
                           titleFormatter: function (cell) {
                             if (subGroupColumns?.length <= 1) {
-                              return group.title;
+                              return subGroupTitle;
                             }
 
                             const container = document.createElement("div");
@@ -647,12 +670,12 @@ function App({ config }) {
               }
 
               addColumn({
-                title: group.title,
+                title: groupTitle,
                 columns:
                   (newColumns.length <= 0 && NO_COLUMN_DATA) || newColumns,
                 titleFormatter: function (cell) {
                   if (newColumns?.length <= 1) {
-                    return group.title;
+                    return groupTitle;
                   }
 
                   const container = document.createElement("div");
