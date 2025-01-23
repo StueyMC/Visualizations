@@ -24,17 +24,14 @@ function formatAccessor(value, _data, _type, _params, column) {
   return value;
 }
 
-// Expandable Columns
-const groupState = new Map();
-
 // Navigation to Elements Identifier
 const elementIds = {};
 
 // Reserved column names - Prevent conflicts
 const RESERVED_COLUMN_NAMES = [
   "groupBy",
-  "rowKey", // Could allow this so you could display the element ID within the data grid, however, rowKey's data can then be overwritten
-];
+  "rowKey" // Could allow this so you could display the element ID within the data grid, however, rowKey's data can then be overwritten
+]
 
 // Context Menu
 let contextMenu = null;
@@ -190,13 +187,8 @@ function getColumns(config, columns) {
   let usedColumnTitles = new Set();
 
   columns.forEach((column) => {
-    if (
-      RESERVED_COLUMN_NAMES.includes(column.title) ||
-      usedColumnTitles.has(column.title)
-    ) {
-      console.warn(
-        `Skipping Column Definition Setup: Column "${column.title}" is either a reserved name or a duplicate`
-      );
+    if (RESERVED_COLUMN_NAMES.includes(column.title) || usedColumnTitles.has(column.title)) {
+      console.warn(`Skipping Column Definition Setup: Column "${column.title}" is either a reserved name or a duplicate`)
       return;
     }
 
@@ -267,89 +259,98 @@ export function visualization(config) {
     menuItems.push({ text: "Edit Cell", action: "edit" });
   }
 
-  function adjustColumn(group) {
-    // expandTitle.classList.add("hidden");
-    // collapseText.classList.add("collapsed-text");
+  function headerMenu(group) {
+    let menu = [];
 
-    // Can't change the displayed text content; using two elements and CSS instead
-    // expandTitle.textContent = "Expand";
-    // collapseTitle.textContent = "Collapse";
-    // collapseText.textContent = ` (+${
-    //   (group.columns ? group.columns.length : 0) +
-    //   (group.subGroups ? group.subGroups.length : 0) -
-    //   1
-    // })`;
+    if (
+      (group.columns ? group.columns.length : 0) +
+        (group.subGroups ? group.subGroups.length : 0) >
+      1
+    ) {
+      let label = document.createElement("span");
+      let collapseTitle = document.createElement("span");
+      let expandTitle = document.createElement("span");
 
-    // expandTitle.classList.toggle("hidden");
-    // collapseTitle.classList.toggle("hidden");
+      expandTitle.classList.add("hidden");
 
-    // collapseText.style.display = newState ? "inline" : "none";
+      // Can't change the displayed text content; using two elements and CSS instead
+      expandTitle.textContent = "Expand";
+      collapseTitle.textContent = "Collapse";
 
-    // label.appendChild(collapseTitle);
-    // label.appendChild(expandTitle);
-    // label.appendChild(collapseText);
+      function updateHeaderMenu() {
+        expandTitle.classList.toggle("hidden");
+        collapseTitle.classList.toggle("hidden");
+      }
 
-    const columnsToToggle = new Map();
-    const subGroupsToToggle = new Map();
+      label.appendChild(collapseTitle);
+      label.appendChild(expandTitle);
 
-    let isFirstIndexIgnored = false;
+      menu.push({
+        label: label,
+        action: function () {
+          const columnsToToggle = new Map();
+          const subGroupsToToggle = new Map();
 
-    if (!group || (!group.columns && !group.subGroups)) return;
+          let isFirstIndexIgnored = false;
 
-    const getColumnsToToggle = () => {
-      group.columns?.forEach(({ title }, index) => {
-        if (index === 0) {
-          isFirstIndexIgnored = true;
-          return;
-        }
-        columnsToToggle.set(title, true);
+          if (!group || (!group.columns && !group.subGroups)) return;
+
+          const getColumnsToToggle = () => {
+            group.columns?.forEach(({ title }, index) => {
+              if (index === 0) {
+                isFirstIndexIgnored = true;
+                return;
+              }
+              columnsToToggle.set(title, true);
+            });
+
+            group.subGroups?.forEach(({ title }, index) => {
+              if (!isFirstIndexIgnored && index === 0) {
+                isFirstIndexIgnored = true;
+                return;
+              }
+              subGroupsToToggle.set(title, true);
+            });
+          };
+
+          const toggleColumns = (columns) => {
+            columns.forEach((column) => {
+              if (columnsToToggle.get(column.getField())) {
+                column.toggle();
+              }
+            });
+          };
+
+          const toggleParentColumns = (columnDefinitions) => {
+            columnDefinitions.forEach((group) => {
+              group.columns?.forEach(({ title, columns }) => {
+                // Better to use CSS 'Hidden' for each column?
+                // Vulnerable to same title problems, need to fix.
+                if (subGroupsToToggle.get(title) && columns) {
+                  const initialColumnTitle = columns[0].title;
+                  const initialColumn = table
+                    .getColumns()
+                    .find((column) => column.getField() === initialColumnTitle);
+
+                  if (initialColumn) {
+                    initialColumn.getParentColumn().toggle();
+                  }
+                }
+              });
+            });
+          };
+
+          getColumnsToToggle();
+          toggleColumns(table.getColumns());
+          toggleParentColumns(table.getColumnDefinitions());
+
+          updateHeaderMenu();
+          table.redraw();
+        },
       });
+    }
 
-      group.subGroups?.forEach(({ title }, index) => {
-        if (!isFirstIndexIgnored && index === 0) {
-          isFirstIndexIgnored = true;
-          return;
-        }
-        subGroupsToToggle.set(title, true);
-      });
-    };
-
-    const toggleColumns = (columns) => {
-      columns.forEach((column) => {
-        if (columnsToToggle.get(column.getField())) {
-          column.toggle();
-        }
-      });
-    };
-
-    const toggleParentColumns = (columnDefinitions) => {
-      columnDefinitions.forEach((group) => {
-        group.columns?.forEach(({ title, columns }) => {
-          // Better to use CSS 'Hidden' for each column?
-          // Vulnerable to same title problems, need to fix.
-          if (subGroupsToToggle.get(title) && columns) {
-            const initialColumnTitle = columns[0].title;
-            const initialColumn = table
-              .getColumns()
-              .find((column) => column.getField() === initialColumnTitle);
-
-            if (initialColumn) {
-              initialColumn.getParentColumn().toggle();
-            }
-          }
-        });
-      });
-    };
-
-    getColumnsToToggle();
-    toggleColumns(table.getColumns());
-    toggleParentColumns(table.getColumnDefinitions());
-
-    const groupTitle = group.title;
-    const currentState = groupState.get(groupTitle);
-    const newState = !currentState;
-    groupState.set(groupTitle, newState);
-    table.redraw();
+    return menu.length ? menu : null;
   }
 
   function createColumnDefinition(config, rows) {
@@ -360,7 +361,7 @@ export function visualization(config) {
     }
 
     if (rows[0].groups) {
-      rows[0].groups.forEach((group, index) => {
+      rows[0].groups.forEach((group) => {
         let newColumns = [];
 
         if (group.columns) {
@@ -368,39 +369,12 @@ export function visualization(config) {
         }
 
         if (group.subGroups) {
-          group.subGroups.forEach((subGroup, subIndex) => {
+          group.subGroups.forEach((subGroup) => {
             if (subGroup.columns) {
               let newSubGroup = {
                 title: subGroup.title,
-                //id: `group_${index}_${subIndex}`,
                 columns: getColumns(config, subGroup.columns),
-                titleFormatter: function (cell) {
-                  if (subGroup?.columns?.length <= 1) {
-                    return;
-                  }
-                  groupState.set(subGroup.title, false);
-
-                  var dropdown = document.createElement("div");
-                  dropdown.classList.add("dropdown");
-                  dropdown.classList.add("ui");
-
-                  var icon = document.createElement("div");
-                  icon.classList.add("menu-icon");
-                  icon.innerHTML = "&#9776;";
-
-                  icon.addEventListener("click", function () {
-                    adjustColumn(subGroup);
-                  });
-
-                  dropdown.appendChild(icon);
-
-                  var title = document.createElement("span");
-                  title.innerHTML = cell.getValue();
-
-                  title.appendChild(dropdown);
-
-                  return title;
-                },
+                headerMenu: headerMenu(subGroup),
               };
               newColumns.push(newSubGroup);
             }
@@ -409,35 +383,8 @@ export function visualization(config) {
 
         let newGroup = {
           title: group.title,
-          //id: `group_${index}`,
           columns: newColumns,
-          titleFormatter: function (cell) {
-            if (newColumns?.length <= 1) {
-              return;
-            }
-            groupState.set(group.title, false);
-
-            var dropdown = document.createElement("div");
-            dropdown.classList.add("dropdown");
-            dropdown.classList.add("ui");
-
-            var icon = document.createElement("div");
-            icon.classList.add("menu-icon");
-            icon.innerHTML = "&#9776;";
-
-            icon.addEventListener("click", function () {
-              adjustColumn(group);
-            });
-
-            dropdown.appendChild(icon);
-
-            var title = document.createElement("span");
-            title.innerHTML = cell.getValue();
-
-            title.appendChild(dropdown);
-
-            return title;
-          },
+          headerMenu: headerMenu(group),
         };
 
         columnDefinition.push(newGroup);
@@ -514,22 +461,17 @@ export function transformJson(rows) {
 
     columns.forEach((column) => {
       // Skip if the column's name is already in-use.
-      if (
-        RESERVED_COLUMN_NAMES.includes(column.title) ||
-        usedColumnTitles.has(column.title)
-      ) {
-        console.warn(
-          `Skipped Row Setup: Column "${column.title}" is either a reserved name or a duplicate`
-        );
+      if (RESERVED_COLUMN_NAMES.includes(column.title) || usedColumnTitles.has(column.title)) {
+        console.warn(`Skipped Row Setup: Column "${column.title}" is either a reserved name or a duplicate`)
         return;
       }
 
       dataRow[column.title] = column.content;
-      usedColumnTitles.add(column.title);
+      usedColumnTitles.add(column.title); 
     });
 
     //usedColumnTitles.clear() -- Code Review: Would it be necessary to clear the set, for memory?
-
+    
     return dataRow;
   }
 
