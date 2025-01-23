@@ -2,7 +2,8 @@
     "rows" : [
                 {
                     "columns" : [
-                        {"title":"name", "content":"Bristol", "format":null, "editable":true, "headerFilter":true, "columnSorter":true, "width":null, "frozen":false, "resizable":true}
+                        {"title":"name", "content":"Bristol", "format":null, "editable":true, "headerFilter":true, "columnSorter":true, "width":null, "frozen":false, "resizable":true},
+                        {"title":"name", "content":"TESTB", "format":null, "editable":true, "headerFilter":false, "columnSorter":true, "width":null, "frozen":false, "resizable":true}
                     ],
                     "groups" : [
                         {"title":"New Group 1", "columns": [

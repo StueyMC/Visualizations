@@ -1,10 +1,9 @@
 {
 	"name": "custom_viz",
 	"description": "Custom Tabulator visualization for MooD",
-	"version": "1.1.150",
+	"version": "1.1.149",
 	"license": "MIT",
 	"dependencies": {
-		"react": "^19.0.0",
 		"tabulator-tables": "^6.2.5"
 	},
 	"devDependencies": {
