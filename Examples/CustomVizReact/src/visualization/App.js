@@ -75,28 +75,12 @@ const NO_COLUMN_DATA = [
 
 class ColumnTracker {
   constructor() {
-    this.mainColumns = new Map();
-    this.groupColumns = new Map();
-    this.subGroupColumns = new Map();
+    this.columns = new Map();
     this.groupTitles = new Map();
   }
 
-  getUniqueTitle(title, level) {
-    let targetMap;
-
-    switch (level) {
-      case "main":
-        targetMap = this.mainColumns;
-        break;
-      case "group":
-        targetMap = this.groupColumns;
-        break;
-      case "subgroup":
-        targetMap = this.subGroupColumns;
-        break;
-      default:
-        throw new Error("Invalid level specified");
-    }
+  getUniqueTitle(title) {
+    let targetMap = this.columns;
 
     const count = targetMap.get(title) || 0;
     targetMap.set(title, count + 1);
@@ -128,9 +112,7 @@ class ColumnTracker {
   }
 
   clearMapping() {
-    this.mainColumns.clear();
-    this.groupColumns.clear();
-    this.subGroupColumns.clear();
+    this.columns.clear();
   }
 }
 
@@ -320,41 +302,34 @@ const transformJson = (data) => {
 
     if (row.columns) {
       row.columns.forEach((column) => {
-        const columnKey = columnTracker.getUniqueTitle(column.title, "main");
+        const columnKey = columnTracker.getUniqueTitle(column.title);
         flatRow[columnKey] = column.content;
       });
-      columnTracker.clearMapping();
     }
 
     if (row.groups) {
       row.groups.forEach((group) => {
         if (group.columns) {
           group.columns.forEach((column) => {
-            const columnKey = columnTracker.getUniqueTitle(
-              column.title,
-              "group"
-            );
+            const columnKey = columnTracker.getUniqueTitle(column.title);
             flatRow[columnKey] = column.content;
           });
-          columnTracker.clearMapping();
         }
 
         if (group.subGroups) {
           group.subGroups.forEach((subGroup) => {
             if (subGroup.columns) {
               subGroup.columns.forEach((column) => {
-                const columnKey = columnTracker.getUniqueTitle(
-                  column.title,
-                  "subgroup"
-                );
+                const columnKey = columnTracker.getUniqueTitle(column.title);
                 flatRow[columnKey] = column.content;
               });
-              columnTracker.clearMapping();
             }
           });
         }
       });
     }
+
+    columnTracker.clearMapping();
 
     tabulatorData.push(flatRow);
   });
@@ -389,7 +364,7 @@ const getDescendants = (group, ignoreFirstIndex) => {
 
 const HeaderContent = ({ initialValue, group, table }) => {
   const [_isCollapsed, setIsCollapsed] = useState({});
-  const groupId = group.uniqueId
+  const groupId = group.uniqueId;
 
   const adjustColumns = (targetGroup, isCollapsed, parentCollapsed = false) => {
     const groupColumns = getDescendants(targetGroup);
@@ -511,7 +486,7 @@ function App({ config }) {
 
           if (firstRow.columns) {
             firstRow.columns.forEach((column) => {
-              const field = columnTracker.getUniqueTitle(column.title, "main");
+              const field = columnTracker.getUniqueTitle(column.title);
               column.uniqueId = field;
               addColumn({
                 title: column.title,
@@ -546,16 +521,12 @@ function App({ config }) {
 
               if (group.columns) {
                 group.columns.forEach((column) => {
-                  const field = columnTracker.getUniqueTitle(
-                    column.title,
-                    "group"
-                  );
+                  const field = columnTracker.getUniqueTitle(column.title);
 
                   const displayTitle =
-                    data.showDetailedTitles &&
-                    `${groupTitle}: ${column.title}`;
+                    data.showDetailedTitles && `${groupTitle}: ${column.title}`;
 
-                    column.uniqueId = field;
+                  column.uniqueId = field;
 
                   newColumns.push({
                     title: displayTitle || column.title,
@@ -600,15 +571,14 @@ function App({ config }) {
 
                         subGroup.columns.forEach((column) => {
                           const field = columnTracker.getUniqueTitle(
-                            column.title,
-                            "subgroup"
+                            column.title
                           );
 
                           const displayTitle =
                             data.showDetailedTitles &&
                             `${subGroupTitle}: ${column.title}`;
 
-                            column.uniqueId = field;
+                          column.uniqueId = field;
 
                           subGroupColumns.push({
                             title: displayTitle || column.title,
