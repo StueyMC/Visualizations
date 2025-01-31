@@ -52,7 +52,7 @@ describe("Initial Tabulator tests", () => {
     expect(rows.length).toBe(2);
   });
 
-  it("should load MooD data into the table", async () => {
+  it("should load Mood data into the table", async () => {
     const table = new Tabulator("#initial-table", {
       data: data,
       columns: [
@@ -94,12 +94,12 @@ describe("Initial Tabulator tests", () => {
   });
 });
 
-describe("Testing the MooD custom visualizer source code", () => {
+describe("Testing the Mood Tabulator source code", () => {
   beforeEach(() => {
     document.body.innerHTML = '<div id="initial-table"></div>';
   });
 
-  it("should initialize the MooD Table successfully", async () => {
+  it("should initialize the Mood Table successfully", async () => {
     const table = new Tabulator("#initial-table", {
       data: transformJson(config.data.rows),
       columns: createColumnDefinition(config, config.data.rows),

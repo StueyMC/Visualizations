@@ -27,7 +27,7 @@
 
 ## Description
 
-Tabulator DataGrid is an accessible component that allows you to display and interact with Tabulator data in your web application. It provides a wide range of features and configuration options to customise the beahviour and appearance of the grid.
+Tabulator DataGrid is an accessible component that allows you to display and interact with Tabulator data in your web application. It provides a wide range of features and configuration options to customise the behaviour and appearance of the grid.
 
 [Table of Contents](#table-of-contents)
 
