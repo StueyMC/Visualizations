@@ -108,7 +108,7 @@
     box-sizing: border-box;
     display: inline-flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: flex-end;
     overflow: hidden;
     position: relative;
     text-align: left;
@@ -139,7 +139,7 @@
 .tabulator .tabulator-header .tabulator-col .tabulator-col-content {
     box-sizing: border-box;
     padding: 4px;
-    position: relative
+    position: relative;
 }
 
 .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-header-popup-button {
@@ -152,7 +152,9 @@
 }
 
 .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title-holder {
-    position: relative
+    position: relative;
+    left: 0%;
+    padding-left: 5px
 }
 
 .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title {
@@ -211,7 +213,8 @@
     margin-top: 2px;
     position: relative;
     text-align: center;
-    width: 100%
+    width: 100%;
+    align-self: flex-end;
 }
 
 .tabulator .tabulator-header .tabulator-col .tabulator-header-filter textarea {
