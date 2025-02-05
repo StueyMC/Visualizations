@@ -35,7 +35,7 @@
                 "content": "DB",
                 "format": null,
                 "editable": true,
-                "headerFilter": false,
+                "headerFilter": true,
                 "columnSorter": true,
                 "width": null,
                 "frozen": false,

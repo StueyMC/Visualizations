@@ -112,7 +112,7 @@ describe("Testing the Mood Tabulator source code", () => {
     expect(table).toBeDefined();
   });
 
-  it("should load data into the MooD Table successfully", async () => {
+  it("should load data into the Mood Table successfully", async () => {
     const table = new Tabulator("#initial-table", {
       data: transformJson(config.data.rows),
       columns: createColumnDefinition(config, config.data.rows),
