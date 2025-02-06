@@ -1,6 +1,6 @@
 {
 	"name": "tabulator",
-	"description": "Tabulator for MooD",
+	"description": "Tabulator for Mood",
 	"version": "1.1.188",
 	"license": "MIT",
 	"dependencies": {
