@@ -3,7 +3,7 @@
  */
 
 import Tabulator from "tabulator-tables";
-import { transformJson, createColumnDefinition } from "../../visualization.js";
+import { transformJson, createColumnDefinition } from "../../TabulatorVisualizer.js";
 import { config } from "../test-data.js";
 import { getFormat, formatDate } from "../../../formatters/formatters.js";
 import { getEditorType } from "../../../formatters/editors.js";

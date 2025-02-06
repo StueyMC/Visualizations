@@ -2,9 +2,9 @@ import { TabulatorFull as Tabulator } from "tabulator-tables";
 import {
   setVisualizationTheme,
   setTextWrapping,
-} from "../visualizationThemes/visualizationThemes.js";
-import { getFormat, formatDate } from "../formatters/formatters.js";
-import { getEditorType } from "../formatters/editors.js";
+} from "../themes/TabulatorThemes.js";
+import { getFormat, formatDate } from "../formatters/TabulatorFormatters.js";
+import { getEditorType } from "../formatters/TabulatorEditors.js";
 import {
   BsCaretRightFill,
   BsCaretDownFill,
@@ -426,7 +426,7 @@ const HeaderContent = ({ initialValue, group, table }) => {
   );
 };
 
-function App({ config }) {
+function TabulatorApp({ config }) {
   const tabulatorDivRef = useRef(null);
   const tableRef = useRef(null);
 
@@ -767,4 +767,4 @@ function App({ config }) {
   return <div ref={tabulatorDivRef}></div>;
 }
 
-export default App;
+export default TabulatorApp;

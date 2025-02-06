@@ -17,7 +17,7 @@ module.exports = merge(common, {
     .readdirSync(path.join(__dirname, "demo"))
     .filter((d) => fs.lstatSync(path.join(__dirname, "demo", d)).isDirectory())
     .reduce(function (prev, current) {
-      prev[current] = path.join(__dirname, "demo", current, "demo-visualization.js");
+      prev[current] = path.join(__dirname, "demo", current, "TabulatorDemo.js");
       return prev;
     }, {}),
   plugins: [

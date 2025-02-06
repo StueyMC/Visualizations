@@ -11,24 +11,28 @@ For user guidance documentation, see [Tabulator Guide](./UserGuide.md)
 ## File Structure
 - root
   - Files which are used by Node
-  - The final `custom_viz.zip` file
+  - The final `tabulator.zip` file
   - package.json (containing a list of commands you can use with `npm run`)
 - src
   - visualization
     - __tests__
       - A folder where you can add automated unit tests
     - visualization.js
-      - This is where you can edit your custom visualizer code
+      - This is where the tabulator is initialize
+    - app.js
+      - This is where you can edit your tabulator code
+    - style.css
+      - You can customize the stylesheet that change how tabulator will look
   - formatters
-    - editors.js
+    - TabulatorEditors.js
       - This is where you can override the column's editor depending on the chosen formatter
-    - formatters.js
+    - TabulatorFormatters.js
       - This is where you can add or edit custom pre-built formatters
-  - visualizationThemes
-    - visualizationThemes.js
-      - This is where you can add or edit custom pre-built themes for the visualizer
+  - themes
+    - TabulatorThemes.js
+      - This is where you can add or edit custom pre-built themes for the tabulator
 - demo
-  - A folder containing a demo of the visualization using fixed data that you can run on the web
+  - A folder containing a demo of the tabulator using fixed data that you can run on localhost
 - dist
   - An automatically generated output folder
 - node_modules
@@ -38,7 +42,7 @@ For user guidance documentation, see [Tabulator Guide](./UserGuide.md)
 
 ## Prerequisites
 
-Node version 20.17.0 or later.\
+Node version 20.17.0 or later.
 
 ## Suggested Development Tools
 
@@ -54,10 +58,10 @@ ESLint VS Code Extension v2.4.4 or later.
 
 # How To Use
 
-- src\package.json.no-guid.ejs
-- src\visualizer\package.json.no-guid.ejs
+- src\no-guid.package.json.ejs
+- src\visualizer\no-guid.visualization.config.json.ejs
 
-> The purpose of these files is to automatically generate a unique ID for the package/visualization.
+> The purpose of these files is to automatically generate a unique ID for the package/tabulator.
 
 1. Run `npm run generate-guids`
 
@@ -74,15 +78,15 @@ Which will produce:
 
 - src\package.json
 - src\visualizer\package.json
-- custom_viz.zip
+- tabulator.zip
 
 > These are automatically generated files which you shouldn't manually edit.
 
-You can now import the `custom_viz.zip` file in to MooD.
+You can now import the `tabulator.zip` file in to MooD.
 
 You should also choose a preview image by changing ```visualization.png```.
 
-## Demo Visualization
+## Tabulator Demo
 
 Run `npm run start` to run the demo-visualization on [http://localhost:8080/](http://localhost:8080/). This will open your browser showing template.html.
 
@@ -90,9 +94,9 @@ The demo visualization page will reload when you make changes to the main visual
 
 Interesting files:
 
-- visualization.js: This is where your main code lives.
-- demo-visualization.js: Hooks the template page in to the main visualization code.
-- sample-data.json: This file passes fixed test data in to your demo visualization page.
+- TabulatorApp.js: This is where your main code lives.
+- TabulatorDemo.js: Hooks the template page in to the main visualization code.
+- sample-data.json: This file passes fixed test data in to your tabulator demo page.
 
 # Test Strategy
 
@@ -112,8 +116,8 @@ Tests are grouped in describe blocks based on either functionality that they sha
 
 ## Test Pass Rates
 
-> visualization, 2/2 tests pass (100% pass rate)
+> visualizer, 2/2 tests pass (100% pass rate)
 
 ## Average Line Coverage
 
-> visualization has an average line coverage of 00.00% of all files
+> visualizer has an average line coverage of 00.00% of all files
