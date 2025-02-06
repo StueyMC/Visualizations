@@ -82,7 +82,7 @@ Which will produce:
 
 > These are automatically generated files which you shouldn't manually edit.
 
-You can now import the `tabulator.zip` file in to MooD.
+You can now import the `tabulator.zip` file in to Mood.
 
 You should also choose a preview image by changing ```visualization.png```.
 
