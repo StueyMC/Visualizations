@@ -1,5 +1,5 @@
-import { visualization } from "../../src/visualization/visualization";
-import MooDConfig from "./MooDConfig.json";
+import { initialize } from "../../src/visualization/visualization";
+import TabulatorConfig from "./TabulatorConfig.json";
 import dataConfig from "./sample-data.json";
 import styleConfig from "./style.json";
 import inputsConfig from "./inputs.json";
@@ -10,9 +10,9 @@ config.version = pkg.version;
 let key;
 let css;
 
-for (key in MooDConfig) {
-  if (MooDConfig.hasOwnProperty(key)) {
-    config[key] = MooDConfig[key];
+for (key in TabulatorConfig) {
+  if (TabulatorConfig.hasOwnProperty(key)) {
+    config[key] = TabulatorConfig[key];
   }
 }
 
@@ -44,7 +44,7 @@ addCSSFile(css);
 var el = document.getElementById(config.element);
 el.style.height = config.height;
 el.style.width = config.width;
-visualization(config);
+initialize(config);
 
 function addCSSFile(cssURL) {
   if (cssURL !== undefined && cssURL !== null) {
