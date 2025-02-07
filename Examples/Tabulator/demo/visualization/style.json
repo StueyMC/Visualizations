@@ -12,6 +12,10 @@
       "title": "ID",
       "frozen": true
     },
+    "stylingOptions": {
+      "theme": "",
+      "wrapText": false
+    },
     "line": {
       "type": "monotone",
       "strokeColour": "#8884d8"

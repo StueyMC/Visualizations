@@ -167,7 +167,7 @@
           }
         ],
         "groupBy": "Domestic",
-        "groupRows": false
+        "groupRows": true
       },
       {
         "columns": [
@@ -204,7 +204,7 @@
             ]
           }
         ],
-        "groupBy": "Domestic"
+        "groupBy": "International"
       },
       {
         "columns": [
@@ -395,8 +395,6 @@
     "editable": true,
     "navigable": false,
     "resizable": true,
-    "theme": null,
-    "textWrap": false,
     "headerFiltering": true,
     "columnSorting": true,
     "showDetailedTitles": false

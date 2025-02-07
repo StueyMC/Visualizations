@@ -101,17 +101,6 @@ type data {
         heading: "Enable to resize the data grid on the web."
     )
 
-    theme: String @UI (
-        name: "Theme"
-        heading: "Apply a pre-made theme to the data grid."
-    )
-
-    textWrap: Boolean @UI (
-        default: False
-        name: "Wrap Text"
-        heading: "Enable to wrap long text in cells. If disabled, text will be truncated."
-    )
-
     headerFiltering: Boolean @UI (
         default: False
         name: "Header Filtering"
