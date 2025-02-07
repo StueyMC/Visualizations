@@ -442,9 +442,9 @@ function TabulatorApp({ config }) {
       const initialRowEnabled =
         configStyle.initialRow?.enabled === true || false;
 
-      setVisualizationTheme(configData.theme, configData.rows[0].groupRows);
+      setVisualizationTheme(configStyle.stylingOptions?.theme, configData.rows[0].groupRows);
 
-      if (configData.textWrap) {
+      if (configStyle.stylingOptions?.wrapText) {
         setTextWrapping();
       }
 

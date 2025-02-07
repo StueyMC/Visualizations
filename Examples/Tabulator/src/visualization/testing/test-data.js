@@ -106,8 +106,6 @@ export const config = {"data" : {
             ],
     "editable": true,
     "navigable": false,
-    "textWrap": true,
-    "theme": "modern",
     "columnSorting": true,
     "headerFiltering": true,
     "showDetailedTitles": true
