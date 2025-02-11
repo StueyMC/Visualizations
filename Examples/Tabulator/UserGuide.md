@@ -11,11 +11,10 @@
   * [Date and time formatting](#date-and-time-formatting)
   * [Numeric formatting](#numeric-formatting)
 * [Styling Options](#styling-options)
-  * [Available themes](#available-themes)
   * [Edit style menu](#edit-style-menu)
+  * [Available themes](#available-themes)
 * [Column Properties](#column-properties)
 * [Advanced Features](#advanced-features)
-  * [Wrap Text](#wrap-text)
   * [Row Grouping](#row-grouping)
   * [Navigable](#navigable)
   * [Global Settings](#global-settings)
@@ -60,8 +59,10 @@ Tabulator DataGrid is an accessible component that allows you to display and int
 
 ### Examples
 #### Football team names
-> Column Name: "Team Name"\
-Content: Select the team name field from your data source.
+1. Column Name: "Team Name"
+2. Select `Content`.
+3. Click `Select a value` on the right panel.
+4. Locate and select the team name field from your data source.
 
 [Table of Contents](#table-of-contents)
 
@@ -117,26 +118,25 @@ Supports custom date formatting using patterns:
 
 ## Styling Options
 
-### Available themes
-
-`Modern`: Contemporary design.\
-`Midnight`: Dark mode interface.\
-`Simple`: Minimalist appearance.\
-Default: Grey theme
-
-> Default is applied when the theme is blank or invalid.
-
-##### Example image
-![Theme example image](./Images/themeExample.PNG)
-
 ### Edit style menu
 
 1. Navigating to `Edit Style` in the settings panel will pop up with a JSON configuration interface.
 2. To add an initial row ID column, set `enabled` to `true` inside the `initialRow` object.
     - Setting this to false will disable the initial row ID column.
     - This initial column will be disabled by default.
+3. To change the table's theme, input an available theme under `stylingOptions`.
+4. For all text to automatically wrap, set `wrapText` to `true`.
 
-##### Edit Style interface
+### Available themes
+
+`"Modern"`: Contemporary design.\
+`"Midnight"`: Dark mode interface.\
+`"Simple"`: Minimalist appearance.\
+Default: Grey theme
+
+> Default is applied when the theme is blank or invalid.
+
+#### Edit Style interface
 ![Edit style menu interface image](./Images/jsonInterface.PNG)
 
 #### Example images
@@ -148,20 +148,17 @@ Default: Grey theme
 
 ## Column Properties
 
-`Width`: Leave blank for auto-sizing or type in a number.\
-`Header Alignment`: Customise header text alignment.\
-`Frozen`: Fix columns in place during horizontal scrolling.\
-`Editable`: Allow cells to become editable. Global setting `Editable` needs to be enabled.\
-`Header Filter`: Show filters within the column header. Global setting `Header Filtering` needs to be enabled.\
-`Column Sorter`: Enable column sorting. Global setting `Column Sorting` needs to be enabled.\
-`Resizable`: Allow the column to be resizable by dragging the column edges. Global setting `Resizable` needs to be enabled.
+- `Width`: Leave blank for auto-sizing or type in a number.
+- `Header Alignment`: Customise header text alignment.
+- `Frozen`: Fix columns in place during horizontal scrolling.
+- `Editable`: Allow cells to become editable. Global setting `Editable` needs to be enabled.
+- `Header Filter`: Show filters within the column header. Global setting `Header Filtering` needs to be enabled.
+- `Column Sorter`: Enable column sorting. Global setting `Column Sorting` needs to be enabled.
+- `Resizable`: Allow the column to be resizable by dragging the column edges. Global setting `Resizable` needs to be enabled.
 
 [Table of Contents](#table-of-contents)
 
 ## Advanced Features
-
-### Wrap Text
-1. For all content to wrap and avoid text truncation, enable the wrap text feature.
 
 ### Row Grouping
 1. For grouped rows, enable row grouping feature.
@@ -206,6 +203,6 @@ Default: Grey theme
 
 ## Current Limitations
 
-1. Drop-down menus are currently not available for selecting formatting and styling options. You will have to manually type these options into a text field.
+1. Drop-down menus are currently not available for selecting formatting options. You will have to manually type these options into a text field.
 
 [Table of Contents](#table-of-contents)
