@@ -52,7 +52,7 @@
                     "content": "4",
                     "format": "star",
                     "editable": true,
-                    "headerFilter": false,
+                    "headerFilter": true,
                     "columnSorter": true,
                     "width": null,
                     "frozen": false,
