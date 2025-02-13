@@ -11,6 +11,7 @@ import {
   BsSortDown,
   BsSortUp,
 } from "react-icons/bs";
+import { FaFilter } from "react-icons/fa6";
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -298,6 +299,7 @@ const transformJson = (data) => {
   data.rows.forEach((row) => {
     const flatRow = {
       rowId: row.id,
+      groupBy: row.groupBy,
     };
 
     if (row.columns) {
@@ -426,6 +428,26 @@ const HeaderContent = ({ initialValue, group, table }) => {
   );
 };
 
+var headerPopupFormatter = function (_e, column) {
+  var container = document.createElement("div");
+
+  var input = document.createElement("input");
+  input.placeholder = "Filter Column...";
+  input.value = column.getHeaderFilterValue() || "";
+
+  input.addEventListener("keyup", () => {
+    column.setHeaderFilterValue(input.value);
+  });
+
+  container.appendChild(input);
+
+  return container;
+};
+
+var emptyHeaderFilter = function () {
+  return document.createElement("div");
+};
+
 function TabulatorApp({ config }) {
   const tabulatorDivRef = useRef(null);
   const tableRef = useRef(null);
@@ -442,7 +464,10 @@ function TabulatorApp({ config }) {
       const initialRowEnabled =
         configStyle.initialRow?.enabled === true || false;
 
-      setVisualizationTheme(configStyle.stylingOptions?.theme, configData.rows[0].groupRows);
+      setVisualizationTheme(
+        configStyle.stylingOptions?.theme,
+        configData.rows[0].groupRows
+      );
 
       if (configStyle.stylingOptions?.wrapText) {
         setTextWrapping();
@@ -500,8 +525,18 @@ function TabulatorApp({ config }) {
                   data.editable && column.editable
                     ? getEditorType(column.format) || true
                     : false,
-                headerFilter:
-                  data.headerFiltering && column.headerFilter ? "input" : null,
+                headerPopup: data.headerFiltering && column.headerFilter ? headerPopupFormatter : null,
+                headerPopupIcon: function () {
+                  if (data.headerFiltering && column.headerFilter) {
+                    const container = document.createElement("div");
+                    const root = createRoot(container);
+                    root.render(<FaFilter />);
+  
+                    return container;
+                  }
+                },
+                headerFilter: data.headerFiltering && column.headerFilter ? emptyHeaderFilter : null,
+                headerFilterFunc: "like",
                 formatter:
                   getFormat[column.format] ||
                   (column.format && column.format.includes("%")

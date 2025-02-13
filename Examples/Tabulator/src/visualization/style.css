@@ -143,7 +143,7 @@
 }
 
 .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-header-popup-button {
-    padding: 0 8px
+    display: inline-flex
 }
 
 .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-header-popup-button:hover {
