@@ -428,26 +428,6 @@ const HeaderContent = ({ initialValue, group, table }) => {
   );
 };
 
-var headerPopupFormatter = function (_e, column) {
-  var container = document.createElement("div");
-
-  var input = document.createElement("input");
-  input.placeholder = "Filter Column...";
-  input.value = column.getHeaderFilterValue() || "";
-
-  input.addEventListener("keyup", () => {
-    column.setHeaderFilterValue(input.value);
-  });
-
-  container.appendChild(input);
-
-  return container;
-};
-
-var emptyHeaderFilter = function () {
-  return document.createElement("div");
-};
-
 function TabulatorApp({ config }) {
   const tabulatorDivRef = useRef(null);
   const tableRef = useRef(null);
@@ -525,18 +505,6 @@ function TabulatorApp({ config }) {
                   data.editable && column.editable
                     ? getEditorType(column.format) || true
                     : false,
-                headerPopup: data.headerFiltering && column.headerFilter ? headerPopupFormatter : null,
-                headerPopupIcon: function () {
-                  if (data.headerFiltering && column.headerFilter) {
-                    const container = document.createElement("div");
-                    const root = createRoot(container);
-                    root.render(<FaFilter />);
-  
-                    return container;
-                  }
-                },
-                headerFilter: data.headerFiltering && column.headerFilter ? emptyHeaderFilter : null,
-                headerFilterFunc: "like",
                 formatter:
                   getFormat[column.format] ||
                   (column.format && column.format.includes("%")
@@ -544,6 +512,7 @@ function TabulatorApp({ config }) {
                     : column.format),
                 contextMenu: customContextMenu,
                 accessorClipboard: formatAccessor,
+                filteringEnabled: column.headerFilter,
               });
             });
           }
@@ -578,10 +547,6 @@ function TabulatorApp({ config }) {
                       data.editable && column.editable
                         ? getEditorType(column.format) || true
                         : false,
-                    headerFilter:
-                      data.headerFiltering && column.headerFilter
-                        ? "input"
-                        : null,
                     formatter:
                       getFormat[column.format] ||
                       (column.format && column.format.includes("%")
@@ -589,6 +554,7 @@ function TabulatorApp({ config }) {
                         : column.format),
                     contextMenu: customContextMenu,
                     accessorClipboard: formatAccessor,
+                    filteringEnabled: column.headerFilter,
                   });
                 });
               }
@@ -631,10 +597,6 @@ function TabulatorApp({ config }) {
                               data.editable && column.editable
                                 ? getEditorType(column.format) || true
                                 : false,
-                            headerFilter:
-                              data.headerFiltering && column.headerFilter
-                                ? "input"
-                                : null,
                             formatter:
                               getFormat[column.format] ||
                               (column.format && column.format.includes("%")
@@ -642,6 +604,7 @@ function TabulatorApp({ config }) {
                                 : column.format),
                             contextMenu: customContextMenu,
                             accessorClipboard: formatAccessor,
+                            filteringEnabled: column.headerFilter,
                           });
                         });
 
@@ -707,7 +670,6 @@ function TabulatorApp({ config }) {
         data: transformJson(configData),
         layout: "fitDataTable",
         responsiveLayout: false,
-        movableColumns: true,
         resizableRows: configData.resizable,
         headerSortClickElement: "icon",
         editTriggerEvent: "dblclick",
@@ -789,6 +751,11 @@ function TabulatorApp({ config }) {
       const table = new Tabulator(tabulatorDivRef.current, tableConfig);
       tabulatorDivRef.current.style.height = config.height;
       handleTableWidth(tabulatorDivRef, config.width, table);
+
+      table.on("tableBuilt", function () {
+        createAlignedFilters(configData, tabulatorDivRef.current, table);
+      });
+
       table.on("dataProcessed", function () {
         setTimeout(() => {
           tableRef.current.redraw();
@@ -801,5 +768,103 @@ function TabulatorApp({ config }) {
 
   return <div ref={tabulatorDivRef}></div>;
 }
+
+const createAlignedFilters = (data, tabulatorElement, table) => {
+  const headerContents = tabulatorElement.querySelector(".tabulator-header-contents");
+  const breakTag = headerContents.querySelector("br")
+  breakTag.remove()
+
+  if (!data.headerFiltering) return;
+
+  const headers = tabulatorElement.querySelector(".tabulator-headers");
+  if (!headers) return;
+
+  const tabulatorFilters = document.createElement("div");
+  tabulatorFilters.className = "tabulator-filters";
+  tabulatorFilters.style.height = "35px";
+
+  headers.insertAdjacentElement("afterend", tabulatorFilters);
+
+  const columns = table.getColumns();
+  columns.forEach((column) => {
+    const columnDef = column.getDefinition();
+    const field = columnDef.field;
+    const width = column.getWidth();
+
+    const filterCell = document.createElement("div");
+    filterCell.className = "tabulator-col";
+    filterCell.role = "columnheader";
+    filterCell.style.minWidth = "40px";
+    filterCell.style.width = width + "px";
+    filterCell.style.borderTop = "1px solid #ddd";
+    filterCell.style.height = "100%";
+
+    const filterCellContent = document.createElement("div");
+    filterCellContent.className = "tabulator-col-content";
+    filterCell.appendChild(filterCellContent);
+
+    const filterHolder = document.createElement("div");
+    filterHolder.className = "tabulator-col-filter-holder";
+    filterCellContent.appendChild(filterHolder);
+
+    if (columnDef.filteringEnabled) {
+      const filterCellFilter = document.createElement("div");
+      filterCellFilter.className = "tabulator-col-filter";
+      filterHolder.appendChild(filterCellFilter);
+
+      if (field) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "tabulator-col-filter-input";
+
+        input.addEventListener("keyup", (e) => {
+          if (e.target.value == "") {
+            table.clearFilter();
+            return;
+          }
+          table.setFilter(field, "like", e.target.value);
+        });
+
+        filterCellFilter.appendChild(input);
+      }
+
+      const container = document.createElement("div");
+      container.className = "tabulator-col-filter-icon";
+      const root = createRoot(container);
+      root.render(<FaFilter />);
+      filterHolder.appendChild(container);
+    }
+
+    tabulatorFilters.appendChild(filterCell);
+
+    let columnToResize = null
+    let columnResizing = false
+    function trackColumnWidth() {
+      if (columnResizing && columnToResize) {
+        let liveWidth = columnToResize.getElement().offsetWidth
+        filterCell.style.width = liveWidth + "px";
+      }
+    }
+
+    table.on("columnResizing", function(resizedColumn){
+      if (resizedColumn.getField() !== field) return
+      columnResizing = true
+      columnToResize = resizedColumn
+
+      document.addEventListener("mousemove", trackColumnWidth);
+    });
+
+    table.on("columnResized", function (resizedColumn) {
+      if (resizedColumn.getField() !== field) return
+      columnResizing = false
+      columnToResize = null
+      document.removeEventListener("mousemove", trackColumnWidth);
+
+      let newWidth = resizedColumn.getWidth()
+
+      filterCell.style.width = newWidth + "px";
+    });
+  });
+};
 
 export default TabulatorApp;
