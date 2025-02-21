@@ -22,6 +22,7 @@
     * [Resizable](#resizable)
     * [Column Sorting](#column-sorting)
     * [Header Filters](#header-filters)
+    * [Column Calculations](#column-calculations)
 * [Current Limitations](#current-limitations)
 
 ## Description
@@ -103,7 +104,9 @@ Supports custom date formatting using patterns:
 - `%yyyy`: Four-digit year
 - `%yy`: Two-digit year
 - `%tt`: Terrestrial time
-- Example: `%yyyy-%MM-%dd` for `2025-01-27`
+- Example: `%yyyy-%MM-%dd %HH %tt` for `2025-01-27 09 AM`
+
+![Formatting example image](./Images/formatExample.PNG)
 
 > These formatting options converts an ISO Date String to a desired format.
 
@@ -111,8 +114,9 @@ Supports custom date formatting using patterns:
 
 `stars`: Converts numbers 0-5 to star ratings.
 
-##### Example image
-![Formatting example image](./Images/formatExample.PNG)
+### Other formatting
+
+`tickCross`: Converts content to either a tick if the value is truthy or a cross if the value is falsy.
 
 [Table of Contents](#table-of-contents)
 
@@ -152,9 +156,16 @@ Default: Grey theme
 - `Header Alignment`: Customise header text alignment.
 - `Frozen`: Fix columns in place during horizontal scrolling.
 - `Editable`: Allow cells to become editable. Global setting `Editable` needs to be enabled.
-- `Header Filter`: Show filters within the column header. Global setting `Header Filtering` needs to be enabled.
-- `Column Sorter`: Enable column sorting. Global setting `Column Sorting` needs to be enabled.
-- `Resizable`: Allow the column to be resizable by dragging the column edges. Global setting `Resizable` needs to be enabled.
+- `Header Filter`: Show filters within the column header.
+  - Global setting `Header Filtering` needs to be enabled.
+- `Column Sorter`: Enable column sorting.
+  - Global setting `Column Sorting` needs to be enabled.
+- `Resizable`: Allow the column to be resizable by dragging the column edges.
+  - Global setting `Resizable` needs to be enabled.
+- `Top Calculation`: Show column calculations at the top of the column.
+  - Global setting `Top Column Calculations` needs to be enabled.
+- `Bottom Calculation`: Show column calculations at the bottom of the column.
+  - Global setting `Bottom Column Calculations` needs to be enabled.
 
 [Table of Contents](#table-of-contents)
 
@@ -177,7 +188,11 @@ Default: Grey theme
 
 ### Global Settings
 
-> Global settings enable features that can be used for each column in the DataGrid. Below are a list of available global settings:
+> Global settings enable features that can be used throughout each column in the DataGrid.
+
+> If a global setting is enabled, you can override this setting when configuring each column. 
+
+> For example, if you would like to add header filtering, you will need to enable the global setting `Header Filters`. If you would like specific columns to not show header filters, you can disable `Header Filtering` when configuring these columns. Below are a list of available global settings:
 
 #### Editable
 1. Enable in-line editing for each data cell.
@@ -195,9 +210,30 @@ Default: Grey theme
 1. Enable header filters for each column.
 2. Override this feature for specific columns by changing the `Header Filter` field when configuring your columns.
 
-> If a global setting is enabled, you can override this setting when configuring each column. 
+#### Column Calculations
 
-> For example, if you would like to add header filtering, global setting `Header Filters` must be enabled. If you would like specific columns to not have header filters, disable `Header Filtering` when configuring these columns.
+Column calculations can be used to add a row of calculated values to the top or bottom of your table to display information such as the sum of a columns data.
+
+![Column Calculations Example Image](./Images/columnCalcExample.PNG)
+
+To enable Column Calculations, there are two global settings that can be enabled:
+ - `Top Column Calculations`
+ - `Bottom Column Calculations`
+
+There are two options that can be set in a column to define a calculation, the `Top Calculation` option defines a calculation for the top of the column, and the `Bottom Calculation` defines a calculation for the bottom of the column.
+
+Tabulator comes with a number of preconfigured calculations:
+
+- `avg`: Calculates the average value of all numerical cells in a column.
+- `max`: Displays the maximum value from all numerical cells in a column.
+- `min`: Displays the minimum value from all numerical cells in a column.
+- `sum`: Displays the sum of all numerical cells in a column.
+- `concat`: Joins the values of all cells in a column together as a string.
+- `count`: Counts the number of non-empty cells in a column (cells that do not have a value of null, undefined or "").
+- `unique`: Counts the number of unique non-empty values in a column (cells that do not have a value of null, undefined or "").
+- Default: Leave blank for no calculation to be displayed for a specific column.
+
+> Default is applied when the calculation field is blank or invalid.
 
 [Table of Contents](#table-of-contents)
 
