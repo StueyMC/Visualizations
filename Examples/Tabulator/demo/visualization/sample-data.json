@@ -4,7 +4,7 @@
       {
         "columns": [
           {
-            "title": "name",
+            "title": "Team",
             "content": "Bristol",
             "format": null,
             "editable": true,
@@ -15,24 +15,25 @@
             "resizable": true
           },
           {
-            "title": "name",
-            "content": "Texas",
-            "format": null,
+            "title": "Playing",
+            "content": true,
+            "format": "tickCross",
             "editable": true,
             "headerFilter": true,
-            "columnSorter": true,
-            "width": null,
+            "columnSorter": false,
+            "width": 80,
             "frozen": false,
-            "resizable": true
+            "resizable": true,
+            "colAlignment": "center"
           }
         ],
         "groups": [
           {
-            "title": "New Group 1",
+            "title": "Column Group",
             "columns": [
               {
-                "title": "acronym",
-                "content": "DB",
+                "title": "Acronym",
+                "content": "BRS",
                 "format": null,
                 "editable": true,
                 "headerFilter": true,
@@ -45,10 +46,10 @@
             ],
             "subGroups": [
               {
-                "title": "New Group 2",
+                "title": "Sub Group",
                 "columns": [
                   {
-                    "title": "rating",
+                    "title": "Score Rating",
                     "content": "4",
                     "format": "star",
                     "editable": true,
@@ -56,10 +57,12 @@
                     "columnSorter": true,
                     "width": null,
                     "frozen": false,
-                    "resizable": true
+                    "resizable": true,
+                    "topCalc": "avg",
+                    "bottomCalc": "count"
                   },
                   {
-                    "title": "date",
+                    "title": "Founded Date",
                     "content": "2024-07-22T12:07:32Z",
                     "format": "%dd-%MM-%yyyy",
                     "editable": true,
@@ -69,97 +72,6 @@
                     "frozen": false,
                     "resizable": true,
                     "alignment": "right"
-                  },
-                  {
-                    "title": "date2",
-                    "content": "2024-07-22T12:07:32Z",
-                    "format": null,
-                    "editable": true,
-                    "headerFilter": false,
-                    "columnSorter": true,
-                    "width": null,
-                    "frozen": false,
-                    "resizable": true
-                  },
-                  {
-                    "title": "date3",
-                    "content": "2024-07-22T12:07:32Z",
-                    "format": "datetime",
-                    "editable": true,
-                    "headerFilter": false,
-                    "columnSorter": true,
-                    "width": null,
-                    "frozen": false,
-                    "resizable": true
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "title": "New Group 1",
-            "columns": [
-              {
-                "title": "acronym",
-                "content": "DB",
-                "format": null,
-                "editable": true,
-                "headerFilter": false,
-                "columnSorter": true,
-                "width": null,
-                "frozen": false,
-                "resizable": true,
-                "alignment": "center"
-              }
-            ],
-            "subGroups": [
-              {
-                "title": "New Group 2",
-                "columns": [
-                  {
-                    "title": "rating",
-                    "content": "4",
-                    "format": "star",
-                    "editable": true,
-                    "headerFilter": false,
-                    "columnSorter": true,
-                    "width": null,
-                    "frozen": false,
-                    "resizable": true
-                  },
-                  {
-                    "title": "date",
-                    "content": "2024-07-22T12:07:32Z",
-                    "format": "%dd-%MM-%yyyy",
-                    "editable": true,
-                    "headerFilter": false,
-                    "columnSorter": true,
-                    "width": null,
-                    "frozen": false,
-                    "resizable": true,
-                    "alignment": "right"
-                  },
-                  {
-                    "title": "date2",
-                    "content": "2024-07-22T12:07:32Z",
-                    "format": null,
-                    "editable": true,
-                    "headerFilter": false,
-                    "columnSorter": true,
-                    "width": null,
-                    "frozen": false,
-                    "resizable": true
-                  },
-                  {
-                    "title": "date3",
-                    "content": "2024-07-22T12:07:32Z",
-                    "format": "datetime",
-                    "editable": true,
-                    "headerFilter": false,
-                    "columnSorter": true,
-                    "width": null,
-                    "frozen": false,
-                    "resizable": true
                   }
                 ]
               }
@@ -172,7 +84,7 @@
       {
         "columns": [
           {
-            "title": "name",
+            "title": "Team",
             "content": "Manchester United",
             "format": null,
             "editable": true
@@ -180,21 +92,21 @@
         ],
         "groups": [
           {
-            "title": "New Group 1",
+            "title": "Column Group",
             "columns": [
               {
-                "title": "acronym",
-                "content": "DB",
+                "title": "Acronym",
+                "content": "MAN",
                 "format": null,
                 "editable": true
               }
             ],
             "subGroups": [
               {
-                "title": "New Group 2",
+                "title": "Sub Group",
                 "columns": [
                   {
-                    "title": "rating",
+                    "title": "Score Rating",
                     "content": "0",
                     "format": "star",
                     "editable": true
@@ -209,7 +121,7 @@
       {
         "columns": [
           {
-            "title": "name",
+            "title": "Team",
             "content": "Spain",
             "format": null,
             "editable": true
@@ -217,21 +129,21 @@
         ],
         "groups": [
           {
-            "title": "New Group 1",
+            "title": "Column Group",
             "columns": [
               {
-                "title": "acronym",
-                "content": "DB",
+                "title": "Acronym",
+                "content": "SPA",
                 "format": null,
                 "editable": true
               }
             ],
             "subGroups": [
               {
-                "title": "New Group 2",
+                "title": "Sub Group",
                 "columns": [
                   {
-                    "title": "rating",
+                    "title": "Score Rating",
                     "content": "1",
                     "format": "star",
                     "editable": true
@@ -246,7 +158,7 @@
       {
         "columns": [
           {
-            "title": "name",
+            "title": "Team",
             "content": "England",
             "format": null,
             "editable": true
@@ -254,21 +166,21 @@
         ],
         "groups": [
           {
-            "title": "New Group 1",
+            "title": "Column Group",
             "columns": [
               {
-                "title": "acronym",
-                "content": "DB",
+                "title": "Acronym",
+                "content": "ENG",
                 "format": null,
                 "editable": true
               }
             ],
             "subGroups": [
               {
-                "title": "New Group 2",
+                "title": "Sub Group",
                 "columns": [
                   {
-                    "title": "rating",
+                    "title": "Score Rating",
                     "content": "2",
                     "format": "star",
                     "editable": true
@@ -283,7 +195,7 @@
       {
         "columns": [
           {
-            "title": "name",
+            "title": "Team",
             "content": "Manchester City",
             "format": null,
             "editable": true
@@ -291,21 +203,21 @@
         ],
         "groups": [
           {
-            "title": "New Group 1",
+            "title": "Column Group",
             "columns": [
               {
-                "title": "acronym",
-                "content": "DB",
+                "title": "Acronym",
+                "content": "MAN",
                 "format": null,
                 "editable": true
               }
             ],
             "subGroups": [
               {
-                "title": "New Group 2",
+                "title": "Sub Group",
                 "columns": [
                   {
-                    "title": "rating",
+                    "title": "Score Rating",
                     "content": "5",
                     "format": "star",
                     "editable": true
@@ -320,7 +232,7 @@
       {
         "columns": [
           {
-            "title": "name",
+            "title": "Team",
             "content": "Germany",
             "format": null,
             "editable": true
@@ -328,21 +240,21 @@
         ],
         "groups": [
           {
-            "title": "New Group 1",
+            "title": "Column Group",
             "columns": [
               {
-                "title": "acronym",
-                "content": "DI",
+                "title": "Acronym",
+                "content": "GER",
                 "format": null,
                 "editable": true
               }
             ],
             "subGroups": [
               {
-                "title": "New Group 2",
+                "title": "Sub Group",
                 "columns": [
                   {
-                    "title": "rating",
+                    "title": "Score Rating",
                     "content": "4",
                     "format": "star",
                     "editable": true
@@ -357,7 +269,7 @@
       {
         "columns": [
           {
-            "title": "name",
+            "title": "Team",
             "content": "France",
             "format": null,
             "editable": true
@@ -365,21 +277,21 @@
         ],
         "groups": [
           {
-            "title": "New Group 1",
+            "title": "Column Group",
             "columns": [
               {
-                "title": "acronym",
-                "content": "DI",
+                "title": "Acronym",
+                "content": "FRA",
                 "format": null,
                 "editable": true
               }
             ],
             "subGroups": [
               {
-                "title": "New Group 2",
+                "title": "Sub Group",
                 "columns": [
                   {
-                    "title": "rating",
+                    "title": "Score Rating",
                     "content": "3",
                     "format": "star",
                     "editable": true
@@ -392,11 +304,13 @@
         "groupBy": null
       }
     ],
-    "editable": true,
+    "editable": false,
     "navigable": false,
     "resizable": true,
     "headerFiltering": true,
     "columnSorting": true,
-    "showDetailedTitles": false
+    "showDetailedTitles": false,
+    "bottomRowCalculations": true,
+    "topRowCalculations": true
   }
 }

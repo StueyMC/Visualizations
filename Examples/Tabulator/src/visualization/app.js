@@ -15,6 +15,7 @@ import { FaFilter } from "react-icons/fa6";
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 
+// Alignment Validation
 function getAlignment(alignment) {
   return alignment === "center" || alignment === "right" ? alignment : "left";
 }
@@ -498,6 +499,7 @@ function TabulatorApp({ config }) {
                 field: field,
                 width: column.width || WIDTH_CONFIG.columnSettings.defaultWidth,
                 headerHozAlign: getAlignment(column.alignment),
+                hozAlign: getAlignment(column.colAlignment),
                 frozen: column.frozen,
                 headerSort: data.columnSorting ? column.columnSorter : false,
                 resizable: data.resizable && column.resizable,
@@ -513,6 +515,12 @@ function TabulatorApp({ config }) {
                 contextMenu: customContextMenu,
                 accessorClipboard: formatAccessor,
                 filteringEnabled: column.headerFilter,
+                topCalc: data.topRowCalculations
+                  ? column.topCalc
+                  : null,
+                bottomCalc: data.bottomRowCalculations
+                  ? column.bottomCalc
+                  : null,
               });
             });
           }
@@ -538,6 +546,7 @@ function TabulatorApp({ config }) {
                     width:
                       column.width || WIDTH_CONFIG.columnSettings.defaultWidth,
                     headerHozAlign: getAlignment(column.alignment),
+                    hozAlign: getAlignment(column.colAlignment),
                     frozen: column.frozen,
                     headerSort: data.columnSorting
                       ? column.columnSorter
@@ -555,6 +564,12 @@ function TabulatorApp({ config }) {
                     contextMenu: customContextMenu,
                     accessorClipboard: formatAccessor,
                     filteringEnabled: column.headerFilter,
+                    topCalc: data.topRowCalculations
+                      ? column.topCalc
+                      : null,
+                    bottomCalc: data.bottomRowCalculations
+                      ? column.bottomCalc
+                      : null,
                   });
                 });
               }
@@ -588,6 +603,7 @@ function TabulatorApp({ config }) {
                               column.width ||
                               WIDTH_CONFIG.columnSettings.defaultWidth,
                             headerHozAlign: getAlignment(column.alignment),
+                            hozAlign: getAlignment(column.colAlignment),
                             frozen: column.frozen,
                             headerSort: data.columnSorting
                               ? column.columnSorter
@@ -605,6 +621,12 @@ function TabulatorApp({ config }) {
                             contextMenu: customContextMenu,
                             accessorClipboard: formatAccessor,
                             filteringEnabled: column.headerFilter,
+                            topCalc: data.topRowCalculations
+                              ? column.topCalc
+                              : null,
+                            bottomCalc: data.bottomRowCalculations
+                              ? column.bottomCalc
+                              : null,
                           });
                         });
 
@@ -769,11 +791,19 @@ function TabulatorApp({ config }) {
   return <div ref={tabulatorDivRef}></div>;
 }
 
-const createAlignedFilters = (data, tabulatorElement, table) => {
-  const headerContents = tabulatorElement.querySelector(".tabulator-header-contents");
-  const breakTag = headerContents.querySelector("br")
-  breakTag.remove()
+const removeBreakElements = (tabulatorElement) => {
+  const headerContents = tabulatorElement.querySelector(
+    ".tabulator-header-contents"
+  );
+  const breakTag = headerContents.querySelectorAll("br");
+  breakTag.forEach((tag) => {
+    tag.remove();
+  });
+};
 
+const createAlignedFilters = (data, tabulatorElement, table) => {
+  // TODO: Refine function (variable names, best practices, etc)
+  removeBreakElements(tabulatorElement);
   if (!data.headerFiltering) return;
 
   const headers = tabulatorElement.querySelector(".tabulator-headers");
@@ -837,30 +867,30 @@ const createAlignedFilters = (data, tabulatorElement, table) => {
 
     tabulatorFilters.appendChild(filterCell);
 
-    let columnToResize = null
-    let columnResizing = false
+    let columnToResize = null;
+    let columnResizing = false;
     function trackColumnWidth() {
       if (columnResizing && columnToResize) {
-        let liveWidth = columnToResize.getElement().offsetWidth
+        let liveWidth = columnToResize.getElement().offsetWidth;
         filterCell.style.width = liveWidth + "px";
       }
     }
 
-    table.on("columnResizing", function(resizedColumn){
-      if (resizedColumn.getField() !== field) return
-      columnResizing = true
-      columnToResize = resizedColumn
+    table.on("columnResizing", function (resizedColumn) {
+      if (resizedColumn.getField() !== field) return;
+      columnResizing = true;
+      columnToResize = resizedColumn;
 
       document.addEventListener("mousemove", trackColumnWidth);
     });
 
     table.on("columnResized", function (resizedColumn) {
-      if (resizedColumn.getField() !== field) return
-      columnResizing = false
-      columnToResize = null
+      if (resizedColumn.getField() !== field) return;
+      columnResizing = false;
+      columnToResize = null;
       document.removeEventListener("mousemove", trackColumnWidth);
 
-      let newWidth = resizedColumn.getWidth()
+      let newWidth = resizedColumn.getWidth();
 
       filterCell.style.width = newWidth + "px";
     });
