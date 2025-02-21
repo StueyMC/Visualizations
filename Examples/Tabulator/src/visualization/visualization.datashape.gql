@@ -23,6 +23,11 @@ type Column {
         default: "left"
     )
 
+    colAlignment: String @UI (
+        name: "Column Alignment"
+        default: "left"
+    )
+
     editable: Boolean @UI (
         default: false
         name: "Editable"
@@ -41,6 +46,14 @@ type Column {
     resizable: Boolean @UI (
         default: false
         name: "Resizable"
+    )
+
+    topCalc: String @UI (
+        name: "Top Calculation"
+    )
+
+    bottomCalc: String @UI (
+        name: "Bottom Calculation"
     )
 
     frozen: Boolean @UI (
@@ -111,6 +124,18 @@ type data {
         default: False
         name: "Column Sorting"
         heading: "Enable column sorting. Allows you to sort columns in ascending or descending order."
+    )
+
+     topRowCalculations: Boolean @UI (
+        default: False
+        name: "Top Column Calculations"
+        heading: "Show column calculations at the top of table."
+    )
+
+     bottomRowCalculations: Boolean @UI (
+        default: False
+        name: "Bottom Column Calculations"
+        heading: "Show column calculations at the bottom of table."
     )
 } 
  
