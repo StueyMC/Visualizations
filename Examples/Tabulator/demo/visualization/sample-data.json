@@ -21,7 +21,7 @@
             "editable": true,
             "headerFilter": true,
             "columnSorter": false,
-            "width": 80,
+            "width": "100%",
             "frozen": false,
             "resizable": true,
             "colAlignment": "center"

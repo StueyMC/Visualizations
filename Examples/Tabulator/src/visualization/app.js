@@ -731,6 +731,7 @@ function TabulatorApp({ config }) {
         selectableRangeColumns: true,
         selectableRangeRows: initialRowEnabled,
         selectableRangeClearCells: true,
+        // groupClosedShowCalcs:true, // show column calculations when a group is closed
 
         //configure clipboard to allow copy and paste of range format data
         clipboard: true,
