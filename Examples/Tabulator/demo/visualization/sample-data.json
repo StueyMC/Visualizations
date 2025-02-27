@@ -12,7 +12,8 @@
             "columnSorter": true,
             "width": null,
             "frozen": false,
-            "resizable": true
+            "resizable": true,
+            "colAlignment": "left"
           },
           {
             "title": "Playing",
@@ -20,8 +21,8 @@
             "format": "tickCross",
             "editable": true,
             "headerFilter": true,
-            "columnSorter": false,
-            "width": "100%",
+            "columnSorter": true,
+            "width": "8%",
             "frozen": false,
             "resizable": true,
             "colAlignment": "center"
@@ -41,7 +42,7 @@
                 "width": null,
                 "frozen": false,
                 "resizable": true,
-                "alignment": "center"
+                "alignment": "left"
               }
             ],
             "subGroups": [
@@ -68,10 +69,10 @@
                     "editable": true,
                     "headerFilter": false,
                     "columnSorter": true,
-                    "width": null,
+                    "width": "100%",
                     "frozen": false,
                     "resizable": true,
-                    "alignment": "right"
+                    "alignment": "left"
                   }
                 ]
               }
@@ -97,6 +98,12 @@
               {
                 "title": "Acronym",
                 "content": "MAN",
+                "format": null,
+                "editable": true
+              },
+              {
+                "title": "Acronym",
+                "content": "TA",
                 "format": null,
                 "editable": true
               }
@@ -134,6 +141,12 @@
               {
                 "title": "Acronym",
                 "content": "SPA",
+                "format": null,
+                "editable": true
+              },
+              {
+                "title": "Acronym",
+                "content": "TA",
                 "format": null,
                 "editable": true
               }
@@ -309,7 +322,6 @@
     "resizable": true,
     "headerFiltering": true,
     "columnSorting": true,
-    "showDetailedTitles": false,
     "bottomRowCalculations": true,
     "topRowCalculations": true
   }
