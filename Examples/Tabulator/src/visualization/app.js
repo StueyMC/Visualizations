@@ -54,7 +54,8 @@ const WIDTH_CONFIG = {
 const RESERVED_COLUMN_NAMES = [
   "NO DATA",
   "groupBy",
-  "rowKey", // Could allow this so you could display the element ID within the data grid, however, rowKey's data can then be overwritten
+  "uniqueId",
+  "rowId", // Could allow this so you could display the element ID within the data grid, however, rowIds data can then be overwritten
 ];
 
 const ContextMenuConfig = {
@@ -371,11 +372,13 @@ const HeaderContent = ({ initialValue, group, table }) => {
 
   const adjustColumns = (targetGroup, isCollapsed, parentCollapsed = false) => {
     const groupColumns = getDescendants(targetGroup);
-
+    console.log("NEW LINE");
     if (parentCollapsed) {
       // Keep child columns hidden
       groupColumns.forEach((field) => {
         table.hideColumn(field);
+        const filterContainer = document.getElementById("filter-" + field);
+        console.log("hide from parent groupColumn", filterContainer);
       });
       return;
     }
@@ -383,9 +386,13 @@ const HeaderContent = ({ initialValue, group, table }) => {
     groupColumns.forEach((field) => {
       if (isCollapsed) {
         table.hideColumn(field);
+        const filterContainer = document.getElementById("filter-" + field);
+        console.log("groupColumn", filterContainer);
       } else {
         // Only show if parent group is not collapsed
         table.showColumn(field);
+        const filterContainer = document.getElementById("filter-" + field);
+        console.log("show groupColumn", filterContainer);
       }
     });
 
@@ -442,15 +449,20 @@ function TabulatorApp({ config }) {
       console.log("debug"); // Kept to avoid trouble finding this file in Inspect Element Sources
       const configStyle = config.style;
       const configData = config.data;
-      const initialRowEnabled =
-        configStyle.initialRow?.enabled === true || false;
+      const stylingOptions = configStyle.stylingOptions;
 
-      setVisualizationTheme(
-        configStyle.stylingOptions?.theme,
-        configData.rows[0].groupRows
-      );
+      const styling = {
+        initialColumnBorders: stylingOptions?.initialColumnBorders === true || false,
+        initialRowEnabled: stylingOptions?.initialRow?.enabled === true || false,
+        showDetailedTitles: stylingOptions?.showDetailedTitles === true || false,
+        wrapText: stylingOptions?.wrapText === true || false,
+        theme: stylingOptions?.theme,
+        tableSpacing: stylingOptions?.tableSpacing
+      };
 
-      if (configStyle.stylingOptions?.wrapText) {
+      setVisualizationTheme({theme: styling.theme, initialColumnBorders: styling.initialColumnBorders, tableSpacing: styling.tableSpacing}, configData.rows[0].groupRows);
+
+      if (styling.wrapText) {
         setTextWrapping();
       }
 
@@ -462,7 +474,7 @@ function TabulatorApp({ config }) {
 
         ContextMenuConfig.NAVIGATE_TO_ELEM = (event, cell) => {
           const row = cell.getRow();
-          const key = row && row.getData()?.rowKey;
+          const key = row && row.getData()?.rowId;
           if (key) {
             const elementId = elementIds[key];
             if (elementId) {
@@ -515,9 +527,7 @@ function TabulatorApp({ config }) {
                 contextMenu: customContextMenu,
                 accessorClipboard: formatAccessor,
                 filteringEnabled: column.headerFilter,
-                topCalc: data.topRowCalculations
-                  ? column.topCalc
-                  : null,
+                topCalc: data.topRowCalculations ? column.topCalc : null,
                 bottomCalc: data.bottomRowCalculations
                   ? column.bottomCalc
                   : null,
@@ -536,7 +546,8 @@ function TabulatorApp({ config }) {
                   const field = columnTracker.getUniqueTitle(column.title);
 
                   const displayTitle =
-                    data.showDetailedTitles && `${groupTitle}: ${column.title}`;
+                    styling.showDetailedTitles &&
+                    `${groupTitle}: ${column.title}`;
 
                   column.uniqueId = field;
 
@@ -564,9 +575,7 @@ function TabulatorApp({ config }) {
                     contextMenu: customContextMenu,
                     accessorClipboard: formatAccessor,
                     filteringEnabled: column.headerFilter,
-                    topCalc: data.topRowCalculations
-                      ? column.topCalc
-                      : null,
+                    topCalc: data.topRowCalculations ? column.topCalc : null,
                     bottomCalc: data.bottomRowCalculations
                       ? column.bottomCalc
                       : null,
@@ -591,7 +600,7 @@ function TabulatorApp({ config }) {
                           );
 
                           const displayTitle =
-                            data.showDetailedTitles &&
+                            styling.showDetailedTitles &&
                             `${subGroupTitle}: ${column.title}`;
 
                           column.uniqueId = field;
@@ -729,7 +738,7 @@ function TabulatorApp({ config }) {
         //enable range selection
         selectableRange: 1,
         selectableRangeColumns: true,
-        selectableRangeRows: initialRowEnabled,
+        selectableRangeRows: styling.initialRowEnabled,
         selectableRangeClearCells: true,
         // groupClosedShowCalcs:true, // show column calculations when a group is closed
 
@@ -757,11 +766,11 @@ function TabulatorApp({ config }) {
           : {}),
       };
 
-      if (initialRowEnabled) {
+      if (styling.initialRowEnabled) {
         tableConfig.rowHeader = {
-          title: configStyle.initialRow.title ?? "ID",
+          title: stylingOptions.initialRow.title ?? "ID",
           resizable: false,
-          frozen: configStyle.initialRow.frozen === true,
+          frozen: stylingOptions.initialRow.frozen === true,
           width: 40,
           hozAlign: "center",
           formatter: "rownum",
@@ -823,6 +832,7 @@ const createAlignedFilters = (data, tabulatorElement, table) => {
     const width = column.getWidth();
 
     const filterCell = document.createElement("div");
+    filterCell.id = "filter-" + field;
     filterCell.className = "tabulator-col";
     filterCell.role = "columnheader";
     filterCell.style.minWidth = "40px";
