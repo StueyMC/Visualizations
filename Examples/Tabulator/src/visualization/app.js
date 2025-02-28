@@ -424,7 +424,7 @@ const HeaderContent = ({ initialValue, group, table }) => {
     <span className="flex items-center gap-2">
       {initialValue}
       <div className="dropdown">
-        <div className="menu-icon cursor-pointer" onClick={handleClick}>
+        <div className="menu-icon" onClick={handleClick}>
           {collapsedGroups[groupId] ? (
             <BsCaretRightFill />
           ) : (
@@ -712,23 +712,29 @@ function TabulatorApp({ config }) {
           switch (dir) {
             case "asc":
               root.render(
-                <span>
-                  <BsSortUp />
-                </span>
+                <div class="sorting-icon" aria-sort="ascending">
+                  <span>
+                    <BsSortUp />
+                  </span>
+                </div>
               );
               break;
             case "desc":
               root.render(
-                <span>
-                  <BsSortDown />
-                </span>
+                <div class="sorting-icon" aria-sort="descending">
+                  <span>
+                    <BsSortDown />
+                  </span>
+                </div>
               );
               break;
             default:
               root.render(
-                <span>
-                  <BsSortUp />
-                </span>
+                <div class="sorting-icon" aria-sort="none">
+                  <span>
+                    <BsSortUp />
+                  </span>
+                </div>
               );
           }
 
