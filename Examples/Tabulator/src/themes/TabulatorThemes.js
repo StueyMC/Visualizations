@@ -16,7 +16,6 @@ const themePresets = {
       "--header-sort-icon-active": "#ddd",
       "--header-sort-icon-inactive": "#ddd",
       "--header-filter-icon": "#ddd",
-      "--row-bg": "#636363",
       "--row-bg-even": "#8a8a8a",
       "--row-bg-odd": "#636363",
       "--row-text-even": "#ddd",
@@ -24,6 +23,7 @@ const themePresets = {
       "--row-border": "#ddd",
       "--row-hover-bg": "#ddd",
       "--row-selected-bg": "#ddd",
+      "--row-calc-bg": "#000",
       "--row-group-bg": "#ddd",
       "--row-group-text": "#ddd",
       "--row-group-item-count-text": "#ddd",
@@ -31,10 +31,6 @@ const themePresets = {
       "--footer-text": "#eee",
       "--footer-active-text": "#ddd",
       "--edit-box": "#1D68CD",
-    },
-    groupProperties: {
-      "--row-bg-even": "#636363",
-      "--row-bg-odd": "#636363",
     },
     rules: [],
   },
@@ -53,7 +49,6 @@ const themePresets = {
       "--header-sort-icon-active": "#ddd",
       "--header-sort-icon-inactive": "#ddd",
       "--header-filter-icon": "#ddd",
-      "--row-bg": "#636363",
       "--row-bg-even": "#8a8a8a",
       "--row-bg-odd": "#636363",
       "--row-text-even": "#ddd",
@@ -61,6 +56,7 @@ const themePresets = {
       "--row-border": "#ddd",
       "--row-hover-bg": "#ddd",
       "--row-selected-bg": "#ddd",
+      "--row-calc-bg": "#000",
       "--row-group-bg": "#ddd",
       "--row-group-text": "#ddd",
       "--row-group-item-count-text": "#ddd",
@@ -69,7 +65,6 @@ const themePresets = {
       "--footer-active-text": "#ddd",
       "--edit-box": "#1D68CD",
     },
-    groupProperties: {},
     rules: [],
   },
   modern: {
@@ -87,7 +82,6 @@ const themePresets = {
       "--header-sort-icon-active": "#ddd",
       "--header-sort-icon-inactive": "#ddd",
       "--header-filter-icon": "#ddd",
-      "--row-bg": "#636363",
       "--row-bg-even": "#8a8a8a",
       "--row-bg-odd": "#636363",
       "--row-text-even": "#ddd",
@@ -95,6 +89,7 @@ const themePresets = {
       "--row-border": "#ddd",
       "--row-hover-bg": "#ddd",
       "--row-selected-bg": "#ddd",
+      "--row-calc-bg": "#000",
       "--row-group-bg": "#ddd",
       "--row-group-text": "#ddd",
       "--row-group-item-count-text": "#ddd",
@@ -102,10 +97,6 @@ const themePresets = {
       "--footer-text": "#eee",
       "--footer-active-text": "#ddd",
       "--edit-box": "#1D68CD",
-    },
-    groupProperties: {
-      "--row-bg-even": "#fff",
-      "--row-bg-odd": "#fff",
     },
     rules: [
       ".tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-left {border-left: 10px solid #3759d7}",
@@ -117,10 +108,6 @@ const themePresets = {
   },
   default: {
     properties: {},
-    groupProperties: {
-      "--row-bg-even": "#fff",
-      "--row-bg-odd": "#fff",
-    },
     rules: [
       ".tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-left {border-left: 10px solid #3759d7}",
       ".tabulator .tabulator-tableholder .tabulator-table .tabulator-row .tabulator-cell {padding: 6px 4px;}",
@@ -155,15 +142,11 @@ const setCSSVariable = (variableName, value) => {
   root.style.setProperty(variableName, value);
 };
 
-export const setVisualizationTheme = ({ theme, tableSpacing, initialColumnBorders }, groupRows) => {
+export const setVisualizationTheme = ({ theme, tableSpacing, initialColumnBorders }) => {
   const sheet = document.styleSheets[0];
   const themeOption = themePresets[theme?.toLowerCase()] || themePresets.default;
 
   applyCSSVariables(themeOption.properties);
-
-  if (groupRows) {
-    applyCSSVariables(themeOption.groupProperties);
-  }
 
   setCSSVariable({"--table-spacing": tableSpacingValues[tableSpacing] || tableSpacingValues.small});
 
