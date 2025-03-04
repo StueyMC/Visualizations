@@ -372,27 +372,41 @@ const HeaderContent = ({ initialValue, group, table }) => {
 
   const adjustColumns = (targetGroup, isCollapsed, parentCollapsed = false) => {
     const groupColumns = getDescendants(targetGroup);
-    console.log("NEW LINE");
     if (parentCollapsed) {
       // Keep child columns hidden
       groupColumns.forEach((field) => {
         table.hideColumn(field);
+
         const filterContainer = document.getElementById("filter-" + field);
-        console.log("hide from parent groupColumn", filterContainer);
+        const filterHolder = filterContainer.getElementsByClassName(
+          "tabulator-col-filter-holder"
+        );
+        const filter = filterHolder[0];
+        if (filter) {
+          filter.hidden = true;
+        }
       });
       return;
     }
 
     groupColumns.forEach((field) => {
+      const filterContainer = document.getElementById("filter-" + field);
+      const filterHolder = filterContainer.getElementsByClassName(
+        "tabulator-col-filter-holder"
+      );
+      const filter = filterHolder[0];
+
       if (isCollapsed) {
         table.hideColumn(field);
-        const filterContainer = document.getElementById("filter-" + field);
-        console.log("groupColumn", filterContainer);
+        if (filter) {
+          filter.hidden = true;
+        }
       } else {
         // Only show if parent group is not collapsed
         table.showColumn(field);
-        const filterContainer = document.getElementById("filter-" + field);
-        console.log("show groupColumn", filterContainer);
+        if (filter) {
+          filter.hidden = false;
+        }
       }
     });
 
