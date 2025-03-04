@@ -59,8 +59,7 @@
                     "width": null,
                     "frozen": false,
                     "resizable": true,
-                    "topCalc": "avg",
-                    "bottomCalc": "count"
+                    "topCalc": "avg"
                   },
                   {
                     "title": "Founded Date",
@@ -80,7 +79,7 @@
           }
         ],
         "groupBy": "Domestic",
-        "groupRows": true
+        "groupRows": false
       },
       {
         "columns": [
@@ -322,7 +321,6 @@
     "resizable": true,
     "headerFiltering": true,
     "columnSorting": true,
-    "bottomRowCalculations": true,
     "topRowCalculations": true
   }
 }

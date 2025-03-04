@@ -452,15 +452,25 @@ function TabulatorApp({ config }) {
       const stylingOptions = configStyle.stylingOptions;
 
       const styling = {
-        initialColumnBorders: stylingOptions?.initialColumnBorders === true || false,
-        initialRowEnabled: stylingOptions?.initialRow?.enabled === true || false,
-        showDetailedTitles: stylingOptions?.showDetailedTitles === true || false,
+        initialColumnBorders:
+          stylingOptions?.initialColumnBorders === true || false,
+        initialRowEnabled:
+          stylingOptions?.initialRow?.enabled === true || false,
+        showDetailedTitles:
+          stylingOptions?.showDetailedTitles === true || false,
         wrapText: stylingOptions?.wrapText === true || false,
         theme: stylingOptions?.theme,
-        tableSpacing: stylingOptions?.tableSpacing
+        tableSpacing: stylingOptions?.tableSpacing,
       };
 
-      setVisualizationTheme({theme: styling.theme, initialColumnBorders: styling.initialColumnBorders, tableSpacing: styling.tableSpacing}, configData.rows[0].groupRows);
+      setVisualizationTheme(
+        {
+          theme: styling.theme,
+          initialColumnBorders: styling.initialColumnBorders,
+          tableSpacing: styling.tableSpacing,
+        },
+        configData.rows[0].groupRows
+      );
 
       if (styling.wrapText) {
         setTextWrapping();
@@ -528,9 +538,6 @@ function TabulatorApp({ config }) {
                 accessorClipboard: formatAccessor,
                 filteringEnabled: column.headerFilter,
                 topCalc: data.topRowCalculations ? column.topCalc : null,
-                bottomCalc: data.bottomRowCalculations
-                  ? column.bottomCalc
-                  : null,
               });
             });
           }
@@ -576,9 +583,6 @@ function TabulatorApp({ config }) {
                     accessorClipboard: formatAccessor,
                     filteringEnabled: column.headerFilter,
                     topCalc: data.topRowCalculations ? column.topCalc : null,
-                    bottomCalc: data.bottomRowCalculations
-                      ? column.bottomCalc
-                      : null,
                   });
                 });
               }
@@ -632,9 +636,6 @@ function TabulatorApp({ config }) {
                             filteringEnabled: column.headerFilter,
                             topCalc: data.topRowCalculations
                               ? column.topCalc
-                              : null,
-                            bottomCalc: data.bottomRowCalculations
-                              ? column.bottomCalc
                               : null,
                           });
                         });
@@ -712,7 +713,7 @@ function TabulatorApp({ config }) {
           switch (dir) {
             case "asc":
               root.render(
-                <div class="sorting-icon" aria-sort="ascending">
+                <div className="sorting-icon" aria-sort="ascending">
                   <span>
                     <BsSortUp />
                   </span>
@@ -721,7 +722,7 @@ function TabulatorApp({ config }) {
               break;
             case "desc":
               root.render(
-                <div class="sorting-icon" aria-sort="descending">
+                <div className="sorting-icon" aria-sort="descending">
                   <span>
                     <BsSortDown />
                   </span>
@@ -730,7 +731,7 @@ function TabulatorApp({ config }) {
               break;
             default:
               root.render(
-                <div class="sorting-icon" aria-sort="none">
+                <div className="sorting-icon" aria-sort="none">
                   <span>
                     <BsSortUp />
                   </span>
@@ -827,7 +828,7 @@ const createAlignedFilters = (data, tabulatorElement, table) => {
 
   const tabulatorFilters = document.createElement("div");
   tabulatorFilters.className = "tabulator-filters";
-  tabulatorFilters.style.height = "35px";
+  tabulatorFilters.style.height = "38px";
 
   headers.insertAdjacentElement("afterend", tabulatorFilters);
 

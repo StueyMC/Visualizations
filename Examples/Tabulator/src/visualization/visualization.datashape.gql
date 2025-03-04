@@ -52,10 +52,6 @@ type Column {
         name: "Top Calculation"
     )
 
-    bottomCalc: String @UI (
-        name: "Bottom Calculation"
-    )
-
     frozen: Boolean @UI (
         default: false
         name: "Frozen"
@@ -130,12 +126,6 @@ type data {
         default: False
         name: "Top Column Calculations"
         heading: "Show column calculations at the top of table."
-    )
-
-     bottomRowCalculations: Boolean @UI (
-        default: False
-        name: "Bottom Column Calculations"
-        heading: "Show column calculations at the bottom of table."
     )
 } 
  

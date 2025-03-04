@@ -87,8 +87,6 @@ To define the content source, you will need to select a value from your reposito
   - Global setting `Resizable` needs to be enabled (see [Global Settings](#global-settings) for more details)
 - `Top Calculation` - Show column calculations at the top of the column.
   - Global setting `Top Column Calculations` needs to be enabled (see [Global Settings](#global-settings) for more details)
-- `Bottom Calculation` - Show column calculations at the bottom of the column.
-  - Global setting `Bottom Column Calculations` needs to be enabled (see [Global Settings](#global-settings) for more details)
 
 ---
 
@@ -218,15 +216,13 @@ Enable header filters for each column.
 > Override this feature for specific columns by changing the `Header Filter` field when configuring your columns.
 
 #### Column Calculations
-Column calculations can be used to add a row of calculated values to the top or bottom of your table to display information such as the sum of a columns data.
+Column calculations can be used to add a row of calculated values to the top of your table to display information such as the sum of a columns data.
 
 ![Column Calculations Example Image](./Images/columnCalcExample.PNG)
 
-To enable Column Calculations, there are two global settings that can be enabled:
- - `Top Column Calculations`
- - `Bottom Column Calculations`
+To enable Column Calculations, you will need to enable the global setting `Top Column Calculations`
 
-There are two options that can be set in a column to define a calculation, the `Top Calculation` option defines a calculation for the top of the column, and the `Bottom Calculation` defines a calculation for the bottom of the column.
+To define a calculation, the `Top Calculation` option when configuring a column defines a calculation for the top of the column.
 
 Tabulator comes with a number of preconfigured calculations:
 
