@@ -537,7 +537,7 @@ function TabulatorApp({ config }) {
                 headerHozAlign: getAlignment(column.alignment),
                 hozAlign: getAlignment(column.colAlignment),
                 frozen: column.frozen,
-                headerSort: data.columnSorting ? column.columnSorter : false,
+                headerSort: data.columnSorting && column.columnSorter ? column.columnSorter : false,
                 resizable: data.resizable && column.resizable,
                 editor:
                   data.editable && column.editable
