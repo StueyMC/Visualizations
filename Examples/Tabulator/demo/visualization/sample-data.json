@@ -79,7 +79,7 @@
           }
         ],
         "groupBy": "Domestic",
-        "groupRows": false
+        "groupRows": true
       },
       {
         "columns": [

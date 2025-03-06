@@ -50,7 +50,7 @@ const WIDTH_CONFIG = {
   },
 };
 
-// Reserved column names - Prevent conflicts
+// Reserved column names - Prevent conflicts & overwriting important data
 const RESERVED_COLUMN_NAMES = [
   "NO DATA",
   "groupBy",
@@ -217,17 +217,17 @@ const contextListener = (e) => {
 
 const handleKeydown = (event) => {
   // Ignore IME composition
-  if (event.isComposing || event.keyCode === 229) {
+  if (!ContextMenuConfig.CONTEXTMENU || event.isComposing || event.keyCode === 229) {
     return;
   }
 
-  const menuItems = contextMenu.querySelectorAll(".context-menu-item");
+  const menuItems = ContextMenuConfig.CONTEXTMENU.querySelectorAll(".context-menu-item");
 
   switch (event.keyCode) {
     // Enter key
     case 13:
       event.preventDefault();
-      menuItems[focusedItemIndex].click();
+      menuItems[ContextMenuConfig.FOCUSED_ITEM_INDEX].click();
       break;
 
     // Close menu with ESC key
@@ -239,16 +239,16 @@ const handleKeydown = (event) => {
     // ArrowUp key
     case 38:
       event.preventDefault();
-      focusedItemIndex =
-        (focusedItemIndex - 1 + menuItems.length) % menuItems.length;
-      updateFocusedItem(menuItems, focusedItemIndex);
+      ContextMenuConfig.FOCUSED_ITEM_INDEX =
+        (ContextMenuConfig.FOCUSED_ITEM_INDEX - 1 + menuItems.length) % menuItems.length;
+      updateFocusedItem(menuItems, ContextMenuConfig.FOCUSED_ITEM_INDEX);
       break;
 
     // ArrowDown key
     case 40:
       event.preventDefault();
-      focusedItemIndex = (focusedItemIndex + 1) % menuItems.length;
-      updateFocusedItem(menuItems, focusedItemIndex);
+      ContextMenuConfig.FOCUSED_ITEM_INDEX = (ContextMenuConfig.FOCUSED_ITEM_INDEX + 1) % menuItems.length;
+      updateFocusedItem(menuItems, ContextMenuConfig.FOCUSED_ITEM_INDEX);
       break;
   }
 };
