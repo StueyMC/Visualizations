@@ -16,7 +16,7 @@
     - [Column Properties](#column-properties)
 4. [Styling Options](#styling-options)
     - [Editing Styles](#editing-styles)
-    - [Available Styling Options](#available-styling-options)
+    - [Available Theme Options](#available-theme-options)
 5. [Advanced Settings](#advanced-settings)
     - [Row Grouping](#row-grouping)
     - [Navigation](#navigation)
@@ -133,7 +133,7 @@ Supports custom date formatting using patterns:
 > These formatting options converts an ISO Date String to a desired format.
 
 ### Numeric Formatting
-`stars`: Converts numbers 0-5 to star ratings.
+`star`: Converts numbers 0-5 to star ratings.
 
 ### Other Formatting
 `tickCross`: Converts content to either a tick if the value is truthy or a cross if the value is falsy.
@@ -144,12 +144,29 @@ Supports custom date formatting using patterns:
 
 ## Styling Options
 ### Editing Styles
-1. Navigating to `Edit Style` in the settings panel will pop up with a JSON configuration interface.
-2. To add an initial row ID column, set `enabled` to `true` inside the `initialRow` object.
-    - Setting this to false will disable the initial row ID column.
-    - This initial column will be disabled by default.
-3. To change the table's theme, input an available theme under `stylingOptions`.
-4. For all text to automatically wrap, set `wrapText` to `true`.
+Navigating to `Edit Style` in the settings panel opens a JSON configuration interface.
+
+1. **Enable Initial Row ID Column**\
+Set `enabled` to `true` inside the `initialRow` object to add an initial row ID column.
+    - Default: `false` (the column is disabled)
+
+2. **Change Table Theme**\
+Set the `theme` property inside `stylingOptions` to one of the [available themes](#available-theme-options).
+
+3. **Enable Text Wrapping**\
+Set `wrapText` to `true` to automatically wrap all text instead of truncating it.
+
+4. **Adjust Table Padding**\
+Set `tableSpacing` to `"small"`, `"medium"` or `"large"` to adjust the table's padding size.
+
+5. **Initial Column Borders**\
+Set `initialColumnBorders` to `true` to add coloured borders at the start of each row.
+
+6. **Show Detailed Titles**\
+Set `showDetailedTitles` to `true` to display additional information in column group titles.
+
+> **Note:** There is a **CSS** tab at the top of the **Edit Style** interface where you can manually customise CSS variables.
+> Ensure the `theme` option is set to `""` (blank) to utilise custom CSS variables.
 
 ![Edit style interface](./Images/jsonInterface.PNG)
 
@@ -159,13 +176,13 @@ Supports custom date formatting using patterns:
 ##### Initial Row ID Enabled
 ![Edit style menu interface image](./Images/initialRowIdEnabled.PNG)
 
-### Available Styling Options
+### Available Theme Options
 `"Modern"`: Contemporary design.\
 `"Midnight"`: Dark mode interface.\
-`"Simple"`: Minimalist appearance.\
-Default: Grey theme
+`"Basic"`: Minimalist appearance.\
+Default: Default modern appearance.
 
-> Default is applied when the theme is blank or invalid.
+> Default is applied when the theme is `""` (blank) or invalid.
 
 [Back to Table of Contents](#table-of-contents)
 
