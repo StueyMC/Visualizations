@@ -8,7 +8,7 @@
       "bottom": 20
     },
     "stylingOptions": {
-      "tableSpacing": "medium",
+      "tableSpacing": "small",
       "initialRow": {
         "enabled": true,
         "title": "ID",
