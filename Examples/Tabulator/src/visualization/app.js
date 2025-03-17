@@ -37,9 +37,6 @@ function formatAccessor(value, _data, _type, _params, column) {
 // Collapsible columns
 const collapsedGroups = {};
 
-// Navigation to Elements Identifier
-const elementIds = {};
-
 // Width Sizing
 const WIDTH_CONFIG = {
   tableSettings: {
@@ -482,8 +479,7 @@ function TabulatorApp({ config }) {
           theme: styling.theme,
           initialColumnBorders: styling.initialColumnBorders,
           tableSpacing: styling.tableSpacing,
-        },
-        configData.rows[0].groupRows
+        }
       );
 
       if (styling.wrapText) {
@@ -498,12 +494,9 @@ function TabulatorApp({ config }) {
 
         ContextMenuConfig.NAVIGATE_TO_ELEM = (event, cell) => {
           const row = cell.getRow();
-          const key = row && row.getData()?.rowId;
-          if (key) {
-            const elementId = elementIds[key];
-            if (elementId) {
-              config.functions.performAction("Cell Click", elementId, event);
-            }
+          const rowId = row && row.getData()?.rowId;
+          if (rowId) {
+            config.functions.performAction("Cell Click", rowId, event);
           }
         };
       }

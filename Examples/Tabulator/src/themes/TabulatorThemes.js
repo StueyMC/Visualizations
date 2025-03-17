@@ -119,9 +119,9 @@ const themePresets = {
 };
 
 const tableSpacingValues = {
-  small: "4px",
-  medium: "8px",
-  large: "12px"
+  small: "6px 4px",
+  medium: "10px 6px",
+  large: "14px 8px"
 };
 
 const insertRule = (sheet, rule) => {
@@ -147,8 +147,7 @@ export const setVisualizationTheme = ({ theme, tableSpacing, initialColumnBorder
   const themeOption = themePresets[theme?.toLowerCase()] || themePresets.default;
 
   applyCSSVariables(themeOption.properties);
-
-  setCSSVariable({"--table-spacing": tableSpacingValues[tableSpacing] || tableSpacingValues.small});
+  setCSSVariable("--table-spacing", tableSpacingValues[tableSpacing] || tableSpacingValues.small);
 
   themeOption.rules.forEach(rule => insertRule(sheet, rule));
 
