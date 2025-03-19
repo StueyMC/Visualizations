@@ -279,12 +279,15 @@ const handleTableWidth = (tabulatorDivRef, customWidth, tableElement) => {
     finalWidth = totalColumnsWidth;
   }
 
-  const maxWidth = WIDTH_CONFIG.tableSettings.maxWidth;
-  if (maxWidth && finalWidth > maxWidth && !customWidth) {
-    finalWidth = maxWidth;
+  if (!customWidth) {
+    const maxWidth = WIDTH_CONFIG.tableSettings.maxWidth;
+    if (maxWidth && finalWidth > maxWidth) {
+      finalWidth = maxWidth;
+    }
   }
 
-  tabulatorDivRef.current.style.width = `${finalWidth}px`;
+  let newWidth = parseInt(finalWidth - 2) // Reducing by 2 pixels to avoid overflow cutting off outer borders when using Tabulator in mood
+  tabulatorDivRef.current.style.width = `${newWidth}px`;
 };
 
 const getGroupHeader = (data) => {
@@ -795,7 +798,8 @@ function TabulatorApp({ config }) {
       }
 
       const table = new Tabulator(tabulatorDivRef.current, tableConfig);
-      tabulatorDivRef.current.style.height = config.height;
+      let newHeight = parseInt(config.height - 2) // Reducing by 2 pixels to avoid overflow cutting off outer borders when using Tabulator in mood
+      tabulatorDivRef.current.style.height = `${newHeight}px`;
       handleTableWidth(tabulatorDivRef, config.width, table);
 
       table.on("tableBuilt", function () {
