@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Tabulator">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Examples/Tabulator/tabulator-1-1-202.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Examples/Tabulator/tabulator-1-1-205.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Examples/Tabulator/tabulator-1-1-203.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Examples/Tabulator/tabulator-1-1-204.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
