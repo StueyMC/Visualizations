@@ -19,7 +19,7 @@
             "title": "Playing",
             "content": true,
             "format": "tickCross",
-            "editable": true,
+            "editable": false,
             "headerFilter": true,
             "columnSorter": true,
             "width": "8%",
@@ -316,7 +316,7 @@
         "groupBy": null
       }
     ],
-    "editable": false,
+    "editable": true,
     "navigable": false,
     "resizable": true,
     "headerFiltering": true,

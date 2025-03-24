@@ -177,10 +177,9 @@ Set `showDetailedTitles` to `true` to display additional information in column g
 ![Edit style menu interface image](./Images/initialRowIdEnabled.PNG)
 
 ### Available Theme Options
-`"Modern"`: Contemporary design.\
 `"Midnight"`: Dark mode interface.\
 `"Basic"`: Minimalist appearance.\
-Default: Default modern appearance.
+Default: Default contemporary appearance.
 
 > Default is applied when the theme is `""` (blank) or invalid.
 

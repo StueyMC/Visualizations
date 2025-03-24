@@ -1,78 +1,34 @@
 import { TabulatorFull as Tabulator } from "tabulator-tables";
-import {
-  setVisualizationTheme,
-  setTextWrapping,
-} from "../themes/TabulatorThemes.js";
+import { setVisualizationTheme, setTextWrapping } from "../themes/TabulatorThemes.js";
 import { getFormat, formatDate } from "../formatters/TabulatorFormatters.js";
 import { getEditorType } from "../formatters/TabulatorEditors.js";
-import {
-  BsCaretRightFill,
-  BsCaretDownFill,
-  BsSortDown,
-  BsSortUp,
-} from "react-icons/bs";
+import { BsCaretRightFill, BsCaretDownFill, BsSortDown, BsSortUp } from "react-icons/bs";
 import { FaFilter } from "react-icons/fa6";
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 
-// Alignment Validation
-function getAlignment(alignment) {
-  return alignment === "center" || alignment === "right" ? alignment : "left";
-}
-
-function formatAccessor(value, _data, _type, _params, column) {
-  const formatter = column.getDefinition()?.formatter;
-
-  if (typeof formatter === "function") {
-    try {
-      return formatter(value);
-    } catch (error) {
-      console.warn("Formatter error:", error);
-    }
-  }
-
-  return value;
-}
-
-// Collapsible columns
-const collapsedGroups = {};
-
-// Width Sizing
-const WIDTH_CONFIG = {
+const UI_CONFIG = {
   tableSettings: {
-    maxWidth: 800,
+    maxWidth: 800, // Max width for demo table
   },
   columnSettings: {
-    defaultWidth: 200,
+    defaultWidth: 200, // Default column width
   },
-};
-
-// Reserved column names - Prevent conflicts & overwriting important data
-const RESERVED_COLUMN_NAMES = [
-  "NO DATA",
-  "groupBy",
-  "uniqueId",
-  "rowId", // Could allow this so you could display the element ID within the data grid, however, rowIds data can then be overwritten
-];
-
-const ContextMenuConfig = {
-  CONTEXTMENU: null,
-  MENU_ITEMS: [],
-  MENU_ITEM_CLICK_HANDLERS: [],
-  FOCUSED_ITEM_INDEX: 0,
-  CLEANING: false,
-  NAVIGATE_TO_ELEM: null,
 };
 
 const NO_COLUMN_DATA = [
+  // Placeholder when no column data is available
   {
     title: "NO DATA",
-    field: "NO DATA",
-    width: WIDTH_CONFIG.columnSettings.defaultWidth,
+    field: "noData",
+    width: UI_CONFIG.columnSettings.defaultWidth,
     headerSort: false,
   },
 ];
 
+const RESERVED_COLUMN_NAMES = ["noData", "groupBy", "uniqueId", "rowId"];
+
+// Class to handle column naming conflicts
 class ColumnTracker {
   constructor() {
     this.columns = new Map();
@@ -80,32 +36,22 @@ class ColumnTracker {
   }
 
   getUniqueTitle(title) {
-    let targetMap = this.columns;
-
-    const count = targetMap.get(title) || 0;
-    targetMap.set(title, count + 1);
+    const count = this.columns.get(title) || 0;
+    this.columns.set(title, count + 1);
 
     if (RESERVED_COLUMN_NAMES.includes(title) || count > 0) {
-      console.warn(
-        `'${title}' is a ${
-          RESERVED_COLUMN_NAMES.includes(title) ? "Reserved" : "Duplicate"
-        } Title | Generated a new ID: '${title}' -> '${title}_${count}'`
-      );
+      console.warn(`Title '${title}' is reserved/duplicate. Renaming to '${title}_${count}'`);
       return `${title}_${count}`;
     }
     return title;
   }
 
   getUniqueGroupTitle(title) {
-    let targetMap = this.groupTitles;
-
-    const count = targetMap.get(title) || 0;
-    targetMap.set(title, count + 1);
+    const count = this.groupTitles.get(title) || 0;
+    this.groupTitles.set(title, count + 1);
 
     if (count > 0) {
-      console.warn(
-        `${title} is a duplicate group title, new title: ${title}_${count}`
-      );
+      console.warn(`Title '${title}' is a duplicate group title. Renaming to '${title}_${count}'`);
       return `${title}_${count}`;
     }
     return title;
@@ -116,721 +62,55 @@ class ColumnTracker {
   }
 }
 
-function cleanup() {
-  if (ContextMenuConfig.CLEANING || !ContextMenuConfig.CONTEXTMENU) {
-    return;
-  }
-  ContextMenuConfig.CLEANING = true;
+// Store collapsed column groups
+const CollapsedGroups = {};
 
-  ContextMenuConfig.FOCUSED_ITEM_INDEX = 0;
-
-  ContextMenuConfig.CONTEXTMENU.removeEventListener("keydown", handleKeydown);
-  document.body.removeEventListener("click", cleanupFunction);
-  document.removeEventListener("contextmenu", contextListener);
-
-  ContextMenuConfig.MENU_ITEM_CLICK_HANDLERS.forEach((handler) => {
-    document.removeEventListener("click", handler);
-  });
-  ContextMenuConfig.MENU_ITEM_CLICK_HANDLERS = [];
-
-  ContextMenuConfig.CONTEXTMENU.remove();
-  ContextMenuConfig.CONTEXTMENU = null;
-  ContextMenuConfig.CLEANING = false;
-}
-
-const customContextMenu = (e, cell) => {
-  e.preventDefault();
-
-  cleanup();
-
-  const cellElement = cell.getElement();
-  ContextMenuConfig.CONTEXTMENU = document.createElement("div");
-  ContextMenuConfig.CONTEXTMENU.classList.add("custom-context-menu");
-  ContextMenuConfig.CONTEXTMENU.setAttribute("role", "menu");
-  ContextMenuConfig.CONTEXTMENU.setAttribute("tabindex", "-1");
-
-  ContextMenuConfig.MENU_ITEMS.forEach((item, index) => {
-    const menuItem = document.createElement("div");
-    menuItem.className = "context-menu-item";
-    menuItem.textContent = item.text;
-    menuItem.setAttribute("data-action", item.action);
-    menuItem.setAttribute("role", "menuitem");
-    menuItem.setAttribute("tabindex", index === 0 ? "0" : "-1");
-
-    const clickHandler = (e) => {
-      if (ContextMenuConfig.CONTEXTMENU) {
-        if (item.action === "navigate" && ContextMenuConfig.NAVIGATE_TO_ELEM) {
-          ContextMenuConfig.NAVIGATE_TO_ELEM(e, cell);
-        } else if (item.action === "edit") {
-          cell.edit();
-        }
-
-        cleanup();
-      }
-    };
-
-    menuItem.addEventListener("click", clickHandler);
-    ContextMenuConfig.MENU_ITEM_CLICK_HANDLERS.push(clickHandler);
-    ContextMenuConfig.CONTEXTMENU.appendChild(menuItem);
-  });
-
-  const cellRect = cellElement.getBoundingClientRect();
-  ContextMenuConfig.CONTEXTMENU.style.position = "absolute";
-  ContextMenuConfig.CONTEXTMENU.style.left = `${cellRect.left}px`;
-  ContextMenuConfig.CONTEXTMENU.style.top = `${cellRect.bottom}px`;
-
-  document.body.appendChild(ContextMenuConfig.CONTEXTMENU);
-
-  const activeItem = document.querySelector('.context-menu-item[tabindex="0"]');
-  if (activeItem) {
-    activeItem.focus();
-  }
-
-  document.body.addEventListener("click", cleanupFunction);
-  document.addEventListener("contextmenu", contextListener);
-
-  // Handle key presses
-  ContextMenuConfig.CONTEXTMENU.addEventListener("keydown", handleKeydown);
+// Validate text alignment inputs
+const validateAlignment = (alignment) => {
+  return ["center", "right"].includes(alignment) ? alignment : "left";
 };
 
-const cleanupFunction = (e) => {
-  var button = e.which || e.button; // Firefox - Right click check
-  if (button && button !== 1) {
-    return;
+// Formats data extracted from the table via the clipboard.
+const formatAccessor = (value, _data, _type, _params, column) => {
+  const formatter = column.getDefinition()?.formatter;
+  if (typeof formatter === "function") {
+    try {
+      return formatter(value);
+    } catch (error) {
+      console.warn("Formatter error:", error);
+    }
   }
-  cleanup();
-};
-
-const contextListener = (e) => {
-  let element = e.srcElement || e.target;
-  if (
-    element.classList.contains("tabulator-cell") ||
-    element.classList.contains("context-menu-item")
-  ) {
-    return;
-  }
-  cleanup();
-};
-
-const handleKeydown = (event) => {
-  // Ignore IME composition
-  if (!ContextMenuConfig.CONTEXTMENU || event.isComposing || event.keyCode === 229) {
-    return;
-  }
-
-  const menuItems = ContextMenuConfig.CONTEXTMENU.querySelectorAll(".context-menu-item");
-
-  switch (event.keyCode) {
-    // Enter key
-    case 13:
-      event.preventDefault();
-      menuItems[ContextMenuConfig.FOCUSED_ITEM_INDEX].click();
-      break;
-
-    // Close menu with ESC key
-    case 27:
-      event.preventDefault();
-      cleanup();
-      break;
-
-    // ArrowUp key
-    case 38:
-      event.preventDefault();
-      ContextMenuConfig.FOCUSED_ITEM_INDEX =
-        (ContextMenuConfig.FOCUSED_ITEM_INDEX - 1 + menuItems.length) % menuItems.length;
-      updateFocusedItem(menuItems, ContextMenuConfig.FOCUSED_ITEM_INDEX);
-      break;
-
-    // ArrowDown key
-    case 40:
-      event.preventDefault();
-      ContextMenuConfig.FOCUSED_ITEM_INDEX = (ContextMenuConfig.FOCUSED_ITEM_INDEX + 1) % menuItems.length;
-      updateFocusedItem(menuItems, ContextMenuConfig.FOCUSED_ITEM_INDEX);
-      break;
-  }
-};
-
-const updateFocusedItem = (menuItems, index) => {
-  menuItems.forEach((item, i) => {
-    item.tabIndex = i === index ? "0" : "-1";
-  });
-  menuItems[index].focus();
+  return value;
 };
 
 const handleTableWidth = (tabulatorDivRef, customWidth, tableElement) => {
   if (!tabulatorDivRef.current || !tableElement) return;
-
-  const columns = tableElement.getColumns();
-
-  const totalColumnsWidth = columns.reduce((sum, col) => {
-    return sum + (col.getWidth() || 100);
-  }, 0);
 
   const pxToNumber = (pxString) => {
     if (typeof pxString === "number") return pxString;
     return parseInt(pxString.replace("px", "")) || 0;
   };
 
-  let finalWidth;
+  const totalColumnsWidth = tableElement.getColumns().reduce((sum, col) => sum + (col.getWidth() || 100), 0);
+  const finalWidth = customWidth && pxToNumber(customWidth) || Math.min(totalColumnsWidth, UI_CONFIG.tableSettings.maxWidth);
 
-  if (customWidth) {
-    finalWidth = pxToNumber(customWidth);
-  } else {
-    finalWidth = totalColumnsWidth;
-  }
-
-  if (!customWidth) {
-    const maxWidth = WIDTH_CONFIG.tableSettings.maxWidth;
-    if (maxWidth && finalWidth > maxWidth) {
-      finalWidth = maxWidth;
-    }
-  }
-
-  let newWidth = parseInt(finalWidth - 2) // Reducing by 2 pixels to avoid overflow cutting off outer borders when using Tabulator in mood
-  tabulatorDivRef.current.style.width = `${newWidth}px`;
+  tabulatorDivRef.current.style.width = `${finalWidth - 2}px`; // Reduced by 2px to avoid overflow cutting off borders
 };
 
-const getGroupHeader = (data) => {
+const getRowGroupHeader = (data) => {
   return data.groupBy || "Other";
 };
 
-const transformJson = (data) => {
-  const columnTracker = new ColumnTracker();
-  const tabulatorData = [];
-
-  data.rows.forEach((row) => {
-    const flatRow = {
-      rowId: row.id,
-      groupBy: row.groupBy,
-    };
-
-    if (row.columns) {
-      row.columns.forEach((column) => {
-        const columnKey = columnTracker.getUniqueTitle(column.title);
-        flatRow[columnKey] = column.content;
-      });
-    }
-
-    if (row.groups) {
-      row.groups.forEach((group) => {
-        if (group.columns) {
-          group.columns.forEach((column) => {
-            const columnKey = columnTracker.getUniqueTitle(column.title);
-            flatRow[columnKey] = column.content;
-          });
-        }
-
-        if (group.subGroups) {
-          group.subGroups.forEach((subGroup) => {
-            if (subGroup.columns) {
-              subGroup.columns.forEach((column) => {
-                const columnKey = columnTracker.getUniqueTitle(column.title);
-                flatRow[columnKey] = column.content;
-              });
-            }
-          });
-        }
-      });
-    }
-
-    columnTracker.clearMapping();
-
-    tabulatorData.push(flatRow);
-  });
-
-  return tabulatorData;
-};
-
-const getDescendants = (group, ignoreFirstIndex) => {
-  let columns = [];
-
-  let isFirstIndexIgnored = ignoreFirstIndex || false;
-
-  if (group.columns) {
-    group.columns.forEach((column) => {
-      if (!isFirstIndexIgnored) {
-        isFirstIndexIgnored = true;
-        return;
-      }
-
-      columns.push(column.uniqueId);
-    });
-  }
-
-  if (group.subGroups) {
-    group.subGroups.forEach((subGroup) => {
-      columns = [...columns, ...getDescendants(subGroup, isFirstIndexIgnored)];
-    });
-  }
-
-  return columns;
-};
-
-const HeaderContent = ({ initialValue, group, table }) => {
-  const [_isCollapsed, setIsCollapsed] = useState({});
-  const groupId = group.uniqueId;
-
-  const adjustColumns = (targetGroup, isCollapsed, parentCollapsed = false) => {
-    const groupColumns = getDescendants(targetGroup);
-    if (parentCollapsed) {
-      // Keep child columns hidden
-      groupColumns.forEach((field) => {
-        table.hideColumn(field);
-
-        const filterContainer = document.getElementById("filter-" + field);
-        const filterHolder = filterContainer.getElementsByClassName(
-          "tabulator-col-filter-holder"
-        );
-        const filter = filterHolder[0];
-        if (filter) {
-          filter.hidden = true;
-        }
-      });
-      return;
-    }
-
-    groupColumns.forEach((field) => {
-      const filterContainer = document.getElementById("filter-" + field);
-      const filterHolder = filterContainer.getElementsByClassName(
-        "tabulator-col-filter-holder"
-      );
-      const filter = filterHolder[0];
-
-      if (isCollapsed) {
-        table.hideColumn(field);
-        if (filter) {
-          filter.hidden = true;
-        }
-      } else {
-        // Only show if parent group is not collapsed
-        table.showColumn(field);
-        if (filter) {
-          filter.hidden = false;
-        }
-      }
-    });
-
-    if (targetGroup.subGroups) {
-      targetGroup.subGroups.forEach((subGroup) => {
-        if (subGroup.columns) {
-          const subGroupId = subGroup.uniqueId;
-          adjustColumns(
-            subGroup,
-            collapsedGroups[subGroupId] || false,
-            isCollapsed || parentCollapsed
-          );
-        }
-      });
-    }
-  };
-
-  const handleClick = () => {
-    const newCollapsedState = !collapsedGroups[groupId];
-
-    setIsCollapsed(newCollapsedState);
-    collapsedGroups[groupId] = newCollapsedState;
-
-    adjustColumns(group, newCollapsedState);
-    table.redraw();
-  };
-
-  return (
-    <span className="flex items-center gap-2">
-      {initialValue}
-      <div className="dropdown">
-        <div className="menu-icon" onClick={handleClick}>
-          {collapsedGroups[groupId] ? (
-            <BsCaretRightFill />
-          ) : (
-            <BsCaretDownFill />
-          )}
-        </div>
-      </div>
-    </span>
-  );
-};
-
-function TabulatorApp({ config }) {
-  const tabulatorDivRef = useRef(null);
-  const tableRef = useRef(null);
-
-  useEffect(() => {
-    if (tabulatorDivRef.current) {
-      if (tableRef.current) {
-        return;
-      }
-
-      console.log("debug"); // Kept to avoid trouble finding this file in Inspect Element Sources
-      const configStyle = config.style;
-      const configData = config.data;
-      const stylingOptions = configStyle.stylingOptions;
-
-      const styling = {
-        initialColumnBorders:
-          stylingOptions?.initialColumnBorders === true || false,
-        initialRowEnabled:
-          stylingOptions?.initialRow?.enabled === true || false,
-        showDetailedTitles:
-          stylingOptions?.showDetailedTitles === true || false,
-        wrapText: stylingOptions?.wrapText === true || false,
-        theme: stylingOptions?.theme,
-        tableSpacing: stylingOptions?.tableSpacing,
-      };
-
-      setVisualizationTheme(
-        {
-          theme: styling.theme,
-          initialColumnBorders: styling.initialColumnBorders,
-          tableSpacing: styling.tableSpacing,
-        }
-      );
-
-      if (styling.wrapText) {
-        setTextWrapping();
-      }
-
-      if (configData.navigable) {
-        ContextMenuConfig.MENU_ITEMS.push({
-          text: "Navigate to Element",
-          action: "navigate",
-        });
-
-        ContextMenuConfig.NAVIGATE_TO_ELEM = (event, cell) => {
-          const row = cell.getRow();
-          const rowId = row && row.getData()?.rowId;
-          if (rowId) {
-            config.functions.performAction("Cell Click", rowId, event);
-          }
-        };
-      }
-
-      if (configData.editable) {
-        ContextMenuConfig.MENU_ITEMS.push({
-          text: "Edit Cell",
-          action: "edit",
-        });
-      }
-
-      function createColumnDefinition(data) {
-        const columnTracker = new ColumnTracker();
-        const columns = [];
-
-        const addColumn = (columnConfig) => {
-          columns.push(columnConfig);
-        };
-
-        if (data.rows && data.rows[0]) {
-          const firstRow = data.rows[0];
-
-          if (firstRow.columns) {
-            firstRow.columns.forEach((column) => {
-              const field = columnTracker.getUniqueTitle(column.title);
-              column.uniqueId = field;
-              addColumn({
-                title: column.title,
-                field: field,
-                width: column.width || WIDTH_CONFIG.columnSettings.defaultWidth,
-                headerHozAlign: getAlignment(column.alignment),
-                hozAlign: getAlignment(column.colAlignment),
-                frozen: column.frozen,
-                headerSort: data.columnSorting && column.columnSorter ? column.columnSorter : false,
-                resizable: data.resizable && column.resizable,
-                editor:
-                  data.editable && column.editable
-                    ? getEditorType(column.format) || true
-                    : false,
-                formatter:
-                  getFormat[column.format] ||
-                  (column.format && column.format.includes("%")
-                    ? (cell) => formatDate(cell, column.format)
-                    : column.format),
-                contextMenu: customContextMenu,
-                accessorClipboard: formatAccessor,
-                filteringEnabled: column.headerFilter,
-                topCalc: data.topRowCalculations ? column.topCalc : null,
-              });
-            });
-          }
-
-          if (firstRow.groups) {
-            firstRow.groups.forEach((group) => {
-              let newColumns = [];
-              const groupTitle = columnTracker.getUniqueGroupTitle(group.title);
-              group.uniqueId = groupTitle;
-
-              if (group.columns) {
-                group.columns.forEach((column) => {
-                  const field = columnTracker.getUniqueTitle(column.title);
-
-                  const displayTitle =
-                    styling.showDetailedTitles &&
-                    `${groupTitle}: ${column.title}`;
-
-                  column.uniqueId = field;
-
-                  newColumns.push({
-                    title: displayTitle || column.title,
-                    field: field,
-                    width:
-                      column.width || WIDTH_CONFIG.columnSettings.defaultWidth,
-                    headerHozAlign: getAlignment(column.alignment),
-                    hozAlign: getAlignment(column.colAlignment),
-                    frozen: column.frozen,
-                    headerSort: data.columnSorting
-                      ? column.columnSorter
-                      : false,
-                    resizable: data.resizable && column.resizable,
-                    editor:
-                      data.editable && column.editable
-                        ? getEditorType(column.format) || true
-                        : false,
-                    formatter:
-                      getFormat[column.format] ||
-                      (column.format && column.format.includes("%")
-                        ? (cell) => formatDate(cell, column.format)
-                        : column.format),
-                    contextMenu: customContextMenu,
-                    accessorClipboard: formatAccessor,
-                    filteringEnabled: column.headerFilter,
-                    topCalc: data.topRowCalculations ? column.topCalc : null,
-                  });
-                });
-              }
-
-              if (group.subGroups) {
-                group.subGroups.forEach((subGroup) => {
-                  if (subGroup.columns) {
-                    group.subGroups.forEach((subGroup) => {
-                      if (subGroup.columns) {
-                        let subGroupColumns = [];
-                        const subGroupTitle = columnTracker.getUniqueGroupTitle(
-                          subGroup.title
-                        );
-                        subGroup.uniqueId = subGroupTitle;
-
-                        subGroup.columns.forEach((column) => {
-                          const field = columnTracker.getUniqueTitle(
-                            column.title
-                          );
-
-                          const displayTitle =
-                            styling.showDetailedTitles &&
-                            `${subGroupTitle}: ${column.title}`;
-
-                          column.uniqueId = field;
-
-                          subGroupColumns.push({
-                            title: displayTitle || column.title,
-                            field: field,
-                            width:
-                              column.width ||
-                              WIDTH_CONFIG.columnSettings.defaultWidth,
-                            headerHozAlign: getAlignment(column.alignment),
-                            hozAlign: getAlignment(column.colAlignment),
-                            frozen: column.frozen,
-                            headerSort: data.columnSorting
-                              ? column.columnSorter
-                              : false,
-                            resizable: data.resizable && column.resizable,
-                            editor:
-                              data.editable && column.editable
-                                ? getEditorType(column.format) || true
-                                : false,
-                            formatter:
-                              getFormat[column.format] ||
-                              (column.format && column.format.includes("%")
-                                ? (cell) => formatDate(cell, column.format)
-                                : column.format),
-                            contextMenu: customContextMenu,
-                            accessorClipboard: formatAccessor,
-                            filteringEnabled: column.headerFilter,
-                            topCalc: data.topRowCalculations
-                              ? column.topCalc
-                              : null,
-                          });
-                        });
-
-                        newColumns.push({
-                          title: subGroupTitle,
-                          columns:
-                            (subGroupColumns.length <= 0 && NO_COLUMN_DATA) ||
-                            subGroupColumns,
-                          titleFormatter: function (cell) {
-                            if (subGroupColumns?.length <= 1) {
-                              return subGroupTitle;
-                            }
-
-                            const container = document.createElement("div");
-                            const root = createRoot(container);
-                            root.render(
-                              <HeaderContent
-                                initialValue={cell.getValue()}
-                                group={subGroup}
-                                table={tableRef.current}
-                              />
-                            );
-
-                            return container;
-                          },
-                        });
-                      }
-                    });
-                  }
-                });
-              }
-
-              addColumn({
-                title: groupTitle,
-                columns:
-                  (newColumns.length <= 0 && NO_COLUMN_DATA) || newColumns,
-                titleFormatter: function (cell) {
-                  if (newColumns?.length <= 1) {
-                    return groupTitle;
-                  }
-
-                  const container = document.createElement("div");
-                  const root = createRoot(container);
-                  root.render(
-                    <HeaderContent
-                      initialValue={cell.getValue()}
-                      group={group}
-                      table={tableRef.current}
-                    />
-                  );
-
-                  return container;
-                },
-              });
-            });
-          }
-        }
-
-        return columns;
-      }
-
-      const tableConfig = {
-        data: transformJson(configData),
-        layout: "fitDataTable",
-        responsiveLayout: false,
-        resizableRows: configData.resizable,
-        headerSortClickElement: "icon",
-        editTriggerEvent: "dblclick",
-        headerSortElement: function (_column, dir) {
-          const container = document.createElement("div");
-
-          const root = createRoot(container);
-
-          switch (dir) {
-            case "asc":
-              root.render(
-                <div className="sorting-icon" aria-sort="ascending">
-                  <span>
-                    <BsSortUp />
-                  </span>
-                </div>
-              );
-              break;
-            case "desc":
-              root.render(
-                <div className="sorting-icon" aria-sort="descending">
-                  <span>
-                    <BsSortDown />
-                  </span>
-                </div>
-              );
-              break;
-            default:
-              root.render(
-                <div className="sorting-icon" aria-sort="none">
-                  <span>
-                    <BsSortUp />
-                  </span>
-                </div>
-              );
-          }
-
-          return container;
-        },
-
-        //enable range selection
-        selectableRange: 1,
-        selectableRangeColumns: true,
-        selectableRangeRows: styling.initialRowEnabled,
-        selectableRangeClearCells: true,
-        // groupClosedShowCalcs:true, // show column calculations when a group is closed
-
-        //configure clipboard to allow copy and paste of range format data
-        clipboard: true,
-        clipboardCopyRowRange: "range",
-        clipboardPasteParser: "range",
-        clipboardPasteAction: "range",
-        clipboardCopyConfig: {
-          columnHeaders: false,
-          columnGroups: false,
-          rowHeaders: false,
-          rowGroups: false,
-        },
-
-        columns: createColumnDefinition(configData),
-
-        ...(configData.rows[0].groupRows
-          ? {
-              groupBy: getGroupHeader,
-              groupHeader: function (value, count) {
-                return value + "<span>(" + count + " items)</span>";
-              },
-            }
-          : {}),
-      };
-
-      if (styling.initialRowEnabled) {
-        tableConfig.rowHeader = {
-          title: stylingOptions.initialRow.title ?? "ID",
-          resizable: false,
-          frozen: stylingOptions.initialRow.frozen === true,
-          width: 40,
-          hozAlign: "center",
-          formatter: "rownum",
-          cssClass: "range-header-col",
-          editor: false,
-          headerSort: false,
-        };
-      }
-
-      const table = new Tabulator(tabulatorDivRef.current, tableConfig);
-      let newHeight = parseInt(config.height - 2) // Reducing by 2 pixels to avoid overflow cutting off outer borders when using Tabulator in mood
-      tabulatorDivRef.current.style.height = `${newHeight}px`;
-      handleTableWidth(tabulatorDivRef, config.width, table);
-
-      table.on("tableBuilt", function () {
-        createAlignedFilters(configData, tabulatorDivRef.current, table);
-      });
-
-      table.on("dataProcessed", function () {
-        setTimeout(() => {
-          tableRef.current.redraw();
-        }, 100);
-      });
-
-      tableRef.current = table;
-    }
-  }, [config]);
-
-  return <div ref={tabulatorDivRef}></div>;
-}
-
 const removeBreakElements = (tabulatorElement) => {
-  const headerContents = tabulatorElement.querySelector(
-    ".tabulator-header-contents"
-  );
+  // Remove <br> elements from the tables header contents to prevent gaps from appearing
+  const headerContents = tabulatorElement.querySelector(".tabulator-header-contents");
   const breakTag = headerContents.querySelectorAll("br");
   breakTag.forEach((tag) => {
     tag.remove();
   });
 };
 
-const createAlignedFilters = (data, tabulatorElement, table) => {
-  // TODO: Refine function (variable names, best practices, etc)
+const createFilters = (data, tabulatorElement, table) => {
   removeBreakElements(tabulatorElement);
   if (!data.headerFiltering) return;
 
@@ -905,6 +185,7 @@ const createAlignedFilters = (data, tabulatorElement, table) => {
       }
     }
 
+    // Update column filters widths live when resizing a columns width
     table.on("columnResizing", function (resizedColumn) {
       if (resizedColumn.getField() !== field) return;
       columnResizing = true;
@@ -913,6 +194,7 @@ const createAlignedFilters = (data, tabulatorElement, table) => {
       document.addEventListener("mousemove", trackColumnWidth);
     });
 
+    // Update column filters width when column width is resized
     table.on("columnResized", function (resizedColumn) {
       if (resizedColumn.getField() !== field) return;
       columnResizing = false;
@@ -920,10 +202,620 @@ const createAlignedFilters = (data, tabulatorElement, table) => {
       document.removeEventListener("mousemove", trackColumnWidth);
 
       let newWidth = resizedColumn.getWidth();
-
       filterCell.style.width = newWidth + "px";
     });
   });
+};
+
+const getDescendants = (group, ignoreFirstIndex) => {
+  // Get all columns within group
+  let columns = [];
+
+  let isFirstIndexIgnored = ignoreFirstIndex || false;
+
+  if (group.columns) {
+    group.columns.forEach((column) => {
+      if (!isFirstIndexIgnored) {
+        isFirstIndexIgnored = true;
+        return;
+      }
+
+      columns.push(column.uniqueId);
+    });
+  }
+
+  if (group.subGroups) {
+    group.subGroups.forEach((subGroup) => {
+      columns = [...columns, ...getDescendants(subGroup, isFirstIndexIgnored)];
+    });
+  }
+
+  return columns;
+};
+
+const HeaderContent = ({ initialValue, group, table }) => {
+  const [_isCollapsed, setIsCollapsed] = useState({});
+  const groupId = group.uniqueId;
+
+  const adjustColumns = (targetGroup, isCollapsed, parentCollapsed = false) => {
+    const groupColumns = getDescendants(targetGroup);
+    if (parentCollapsed) {
+      // Keep child columns hidden
+      groupColumns.forEach((field) => {
+        table.hideColumn(field);
+
+        // Hide columns filter if exists
+        const filterContainer = document.getElementById("filter-" + field);
+        const filterHolder = filterContainer.getElementsByClassName(
+          "tabulator-col-filter-holder"
+        );
+        const filter = filterHolder[0];
+        if (filter) {
+          filter.hidden = true;
+        }
+      });
+      return;
+    }
+
+    groupColumns.forEach((field) => {
+      const filterContainer = document.getElementById("filter-" + field);
+      const filterHolder = filterContainer.getElementsByClassName(
+        "tabulator-col-filter-holder"
+      );
+      const filter = filterHolder[0];
+
+      if (isCollapsed) {
+        table.hideColumn(field);
+        if (filter) {
+          filter.hidden = true;
+        }
+      } else {
+        // Only show if parent group is not collapsed
+        table.showColumn(field);
+        if (filter) {
+          filter.hidden = false;
+        }
+      }
+    });
+
+    if (targetGroup.subGroups) {
+      targetGroup.subGroups.forEach((subGroup) => {
+        if (subGroup.columns) {
+          const subGroupId = subGroup.uniqueId;
+          adjustColumns(
+            subGroup,
+            CollapsedGroups[subGroupId] || false,
+            isCollapsed || parentCollapsed
+          );
+        }
+      });
+    }
+  };
+
+  const toggleGroup = () => {
+    const newCollapsedState = !CollapsedGroups[groupId];
+
+    setIsCollapsed(newCollapsedState);
+    CollapsedGroups[groupId] = newCollapsedState;
+
+    adjustColumns(group, newCollapsedState);
+    table.redraw();
+  };
+
+  return (
+    <span className="flex items-center gap-2">
+      {initialValue}
+      <div className="dropdown">
+        <div className="menu-icon" onClick={toggleGroup}>
+          {CollapsedGroups[groupId] ? (
+            <BsCaretRightFill />
+          ) : (
+            <BsCaretDownFill />
+          )}
+        </div>
+      </div>
+    </span>
+  );
+};
+
+class ContextMenuManager {
+  constructor(navigable, navigateFunc, menuItems) {
+    this.menu = null;
+    this.navigable = navigable;
+    this.navigateFunc = navigateFunc;
+    this.menuItems = menuItems;
+    this.menuItemHandlers = [];
+    this.focusedItemIndex = 0;
+  }
+
+  createMenu = (event, cell) => {
+    event.preventDefault();
+    this.cleanup();
+    if (!this.menuItems.length || (!this.navigable && !cell.getColumn()?.getDefinition()?.editor)) return;
+
+    this.menu = document.createElement("div");
+    this.menu.classList.add("custom-context-menu");
+    this.menu.setAttribute("role", "menu");
+    this.menu.setAttribute("tabindex", "-1");
+
+    this.menuItems.forEach((item, index) => {
+      const menuItem = document.createElement("div");
+      menuItem.className = "context-menu-item";
+      menuItem.textContent = item.text;
+      menuItem.setAttribute("data-action", item.action)
+      menuItem.setAttribute("role", "menuitem")
+      menuItem.setAttribute("tabindex", index === 0 ? "0" : "-1");
+      const onClick = (e) => {
+        if (item.action === "navigate" && this.navigateFunc) {
+          this.navigateFunc(e, cell);
+        } else if (item.action === "edit") {
+          cell.edit();
+        }
+        this.cleanup();
+      };
+      menuItem.addEventListener("click", onClick);
+      this.menuItemHandlers.push(onClick);
+      this.menu.appendChild(menuItem);
+    });
+
+    const cellRect = cell.getElement().getBoundingClientRect();
+    this.menu.style.position = "absolute";
+    this.menu.style.left = `${cellRect.left}px`;
+    this.menu.style.top = `${cellRect.bottom}px`;
+
+    document.body.appendChild(this.menu);
+
+    document.querySelector('.context-menu-item[tabindex="0"]')?.focus();
+
+    document.body.addEventListener("click", this.cleanupHelper);
+    document.addEventListener("contextmenu", this.contextListener);
+    this.menu.addEventListener("keydown", this.handleKeydown);
+  }
+
+  cleanupHelper = (e) => {
+    let button = e.which || e.button; // Firefox - Right click check
+    if (button && button !== 1) {
+      return;
+    }
+    this.cleanup();
+  }
+
+  cleanup = () => {
+    if (this.menu) {
+      this.focusedItemIndex = 0;
+      this.menu.removeEventListener("keydown", this.handleKeydown);
+      document.body.removeEventListener("click", this.cleanupHelper);
+      document.removeEventListener("contextmenu", this.contextListener);
+      this.menuItemHandlers.forEach((handler) => {
+        document.removeEventListener("click", handler);
+      });
+      this.menuItemHandlers = [];
+      this.menu.remove();
+      this.menu = null;
+    }
+  }
+
+  contextListener = (e) => {
+    let element = e.srcElement || e.target;
+    if (
+      element.classList.contains("tabulator-cell") ||
+      element.classList.contains("context-menu-item")
+    ) {
+      return;
+    }
+    this.cleanup();
+  };
+
+  updateFocusedItem = (menuItems, focusedItemIndex) => {
+    menuItems.forEach((item, index) => {
+      item.tabIndex = index === focusedItemIndex ? "0" : "-1";
+    });
+    menuItems[index].focus();
+  }
+
+  handleKeydown = (event) => {
+    // Ignore IME composition
+    if (
+      !this.menu ||
+      event.isComposing ||
+      event.keyCode === 229
+    ) {
+      return;
+    }
+
+    const menuItems = this.menu.querySelectorAll(".context-menu-item");
+
+    switch (event.keyCode) {
+      case 13: // Enter
+        event.preventDefault();
+        menuItems[this.focusedItemIndex].click();
+        break;
+
+      case 27: // Escape
+        event.preventDefault();
+        this.cleanup();
+        break;
+
+      case 38: // ArrowUp
+        event.preventDefault();
+        this.focusedItemIndex = (this.focusedItemIndex - 1 + menuItems.length) % menuItems.length;
+        updateFocusedItem(menuItems, this.focusedItemIndex);
+        break;
+
+      case 38: // ArrowDown
+        event.preventDefault();
+        this.focusedItemIndex = (this.focusedItemIndex + 1) % menuItems.length;
+        updateFocusedItem(menuItems, this.focusedItemIndex);
+        break;
+    }
+  }
+}
+
+class TableManager {
+  constructor(config, containerRef) {
+    this.config = config;
+    this.containerRef = containerRef;
+    this.contextMenu = null;
+    this.navigable = false;
+    this.navigateFunc = null;
+    this.menuItems = [];
+    this.tableConfig = {};
+    this.table = null;
+  }
+
+  transformJson(data) {
+    // Transforms JSON data into a format suitable for Tabulator
+    const columnTracker = new ColumnTracker();
+    const tabulatorData = [];
+
+    data.rows.forEach((row) => {
+      const flatRow = {
+        rowId: row.id,
+        groupBy: row.groupBy,
+      };
+
+      if (row.columns) {
+        row.columns.forEach((column) => {
+          const columnKey = columnTracker.getUniqueTitle(column.title);
+          flatRow[columnKey] = column.content;
+        });
+      }
+
+      if (row.groups) {
+        row.groups.forEach((group) => {
+          if (group.columns) {
+            group.columns.forEach((column) => {
+              const columnKey = columnTracker.getUniqueTitle(column.title);
+              flatRow[columnKey] = column.content;
+            });
+          }
+
+          if (group.subGroups) {
+            group.subGroups.forEach((subGroup) => {
+              if (subGroup.columns) {
+                subGroup.columns.forEach((column) => {
+                  const columnKey = columnTracker.getUniqueTitle(column.title);
+                  flatRow[columnKey] = column.content;
+                });
+              }
+            });
+          }
+        });
+      }
+
+      columnTracker.clearMapping();
+
+      tabulatorData.push(flatRow);
+    });
+
+    return tabulatorData;
+  }
+
+  initializeTable() {
+    if (!this.containerRef.current) return;
+
+    console.log("debug"); // Kept to avoid trouble locating this file in Inspect Element Sources
+
+    setVisualizationTheme({
+      theme: this.config.style.stylingOptions?.theme,
+      tableSpacing: this.config.style.stylingOptions?.tableSpacing,
+      initialColumnBorders: this.config.style.stylingOptions?.initialColumnBorders === true,
+    });
+
+    if (this.config.style.stylingOptions?.wrapText === true) {
+      setTextWrapping();
+    }
+
+    if (this.config.data.navigable) {
+      this.navigable = true;
+      this.menuItems.push({
+        text: "Navigate to Element",
+        action: "navigate",
+      });
+
+      this.navigateFunc = (event, cell) => {
+        const row = cell.getRow();
+        const rowId = row?.getData()?.rowId;
+        if (rowId) {
+          this.config.functions.performAction("Cell Click", rowId, event);
+        }
+      };
+    }
+
+    if (this.config.data.editable) {
+      this.menuItems.push({
+        text: "Edit Cell",
+        action: "edit",
+      });
+    }
+
+    this.contextMenu = new ContextMenuManager(this.navigable, this.navigateFunc, this.menuItems)
+
+    this.tableConfig = {
+      data: this.transformJson(this.config.data),
+      layout: "fitDataTable",
+      responsiveLayout: false,
+      resizableRows: this.config.data.resizable,
+      editTriggerEvent: "dblclick",
+
+      // Column sorting
+      headerSortClickElement: "icon",
+      headerSortElement: function (_column, dir) {
+        const container = document.createElement("div");
+        const root = createRoot(container);
+
+        switch (dir) {
+          case "asc":
+            root.render(
+              <div className="sorting-icon" aria-sort="ascending">
+                <span>
+                  <BsSortUp />
+                </span>
+              </div>
+            );
+            break;
+          case "desc":
+            root.render(
+              <div className="sorting-icon" aria-sort="descending">
+                <span>
+                  <BsSortDown />
+                </span>
+              </div>
+            );
+            break;
+          default:
+            root.render(
+              <div className="sorting-icon" aria-sort="none">
+                <span>
+                  <BsSortUp />
+                </span>
+              </div>
+            );
+        }
+
+        return container;
+      },
+
+      // Enable range selection
+      selectableRange: 1, // Allow only one range at a time
+      selectableRangeColumns: true,
+      selectableRangeRows: this.config.style.stylingOptions?.initialRow?.enabled,
+      selectableRangeClearCells: true, // Allow users to clear the contents of a selected range by pressing backspace or delete
+      
+      // Clipboard configuration
+      clipboard: true, // Enable clipboard functionality
+      clipboardCopyRowRange: "range", // Include selected range in the clipboard output
+      clipboardPasteParser: "range", // Accept smaller ranges of cells
+      clipboardPasteAction: "range", // Update rows in active range with parsed range data
+      clipboardCopyConfig: {
+        columnHeaders: false, // Exclude column headers in clipboard output
+        columnGroups: false, // Exclude column groups in column headers for printed table
+        rowHeaders: false, // Exclude row headers in clipboard output
+        rowGroups: false, // Exclude row groups in clipboard output
+      },
+
+      columns: this.createColumnDefinition(), // Create column headers
+
+      // Row grouping
+      // groupClosedShowCalcs: true, // Show column calculations when row group is closed
+      ...(this.config.data.rows[0]?.groupRows
+          ? {
+              groupBy: getRowGroupHeader,
+              groupHeader: function (value, count) {
+                return value + "<span>(" + count + " items)</span>";
+              },
+            }
+          : {}),
+    };
+
+    if (this.config.style.stylingOptions?.initialRow?.enabled) {
+      this.tableConfig.rowHeader = {
+        title: this.config.style.stylingOptions.initialRow.title ?? "ID",
+        resizable: false,
+        frozen: this.config.style.stylingOptions.initialRow.frozen === true,
+        width: 40,
+        hozAlign: "center",
+        formatter: "rownum",
+        cssClass: "range-header-col",
+        editor: false,
+        headerSort: false,
+      };
+    }
+
+    this.table = new Tabulator(this.containerRef.current, this.tableConfig);
+    let newHeight = parseInt(this.config.height - 2) // Reducing by 2 pixels to avoid overflow cutting off outer borders when using Tabulator in mood
+    this.containerRef.current.style.height = `${newHeight}px`;
+    handleTableWidth(this.containerRef, this.config.width, this.table);
+
+    const self = this; // For Tabulator callbacks to capture the correct 'this' value
+
+    // Create custom header filters
+    this.table.on("tableBuilt", function () {
+      createFilters(self.config.data, self.containerRef.current, self.table);
+    });
+    
+    // Re-adjust tables sizing after data has loaded to avoid visual bugs
+    this.table.on("dataProcessed", function () {
+      setTimeout(() => {
+        self.table.redraw();
+      }, 100);
+    });
+  }
+
+  createColumnDefinition() {
+    const columnTracker = new ColumnTracker();
+    const columns = [];
+
+    const firstRow = this.config.data.rows?.[0]
+    firstRow?.columns?.forEach((col) => {
+      const uniqueField = columnTracker.getUniqueTitle(col.title)
+      col.uniqueId = uniqueField;
+      columns.push({
+        title: col.title,
+        field: uniqueField,
+        width: col.width || UI_CONFIG.columnSettings.defaultWidth,
+        headerHozAlign: validateAlignment(col.alignment),
+        hozAlign: validateAlignment(col.alignment),
+        frozen: col.frozen || false,
+        headerSort: this.config.data.columnSorting && col.columnSorter || false,
+        resizable: this.config.data.resizable && col.resizable || false,
+        editor: this.config.data.editable && col.editable
+          ? (getEditorType(col.format) || true)
+          : false,
+        formatter: getFormat[col.format] || (col.format && col.format.includes('%')
+          ? (cell) => formatDate(cell, col.format)
+          : col.format),
+        contextMenu: this.contextMenu.createMenu,
+        accessorClipboard: formatAccessor,
+        filteringEnabled: col.headerFilter,
+        topCalc: this.config.data.topRowCalculations ? col.topCalc : null,
+      })
+    })
+
+    firstRow?.groups?.forEach((group) => {
+      let groupColumns = [];
+      const uniqueTitle = columnTracker.getUniqueGroupTitle(group.title);
+      group.uniqueId = uniqueTitle;
+
+      group.columns?.forEach((col) => {
+        const uniqueField = columnTracker.getUniqueTitle(col.title);
+        const displayTitle = this.config.style.stylingOptions?.showDetailedTitles && `${uniqueTitle}: ${col.title}`;
+        col.uniqueId = uniqueField;
+
+        groupColumns.push({
+          title: displayTitle || col.title,
+          field: uniqueField,
+          width: col.width || UI_CONFIG.columnSettings.defaultWidth,
+          headerHozAlign: validateAlignment(col.alignment),
+          hozAlign: validateAlignment(col.alignment),
+          frozen: col.frozen || false,
+          headerSort: this.config.data.columnSorting && col.columnSorter || false,
+          resizable: this.config.data.resizable && col.resizable || false,
+          editor: this.config.data.editable && col.editable
+            ? (getEditorType(col.format) || true)
+            : false,
+          formatter: getFormat[col.format] || (col.format && col.format.includes('%')
+            ? (cell) => formatDate(cell, col.format)
+            : col.format),
+          contextMenu: this.contextMenu.createMenu,
+          accessorClipboard: formatAccessor,
+          filteringEnabled: col.headerFilter,
+          topCalc: this.config.data.topRowCalculations ? col.topCalc : null,
+        });
+      });
+
+      group?.subGroups?.forEach((subGroup) => {
+        let subGroupColumns = [];
+        const uniqueTitle = columnTracker.getUniqueGroupTitle(subGroup.title);
+        subGroup.uniqueId = uniqueTitle;
+  
+        subGroup.columns?.forEach((col) => {
+          const uniqueField = columnTracker.getUniqueTitle(col.title);
+          const displayTitle = this.config.style.stylingOptions?.showDetailedTitles && `${uniqueTitle.title}: ${col.title}`;
+          col.uniqueId = uniqueField;
+
+          subGroupColumns.push({
+            title: displayTitle || col.title,
+            field: uniqueField,
+            width: col.width || UI_CONFIG.columnSettings.defaultWidth,
+            headerHozAlign: validateAlignment(col.alignment),
+            hozAlign: validateAlignment(col.alignment),
+            frozen: col.frozen || false,
+            headerSort: this.config.data.columnSorting && col.columnSorter || false,
+            resizable: this.config.data.resizable && col.resizable || false,
+            editor: this.config.data.editable && col.editable
+              ? (getEditorType(col.format) || true)
+              : false,
+            formatter: getFormat[col.format] || (col.format && col.format.includes('%')
+              ? (cell) => formatDate(cell, col.format)
+              : col.format),
+            contextMenu: this.contextMenu.createMenu,
+            accessorClipboard: formatAccessor,
+            filteringEnabled: col.headerFilter,
+            topCalc: this.config.data.topRowCalculations ? col.topCalc : null,
+          });
+        });
+
+        groupColumns.push({
+          title: uniqueTitle,
+          columns: (subGroupColumns?.length <= 0 && NO_COLUMN_DATA) || subGroupColumns,
+          titleFormatter: function (cell) {
+            if (subGroupColumns?.length <= 1) {
+              return uniqueTitle;
+            }
+
+            const container = document.createElement('div');
+            const root = createRoot(container);
+            root.render(
+              <HeaderContent
+                initialValue={cell.getValue()}
+                group={subGroup}
+                table={this.table}
+              />
+            );
+
+            return container;
+          }
+        });
+      });
+
+      columns.push({
+        title: uniqueTitle,
+        columns: (groupColumns.length <= 0 && NO_COLUMN_DATA) || groupColumns,
+        titleFormatter: function (cell) {
+          if (groupColumns?.length <= 1) {
+            return uniqueTitle;
+          }
+
+          const container = document.createElement('div');
+          const root = createRoot(container);
+          root.render(
+            <HeaderContent
+              initialValue={cell.getValue()}
+              group={group}
+              table={this.table}
+            />
+          );
+
+          return container;
+        }
+      })
+    });
+
+    return columns;
+  }
+}
+
+const TabulatorApp = ({ config }) => {
+  const containerRef = useRef(null);
+  const tableRef = useRef(null);
+  useEffect(() => {
+    if (containerRef.current && tableRef.current) { return };
+    const manager = new TableManager(config, containerRef);
+    manager.initializeTable();
+    tableRef.current = manager
+  }, [config]);
+  return <div ref={containerRef}></div>;
 };
 
 export default TabulatorApp;

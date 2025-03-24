@@ -17,6 +17,8 @@
   --header-sort-icon-active: rgb(240, 240, 240);
   --header-sort-icon-inactive: rgb(180, 180, 180);
   --header-filter-bg: rgb(44, 53, 73);
+  --header-filter-box: rgb(255, 255, 255);
+  --header-filter-text: rgb(20, 20, 50);
   --header-filter-icon: rgb(240, 240, 240);
   --table-spacing: "6px 4px";
 
@@ -40,6 +42,8 @@
   --footer-text: rgb(60, 80, 120);
 
   /* Miscellaneous */
+  --context-menu-bg: rgb(255, 255, 255);
+  --context-menu-text: rgb(0, 0, 0);
   --edit-box: rgb(29, 104, 205);
   --error: rgb(220, 50, 50);
 }
@@ -256,6 +260,8 @@
     padding: 4px;
     width: 100%;
     box-sizing: border-box;
+    background-color: var(--header-filter-box);
+    color: var(--header-filter-text); 
 }
 
 .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-sorter {
@@ -439,7 +445,7 @@
 .tabulator .tabulator-tableholder .tabulator-table {
   position: relative;
   display: inline-block;
-  background-color: #fff;
+  background-color: var(--bg-color);
   white-space: nowrap;
   overflow: visible;
   color: #333;
@@ -448,10 +454,12 @@
 /* Tabulator Calculations */
 .tabulator .tabulator-tableholder .tabulator-table .tabulator-row.tabulator-calcs.tabulator-calcs-top {
   border-bottom: 2px solid var(--row-border);
+  background: var(--row-calc-bg) !important;
 }
 
 .tabulator .tabulator-tableholder .tabulator-table .tabulator-row.tabulator-calcs.tabulator-calcs-bottom {
   border-top: 2px solid var(--row-border);
+  background: var(--row-calc-bg) !important;
 }
 
 .tabulator .tabulator-header .tabulator-calcs-holder {
@@ -802,7 +810,7 @@
   display: inline-block;
   outline: none;
   overflow: hidden;
-  padding: var(--table-spacing) !important;
+  padding: var(--table-spacing);
   position: relative;
   text-overflow: ellipsis;
   vertical-align: middle;
