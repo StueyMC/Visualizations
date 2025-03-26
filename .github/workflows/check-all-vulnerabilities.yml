@@ -35,6 +35,11 @@ jobs:
         with:
           working-directory: './Examples/ForceDirectedLayout'
 
+      - name: Check GeoVisualization (full)
+        uses: ./.github/workflows/actions/check-package
+        with:
+          working-directory: './Examples/GeoVisualization'
+  
       - name: Check Lollipop (full)
         uses: ./.github/workflows/actions/check-package
         with:

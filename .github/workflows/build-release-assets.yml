@@ -55,6 +55,13 @@ jobs:
           working-directory: './Examples/Lollipop'
           asset-directory: ${{ env.asset-folder }}
 
+      - name: Build GeoVisualization
+        id: build-GeoVisualization
+        uses: ./.github/workflows/actions/build-asset
+        with:
+          working-directory: './Examples/GeoVisualization'
+          asset-directory: ${{ env.asset-folder }}
+  
       - name: Build ProcessFlow
         id: build-ProcessFlow
         uses: ./.github/workflows/actions/build-asset

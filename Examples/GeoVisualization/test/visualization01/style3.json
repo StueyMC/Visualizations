@@ -1,0 +1,51 @@
+{"URL": "visualization01/leaflet.css",
+ "style": {
+        "background": "#FFFFFF",
+        "numLayers": 3,
+        "Ignore Unknown Nodes": true,
+        "Ignore Empty Coordinates": true,
+        "layers": [{
+            "featureBorderOpacity": 0.5,
+            "featureBorderColour": "#D0D0D0",
+            "featureWeight": 0,
+            "featureOpacity": 0.2,
+            "featureHighlightOpacity": 0.5,
+            "featureColour": "#D0D0D0",
+            "displayFeatureName": true,
+            "startZoom": 1,
+            "endZoom": 2
+        }, {
+            "featureBorderOpacity": 0.5,
+            "featureBorderColour": "#D0D0D0",
+            "featureWeight": 0,
+            "featureOpacity": 0.2,
+            "featureHighlightOpacity": 0.5,
+            "featureColour": "#D0D0D0",
+            "displayFeatureName": true,
+            "startZoom": 3,
+            "endZoom": 4
+        }, {
+            "featureBorderOpacity": 0.5,
+            "featureBorderColour": "#D0D0D0",
+            "featureWeight": 0,
+            "featureOpacity": 0.2,
+            "featureHighlightOpacity": 0.5,
+            "featureColour": "#D0D0D0",
+            "displayFeatureName": true,
+            "startZoom": 5,
+            "endZoom": 10
+        }
+        ],
+        "zoomControl": true,
+        "controlPosition": "topleft",
+        "attribution": "Google",
+        "attributionPosition": "bottomleft",
+        "miniMapControl": true,
+        "miniMapPosition": "topright",
+        "miniMapMinimized": true,
+        "miniMapWidth": 200,
+        "miniMapHeight": 200,
+        "miniMapZoomOffset": -5,
+        "limitMarkersToCount": 20
+    }
+}

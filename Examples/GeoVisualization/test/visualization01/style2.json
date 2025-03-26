@@ -1,0 +1,50 @@
+{"URL": "visualization01/leaflet.css",
+ "style": {
+        "background": "#FFFFFF",
+        "numLayers": 3,
+        "bounds": [[-90, -180], [90, 180]],
+        "layers": [{
+            "featureBorderOpacity": 0.5,
+            "featureBorderColour": "#00FF00",
+            "featureWeight": 0,
+            "featureOpacity": 0.4,
+            "featureHighlightOpacity": 0.9,
+            "featureColour": "#00FF00",
+            "displayFeatureName": true,
+            "startZoom": 4,
+            "endZoom": 6
+        }, {
+            "featureBorderOpacity": 0.5,
+            "featureBorderColour": "#0000FF",
+            "featureWeight": 0,
+            "featureOpacity": 0.4,
+            "featureHighlightOpacity": 0.9,
+            "featureColour": "#0000FF",
+            "displayFeatureName": true,
+            "startZoom": 7,
+            "endZoom": 9
+        }, {
+            "featureBorderOpacity": 0.5,
+            "featureBorderColour": "#FF0000",
+            "featureWeight": 0,
+            "featureOpacity": 0.4,
+            "featureHighlightOpacity": 0.9,
+            "featureColour": "#FF0000",
+            "displayFeatureName": true,
+            "startZoom": 10,
+            "endZoom": 15
+        }
+        ],
+        "zoomControl": true,
+        "controlPosition": "topleft",
+        "attribution": "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a>",
+        "attributionPosition": "bottomleft",
+        "miniMapControl": true,
+        "miniMapPosition": "topright",
+        "miniMapMinimized": true,
+        "miniMapWidth": 200,
+        "miniMapHeight": 200,
+        "miniMapZoomOffset": -5,
+        "limitMarkersToCount": 20
+    }
+}

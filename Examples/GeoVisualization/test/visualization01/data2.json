@@ -1,0 +1,35 @@
+{"data" : {
+  "markers": [
+    {
+      "id": "L1-Feature001", "name": "Feature 001",
+      "minLayer": 1, "maxLayer": 3,
+      "longitude": 0, "latitude": 52,
+      "size": 20000,
+      "outerColour": "#FF00FF",
+      "outerValue": 10000,
+      "innerColour": "#00FF00",
+      "innerValue": 5000
+    },
+    {
+      "id": "L1-Feature002", "name": "Feature 002",
+      "minLayer": 2, "maxLayer": 2,
+      "longitude": -1, "latitude": 51,
+      "size": 20000,
+      "outerColour": "#0000FF",
+      "outerValue": 10000,
+      "innerColour": "#00FF00",
+      "innerValue": 5000
+    },
+    {
+      "id": "L1-Feature003", "name": "Feature 003",
+      "minLayer": 1, "maxLayer": 3,
+      "longitude": 0, "latitude": 51,
+      "size": 10000,
+      "outerColour": "#0000FF",
+      "outerValue": 10000,
+      "innerColour": "#00FF00",
+      "innerValue": 9000
+    }
+  ]
+  }
+}

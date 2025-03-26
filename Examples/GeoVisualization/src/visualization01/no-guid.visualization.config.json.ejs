@@ -1,0 +1,133 @@
+{
+  "id": "<%= uuid.v4(); %>",
+  "name": "Geo Visualisation",
+  "description": "Visualisation of data positioned over a map",
+  "version": "<%%= package.version %%>",
+  "supportedVersions": "0.0",
+  "moodVersion": "16.0.076",
+  "dynamicData": false,
+  "canOverflow": false,
+  "entry": {
+    "file": "visualization.js",
+    "function": "vis.visualization"
+  },
+  "supportedBrowsers": "Chrome, Edge, Firefox",
+  "inputs": [
+    {
+      "name": "tileServer",
+      "displayName": "Tile Server URL",
+      "type": "string"
+    },
+    {
+      "name": "tileServerSubDomains",
+      "displayName": "Tile Server Sub-domains",
+      "type": "string"
+    },
+    {
+      "name": "tilePattern",
+      "displayName": "Tile Pattern",
+      "type": "string"
+    },
+    {
+      "name": "tileWidth",
+      "displayName": "Tile Width",
+      "type": "number"
+    },
+    {
+      "name": "tileHeight",
+      "displayName": "Tile Height",
+      "type": "number"
+    },
+    {
+      "name": "coordRefSystem",
+      "displayName": "Coordinate Reference System",
+      "type": "string"
+    },
+    {
+      "name": "boundsBottomLeftX",
+      "displayName": "Bounds - Bottom Left X Coordinate",
+      "type": "number"
+    },
+    {
+      "name": "boundsBottomLeftY",
+      "displayName": "Bounds - Bottom Left Y Coordinate",
+      "type": "number"
+    },
+    {
+      "name": "boundsTopRightX",
+      "displayName": "Bounds - Top Right X Coordinate",
+      "type": "number"
+    },
+    {
+      "name": "boundsTopRightY",
+      "displayName": "Bounds - Top Right Y Coordinate",
+      "type": "number"
+    },
+    {
+      "name": "minZoom",
+      "displayName": "Zoom Min",
+      "type": "number"
+    },
+    {
+      "name": "maxZoom",
+      "displayName": "Zoom Max",
+      "type": "number"
+    },
+    {
+      "name": "zoomLevel",
+      "displayName": "Zoom Level",
+      "type": "number"
+    },
+    {
+      "name": "centreY",
+      "displayName": "Centre Y Coord / Latitude",
+      "type": "number"
+    },
+    {
+      "name": "centreX",
+      "displayName": "Centre X Coord / Longitude",
+      "type": "number"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "hoverFeature",
+      "displayName": "Feature",
+      "type": "elements"
+    }
+  ],
+  "actions": {
+    "Feature Click": {
+      "description": "A feature representing an element has been clicked.",
+      "title": "Feature"
+    }
+  },
+  "state" : {},
+  "style": {
+    "URL": "visualization01/leaflet.css",
+    "JSON": {
+      "background": "#FFFFFF",
+      "numLayers": 3,
+      "Ignore Unknown Nodes": true,
+      "Ignore Empty Coordinates": true,
+      "featureBorderOpacity": 0.5,
+      "featureBorderColour": "#D0D0D0",
+      "featureWeight": 0,
+      "featureOpacity": 0.5,
+      "featureHighlightOpacity": 0.9,
+      "featureColour": "#D0D0D0",
+      "displayFeatureName": true,
+      "zoomControl": true,
+      "controlPosition": "topleft",
+      "attribution": "<a href='http://openstreetmap.org/copyright' target='vm'>OpenStreetMap</a>",
+      "attributionPosition": "bottomleft",
+      "miniMapControl": true,
+      "miniMapPosition": "bottomright",
+      "miniMapMinimized": true,
+      "miniMapWidth": 200,
+      "miniMapHeight": 200,
+      "miniMapZoomOffset": -5,
+      "limitMarkersToCount": 20
+  }
+}
+}
