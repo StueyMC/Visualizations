@@ -31,6 +31,8 @@ For user guidance documentation, see [Tabulator Guide](./UserGuide.md)
   - themes
     - TabulatorThemes.js
       - This is where you can add or edit custom pre-built themes for the tabulator
+- versions
+  - A folder containing Tabulator builds that can be imported within Mood.
 - demo
   - A folder containing a demo of the tabulator using fixed data that you can run on localhost
 - dist
@@ -78,7 +80,7 @@ Which will produce:
 
 - src\package.json
 - src\visualizer\package.json
-- tabulator.zip
+- versions\tabulator.zip
 
 > These are automatically generated files which you shouldn't manually edit.
 

@@ -15,7 +15,7 @@ module.exports = merge(common, {
   plugins: [
     new CleanWebpackPlugin(),
     new ZipFilesPlugin({
-      path: "..",
+      path: "../versions",
       filename:
         process.env.npm_package_name +
         "-" +
