@@ -6,7 +6,7 @@ A solution for Mood to provide an improved, accessible and user friendly DataGri
 
 ## Tabulator User Guide
 
-For user guidance documentation, see [Tabulator Guide](./UserGuide.md)
+For user guidance, see [Tabulator Guide](./UserGuide.md)
 
 ## File Structure
 - root
