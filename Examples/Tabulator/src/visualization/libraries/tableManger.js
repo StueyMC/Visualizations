@@ -274,11 +274,25 @@ const HeaderContent = ({ initialValue, group, table }) => {
     table.redraw();
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleGroup();
+    }
+  };
+
   return (
     <span className="flex items-center gap-2">
       {initialValue}
       <div className="dropdown">
-        <div className="menu-icon" onClick={toggleGroup}>
+        <div
+          className="menu-icon"
+          tabIndex="0"
+          role="button"
+          aria-label="Manage Column Group"
+          onClick={toggleGroup}
+          onKeyDown={handleKeyPress}
+        >
           {CollapsedGroups[groupId] ? (
             <BsCaretRightFill />
           ) : (
@@ -438,6 +452,12 @@ export class TableManager {
         }
 
         return container;
+      },
+
+      // Allow navigation outside of Tabulator
+      keybindings: {
+        navPrev: "shit+tab",
+        navNext: "tab",
       },
 
       // Enable range selection
