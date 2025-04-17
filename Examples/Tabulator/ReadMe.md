@@ -58,21 +58,12 @@ ESLint VS Code Extension v2.4.4 or later.
 
 # How To Use
 
-- src\no-guid.package.json.ejs
-- src\visualizer\no-guid.visualization.config.json.ejs
-
-> The purpose of these files is to automatically generate a unique ID for the package/tabulator.
-
-1. Run `npm run generate-guids`
-
-This will produce these 2 files:
-
 - src\package.json.ejs
 - src\visualizer\package.json.ejs
 
 > The purpose of these files is to automatically increment the version number every time you build
 
-2. Run `npm run build`
+1. Run `npm run build`
 
 Which will produce:
 
