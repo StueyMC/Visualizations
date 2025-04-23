@@ -76,6 +76,13 @@ jobs:
           working-directory: './Examples/StretchedChord'
           asset-directory: ${{ env.asset-folder }}
 
+      - name: Build Tabulator
+        id: build-Tabulator
+        uses: ./.github/workflows/actions/build-asset
+        with:
+          working-directory: './Examples/Tabulator'
+          asset-directory: ${{ env.asset-folder }}
+
       - name: Build vNetwork
         id: build-vNetwork
         uses: ./.github/workflows/actions/build-asset

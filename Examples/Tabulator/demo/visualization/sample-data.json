@@ -1,0 +1,326 @@
+{
+  "data": {
+    "rows": [
+      {
+        "columns": [
+          {
+            "title": "Team",
+            "content": "Bristol",
+            "format": null,
+            "editable": true,
+            "headerFilter": true,
+            "columnSorter": true,
+            "width": null,
+            "frozen": false,
+            "resizable": true,
+            "colAlignment": "left"
+          },
+          {
+            "title": "Playing",
+            "content": true,
+            "format": "tickCross",
+            "editable": false,
+            "headerFilter": true,
+            "columnSorter": true,
+            "width": "8%",
+            "frozen": false,
+            "resizable": true,
+            "colAlignment": "center"
+          }
+        ],
+        "groups": [
+          {
+            "title": "Column Group",
+            "columns": [
+              {
+                "title": "Acronym",
+                "content": "BRS",
+                "format": null,
+                "editable": true,
+                "headerFilter": true,
+                "columnSorter": true,
+                "width": null,
+                "frozen": false,
+                "resizable": true,
+                "alignment": "left"
+              }
+            ],
+            "subGroups": [
+              {
+                "title": "Sub Group",
+                "columns": [
+                  {
+                    "title": "Score Rating",
+                    "content": "4",
+                    "format": "star",
+                    "editable": true,
+                    "headerFilter": true,
+                    "columnSorter": true,
+                    "width": null,
+                    "frozen": false,
+                    "resizable": true,
+                    "topCalc": "avg"
+                  },
+                  {
+                    "title": "Founded Date",
+                    "content": "2024-07-22T12:07:32Z",
+                    "format": "%dd-%MM-%yyyy",
+                    "editable": true,
+                    "headerFilter": true,
+                    "columnSorter": true,
+                    "width": "100%",
+                    "frozen": false,
+                    "resizable": true,
+                    "alignment": "left"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "groupBy": "Domestic",
+        "groupRows": true
+      },
+      {
+        "columns": [
+          {
+            "title": "Team",
+            "content": "Manchester United",
+            "format": null,
+            "editable": true
+          }
+        ],
+        "groups": [
+          {
+            "title": "Column Group",
+            "columns": [
+              {
+                "title": "Acronym",
+                "content": "MAN",
+                "format": null,
+                "editable": true
+              },
+              {
+                "title": "Acronym",
+                "content": "TA",
+                "format": null,
+                "editable": true
+              }
+            ],
+            "subGroups": [
+              {
+                "title": "Sub Group",
+                "columns": [
+                  {
+                    "title": "Score Rating",
+                    "content": "0",
+                    "format": "star",
+                    "editable": true
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "groupBy": "International"
+      },
+      {
+        "columns": [
+          {
+            "title": "Team",
+            "content": "Spain",
+            "format": null,
+            "editable": true
+          }
+        ],
+        "groups": [
+          {
+            "title": "Column Group",
+            "columns": [
+              {
+                "title": "Acronym",
+                "content": "SPA",
+                "format": null,
+                "editable": true
+              },
+              {
+                "title": "Acronym",
+                "content": "TA",
+                "format": null,
+                "editable": true
+              }
+            ],
+            "subGroups": [
+              {
+                "title": "Sub Group",
+                "columns": [
+                  {
+                    "title": "Score Rating",
+                    "content": "1",
+                    "format": "star",
+                    "editable": true
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "groupBy": "International"
+      },
+      {
+        "columns": [
+          {
+            "title": "Team",
+            "content": "England",
+            "format": null,
+            "editable": true
+          }
+        ],
+        "groups": [
+          {
+            "title": "Column Group",
+            "columns": [
+              {
+                "title": "Acronym",
+                "content": "ENG",
+                "format": null,
+                "editable": true
+              }
+            ],
+            "subGroups": [
+              {
+                "title": "Sub Group",
+                "columns": [
+                  {
+                    "title": "Score Rating",
+                    "content": "2",
+                    "format": "star",
+                    "editable": true
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "groupBy": "International"
+      },
+      {
+        "columns": [
+          {
+            "title": "Team",
+            "content": "Manchester City",
+            "format": null,
+            "editable": true
+          }
+        ],
+        "groups": [
+          {
+            "title": "Column Group",
+            "columns": [
+              {
+                "title": "Acronym",
+                "content": "MAN",
+                "format": null,
+                "editable": true
+              }
+            ],
+            "subGroups": [
+              {
+                "title": "Sub Group",
+                "columns": [
+                  {
+                    "title": "Score Rating",
+                    "content": "5",
+                    "format": "star",
+                    "editable": true
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "groupBy": "Domestic"
+      },
+      {
+        "columns": [
+          {
+            "title": "Team",
+            "content": "Germany",
+            "format": null,
+            "editable": true
+          }
+        ],
+        "groups": [
+          {
+            "title": "Column Group",
+            "columns": [
+              {
+                "title": "Acronym",
+                "content": "GER",
+                "format": null,
+                "editable": true
+              }
+            ],
+            "subGroups": [
+              {
+                "title": "Sub Group",
+                "columns": [
+                  {
+                    "title": "Score Rating",
+                    "content": "4",
+                    "format": "star",
+                    "editable": true
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "groupBy": "International"
+      },
+      {
+        "columns": [
+          {
+            "title": "Team",
+            "content": "France",
+            "format": null,
+            "editable": true
+          }
+        ],
+        "groups": [
+          {
+            "title": "Column Group",
+            "columns": [
+              {
+                "title": "Acronym",
+                "content": "FRA",
+                "format": null,
+                "editable": true
+              }
+            ],
+            "subGroups": [
+              {
+                "title": "Sub Group",
+                "columns": [
+                  {
+                    "title": "Score Rating",
+                    "content": "3",
+                    "format": "star",
+                    "editable": true
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "groupBy": null
+      }
+    ],
+    "editable": true,
+    "navigable": false,
+    "resizable": true,
+    "headerFiltering": true,
+    "columnSorting": true,
+    "topRowCalculations": true
+  }
+}

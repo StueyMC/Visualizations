@@ -1,0 +1,43 @@
+{
+  "id": "89bd35aa-6baa-4e54-8d19-f05d76933494",
+  "name": "tabulator",
+  "description": "Tabulator for Mood based on React framework",
+  "version": "<%= package.version %>",
+  "supportedVersions": "1",
+  "moodVersion": "16.0.085",
+  "entry": {
+    "file": "visualization.js",
+    "function": "vis.initialize"
+  },
+  "supportedBrowsers": "Chrome, Edge, Firefox",
+  "inputs": [],
+  "style": {
+    "URL": "visualization/style.css",
+    "JSON": {
+      "margin": {
+        "left": 20,
+        "right": 20,
+        "top": 20,
+        "bottom": 20
+      },
+      "stylingOptions": {
+        "tableSpacing": "medium",
+        "initialRow": {
+          "enabled": true,
+          "title": "ID",
+          "frozen": true
+        },
+        "initialColumnBorders": true,
+        "showDetailedTitles": false,
+        "theme": "",
+        "wrapText": true
+      }
+    }
+  },
+  "actions": {
+    "Cell Click": {
+      "description": "A cell in the table has been clicked.",
+      "title": "Cell"
+    }
+  }
+}

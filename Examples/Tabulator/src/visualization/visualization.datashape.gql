@@ -1,0 +1,153 @@
+type Column {
+    title: String! @UI (
+        default: "Column Title"
+        name: "Name"
+    )
+
+    content: Any @UI (
+        name: "Content"
+    )
+
+    width: Number @UI (
+        name: "Width"
+        default: 100
+        heading: "Styles"
+    )
+
+    format: String @UI (
+        name: "Formatting"
+    )
+
+    alignment: String @UI (
+        name: "Header Alignment"
+        default: "left"
+    )
+
+    colAlignment: String @UI (
+        name: "Column Alignment"
+        default: "left"
+    )
+
+    editable: Boolean @UI (
+        default: false
+        name: "Editable"
+    )
+
+    headerFilter: Boolean @UI (
+        default: true
+        name: "Header Filter"
+    )
+
+    columnSorter: Boolean @UI (
+        default: true
+        name: "Column Sorter"
+    )
+
+    resizable: Boolean @UI (
+        default: false
+        name: "Resizable"
+    )
+
+    topCalc: String @UI (
+        name: "Top Calculation"
+    )
+
+    frozen: Boolean @UI (
+        default: false
+        name: "Frozen"
+    )
+}
+
+type SubGroup {
+    title: String! @UI (
+        name: "Name"
+        default: "Sub Group Title"
+        heading: "The title of this sub group."
+    )
+
+    columns: [Column] @UI (
+        name: "Columns"
+        heading: "The columns that belong to this sub group."
+    )
+}
+
+type Group{
+    title: String! @UI (
+        name: "Name"
+        default: "Group Title"
+        heading: "The title of this group."
+    )
+
+    columns: [Column] @UI (
+        name: "Columns"
+        heading: "The columns that belong to this group."
+    )
+
+    subGroups: [SubGroup] @UI (
+        name: "Sub Groups"
+        heading: "The sub groups within this group."
+    )
+}
+ 
+type data { 
+    rows: [row!]! @UI (
+        name: "Row"
+        heading: "The rows of data that will be displayed in the data grid."
+    )
+
+    navigable: Boolean @UI (
+        name: "Navigable"
+        heading: "Enable navigation to elements."
+    )
+
+    editable: Boolean @UI (
+        name: "Editable"
+        heading: "Enable in-line editing."
+    )
+
+    resizable: Boolean @UI (
+        name: "Resizable"
+        heading: "Enable to resize the data grid on the web."
+    )
+
+    headerFiltering: Boolean @UI (
+        default: False
+        name: "Header Filtering"
+        heading: "Show filters under headers."
+    )
+
+    columnSorting: Boolean @UI (
+        default: False
+        name: "Column Sorting"
+        heading: "Enable column sorting. Allows you to sort columns in ascending or descending order."
+    )
+
+     topRowCalculations: Boolean @UI (
+        default: False
+        name: "Top Column Calculations"
+        heading: "Show column calculations at the top of table."
+    )
+} 
+ 
+type row implements MooDElement { 
+    columns: [Column] @UI (
+        name: "Columns"
+        heading: "The columns for this row."
+    )
+
+    groups: [Group] @UI (
+        name: "Groups"
+        heading: "The column groups for this row."
+    )
+    
+    groupRows: Boolean @UI (
+        name: "Enable Row Grouping"
+        heading: "Group rows based on a specific column or criteria."
+    )
+
+    groupBy: Any @UI (
+        name: "Group Rows By"
+    )
+
+    id: ID
+}
