@@ -11,6 +11,7 @@ on:
       - 'Examples/Lollipop/**'
       - 'Examples/ProcessFlow/**'
       - 'Examples/StretchedChord/**'
+      - 'Examples/Tabulator/**'
       - 'Examples/vNetwork/**'
       - 'Examples/WebpackD3MetaModel/**'
       - 'Examples/WebpackD3Visualization/**'
@@ -67,6 +68,11 @@ jobs:
         uses: ./.github/workflows/actions/build-and-test-package
         with:
           working-directory: './Examples/StretchedChord'
+
+      - name: Build Tabulator
+        uses: ./.github/workflows/actions/build-and-test-package
+        with:
+          working-directory: './Examples/Tabulator'
 
       - name: Build vNetwork
         uses: ./.github/workflows/actions/build-and-test-package

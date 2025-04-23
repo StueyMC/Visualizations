@@ -55,6 +55,11 @@ jobs:
         with:
           working-directory: './Examples/StretchedChord'
 
+      - name: Check Tabulator (full)
+        uses: ./.github/workflows/actions/check-package
+        with:
+          working-directory: './Examples/Tabulator'
+
       - name: Check vNetwork (full)
         uses: ./.github/workflows/actions/check-package
         with:

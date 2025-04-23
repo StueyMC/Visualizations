@@ -63,6 +63,12 @@ jobs:
           working-directory: './Examples/StretchedChord'
           options: '--omit=dev'
 
+      - name: Check Tabulator (production)
+        uses: ./.github/workflows/actions/check-package
+        with:
+          working-directory: './Examples/Tabulator'
+          options: '--omit=dev'
+
       - name: Check vNetwork (production)
         uses: ./.github/workflows/actions/check-package
         with:
