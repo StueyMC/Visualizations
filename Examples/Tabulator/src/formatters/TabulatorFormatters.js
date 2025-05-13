@@ -50,10 +50,10 @@ export const formatDate = (cell, format) => {
 
   const dateObj = new Date(cellValue)
 
-  const yearFull = dateObj.getFullYear().toString()
+  const yearFull = dateObj.getUTCFullYear().toString()
   const yearTwoDigit = yearFull.slice(-2)
-  const monthIndex = dateObj.getMonth()
-  const dayIndex = dateObj.getDay()
+  const monthIndex = dateObj.getUTCMonth()
+  const dayIndex = dateObj.getUTCDay()
 
   const monthFullName = monthsOfYear[monthIndex]
   const monthShortName = monthsOfYearShort[monthIndex]
@@ -61,13 +61,13 @@ export const formatDate = (cell, format) => {
 
   const dayFullName = daysOfWeek[dayIndex]
   const dayShortName = daysOfWeekShort[dayIndex]
-  const dayOfMonth = dateObj.getDate().toString().padStart('2', 0)
+  const dayOfMonth = dateObj.getUTCDate().toString().padStart('2', 0)
 
-  const hoursPadded = dateObj.getHours().toString().padStart('2', 0) // Two-digit hour
-  const hours = dateObj.getHours().toString() // Single-digit hour
-  const minutes = dateObj.getMinutes().toString().padStart('2', 0)
-  const seconds = dateObj.getSeconds().toString().padStart('2', 0)
-  const milliseconds = dateObj.getMilliseconds().toString()
+  const hoursPadded = dateObj.getUTCHours().toString().padStart('2', 0) // Two-digit hour
+  const hours = dateObj.getUTCHours().toString() // Single-digit hour
+  const minutes = dateObj.getUTCMinutes().toString().padStart('2', 0)
+  const seconds = dateObj.getUTCSeconds().toString().padStart('2', 0)
+  const milliseconds = dateObj.getUTCMilliseconds().toString()
   const terrestrialTime = hours >= 12 ? 'PM' : 'AM'
 
   return `${format
@@ -94,7 +94,7 @@ export const getFormat = {
     const cellValue = cell?.getValue?.() || cell
     if (isDateValid(cellValue)) {
       const dateObj = new Date(cellValue)
-      return `${dateObj.toDateString()}, ${dateObj.toLocaleTimeString()}`
+      return `${dateObj.toLocaleDateString('en-gb', { timeZone: 'UTC' })}, ${dateObj.toLocaleTimeString('en-gb', { timeZone: 'UTC' })}`
     }
     return ''
   },
@@ -103,7 +103,7 @@ export const getFormat = {
     const cellValue = cell?.getValue?.() || cell
     if (isDateValid(cellValue)) {
       const dateObj = new Date(cellValue)
-      return `${dateObj.toLocaleDateString()}`
+      return `${dateObj.toLocaleDateString('en-gb', { timeZone: 'UTC' })}`
     }
     return ''
   },
@@ -112,7 +112,7 @@ export const getFormat = {
     const cellValue = cell?.getValue?.() || cell
     if (isDateValid(cellValue)) {
       const dateObj = new Date(cellValue)
-      return `${dateObj.toLocaleTimeString()}`
+      return `${dateObj.toLocaleTimeString('en-gb', { timeZone: 'UTC' })}`
     }
     return ''
   }
