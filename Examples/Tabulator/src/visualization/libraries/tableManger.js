@@ -8,6 +8,7 @@ import React, { useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ColumnTracker } from './columnTracker'
 import { ContextMenuManager } from './contextMenuManager.js'
+import { transformJson } from '../utils/transformJson.js'
 
 const UI_CONFIG = {
   tableSettings: {
@@ -321,54 +322,6 @@ export class TableManager {
     this.table = null
   }
 
-  transformJson (data) {
-    // Transforms JSON data into a format suitable for Tabulator
-    const columnTracker = new ColumnTracker()
-    const tabulatorData = []
-
-    data.rows.forEach((row) => {
-      const flatRow = {
-        rowId: row.id,
-        groupBy: row.groupBy
-      }
-
-      if (row.columns) {
-        row.columns.forEach((column) => {
-          const columnKey = columnTracker.getUniqueTitle(column.title)
-          flatRow[columnKey] = column.content
-        })
-      }
-
-      if (row.groups) {
-        row.groups.forEach((group) => {
-          if (group.columns) {
-            group.columns.forEach((column) => {
-              const columnKey = columnTracker.getUniqueTitle(column.title)
-              flatRow[columnKey] = column.content
-            })
-          }
-
-          if (group.subGroups) {
-            group.subGroups.forEach((subGroup) => {
-              if (subGroup.columns) {
-                subGroup.columns.forEach((column) => {
-                  const columnKey = columnTracker.getUniqueTitle(column.title)
-                  flatRow[columnKey] = column.content
-                })
-              }
-            })
-          }
-        })
-      }
-
-      columnTracker.clearMapping()
-
-      tabulatorData.push(flatRow)
-    })
-
-    return tabulatorData
-  }
-
   initializeTable () {
     if (!this.containerRef.current) return
 
@@ -415,7 +368,7 @@ export class TableManager {
     )
 
     this.tableConfig = {
-      data: this.transformJson(this.config.data),
+      data: transformJson(this.config.data),
       layout: 'fitDataTable',
       responsiveLayout: false,
       resizableRows: this.config.data.resizable,
