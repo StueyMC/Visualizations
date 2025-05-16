@@ -373,6 +373,7 @@ export class TableManager {
       responsiveLayout: false,
       resizableRows: this.config.data.resizable,
       editTriggerEvent: 'dblclick',
+      height: this.config.height,
 
       // Column sorting
       headerSortClickElement: 'icon',
